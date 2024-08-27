@@ -6,8 +6,6 @@ import {
   TextField,
   MenuItem,
   FormControl,
-  InputLabel,
-  Select,
   Grid,
   Switch,
   Button,
@@ -32,7 +30,7 @@ const FormCompanyInfo = ({ cardSelected }) => {
 
   const handleClick = () => {
     setClicked(true);
-    getdata()
+    getdata();
   };
 
   useEffect(() => {
@@ -47,26 +45,17 @@ const FormCompanyInfo = ({ cardSelected }) => {
     }
   }, [cardSelected, access]);
 
-
-  const getdata=()=>{
-     if (cardSelected) {
+  const getdata = () => {
+    if (cardSelected) {
       axios
         .get(`${OnRun}/api/cart/admin/${cardSelected}/`, {
           headers: { Authorization: `Bearer ${access}` },
         })
         .then((response) => {
           console.log(response);
-          
         });
     }
-  }
-   
- 
-
-
-
-
-
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -153,9 +142,8 @@ const FormCompanyInfo = ({ cardSelected }) => {
                       value={formData.Lock_company_kind}
                     />
                   </div>
-
-                  <InputLabel>نوع شرکت</InputLabel>
-                  <Select
+                  <TextField
+                    select
                     name="company_kind"
                     value={formData.company_kind}
                     onChange={handleChange}
@@ -163,7 +151,7 @@ const FormCompanyInfo = ({ cardSelected }) => {
                   >
                     <MenuItem value="سهامی عام">سهامی عام</MenuItem>
                     <MenuItem value="سهامی خاص">سهامی خاص</MenuItem>
-                  </Select>
+                  </TextField>
                 </FormControl>
               </Grid>
 
@@ -178,17 +166,17 @@ const FormCompanyInfo = ({ cardSelected }) => {
                     />
                   </div>
 
-                  <InputLabel>وضعیت</InputLabel>
-                  <Select
+                  <TextField
+                    select
                     name="status"
                     value={formData.status}
                     onChange={handleChange}
                     label="وضعیت"
                   >
                     <MenuItem value="waiting">درانتظار</MenuItem>
-                    <MenuItem value="editing">مشخص شده</MenuItem>
-                    <MenuItem value="">نامشخص</MenuItem>
-                  </Select>
+                    <MenuItem value="ok">مشخص شده</MenuItem>
+                    <MenuItem value="editing">نامشخص</MenuItem>
+                  </TextField>
                 </FormControl>
               </Grid>
 
