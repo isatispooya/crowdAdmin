@@ -5,12 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import CardList from './ListCard';
 import FormCompanyInfo from './formCompanyInfo';
 import SendMessage from './sendMessage';
+import Fildemnager from './fildemaneger';
 
 const Sterpercrowd = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [cardSelected, setCardSelected] = useState(null);
 
-  const steps = ['انتخاب کارت ', 'ویرایش و مشاهده کارت', 'ارسال پیام به کاربر'];
+  const steps = ['انتخاب کارت ', 'ویرایش و مشاهده کارت', 'ارسال پیام به کاربر','مدیران'];
 
   const handleNext = () => {
     if (activeStep === 1) {
@@ -45,7 +46,9 @@ const Sterpercrowd = () => {
       case 1:
         return <FormCompanyInfo handleNext={handleNext} cardSelected={cardSelected} />;
       case 2:
-        return <SendMessage />;
+        return <SendMessage cardSelected={cardSelected} handleNext={handleNext}/>;
+        case 3:
+        return <Fildemnager/>;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">

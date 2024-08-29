@@ -16,7 +16,6 @@ import { bgGradient } from 'src/theme/css';
 import { OnRun } from 'src/api/OnRun';
 import { ToastContainer, toast } from 'react-toastify';
 
-
 export default function LoginView() {
   const theme = useTheme();
   const router = useRouter();
@@ -47,7 +46,7 @@ export default function LoginView() {
     } else if (nationalCode.length !== 10) {
       toast.warning('مقدار کد ملی را به صورت صحیح وارد کنید');
     } else {
-      setLoading(true); 
+      setLoading(true);
       axios({
         method: 'POST',
         url: `${OnRun}/api/otp/admin/`,
@@ -76,11 +75,11 @@ export default function LoginView() {
     if (otp.length !== 5) {
       toast.warning('کد صحیح نیست');
     } else {
-      setLoading(true);   
+      setLoading(true);
       axios({
         method: 'POST',
-        url:`${OnRun}/api/login/admin/`,
-        data: { uniqueIdentifier: nationalCode, code:otp },
+        url: `${OnRun}/api/login/admin/`,
+        data: { uniqueIdentifier: nationalCode, code: otp },
       })
         .then((response) => {
           setCookie('access', response.data.access, 5);
@@ -97,7 +96,7 @@ export default function LoginView() {
           toast.error('خطا در ارسال درخواست به سرور.');
         })
         .finally(() => {
-          setLoading(false); 
+          setLoading(false);
         });
     }
   };
@@ -145,7 +144,7 @@ export default function LoginView() {
             },
           }}
           onClick={applyNationalCode}
-          loading={loading} 
+          loading={loading}
         >
           تایید
         </LoadingButton>
@@ -157,7 +156,7 @@ export default function LoginView() {
           variant="contained"
           color="inherit"
           onClick={handleCode}
-          loading={loading} 
+          loading={loading}
         >
           تایید
         </LoadingButton>
@@ -191,8 +190,7 @@ export default function LoginView() {
             sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}
             variant="h6"
           >
-            {' '}
-            درگاه سرمایه پذیران ایساتیس کراد{' '}
+            درگاه ورود ایسا تیس کراد
           </Typography>
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>

@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
-import api from './apiClient';
-import { getCookie } from './cookie';
+import api from 'src/api/apiClient';
+import { getCookie } from 'src/api/cookie';
 
 export const getStep1 = async (id) => {
   console.log('111', id);
@@ -72,8 +72,6 @@ export const getStep1 = async (id) => {
 };
 
 export const createCart = async (data, id) => {
-  console.log('222', id);
-
   console.log(data);
 
   const formData = new FormData();
@@ -85,51 +83,49 @@ export const createCart = async (data, id) => {
   formData.append('personnel', data.personnel || '');
   formData.append('company_kind', data.company_kind || '');
   formData.append('amount_of_request', data.amount_of_request || '');
-  formData.append('address', data.company_address || '');
-  formData.append('email', data.company_email || '');
-  formData.append('Lock_company_name', data.Lock_company_name || '');
-  formData.append('Lock_company_kind', data.Lock_company_kind || '');
-  formData.append('amount_of_request', data.amount_of_request || '');
-  formData.append('Lock_nationalid', data.Lock_nationalid || '');
-  formData.append('Lock_registration_number', data.Lock_registration_number || '');
-  formData.append('Lock_registered_capital', data.Lock_registered_capital || '');
-  formData.append('Lock_personnel', data.Lock_personnel || '');
-  formData.append('Lock_email', data.Lock_email || '');
-  formData.append('Lock_activity_industry', data.Lock_activity_industry || '');
-  formData.append('Lock_address', data.Lock_address || '');
+  formData.append('address', data.address || '');
+  formData.append('email', data.email || '');
+  formData.append('Lock_company_name', data.Lock_company_name);
+  formData.append('Lock_company_kind', data.Lock_company_kind);
+  formData.append('amount_of_request', data.amount_of_request);
+  formData.append('Lock_nationalid', data.Lock_nationalid);
+  formData.append('Lock_registration_number', data.Lock_registration_number);
+  formData.append('Lock_registered_capital', data.Lock_registered_capital);
+  formData.append('Lock_personnel', data.Lock_personnel);
+  formData.append('Lock_email', data.Lock_email);
+  formData.append('Lock_activity_industry', data.Lock_activity_industry);
+  formData.append('Lock_address', data.Lock_address);
 
-  
-  formData.append('Lock_amount_of_request', data.Lock_amount_of_request || '');
-  formData.append('Lock_financial_report_yearold', data.Lock_financial_report_yearold || '');
-  formData.append('Lock_audit_report_yearold', data.Lock_audit_report_yearold || '');
-  formData.append('Lock_statement_yearold', data.Lock_statement_yearold || '');
-  formData.append('Lock_alignment_6columns_yearold', data.Lock_alignment_6columns_yearold || '');
-  formData.append('Lock_financial_report_lastyear', data.Lock_financial_report_lastyear || '');
-  formData.append('Lock_audit_report_lastyear', data.Lock_audit_report_lastyear || '');
-  formData.append('Lock_statement_lastyear', data.Lock_statement_lastyear || '');
-  formData.append('Lock_alignment_6columns_lastyear', data.Lock_alignment_6columns_lastyear || '');
-  formData.append('Lock_alignment_6columns_thisyear', data.Lock_alignment_6columns_thisyear || '');
+  formData.append('Lock_amount_of_request', data.Lock_amount_of_request);
+  formData.append('Lock_financial_report_yearold', data.Lock_financial_report_yearold);
+  formData.append('Lock_audit_report_yearold', data.Lock_audit_report_yearold);
+  formData.append('Lock_statement_yearold', data.Lock_statement_yearold);
+  formData.append('Lock_alignment_6columns_yearold', data.Lock_alignment_6columns_yearold);
+  formData.append('Lock_financial_report_lastyear', data.Lock_financial_report_lastyear);
+  formData.append('Lock_audit_report_lastyear', data.Lock_audit_report_lastyear);
+  formData.append('Lock_statement_lastyear', data.Lock_statement_lastyear);
+  formData.append('Lock_alignment_6columns_lastyear', data.Lock_alignment_6columns_lastyear);
+  formData.append('Lock_alignment_6columns_thisyear', data.Lock_alignment_6columns_thisyear);
 
-
-  if (data.alignment_6columns_thisyear) {
+  if (data.alignment_6columns_thisyear && typeof data.alignment_6columns_thisyear !== 'string') {
     formData.append('alignment_6columns_thisyear', data.alignment_6columns_thisyear);
   }
-  if (data.financial_report_lastyear) {
+  if (data.financial_report_lastyear && typeof data.financial_report_lastyear !== 'string') {
     formData.append('financial_report_lastyear', data.financial_report_lastyear);
   }
-  if (data.audit_report_lastyear) {
+  if (data.audit_report_lastyear && typeof data.audit_report_lastyear !== 'string') {
     formData.append('audit_report_lastyear', data.audit_report_lastyear);
   }
-  if (data.statement_lastyear) {
+  if (data.statement_lastyear && typeof data.statement_lastyear !== 'string') {
     formData.append('statement_lastyear', data.statement_lastyear);
   }
-  if (data.financial_report_yearold) {
+  if (data.financial_report_yearold && typeof data.financial_report_yearold !== 'string') {
     formData.append('financial_report_yearold', data.financial_report_yearold);
   }
-  if (data.audit_report_yearold) {
+  if (data.audit_report_yearold && typeof data.audit_report_yearold !== 'string') {
     formData.append('audit_report_yearold', data.audit_report_yearold);
   }
-  if (data.statement_yearold) {
+  if (data.statement_yearold && typeof data.statement_yearold !== 'string') {
     formData.append('statement_yearold', data.statement_yearold);
   }
 

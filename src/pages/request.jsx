@@ -8,7 +8,7 @@ export default function RequestPage() {
   return (
     <>
       <Helmet>
-        <title>ایجاددرخواست</title>
+        <title>ایجاد و پیگیری درخواست</title>
       </Helmet>
       <RequestView />
     </>

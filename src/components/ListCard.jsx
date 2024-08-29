@@ -12,6 +12,7 @@ const CardList = ({ setCardSelected, handleNext }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
   const access = getCookie('access');
+  const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -22,7 +23,7 @@ const CardList = ({ setCardSelected, handleNext }) => {
           },
         });
         if (response.data.cart) {
-          setCards(response.data.cart);                    
+          setCards(response.data.cart);
         }
       } catch (error) {
         console.error('Error fetching cards:', error);
@@ -38,8 +39,6 @@ const CardList = ({ setCardSelected, handleNext }) => {
     setCardSelected(id);
     handleNext();
   };
-
-
 
   const openDeleteModal = (event, id) => {
     event.stopPropagation();
@@ -83,21 +82,21 @@ const CardList = ({ setCardSelected, handleNext }) => {
             style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
           />
         );
-      case 'confirmed':
+      case 'okay':
         return (
           <Chip
             icon={<FaCheckCircle style={iconStyle} />}
-            label="مشخص شده"
+            label="تکمیل شده"
             color="success"
             variant="outlined"
             style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
           />
         );
-      case 'unknown':
+      case 'editing':
         return (
           <Chip
             icon={<FaQuestionCircle style={iconStyle} />}
-            label="نامشخص"
+            label="نیاز به تکمیل"
             color="default"
             variant="outlined"
             style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
@@ -138,7 +137,7 @@ const CardList = ({ setCardSelected, handleNext }) => {
                 <div className="flex flex-col justify-center items-center space-y-2">
                   <p className="text-base font-medium text-gray-700">شناسه: {card.nationalid}</p>
                   <p className="text-base font-medium text-gray-700">
-                    سرمایه: {card.registered_capital}
+                    سرمایه: {formatNumber(card.registered_capital)}
                   </p>
                   <p className="text-base font-medium text-gray-700">
                     شماره ثبت: {card.registration_number}

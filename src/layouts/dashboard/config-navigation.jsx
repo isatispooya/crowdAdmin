@@ -11,13 +11,9 @@ const icon = (name) => (
 
 
 const navConfig = [
+
   {
-    title: 'پروفایل',
-    path: '/ProfilePage',
-    icon:icon('ic_blog'),
-  },
-  {
-    title: 'ایجاد درخواست',
+    title: 'ایجاد و پیگیری درخواست',
     path: '/',
     icon: icon('ic_analytics'),
   },
