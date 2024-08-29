@@ -7,9 +7,8 @@ import PropTypes from 'prop-types';
 import { fetchUserMessage, sendMessage } from 'src/hook/message';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-const SendMessage = ({ cardSelected ,handleNext}) => {
-
-  const {data} = useQuery({
+const SendMessage = ({ cardSelected, handleNext }) => {
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['userMessage', cardSelected],
     queryFn: () => fetchUserMessage(cardSelected),
   });
@@ -24,13 +23,15 @@ const SendMessage = ({ cardSelected ,handleNext}) => {
 
   const handleSendMessage = () => {
     mutation.mutate({ content: messageContent, send_sms: sendStatus });
-    handleNext()
+    handleNext();
   };
-  
+
+  // Handle loading and error states
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading message</div>;
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
       <Box
         sx={{
           width: '100%',
@@ -50,7 +51,7 @@ const SendMessage = ({ cardSelected ,handleNext}) => {
         <TextareaAutosize
           placeholder="متن پیام خود را بنویسید..."
           minRows={4}
-          // value={data.message.message}
+          value={messageContent || (data?.message?.message || '')}
           onChange={(e) => setMessageContent(e.target.value)}
           style={{
             width: '100%',
@@ -104,7 +105,7 @@ const SendMessage = ({ cardSelected ,handleNext}) => {
 
 SendMessage.propTypes = {
   cardSelected: PropTypes.string.isRequired,
-  handleNext:PropTypes.func
+  handleNext: PropTypes.func,
 };
 
 export default SendMessage;
