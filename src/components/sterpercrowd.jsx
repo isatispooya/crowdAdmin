@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Stepper, Step, StepLabel, Button } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import ResumePage from 'src/sections/resume/Page/ResumePage';
 import CardList from './ListCard';
 import FormCompanyInfo from './formCompanyInfo';
 import SendMessage from './sendMessage';
@@ -11,7 +11,7 @@ const Sterpercrowd = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [cardSelected, setCardSelected] = useState(null);
 
-  const steps = ['انتخاب کارت ', 'ویرایش و مشاهده کارت', 'ارسال پیام به کاربر','مدیران'];
+  const steps = ['انتخاب کارت ', 'ویرایش و مشاهده کارت', 'ارسال پیام به کاربر','مدیران','رزومه'];
 
   const handleNext = () => {
     if (activeStep === 1) {
@@ -49,6 +49,8 @@ const Sterpercrowd = () => {
         return <SendMessage cardSelected={cardSelected} handleNext={handleNext}/>;
         case 3:
         return <Fildemnager handleNext={handleNext} cardSelected={cardSelected}/>;
+        case 4:
+          return <ResumePage handleNext={handleNext} id={cardSelected}/>;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">
