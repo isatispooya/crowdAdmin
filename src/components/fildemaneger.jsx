@@ -15,8 +15,8 @@ import {
 import PropTypes from 'prop-types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import { fetchManager } from 'src/hook/manager';
-import { useQuery } from '@tanstack/react-query';
+import { fetchManager, sendManager } from 'src/hook/manager';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 const Fildemnager = ({ handleNext, cardSelected }) => {
   const [formSections, setFormSections] = useState([]);
@@ -27,12 +27,14 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
     queryFn: () => fetchManager(cardSelected),
   });
 
-  useEffect(() => {
-    if (status === 'success' && data) {
-      setFetchedData(data.data);
-    }
-  }, [data, status]);
+  const mutation = useMutation({
+    mutationKey : ['set management'],
+    mutationFn: () => sendManager(cardSelected, fetchedData),
+  });
+  
+  // console.log(data , "12233465")
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const singleFile = {
     name: '',
     position: '',
@@ -44,20 +46,37 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
     is_obliged: false,
   };
 
+  useEffect(() => {
+    if (status === 'success' && data) {
+      setFetchedData(data.data || [singleFile]);
+    }
+  }, [data, singleFile, status]);
+
+  useEffect(() => {
+    if (fetchedData.length) {
+      setFormSections(fetchedData);
+    }
+  }, [fetchedData]);
+
   const types = [
     { type: false, title: 'حقیقی' },
     { type: true, title: 'حقوقی' },
   ];
+
   const movazaf = [
     { type: false, title: 'خیر' },
     { type: true, title: 'بله' },
   ];
-
+   
+  
   const handleAddSection = () => {
     setFormSections([...formSections, { ...singleFile }]);
   };
 
   const handleRemoveSection = (index) => {
+    if (formSections.length <= 1) {
+      return;
+    }
     setFormSections(formSections.filter((_, i) => i !== index));
   };
 
@@ -69,11 +88,13 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
   };
 
   const handleSubmit = () => {
-    console.log('تایید');
-    handleNext();
+    mutation.mutateAsync();
+    // handleNext();
+    console.log(fetchedData);
   };
 
-  console.log(fetchedData);
+
+
 
   return (
     <div
@@ -100,8 +121,8 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
           marginTop: 3,
         }}
       >
-        {fetchedData ? (
-          fetchedData.map((section, sectionIndex) => (
+        {formSections.length > 0 ? (
+          formSections.map((section, sectionIndex) => (
             <form key={sectionIndex} className="w-full">
               <Box
                 sx={{
@@ -255,7 +276,7 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
             >
               افزودن
             </Button>
-            {formSections.length > 0 && (
+            {formSections.length > 1 && (
               <Button
                 variant="outlined"
                 startIcon={<DeleteIcon />}
