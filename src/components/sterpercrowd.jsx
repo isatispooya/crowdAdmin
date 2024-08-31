@@ -48,7 +48,7 @@ const Sterpercrowd = () => {
       case 2:
         return <SendMessage cardSelected={cardSelected} handleNext={handleNext}/>;
         case 3:
-        return <Fildemnager/>;
+        return <Fildemnager handleNext={handleNext} cardSelected={cardSelected}/>;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">

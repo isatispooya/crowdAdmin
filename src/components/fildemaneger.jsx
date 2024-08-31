@@ -1,8 +1,9 @@
 /* eslint-disable no-return-assign */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/prop-types */
+import React, { useState, useEffect } from 'react';
 import {
   Box,
+  Button,
+  Divider,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -11,9 +12,38 @@ import {
   Switch,
   TextField,
 } from '@mui/material';
-import React from 'react';
+import PropTypes from 'prop-types';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import { fetchManager } from 'src/hook/manager';
+import { useQuery } from '@tanstack/react-query';
 
-const Fildemnager = () => {
+const Fildemnager = ({ handleNext, cardSelected }) => {
+  const [formSections, setFormSections] = useState([]);
+  const [fetchedData, setFetchedData] = useState([]);
+
+  const { data, status } = useQuery({
+    queryKey: ['userMessage', cardSelected],
+    queryFn: () => fetchManager(cardSelected),
+  });
+
+  useEffect(() => {
+    if (status === 'success' && data) {
+      setFetchedData(data.data);
+    }
+  }, [data, status]);
+
+  const singleFile = {
+    name: '',
+    position: '',
+    national_code: '',
+    national_id: '',
+    phone: '',
+    representative: '',
+    is_legal: false,
+    is_obliged: false,
+  };
+
   const types = [
     { type: false, title: 'حقیقی' },
     { type: true, title: 'حقوقی' },
@@ -23,12 +53,42 @@ const Fildemnager = () => {
     { type: true, title: 'بله' },
   ];
 
+  const handleAddSection = () => {
+    setFormSections([...formSections, { ...singleFile }]);
+  };
+
+  const handleRemoveSection = (index) => {
+    setFormSections(formSections.filter((_, i) => i !== index));
+  };
+
+  const handleChange = (index, input, value) => {
+    const updatedSections = formSections.map((section, i) =>
+      i === index ? { ...section, [input]: value } : section
+    );
+    setFormSections(updatedSections);
+  };
+
+  const handleSubmit = () => {
+    console.log('تایید');
+    handleNext();
+  };
+
+  console.log(fetchedData);
+
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '80vh',
+        padding: '0 16px',
+      }}
+    >
       <Box
         sx={{
           width: '100%',
-          maxWidth: '1000px',
+          maxWidth: '900px',
           padding: 3,
           backgroundColor: '#ffffff',
           borderRadius: '16px',
@@ -37,110 +97,201 @@ const Fildemnager = () => {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 2,
-          marginTop: '100px',
+          marginTop: 3,
         }}
       >
-        <form className="mt-8 max-w-4xl flex items-center justify-center self-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-            <div className="mb-6">
-              <TextField id="outlined-basic" label="نام و نام خانوادگی" variant="outlined" />
-            </div>
+        {fetchedData ? (
+          fetchedData.map((section, sectionIndex) => (
+            <form key={sectionIndex} className="w-full">
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
+                  gap: 2,
+                  marginBottom: 4,
+                }}
+              >
+                <TextField
+                  id={`name-${sectionIndex}`}
+                  label="نام و نام خانوادگی"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.name}
+                  onChange={(e) => handleChange(sectionIndex, 'name', e.target.value)}
+                />
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <InputLabel id={`company-type-label-${sectionIndex}`}>نوع شرکت</InputLabel>
+                  <Select
+                    labelId={`company-type-label-${sectionIndex}`}
+                    id={`company-type-${sectionIndex}`}
+                    label="نوع شرکت"
+                    value={section.is_legal}
+                    onChange={(e) => handleChange(sectionIndex, 'is_legal', e.target.value)}
+                  >
+                    {types.map((typeObj, index) => (
+                      <MenuItem key={index} value={typeObj.type}>
+                        {typeObj.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <TextField
+                  id={`position-${sectionIndex}`}
+                  label="سمت"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.position}
+                  onChange={(e) => handleChange(sectionIndex, 'position', e.target.value)}
+                />
+                <TextField
+                  type="text"
+                  name="national_code"
+                  inputProps={{ maxLength: 10 }}
+                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                  required
+                  id={`national-code-${sectionIndex}`}
+                  label="کد ملی"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.national_code}
+                  onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
+                />
+                <TextField
+                  type="text"
+                  required
+                  inputProps={{ maxLength: 10 }}
+                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                  name="national_id"
+                  id={`national-id-${sectionIndex}`}
+                  label="کد شناسه"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.national_id}
+                  onChange={(e) => handleChange(sectionIndex, 'national_id', e.target.value)}
+                />
+                <TextField
+                  type="text"
+                  required
+                  inputProps={{ maxLength: 11 }}
+                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                  name="phone"
+                  id={`phone-${sectionIndex}`}
+                  label="شماره تلفن"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.phone}
+                  onChange={(e) => handleChange(sectionIndex, 'phone', e.target.value)}
+                />
+                <TextField
+                  type="text"
+                  required
+                  name="representative"
+                  id={`representative-${sectionIndex}`}
+                  label="نماینده"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.representative}
+                  onChange={(e) => handleChange(sectionIndex, 'representative', e.target.value)}
+                />
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <InputLabel id={`employee-label-${sectionIndex}`}>موظف</InputLabel>
+                  <Select
+                    labelId={`employee-label-${sectionIndex}`}
+                    id={`employee-${sectionIndex}`}
+                    label="موظف"
+                    value={section.is_obliged}
+                    onChange={(e) => handleChange(sectionIndex, 'is_obliged', e.target.value)}
+                  >
+                    {movazaf.map((typeObj, index) => (
+                      <MenuItem key={index} value={typeObj.type}>
+                        {typeObj.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={section.is_obliged}
+                      onChange={(e) => handleChange(sectionIndex, 'is_obliged', e.target.checked)}
+                    />
+                  }
+                  label="وضعیت"
+                  sx={{ alignSelf: 'center' }}
+                />
+              </Box>
 
-            <div className="mb-6">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">نوع شرکت</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="نوع شرکت"
-                  onChange={(e) => e.target.value}
-                >
-                  {types.map((typeObj, index) => (
-                    <MenuItem key={index} value={typeObj.type}>
-                      {typeObj.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
+              {sectionIndex < formSections.length - 1 && <Divider sx={{ marginY: 4 }} />}
+            </form>
+          ))
+        ) : (
+          <p>No data available</p>
+        )}
 
-            <div className="mb-6">
-              <TextField id="outlined-basic" label="سمت" variant="outlined" />
-            </div>
-
-            <div className="mb-6">
-              <TextField
-                type="text"
-                name="national_code"
-                maxLength={10}
-                onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                required
-                id="outlined-basic"
-                label="کد ملی"
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+            marginTop: 3,
+            width: '100%',
+          }}
+        >
+          <div className="flex justify-center gap-3">
+            <Button
+              variant="outlined"
+              startIcon={<AddIcon />}
+              onClick={handleAddSection}
+              sx={{
+                width: '40%',
+                textTransform: 'none',
+              }}
+            >
+              افزودن
+            </Button>
+            {formSections.length > 0 && (
+              <Button
                 variant="outlined"
-              />
-            </div>
-
-            <div className="mb-6">
-              <TextField
-                type="text"
-                required
-                onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                name="national_id"
-                id="outlined-basic"
-                label="کد شناسه"
-                variant="outlined"
-              />
-            </div>
-
-            <div className="mb-6">
-              <TextField
-                type="text"
-                onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                required
-                maxLength={11}
-                name="phone"
-                id="outlined-basic"
-                label="شماره تلفن"
-                variant="outlined"
-              />
-            </div>
-
-            <div className="mb-6">
-              <TextField
-                type="text"
-                required
-                name="representative"
-                id="outlined-basic"
-                label="نماینده"
-                variant="outlined"
-              />
-            </div>
-            <div className="mb-6">
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">موظف</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="موظف"
-                  onChange={(e) => e.target.value}
-                >
-                  {movazaf.map((typeObj, index) => (
-                    <MenuItem key={index} value={typeObj.type}>
-                      {typeObj.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </div>
-            <div dir="rtl">
-              <FormControlLabel label="وضعیت" control={<Switch defaultChecked />} />
-            </div>
+                startIcon={<DeleteIcon />}
+                onClick={() => handleRemoveSection(formSections.length - 1)}
+                sx={{
+                  width: '40%',
+                  textTransform: 'none',
+                }}
+              >
+                حذف
+              </Button>
+            )}
           </div>
-        </form>
+
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            sx={{
+              width: '100%',
+              py: 1,
+              px: 2,
+            }}
+            onClick={handleSubmit}
+          >
+            تایید
+          </Button>
+        </Box>
       </Box>
     </div>
   );
+};
+
+Fildemnager.propTypes = {
+  handleNext: PropTypes.func.isRequired,
+  cardSelected: PropTypes.string.isRequired,
 };
 
 export default Fildemnager;
