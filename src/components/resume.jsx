@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, Switch, TextField, Input, Button } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { fetchResume } from 'src/hook/resume';
+import { fetchResume, sendResume } from 'src/hook/resume';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
@@ -14,21 +14,23 @@ const Resume = ({ cardSelected, handleNext }) => {
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    if (status === 'success' && data) {
+    if (status === 'success' && data && data.manager) {
       setFormData(data.manager.map((item) => ({ ...item })));
+    } else if (status === 'error') {
+      console.error("Failed to fetch resume data");
     }
   }, [data, status]);
 
-//   const mutation = useMutation({
-//     mutationKey: ['set management'],
-//     mutationFn: () => sendResume(cardSelected, formData),
-//   });
+  const mutation = useMutation({
+    mutationKey: ['set management'],
+    mutationFn: () => sendResume(cardSelected, formData),
+  });
 
-  const handleFileChange = (file,index) => {    
-  const newFormData = [...formData];
-  newFormData[index].file = file;  
-  setFormData(newFormData);
-};
+  const handleFileChange = (file, index) => {
+    const newFormData = [...formData];
+    newFormData[index].file = file;
+    setFormData(newFormData);
+  };
 
   const handleSwitchChange = (index) => (event) => {
     const newFormData = [...formData];
@@ -43,7 +45,7 @@ const Resume = ({ cardSelected, handleNext }) => {
   };
 
   const handleButtonClick = () => {
-    // mutation.mutate();
+    mutation.mutate();
     handleNext();
   };
 
@@ -172,7 +174,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                       type="file"
                       id="file-upload-resume"
                       sx={{ marginTop: '8px' }}
-                      onChange={(e)=>handleFileChange(e.target.files[0],index)}
+                      onChange={(e) => handleFileChange(e.target.files[0], index)}
                     />
                   )}
                 </Box>

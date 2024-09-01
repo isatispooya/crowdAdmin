@@ -18,11 +18,9 @@ import { fetchShareholder, sendShareholder } from 'src/hook/shareholder';
 const singleFile = {
   name: '',
   national_code: '',
-  national_id: '',
   percent: '',
   lockName: false,
   lockNationalCode: false,
-  lockNationalId: false,
   lockPercent: false,
   lock: false,
 };
@@ -41,7 +39,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
   });
 
   useEffect(() => {
-    if (status === 'success' && data) {
+    if (status === 'success' && data && data.data) {
       setFetchedData(data.data || [singleFile]);
     }
   }, [data, status]);
@@ -73,7 +71,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
   const handleSubmit = () => {
     mutation.mutateAsync(formSections);
     console.log(formSections);
-    // handleNext();
+    handleNext();
   };
 
   return (
@@ -105,7 +103,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
           مدیریت سهامداران
         </Typography>
 
-        {formSections.length > 0 ? (
+        {formSections && formSections.length > 0 ? (
           formSections.map((section, sectionIndex) => (
             <Box key={sectionIndex} sx={{ width: '100%', marginBottom: 4 }}>
               <Box
@@ -151,26 +149,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                     value={section.national_code}
                     onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
                     disabled={section.lockNationalCode}
-                  />
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <TextField
-                    type="text"
-                    name="national_id"
-                    inputProps={{ maxLength: 10 }}
-                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                    required
-                    id={`national-id-${sectionIndex}`}
-                    label="کد شناسه"
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      '& .MuiInputBase-root': { borderRadius: '8px' },
-                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
-                    }}
-                    value={section.national_id}
-                    onChange={(e) => handleChange(sectionIndex, 'national_id', e.target.value)}
-                    disabled={section.lockNationalId}
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
