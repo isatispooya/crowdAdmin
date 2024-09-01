@@ -111,18 +111,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                 }}
               >
                 <Box sx={{ flex: 1 }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        name="lockName"
-                        inputProps={{ 'aria-label': 'Lock Name' }}
-                        checked={section.lockName}
-                        onChange={(e) => handleChange(sectionIndex, 'lockName', e.target.checked)}
-                      />
-                    }
-              
-                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
-                  />
+
                   <TextField
                     id={`name-${sectionIndex}`}
                     label="نام و نام خانوادگی"
@@ -138,18 +127,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        name="lockNationalCode"
-                        inputProps={{ 'aria-label': 'Lock National Code' }}
-                        checked={section.lockNationalCode}
-                        onChange={(e) => handleChange(sectionIndex, 'lockNationalCode', e.target.checked)}
-                      />
-                    }
-                
-                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
-                  />
+
                   <TextField
                     type="text"
                     name="national_code"
@@ -170,18 +148,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        name="lockNationalId"
-                        inputProps={{ 'aria-label': 'Lock National ID' }}
-                        checked={section.lockNationalId}
-                        onChange={(e) => handleChange(sectionIndex, 'lockNationalId', e.target.checked)}
-                      />
-                    }
-                 
-                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
-                  />
+
                   <TextField
                     type="text"
                     name="national_id"
@@ -202,18 +169,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        name="lockPercent"
-                        inputProps={{ 'aria-label': 'Lock Percent' }}
-                        checked={section.lockPercent}
-                        onChange={(e) => handleChange(sectionIndex, 'lockPercent', e.target.checked)}
-                      />
-                    }
-              
-                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
-                  />
+
                   <TextField
                     type="text"
                     required
