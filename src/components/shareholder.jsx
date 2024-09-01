@@ -235,16 +235,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                 </Box>
 
               </Box>
-              <FormControlLabel
-                  control={
-                    <Switch
-                      checked={section.lock}
-                      onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
-                    />
-                  }
-                  label="وضعیت"
-                  sx={{ alignSelf: 'center', color: '#555' }}
-                />
               {sectionIndex < formSections.length - 1 && <Divider sx={{ marginY: 4 }} />}
             </Box>
           ))
