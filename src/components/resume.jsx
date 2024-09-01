@@ -153,7 +153,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                     alignItems: 'flex-start',
                   }}
                 >
-                  {typeof item.resumeFile === 'string' && item.resumeFile ? (
+                  {typeof item.file === 'string' && item.file ? (
                     <a
                       href={item.resumeFile}
                       target="_blank"
