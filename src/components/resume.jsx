@@ -25,12 +25,11 @@ const Resume = ({ cardSelected, handleNext }) => {
   });
 
   const handleFileChange = (index) => (event) => {
-    const selectedFile = event.target.files[0];
-    const fileValue = selectedFile ? URL.createObjectURL(selectedFile) : '';
-    const newFormData = [...formData];
-    newFormData[index].resumeFile = fileValue;
-    setFormData(newFormData);
-  };
+  const selectedFile = event.target.files[0];
+  const newFormData = [...formData];
+  newFormData[index].file = selectedFile;  
+  setFormData(newFormData);
+};
 
   const handleSwitchChange = (index) => (event) => {
     const newFormData = [...formData];
@@ -46,6 +45,7 @@ const Resume = ({ cardSelected, handleNext }) => {
 
   const handleButtonClick = () => {
     mutation.mutate(formData);
+    // handleNext();
     console.log('Form data sent:', formData);
   };
 
@@ -168,11 +168,11 @@ const Resume = ({ cardSelected, handleNext }) => {
                     </a>
                   ) : (
                     <Input
-                      name="resume_file"
+                      name="file"
                       type="file"
                       id="file-upload-resume"
                       sx={{ marginTop: '8px' }}
-                      onChange={handleFileChange(index)}
+                      onChange={handleFileChange(index,'file')}
                     />
                   )}
                 </Box>

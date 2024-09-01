@@ -65,7 +65,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
   const handleSubmit = () => {
     mutation.mutateAsync(formSections);
     console.log(formSections);
-    handleNext();
+    // handleNext();
   };
 
   return (
