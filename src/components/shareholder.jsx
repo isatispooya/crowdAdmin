@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Divider, FormControlLabel, Switch, TextField } from '@mui/material';
+import { Box, Button, Divider, FormControlLabel, Switch, TextField, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +12,10 @@ const singleFile = {
   national_code: '',
   national_id: '',
   percent: '',
+  lockName: false,
+  lockNationalCode: false,
+  lockNationalId: false,
+  lockPercent: false,
   lock: false,
 };
 
@@ -65,122 +69,201 @@ const Shareholder = ({ handleNext, cardSelected }) => {
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '80vh',
-        padding: '0 16px',
+        padding: '20px',
+        backgroundColor: '#ffff',
       }}
     >
       <Box
         sx={{
           width: '100%',
           maxWidth: '900px',
-          padding: 3,
+          padding: 4,
           backgroundColor: '#ffffff',
           borderRadius: '16px',
-          boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0px 15px 30px rgba(0, 0, 0, 0.1)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 2,
-          marginTop: 3,
+          gap: 3,
         }}
       >
+        <Typography variant="h5" sx={{ marginBottom: 3, color: '#333', fontWeight: 600 }}>
+          مدیریت سهامداران
+        </Typography>
+
         {formSections.length > 0 ? (
           formSections.map((section, sectionIndex) => (
-            <form key={sectionIndex} className="w-full">
+            <Box key={sectionIndex} sx={{ width: '100%', marginBottom: 4 }}>
               <Box
                 sx={{
-                  display: 'grid',
-                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
-                  gap: 2,
-                  marginBottom: 4,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  gap: 3,
+                  marginBottom: 2,
+                  alignItems: 'flex-start',
                 }}
               >
-                <TextField
-                  id={`name-${sectionIndex}`}
-                  label="نام و نام خانوادگی"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={section.name}
-                  onChange={(e) => handleChange(sectionIndex, 'name', e.target.value)}
-                />
+                <Box sx={{ flex: 1 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        name="lockName"
+                        inputProps={{ 'aria-label': 'Lock Name' }}
+                        checked={section.lockName}
+                        onChange={(e) => handleChange(sectionIndex, 'lockName', e.target.checked)}
+                      />
+                    }
+              
+                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
+                  />
+                  <TextField
+                    id={`name-${sectionIndex}`}
+                    label="نام و نام خانوادگی"
+                    variant="outlined"
+                    fullWidth
+                    sx={{
+                      '& .MuiInputBase-root': { borderRadius: '8px' },
+                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
+                    }}
+                    value={section.name}
+                    onChange={(e) => handleChange(sectionIndex, 'name', e.target.value)}
+                    disabled={section.lockName}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        name="lockNationalCode"
+                        inputProps={{ 'aria-label': 'Lock National Code' }}
+                        checked={section.lockNationalCode}
+                        onChange={(e) => handleChange(sectionIndex, 'lockNationalCode', e.target.checked)}
+                      />
+                    }
+                
+                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
+                  />
+                  <TextField
+                    type="text"
+                    name="national_code"
+                    inputProps={{ maxLength: 10 }}
+                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                    required
+                    id={`national-code-${sectionIndex}`}
+                    label="کد ملی"
+                    variant="outlined"
+                    fullWidth
+                    sx={{
+                      '& .MuiInputBase-root': { borderRadius: '8px' },
+                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
+                    }}
+                    value={section.national_code}
+                    onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
+                    disabled={section.lockNationalCode}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        name="lockNationalId"
+                        inputProps={{ 'aria-label': 'Lock National ID' }}
+                        checked={section.lockNationalId}
+                        onChange={(e) => handleChange(sectionIndex, 'lockNationalId', e.target.checked)}
+                      />
+                    }
+                 
+                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
+                  />
+                  <TextField
+                    type="text"
+                    name="national_id"
+                    inputProps={{ maxLength: 10 }}
+                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                    required
+                    id={`national-id-${sectionIndex}`}
+                    label="کد شناسه"
+                    variant="outlined"
+                    fullWidth
+                    sx={{
+                      '& .MuiInputBase-root': { borderRadius: '8px' },
+                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
+                    }}
+                    value={section.national_id}
+                    onChange={(e) => handleChange(sectionIndex, 'national_id', e.target.value)}
+                    disabled={section.lockNationalId}
+                  />
+                </Box>
+                <Box sx={{ flex: 1 }}>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        name="lockPercent"
+                        inputProps={{ 'aria-label': 'Lock Percent' }}
+                        checked={section.lockPercent}
+                        onChange={(e) => handleChange(sectionIndex, 'lockPercent', e.target.checked)}
+                      />
+                    }
+              
+                    sx={{ alignSelf: 'center', color: '#555', mb: 1 }}
+                  />
+                  <TextField
+                    type="text"
+                    required
+                    inputProps={{ maxLength: 10 }}
+                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                    name="percent"
+                    id={`percent-${sectionIndex}`}
+                    label="درصد"
+                    variant="outlined"
+                    fullWidth
+                    sx={{
+                      '& .MuiInputBase-root': { borderRadius: '8px' },
+                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
+                    }}
+                    value={section.percent}
+                    onChange={(e) => handleChange(sectionIndex, 'percent', e.target.value)}
+                    disabled={section.lockPercent}
+                  />
+                </Box>
 
-                <TextField
-                  type="text"
-                  name="national_code"
-                  inputProps={{ maxLength: 10 }}
-                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                  required
-                  id={`national-code-${sectionIndex}`}
-                  label="کد ملی"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={section.national_code}
-                  onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
-                />
-                <TextField
-                  type="text"
-                  name="national_id"
-                  inputProps={{ maxLength: 10 }}
-                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                  required
-                  id={`national-id-${sectionIndex}`}
-                  label="کد شناسه"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={section.national_id}
-                  onChange={(e) => handleChange(sectionIndex, 'national_id', e.target.value)}
-                />
-                <TextField
-                  type="text"
-                  required
-                  inputProps={{ maxLength: 10 }}
-                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                  name="percent"
-                  id={`percent-${sectionIndex}`}
-                  label="درصد"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={section.percent}
-                  onChange={(e) => handleChange(sectionIndex, 'percent', e.target.value)}
-                />
-                <FormControlLabel
+              </Box>
+              <FormControlLabel
                   control={
                     <Switch
                       checked={section.lock}
-                      onChange={(e) => handleChange(sectionIndex, 'is_obliged', e.target.checked)}
+                      onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
                     />
                   }
                   label="وضعیت"
-                  sx={{ alignSelf: 'center' }}
+                  sx={{ alignSelf: 'center', color: '#555' }}
                 />
-              </Box>
-
               {sectionIndex < formSections.length - 1 && <Divider sx={{ marginY: 4 }} />}
-            </form>
+            </Box>
           ))
         ) : (
-          <p>No data available</p>
+          <Typography variant="body1" color="textSecondary">
+            No data available
+          </Typography>
         )}
 
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 2,
+            gap: 3,
             marginTop: 3,
             width: '100%',
           }}
         >
-          <div className="flex justify-center gap-3">
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
@@ -188,6 +271,13 @@ const Shareholder = ({ handleNext, cardSelected }) => {
               sx={{
                 width: '40%',
                 textTransform: 'none',
+                borderRadius: '8px',
+                color: '#1976d2',
+                borderColor: '#1976d2',
+                '&:hover': {
+                  borderColor: '#1976d2',
+                  backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                },
               }}
             >
               افزودن
@@ -200,12 +290,19 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                 sx={{
                   width: '40%',
                   textTransform: 'none',
+                  borderRadius: '8px',
+                  color: '#d32f2f',
+                  borderColor: '#d32f2f',
+                  '&:hover': {
+                    borderColor: '#d32f2f',
+                    backgroundColor: 'rgba(211, 47, 47, 0.1)',
+                  },
                 }}
               >
                 حذف
               </Button>
             )}
-          </div>
+          </Box>
 
           <Button
             type="button"
@@ -213,8 +310,12 @@ const Shareholder = ({ handleNext, cardSelected }) => {
             color="primary"
             sx={{
               width: '100%',
-              py: 1,
-              px: 2,
+              py: 1.5,
+              px: 3,
+              borderRadius: '8px',
+              textTransform: 'none',
+              fontWeight: 600,
+              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
             }}
             onClick={handleSubmit}
           >
@@ -222,7 +323,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
           </Button>
         </Box>
       </Box>
-    </div>
+    </Box>
   );
 };
 
