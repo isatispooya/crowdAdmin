@@ -11,7 +11,7 @@ const Resume = ({ cardSelected, handleNext }) => {
     queryFn: () => fetchResume(cardSelected),
   });
 
-  const [fetchedData, setFetchedData] = useState([]);
+  const [, setFetchedData] = useState([]);
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
