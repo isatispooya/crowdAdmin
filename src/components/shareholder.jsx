@@ -1,6 +1,14 @@
 /* eslint-disable no-return-assign */
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Divider , TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Divider,
+  FormControlLabel,
+  Switch,
+  TextField,
+  Typography,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
@@ -111,7 +119,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                 }}
               >
                 <Box sx={{ flex: 1 }}>
-
                   <TextField
                     id={`name-${sectionIndex}`}
                     label="نام و نام خانوادگی"
@@ -127,7 +134,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
-
                   <TextField
                     type="text"
                     name="national_code"
@@ -148,7 +154,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
-
                   <TextField
                     type="text"
                     name="national_id"
@@ -169,7 +174,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   />
                 </Box>
                 <Box sx={{ flex: 1 }}>
-
                   <TextField
                     type="text"
                     required
@@ -189,8 +193,17 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                     disabled={section.lockPercent}
                   />
                 </Box>
-
               </Box>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={section.lock}
+                    onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
+                  />
+                }
+                label="وضعیت"
+                sx={{ alignSelf: 'center', color: '#555' }}
+              />
               {sectionIndex < formSections.length - 1 && <Divider sx={{ marginY: 4 }} />}
             </Box>
           ))
