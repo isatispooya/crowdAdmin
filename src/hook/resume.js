@@ -29,11 +29,18 @@ export const sendResume = async (id, data) => {
     try {
       const access = await getCookie('access');
       const url = `${OnRun}/api/resume/admin/${id}/`;
+      const form=new FormData
+
+      for (let index = 0; index < data.length; index+1) {
+        const element = data[index];
+        form.append(element.national_code,element.file)
+        
+      }
   
-      const response = await axios.patch(url, data={resume:data}, {
+      const response = await axios.patch(url, data={form}, {
         headers: {
           Authorization: `Bearer ${access}`,
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
         },
       });
   

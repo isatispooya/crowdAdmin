@@ -21,13 +21,12 @@ const Resume = ({ cardSelected, handleNext }) => {
 
   const mutation = useMutation({
     mutationKey: ['set management'],
-    mutationFn: (sections) => sendResume(cardSelected, sections),
+    mutationFn: () => sendResume(cardSelected, formData),
   });
 
-  const handleFileChange = (index) => (event) => {
-  const selectedFile = event.target.files[0];
+  const handleFileChange = (file,index) => {    
   const newFormData = [...formData];
-  newFormData[index].file = selectedFile;  
+  newFormData[index].file = file;  
   setFormData(newFormData);
 };
 
@@ -44,8 +43,8 @@ const Resume = ({ cardSelected, handleNext }) => {
   };
 
   const handleButtonClick = () => {
-    mutation.mutate(formData);
-    // handleNext();
+    mutation.mutate();
+    handleNext();
     console.log('Form data sent:', formData);
   };
 
@@ -116,6 +115,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                     label="نام و نام خانوادگی"
                     variant="outlined"
                     fullWidth
+                    disabled
                     sx={{ mb: 2 }}
                     onChange={handleTextFieldChange(index, 'name')}
                   />
@@ -137,6 +137,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                     label="کد ملی"
                     variant="outlined"
                     fullWidth
+                    disabled
                     sx={{ mb: 2 }}
                     value={item.national_code}
                     onChange={handleTextFieldChange(index, 'national_code')}
@@ -172,7 +173,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                       type="file"
                       id="file-upload-resume"
                       sx={{ marginTop: '8px' }}
-                      onChange={handleFileChange(index,'file')}
+                      onChange={(e)=>handleFileChange(e.target.files[0],index)}
                     />
                   )}
                 </Box>
