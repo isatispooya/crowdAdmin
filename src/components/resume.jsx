@@ -1,7 +1,7 @@
 import { Box, FormControlLabel, Switch, TextField, Input, Button } from '@mui/material';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import { fetchResume, sendResume } from 'src/hook/resume';
+import { fetchResume } from 'src/hook/resume';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
@@ -19,10 +19,10 @@ const Resume = ({ cardSelected, handleNext }) => {
     }
   }, [data, status]);
 
-  const mutation = useMutation({
-    mutationKey: ['set management'],
-    mutationFn: () => sendResume(cardSelected, formData),
-  });
+//   const mutation = useMutation({
+//     mutationKey: ['set management'],
+//     mutationFn: () => sendResume(cardSelected, formData),
+//   });
 
   const handleFileChange = (file,index) => {    
   const newFormData = [...formData];
@@ -43,9 +43,8 @@ const Resume = ({ cardSelected, handleNext }) => {
   };
 
   const handleButtonClick = () => {
-    mutation.mutate();
+    // mutation.mutate();
     handleNext();
-    console.log('Form data sent:', formData);
   };
 
   return (
