@@ -12,7 +12,14 @@ const Sterpercrowd = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [cardSelected, setCardSelected] = useState(null);
 
-  const steps = ['انتخاب کارت ', 'ویرایش و مشاهده کارت', 'ارسال پیام به کاربر','مدیران','رزومه','سهامداران'];
+  const steps = [
+    'انتخاب کارت ',
+    'ویرایش و مشاهده کارت',
+    'ارسال پیام به کاربر',
+    'مدیران',
+    'رزومه',
+    'سهامداران',
+  ];
 
   const handleNext = () => {
     if (activeStep === 1) {
@@ -47,13 +54,13 @@ const Sterpercrowd = () => {
       case 1:
         return <FormCompanyInfo handleNext={handleNext} cardSelected={cardSelected} />;
       case 2:
-        return <SendMessage cardSelected={cardSelected} handleNext={handleNext}/>;
-        case 3:
-        return <Fildemnager handleNext={handleNext} cardSelected={cardSelected}/>;
-        case 4:
-          return <Resume handleNext={handleNext} cardSelected={cardSelected}/>;
-          case 5:
-            return <Shareholder handleNext={handleNext} cardSelected={cardSelected}/>;
+        return <SendMessage cardSelected={cardSelected} handleNext={handleNext} />;
+      case 3:
+        return <Fildemnager handleNext={handleNext} cardSelected={cardSelected} />;
+      case 4:
+        return <Resume handleNext={handleNext} cardSelected={cardSelected} />;
+      case 5:
+        return <Shareholder handleNext={handleNext} cardSelected={cardSelected} />;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">

@@ -4,20 +4,18 @@ import { useEffect, useState } from 'react';
 import { fetchResume, sendResume } from 'src/hook/resume';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+import { OnRun } from 'src/api/OnRun';
 
 const Resume = ({ cardSelected, handleNext }) => {
   const { data, status } = useQuery({
     queryKey: ['shareholder', cardSelected],
     queryFn: () => fetchResume(cardSelected),
   });
-
-  const [, setFetchedData] = useState([]);
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
     if (status === 'success' && data) {
-      setFetchedData(data.manager);
-      setFormData(data.manager.map(item => ({ ...item }))); // Initialize form data with fetched data
+      setFormData(data.manager.map((item) => ({ ...item })));
     }
   }, [data, status]);
 
@@ -27,12 +25,11 @@ const Resume = ({ cardSelected, handleNext }) => {
   });
 
   const handleFileChange = (index) => (event) => {
-    const selectedFile = event.target.files[0];
-    const fileValue = selectedFile ? URL.createObjectURL(selectedFile) : '';
-    const newFormData = [...formData];
-    newFormData[index].resumeFile = fileValue;
-    setFormData(newFormData);
-  };
+  const selectedFile = event.target.files[0];
+  const newFormData = [...formData];
+  newFormData[index].file = selectedFile;  
+  setFormData(newFormData);
+};
 
   const handleSwitchChange = (index) => (event) => {
     const newFormData = [...formData];
@@ -47,7 +44,8 @@ const Resume = ({ cardSelected, handleNext }) => {
   };
 
   const handleButtonClick = () => {
-    mutation.mutate(formData); // Send the current form data to the mutation function
+    mutation.mutate(formData);
+    // handleNext();
     console.log('Form data sent:', formData);
   };
 
@@ -155,7 +153,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                 >
                   {typeof item.file === 'string' && item.file ? (
                     <a
-                      href={item.resumeFile}
+                      href={`${OnRun}/${item.file}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
@@ -170,11 +168,11 @@ const Resume = ({ cardSelected, handleNext }) => {
                     </a>
                   ) : (
                     <Input
-                      name="resume_file"
+                      name="file"
                       type="file"
                       id="file-upload-resume"
                       sx={{ marginTop: '8px' }}
-                      onChange={handleFileChange(index)}
+                      onChange={handleFileChange(index,'file')}
                     />
                   )}
                 </Box>
@@ -186,7 +184,7 @@ const Resume = ({ cardSelected, handleNext }) => {
         )}
 
         <Button variant="contained" color="primary" onClick={handleButtonClick}>
-          دکمه
+          تایید
         </Button>
       </Box>
     </div>
