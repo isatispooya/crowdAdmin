@@ -28,8 +28,8 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
   });
 
   const mutation = useMutation({
-    mutationKey : ['set management'],
-    mutationFn: () => sendManager(cardSelected, fetchedData),
+    mutationKey: ['set management'],
+    mutationFn: (sections) => sendManager(cardSelected, sections),
   });
   
   // console.log(data , "12233465")
@@ -88,10 +88,13 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
   };
 
   const handleSubmit = () => {
-    mutation.mutateAsync();
+    // Send the updated formSections instead of the initial fetchedData
+    mutation.mutateAsync(formSections);
+    // Uncomment handleNext if you want to move to the next step after submission
     // handleNext();
-    console.log(fetchedData);
+    console.log(formSections); // Log the current form values
   };
+  
 
 
 
