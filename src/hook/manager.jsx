@@ -26,7 +26,7 @@ export const sendManager = async (id, data) => {
     const access = await getCookie('access');
     const url = `${OnRun}/api/manager/admin/${id}/`;
 
-    const response = await axios.post(url, data, {
+    const response = await axios.post(url, data={managers:data}, {
       headers: {
         Authorization: `Bearer ${access}`,
         'Content-Type': 'application/json',
