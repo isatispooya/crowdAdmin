@@ -51,7 +51,7 @@ const Sterpercrowd = () => {
         case 3:
         return <Fildemnager handleNext={handleNext} cardSelected={cardSelected}/>;
         case 4:
-          return <Resume handleNext={handleNext} id={cardSelected}/>;
+          return <Resume handleNext={handleNext} cardSelected={cardSelected}/>;
           case 5:
             return <Shareholder handleNext={handleNext} cardSelected={cardSelected}/>;
       default:
