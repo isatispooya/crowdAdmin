@@ -190,7 +190,7 @@ export default function LoginView() {
             sx={{ alignItems: 'center', justifyContent: 'center', display: 'flex' }}
             variant="h6"
           >
-            درگاه ورود ایسا تیس کراد
+            درگاه ورود مدیریت ایساتیس کراد
           </Typography>
           <Divider sx={{ my: 3 }}>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>

@@ -73,6 +73,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
   if (!data) {
     return <p>data ....</p>;
   }
+console.log("localData",localData);
 
 
   return localData ? (
@@ -416,6 +417,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
 
                       {['financial_report', 'audit_report', 'statement', 'alignment_6columns'].map(
                         (reportType) => (
+                      
                           <Box key={reportType} sx={{ marginBottom: '16px' }}>
                             <FormControl fullWidth>
                               <FormLabel>

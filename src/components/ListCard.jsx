@@ -4,14 +4,33 @@ import { OnRun } from 'src/api/OnRun';
 import { getCookie } from 'src/api/cookie';
 import { FaCheckCircle, FaClock, FaQuestionCircle } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import { Button, Chip, Tooltip } from '@mui/material';
+import {
+  Button,
+  Chip,
+  Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
+import { TbMessagePlus } from 'react-icons/tb';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
+import SendMessage from './sendMessage';
 
 const CardList = ({ setCardSelected, handleNext }) => {
   const [cards, setCards] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
+  const [sendMessageModalOpen, setSendMessageModalOpen] = useState(false);
+  const [statusModalOpen, setStatusModalOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   const access = getCookie('access');
+
   const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
   useEffect(() => {
@@ -43,7 +62,18 @@ const CardList = ({ setCardSelected, handleNext }) => {
   const openDeleteModal = (event, id) => {
     event.stopPropagation();
     setSelectedCardId(id);
-    setModalOpen(true);
+    setDeleteModalOpen(true);
+  };
+
+  const openSendMessageModal = (event, id) => {
+    event.stopPropagation();
+    setSelectedCardId(id);
+    setSendMessageModalOpen(true);
+  };
+
+  const openStatusModal = (card) => {
+    setSelectedCard(card);
+    setStatusModalOpen(true);
   };
 
   const handleDeleteClick = async () => {
@@ -59,15 +89,26 @@ const CardList = ({ setCardSelected, handleNext }) => {
     } catch (error) {
       console.error('Error deleting card:', error);
     } finally {
-      setModalOpen(false);
+      setDeleteModalOpen(false);
       setSelectedCardId(null);
     }
   };
 
   const handleModalClose = () => {
-    setModalOpen(false);
+    setDeleteModalOpen(false);
     setSelectedCardId(null);
   };
+
+  const handleSendMessageModalClose = () => {
+    setSendMessageModalOpen(false);
+    setSelectedCardId(null);
+  };
+
+  const handleStatusModalClose = () => {
+    setStatusModalOpen(false);
+    setSelectedCard(null);
+  };
+  
 
   const getStatusChip = (status) => {
     const iconStyle = { fontSize: '18px' };
@@ -123,9 +164,7 @@ const CardList = ({ setCardSelected, handleNext }) => {
           cards.map((card) => (
             <div
               key={card.id}
-              className={`bg-white shadow-lg rounded-xl p-6 flex flex-col justify-between items-center max-w-sm cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 ${
-                selectedCardId === card.id ? 'border-4 border-blue-600' : ''
-              }`}
+              className="bg-white shadow-lg rounded-xl p-6 flex flex-col justify-between items-center max-w-sm cursor-pointer transition-transform transform hover:shadow-2xl hover:bg-gray-100"
               tabIndex={0}
               role="button"
               aria-label={`View card ${card.company_name}`}
@@ -143,7 +182,9 @@ const CardList = ({ setCardSelected, handleNext }) => {
                     شماره ثبت: {card.registration_number}
                   </p>
                 </div>
-                <div className="flex items-center">{getStatusChip(card.status)}</div>
+                <div className="flex items-center" onClick={() => openStatusModal(card)}>
+                  {getStatusChip(card.status)}
+                </div>
               </div>
               <div className="flex justify-center gap-4 mt-6">
                 <Tooltip title="مشاهده و ویرایش">
@@ -151,7 +192,7 @@ const CardList = ({ setCardSelected, handleNext }) => {
                     variant="contained"
                     color="primary"
                     onClick={() => handleCardClick(card.id)}
-                    style={{ textTransform: 'none', padding: '8px 16px', fontSize: '16px' }}
+                    style={{ textTransform: 'none' }}
                   >
                     مشاهده و ویرایش
                   </Button>
@@ -161,11 +202,15 @@ const CardList = ({ setCardSelected, handleNext }) => {
                     variant="outlined"
                     color="error"
                     onClick={(event) => openDeleteModal(event, card.id)}
-                    style={{ textTransform: 'none', padding: '8px 16px', fontSize: '16px' }}
+                    style={{ textTransform: 'none' }}
                   >
                     حذف
                   </Button>
                 </Tooltip>
+                <TbMessagePlus
+                  style={{ fontSize: '30px' }}
+                  onClick={(event) => openSendMessageModal(event, card.id)}
+                />
               </div>
             </div>
           ))
@@ -173,11 +218,54 @@ const CardList = ({ setCardSelected, handleNext }) => {
           <p className="text-center text-gray-600 text-xl">هیچ کارتی موجود نیست</p>
         )}
       </div>
+
       <ConfirmDeleteModal
-        open={modalOpen}
+        open={deleteModalOpen}
         onClose={handleModalClose}
         onConfirm={handleDeleteClick}
       />
+
+      <SendMessage
+        cardSelected={selectedCardId}
+        handleNext={handleNext}
+        open={sendMessageModalOpen}
+        onClose={handleSendMessageModalClose}
+      />
+
+      <Dialog
+        open={statusModalOpen}
+        onClose={handleStatusModalClose}
+        PaperProps={{
+          style: {
+            maxWidth: '600px',
+            width: '90%',
+          },
+        }}
+      >
+        <DialogTitle>وضعیت کارت</DialogTitle>
+        <DialogContent>
+          {selectedCard && (
+            <div>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">وضعیت</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" label="status">
+                  <MenuItem value="1">تکمیل شده</MenuItem>
+                  <MenuItem value="2">نیاز به تکمیل</MenuItem>
+                  <MenuItem value="3">نامشخص</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleStatusModalClose} color="primary">
+            اعمال
+          </Button>
+          <Button onClick={handleStatusModalClose} color="primary">
+            بستن
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
