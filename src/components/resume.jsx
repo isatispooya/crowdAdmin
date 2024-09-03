@@ -15,9 +15,9 @@ const Resume = ({ cardSelected, handleNext }) => {
 
   useEffect(() => {
     if (status === 'success' && data && data.manager) {
-      setFormData(data.manager.map((item) => ({ ...item })));
+      setFormData(data.manager.map((item) => ({ ...item, lock: item.lock || false })));
     } else if (status === 'error') {
-      console.error("Failed to fetch resume data");
+      console.error('Failed to fetch resume data');
     }
   }, [data, status]);
 
@@ -33,9 +33,11 @@ const Resume = ({ cardSelected, handleNext }) => {
   };
 
   const handleSwitchChange = (index) => (event) => {
-    const newFormData = [...formData];
-    newFormData[index].lock = event.target.checked;
-    setFormData(newFormData);
+    setFormData((prevFormData) => {
+      const newFormData = [...prevFormData];
+      newFormData[index].lock = event.target.checked;
+      return newFormData;
+    });
   };
 
   const handleTextFieldChange = (index, field) => (event) => {
@@ -49,6 +51,8 @@ const Resume = ({ cardSelected, handleNext }) => {
     handleNext();
   };
 
+  console.log(formData);
+
   return (
     <div
       style={{
@@ -57,7 +61,6 @@ const Resume = ({ cardSelected, handleNext }) => {
         alignItems: 'center',
         minHeight: '50vh',
         padding: '0 16px',
-        backgroundColor: '#f5f5f5',
       }}
     >
       <Box
@@ -87,7 +90,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={item.lock || false}
+                      checked={item.lock}
                       onChange={handleSwitchChange(index)}
                       name="customSwitch"
                       color="primary"
@@ -182,7 +185,7 @@ const Resume = ({ cardSelected, handleNext }) => {
             </form>
           ))
         ) : (
-          <div>Loading data or no data available.</div>
+          <div>درحال بارگزاری</div>
         )}
 
         <Button variant="contained" color="primary" onClick={handleButtonClick}>

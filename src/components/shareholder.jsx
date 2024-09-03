@@ -82,7 +82,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
         alignItems: 'center',
         minHeight: '80vh',
         padding: '20px',
-        backgroundColor: '#ffff',
       }}
     >
       <Box

@@ -12,7 +12,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Typography,
   FormControl,
   InputLabel,
   Select,
@@ -22,7 +21,7 @@ import { TbMessagePlus } from 'react-icons/tb';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import SendMessage from './sendMessage';
 
-const CardList = ({ setCardSelected, handleNext }) => {
+const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
   const [cards, setCards] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
@@ -106,9 +105,7 @@ const CardList = ({ setCardSelected, handleNext }) => {
 
   const handleStatusModalClose = () => {
     setStatusModalOpen(false);
-    setSelectedCard(null);
   };
-  
 
   const getStatusChip = (status) => {
     const iconStyle = { fontSize: '18px' };
@@ -182,7 +179,17 @@ const CardList = ({ setCardSelected, handleNext }) => {
                     شماره ثبت: {card.registration_number}
                   </p>
                 </div>
-                <div className="flex items-center" onClick={() => openStatusModal(card)}>
+                <div
+                  className="flex items-center"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => openStatusModal(card)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      openStatusModal(card);
+                    }
+                  }}
+                >
                   {getStatusChip(card.status)}
                 </div>
               </div>
@@ -242,8 +249,9 @@ const CardList = ({ setCardSelected, handleNext }) => {
           },
         }}
       >
-        <DialogTitle>وضعیت کارت</DialogTitle>
         <DialogContent>
+          <DialogTitle>وضعیت کارت</DialogTitle>
+
           {selectedCard && (
             <div>
               <FormControl fullWidth>
@@ -259,10 +267,15 @@ const CardList = ({ setCardSelected, handleNext }) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleStatusModalClose} color="primary">
-            اعمال
-          </Button>
-          <Button onClick={handleStatusModalClose} color="primary">
             بستن
+          </Button>
+          <Button
+            value={cards.status}
+            onClick={handleStatusModalClose}
+            onChange={(e) => setCards({ ...cards, status: e.target.value })}
+            color="primary"
+          >
+            اعمال
           </Button>
         </DialogActions>
       </Dialog>
@@ -273,6 +286,7 @@ const CardList = ({ setCardSelected, handleNext }) => {
 CardList.propTypes = {
   setCardSelected: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
+  cardSelected: PropTypes.number,
 };
 
 export default CardList;

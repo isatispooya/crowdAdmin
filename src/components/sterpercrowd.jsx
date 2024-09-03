@@ -46,7 +46,7 @@ const Sterpercrowd = () => {
       case 0:
         return (
           <div>
-            <CardList setCardSelected={setCardSelected} handleNext={handleNext} />
+            <CardList setCardSelected={setCardSelected} cardSelected={cardSelected} handleNext={handleNext} />
           </div>
         );
       case 1:

@@ -63,11 +63,27 @@ export const getStep1 = async (id) => {
           Lock_alignment_6columns_lastyear: false,
           alignment_6columns_yearold: null,
           Lock_alignment_6columns_yearold: false,
+          announcement_of_changes_managers: null,
+          Lock_announcement_of_changes_managers: false,
+          announcement_of_changes_capital: null,
+          Lock_announcement_of_changes_capital: false,
+          bank_account_turnover: null,
+          Lock_bank_account_turnover: false,
+          statutes: null,
+          Lock_statutes: false,
+          assets_and_liabilities: null,
+          Lock_assets_and_liabilities: false,
+          latest_insurance_staf: null,
+          Lock_latest_insurance_staf: false,
+          claims_status: null,
+          Lock_claims_status: false,
           massage: '',
         },
       },
     };
   }
+  console.log(response);
+
   return response;
 };
 
@@ -95,7 +111,6 @@ export const createCart = async (data, id) => {
   formData.append('Lock_email', data.Lock_email);
   formData.append('Lock_activity_industry', data.Lock_activity_industry);
   formData.append('Lock_address', data.Lock_address);
-
   formData.append('Lock_amount_of_request', data.Lock_amount_of_request);
   formData.append('Lock_financial_report_yearold', data.Lock_financial_report_yearold);
   formData.append('Lock_audit_report_yearold', data.Lock_audit_report_yearold);
@@ -106,6 +121,19 @@ export const createCart = async (data, id) => {
   formData.append('Lock_statement_lastyear', data.Lock_statement_lastyear);
   formData.append('Lock_alignment_6columns_lastyear', data.Lock_alignment_6columns_lastyear);
   formData.append('Lock_alignment_6columns_thisyear', data.Lock_alignment_6columns_thisyear);
+  formData.append(
+    'Lock_announcement_of_changes_managers',
+    data.Lock_announcement_of_changes_managers
+  );
+  formData.append(
+    'Lock_announcement_of_changes_capital',
+    data.Lock_announcement_of_changes_capital
+  );
+  formData.append('Lock_bank_account_turnover', data.Lock_bank_account_turnover);
+  formData.append('Lock_statutes', data.Lock_statutes);
+  formData.append('Lock_assets_and_liabilities', data.Lock_assets_and_liabilities);
+  formData.append('Lock_latest_insurance_staf', data.Lock_latest_insurance_staf);
+  formData.append('Lock_claims_status', data.Lock_claims_status);
 
   if (data.alignment_6columns_thisyear && typeof data.alignment_6columns_thisyear !== 'string') {
     formData.append('alignment_6columns_thisyear', data.alignment_6columns_thisyear);
@@ -127,6 +155,33 @@ export const createCart = async (data, id) => {
   }
   if (data.statement_yearold && typeof data.statement_yearold !== 'string') {
     formData.append('statement_yearold', data.statement_yearold);
+  }
+  if (
+    data.announcement_of_changes_managers &&
+    typeof data.announcement_of_changes_managers !== 'string'
+  ) {
+    formData.append('announcement_of_changes_managers', data.announcement_of_changes_managers);
+  }
+  if (
+    data.announcement_of_changes_capital &&
+    typeof data.announcement_of_changes_capital !== 'string'
+  ) {
+    formData.append('announcement_of_changes_capital', data.announcement_of_changes_capital);
+  }
+  if (data.bank_account_turnover && typeof data.bank_account_turnover !== 'string') {
+    formData.append('bank_account_turnover', data.bank_account_turnover);
+  }
+  if (data.statutes && typeof data.statutes !== 'string') {
+    formData.append('statutes', data.statutes);
+  }
+  if (data.assets_and_liabilities && typeof data.assets_and_liabilities !== 'string') {
+    formData.append('assets_and_liabilities', data.assets_and_liabilities);
+  }
+  if (data.latest_insurance_staf && typeof data.latest_insurance_staf !== 'string') {
+    formData.append('latest_insurance_staf', data.latest_insurance_staf);
+  }
+  if (data.claims_status && typeof data.claims_status !== 'string') {
+    formData.append('claims_status', data.claims_status);
   }
 
   const access = await getCookie('access');

@@ -17,14 +17,16 @@ import PropTypes from 'prop-types';
 import { fetchUserMessage, sendMessage } from 'src/hook/message';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-const SendMessage = ({ cardSelected, handleNext, open, onClose }) => {
-  const { data, isLoading, isError } = useQuery({
+const SendMessage = ({ cardSelected, open, onClose }) => {
+  const { data} = useQuery({
     queryKey: ['userMessage', cardSelected],
     queryFn: () => fetchUserMessage(cardSelected),
   });
+ 
+  
 
   const [messageContent, setMessageContent] = React.useState('');
-  const [sendStatus, setSendStatus] = React.useState(true);
+  const [sendStatus, setSendStatus] = React.useState(false);
 
   const mutation = useMutation({
     mutationKey: ['sendMessage', cardSelected],
@@ -39,8 +41,10 @@ const SendMessage = ({ cardSelected, handleNext, open, onClose }) => {
     setMessageContent(data?.message?.message);
   }, [data]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading message</div>;
+
+
+  console.log(cardSelected);
+
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -114,8 +118,7 @@ const SendMessage = ({ cardSelected, handleNext, open, onClose }) => {
 };
 
 SendMessage.propTypes = {
-  cardSelected: PropTypes.string.isRequired,
-  handleNext: PropTypes.func,
+  cardSelected: PropTypes.number,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
