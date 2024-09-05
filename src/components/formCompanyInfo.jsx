@@ -231,7 +231,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                   label="سرمایه ثبتی (ریال)"
                   variant="outlined"
                   fullWidth
-                  value={localData.registered_capital}
+                  value={formatNumber(localData.registered_capital)}
                   onChange={(e) =>
                     setLocalData({ ...localData, registered_capital: e.target.value })
                   }

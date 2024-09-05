@@ -158,10 +158,13 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   disabled={section.lockNationalCode}
                 />
                 <TextField
-                  type="text"
+                  type="number"
                   required
-                  inputProps={{ maxLength: 10 }}
-                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                  inputProps={{
+                    step: '0.1',
+                    min: 0,
+                    max: 100,
+                  }}
                   name="percent"
                   id={`percent-${sectionIndex}`}
                   label="درصد"
@@ -169,9 +172,17 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   fullWidth
                   sx={{ mb: 2 }}
                   value={section.percent}
-                  onChange={(e) => handleChange(sectionIndex, 'percent', e.target.value)}
+                  onChange={(e) => {
+                    const value = parseFloat(e.target.value);
+                    if (!Number.isNaN(value) && value >= 0 && value <= 100) {
+                      handleChange(sectionIndex, 'percent', value.toFixed(0));
+                    } else {
+                      handleChange(sectionIndex, 'percent', '0');
+                    }
+                  }}
                   disabled={section.lockPercent}
                 />
+
                 <FormControlLabel
                   control={
                     <Switch

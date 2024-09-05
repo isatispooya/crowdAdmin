@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchStatus } from 'src/hook/status';
 import { useEffect, useState } from 'react';
 import Chip from '@mui/material/Chip';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CardStatus = ({ card, openStatusModal, cardSelected }) => {
   const { data, status } = useQuery({
@@ -20,8 +21,20 @@ const CardStatus = ({ card, openStatusModal, cardSelected }) => {
     }
   }, [data, status]);
 
-  const getStatusChip = (statusCard) => {
+  const getStatusChip = (statusCard, onClick) => {
     const iconStyle = { fontSize: '18px' };
+
+    const chipStyle = {
+      borderRadius: '20px',
+      fontWeight: 'bold',
+      margin: '2px',
+      padding: '4px 8px',
+    };
+
+    const handleClick = () => {
+      if (onClick) onClick(statusCard);
+    };
+
     switch (statusCard) {
       case '1':
         return (
@@ -29,35 +42,50 @@ const CardStatus = ({ card, openStatusModal, cardSelected }) => {
             startDecorator={<FaClock style={iconStyle} />}
             label="در انتظار"
             color="warning"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
+            style={chipStyle}
+            onClick={handleClick}
+          >
+            <ArrowDropDownIcon />
+          </Chip>
         );
       case '2':
         return (
-          <Chip
-            startDecorator={<FaCheckCircle style={iconStyle} />}
-            label="تکمیل شده"
-            color="success"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
+          <>
+            <Chip
+              startDecorator={<FaCheckCircle style={iconStyle} />}
+              label="تکمیل شده"
+              color="success"
+              style={chipStyle}
+              onClick={handleClick}
+            />
+            <ArrowDropDownIcon />
+          </>
         );
       case '3':
         return (
-          <Chip
-            startDecorator={<FaQuestionCircle style={iconStyle} />}
-            label="نیاز به تکمیل"
-            color="default"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
+          <>
+            <Chip
+              startDecorator={<FaQuestionCircle style={iconStyle} />}
+              label="نیاز به تکمیل"
+              color="default"
+              style={chipStyle}
+              onClick={handleClick}
+            />
+            <ArrowDropDownIcon />
+          </>
         );
       default:
         return (
-          <Chip
-            startDecorator={<FaQuestionCircle style={iconStyle} />}
-            label="نامشخص"
-            color="default"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
+          <>
+            <Chip
+              startDecorator={<FaQuestionCircle style={iconStyle} />}
+              label="نامشخص"
+              color="default"
+              style={chipStyle}
+              onClick={handleClick}
+            />
+            <ArrowDropDownIcon />
+          </>
         );
     }
   };
