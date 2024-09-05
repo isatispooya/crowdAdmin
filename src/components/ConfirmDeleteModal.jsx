@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types'; 
+import PropTypes from 'prop-types';
 import { Modal, Box, Typography, Button } from '@mui/material';
 
 const ConfirmDeleteModal = ({ open, onClose, onConfirm }) => (

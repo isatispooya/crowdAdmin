@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { OnRun } from 'src/api/OnRun';
 import { getCookie } from 'src/api/cookie';
-import { FaCheckCircle, FaClock, FaQuestionCircle } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import {
   Button,
-  Chip,
   Tooltip,
   Dialog,
   DialogTitle,
@@ -20,6 +18,7 @@ import {
 import { TbMessagePlus } from 'react-icons/tb';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import SendMessage from './sendMessage';
+import CardStatus from './cardStatus';
 
 const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
   const [cards, setCards] = useState([]);
@@ -107,123 +106,75 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
     setStatusModalOpen(false);
   };
 
-  const getStatusChip = (status) => {
-    const iconStyle = { fontSize: '18px' };
-    switch (status) {
-      case 'waiting':
-        return (
-          <Chip
-            icon={<FaClock style={iconStyle} />}
-            label="در انتظار"
-            color="warning"
-            variant="outlined"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
-        );
-      case 'okay':
-        return (
-          <Chip
-            icon={<FaCheckCircle style={iconStyle} />}
-            label="تکمیل شده"
-            color="success"
-            variant="outlined"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
-        );
-      case 'editing':
-        return (
-          <Chip
-            icon={<FaQuestionCircle style={iconStyle} />}
-            label="نیاز به تکمیل"
-            color="default"
-            variant="outlined"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
-        );
-      default:
-        return (
-          <Chip
-            icon={<FaQuestionCircle style={iconStyle} />}
-            label="نامشخص"
-            color="default"
-            variant="outlined"
-            style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
-          />
-        );
-    }
-  };
-
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl font-extrabold text-gray-800 mb-12 text-center">لیست کارت‌ها</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-        {cards.length > 0 ? (
-          cards.map((card) => (
-            <div
-              key={card.id}
-              className="bg-white shadow-lg rounded-xl p-6 flex flex-col justify-between items-center max-w-sm cursor-pointer transition-transform transform hover:shadow-2xl hover:bg-gray-100"
-              tabIndex={0}
-              role="button"
-              aria-label={`View card ${card.company_name}`}
-            >
-              <div className="flex flex-col items-center flex-grow space-y-4">
-                <div className="flex justify-center items-center">
-                  <h2 className="text-2xl font-bold text-gray-800">{card.company_name}</h2>
-                </div>
-                <div className="flex flex-col justify-center items-center space-y-2">
-                  <p className="text-base font-medium text-gray-700">شناسه: {card.nationalid}</p>
-                  <p className="text-base font-medium text-gray-700">
-                    سرمایه: {formatNumber(card.registered_capital)}
-                  </p>
-                  <p className="text-base font-medium text-gray-700">
-                    شماره ثبت: {card.registration_number}
-                  </p>
-                </div>
+    <div className="p-8 bg-transparent min-h-screen flex justify-center items-start">
+      <div className="bg-white shadow-2xl rounded-3xl p-10 max-w-7xl w-full">
+        <div className="bg-gray-200 text-white rounded-t-3xl p-6 text-center">
+          <h1 className="text-5xl font-bold text-gray-700">لیست کارت‌ها</h1>
+        </div>
+        <div className="p-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+            {cards.length > 0 ? (
+              cards.map((card) => (
                 <div
-                  className="flex items-center"
-                  role="button"
+                  key={card.id}
+                  className="bg-white shadow-lg rounded-2xl p-6 flex flex-col justify-between items-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 min-w-[280px] max-w-[320px] h-[350px]"
                   tabIndex={0}
-                  onClick={() => openStatusModal(card)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      openStatusModal(card);
-                    }
-                  }}
+                  role="button"
+                  aria-label={`View card ${card.company_name}`}
                 >
-                  {getStatusChip(card.status)}
+                  <div className="flex flex-col items-center flex-grow space-y-6">
+                    <h2 className="text-2xl font-bold text-gray-800">{card.company_name}</h2>
+                    <div className="flex flex-col justify-center items-center space-y-4">
+                      <p className="text-base font-medium text-gray-700">
+                        شناسه: {card.nationalid}
+                      </p>
+                      <p className="text-base font-medium text-gray-700 ">
+                        سرمایه: {formatNumber(card.registered_capital)}
+                      </p>
+                      <p className="text-base font-medium text-gray-700">
+                        شماره ثبت: {card.registration_number}
+                      </p>
+                    </div>
+                    <CardStatus
+                      cardSelected={selectedCardId}
+                      openStatusModal={openStatusModal}
+                      card={card}
+                    />
+                  </div>
+                  <div className="flex justify-center gap-4 mt-6">
+                    <Tooltip title="مشاهده و ویرایش">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        style={{ textTransform: 'none' }}
+                        onClick={() => handleCardClick(card.id)}
+                      >
+                        مشاهده و ویرایش
+                      </Button>
+                    </Tooltip>
+                    <Tooltip title="حذف کارت">
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        style={{ textTransform: 'none' }}
+                        onClick={(event) => openDeleteModal(event, card.id)}
+                      >
+                        حذف
+                      </Button>
+                    </Tooltip>
+                    <TbMessagePlus
+                      style={{ fontSize: '28px', cursor: 'pointer' }}
+                      onClick={(event) => openSendMessageModal(event, card.id)}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-center gap-4 mt-6">
-                <Tooltip title="مشاهده و ویرایش">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleCardClick(card.id)}
-                    style={{ textTransform: 'none' }}
-                  >
-                    مشاهده و ویرایش
-                  </Button>
-                </Tooltip>
-                <Tooltip title="حذف کارت">
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={(event) => openDeleteModal(event, card.id)}
-                    style={{ textTransform: 'none' }}
-                  >
-                    حذف
-                  </Button>
-                </Tooltip>
-                <TbMessagePlus
-                  style={{ fontSize: '30px' }}
-                  onClick={(event) => openSendMessageModal(event, card.id)}
-                />
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-center text-gray-600 text-xl">هیچ کارتی موجود نیست</p>
-        )}
+              ))
+            ) : (
+              <p className="text-center text-gray-600 text-xl">هیچ کارتی موجود نیست</p>
+            )}
+          </div>
+        </div>
       </div>
 
       <ConfirmDeleteModal
@@ -250,19 +201,23 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
         }}
       >
         <DialogContent>
-          <DialogTitle>وضعیت کارت</DialogTitle>
+          <DialogTitle sx={{ textAlign: 'center' }}>وضعیت کارت</DialogTitle>
 
           {selectedCard && (
-            <div>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">وضعیت</InputLabel>
-                <Select labelId="demo-simple-select-label" id="demo-simple-select" label="status">
-                  <MenuItem value="1">تکمیل شده</MenuItem>
-                  <MenuItem value="2">نیاز به تکمیل</MenuItem>
-                  <MenuItem value="3">نامشخص</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
+            <FormControl fullWidth>
+              <InputLabel id="status-select-label">وضعیت</InputLabel>
+              <Select
+                labelId="status-select-label"
+                id="status-select"
+                value={selectedCard.status || ''}
+                onChange={(e) => setSelectedCard({ ...selectedCard, status: e.target.value })}
+                label="وضعیت"
+              >
+                <MenuItem value="1">تکمیل شده</MenuItem>
+                <MenuItem value="2">نیاز به تکمیل</MenuItem>
+                <MenuItem value="3">نامشخص</MenuItem>
+              </Select>
+            </FormControl>
           )}
         </DialogContent>
         <DialogActions>
@@ -270,9 +225,9 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
             بستن
           </Button>
           <Button
-            value={cards.status}
-            onClick={handleStatusModalClose}
-            onChange={(e) => setCards({ ...cards, status: e.target.value })}
+            onClick={() => {
+              handleStatusModalClose();
+            }}
             color="primary"
           >
             اعمال

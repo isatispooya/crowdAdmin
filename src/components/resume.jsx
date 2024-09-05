@@ -32,6 +32,12 @@ const Resume = ({ cardSelected, handleNext }) => {
     setFormData(newFormData);
   };
 
+  const handleRemoveFile = (index) => () => {
+    const newFormData = [...formData];
+    newFormData[index].file = null;
+    setFormData(newFormData);
+  };
+
   const handleSwitchChange = (index) => (event) => {
     setFormData((prevFormData) => {
       const newFormData = [...prevFormData];
@@ -76,6 +82,9 @@ const Resume = ({ cardSelected, handleNext }) => {
           gap: 3,
         }}
       >
+        <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-700">لیست رزومه</h1>
+        </div>
         {formData.length > 0 ? (
           formData.map((item, index) => (
             <form key={index} className="w-full">
@@ -157,20 +166,37 @@ const Resume = ({ cardSelected, handleNext }) => {
                   }}
                 >
                   {typeof item.file === 'string' && item.file ? (
-                    <a
-                      href={`${OnRun}/${item.file}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: '#ef5350',
-                        marginTop: '10px',
-                        fontSize: '13px',
-                        display: 'block',
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
                       }}
                     >
-                      مشاهده فایل بارگذاری شده
-                      <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
-                    </a>
+                      <a
+                        href={`${OnRun}/${item.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: '#ef5350',
+                          marginTop: '10px',
+                          fontSize: '13px',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        مشاهده فایل بارگذاری شده
+                        <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
+                      </a>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={handleRemoveFile(index)}
+                        sx={{ height: 'auto', mt: '4px' }}
+                      >
+                        حذف
+                      </Button>
+                    </Box>
                   ) : (
                     <Input
                       name="file"

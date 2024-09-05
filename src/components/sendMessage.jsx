@@ -18,12 +18,10 @@ import { fetchUserMessage, sendMessage } from 'src/hook/message';
 import { useQuery, useMutation } from '@tanstack/react-query';
 
 const SendMessage = ({ cardSelected, open, onClose }) => {
-  const { data} = useQuery({
+  const { data } = useQuery({
     queryKey: ['userMessage', cardSelected],
     queryFn: () => fetchUserMessage(cardSelected),
   });
- 
-  
 
   const [messageContent, setMessageContent] = React.useState('');
   const [sendStatus, setSendStatus] = React.useState(false);
@@ -41,10 +39,7 @@ const SendMessage = ({ cardSelected, open, onClose }) => {
     setMessageContent(data?.message?.message);
   }, [data]);
 
-
-
-  console.log(cardSelected);
-
+  console.log(data);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -119,8 +114,8 @@ const SendMessage = ({ cardSelected, open, onClose }) => {
 
 SendMessage.propTypes = {
   cardSelected: PropTypes.number,
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
 };
 
 export default SendMessage;

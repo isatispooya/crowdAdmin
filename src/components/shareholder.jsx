@@ -5,12 +5,17 @@ import {
   Button,
   Divider,
   FormControlLabel,
+  IconButton,
   Switch,
   TextField,
   Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import DeleteIcon from '@mui/icons-material/Delete';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddIcon from '@mui/icons-material/Add';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { fetchShareholder, sendShareholder } from 'src/hook/shareholder';
@@ -28,11 +33,14 @@ const singleFile = {
 const Shareholder = ({ handleNext, cardSelected }) => {
   const [formSections, setFormSections] = useState([singleFile]);
   const [fetchedData, setFetchedData] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
 
   const { data, status } = useQuery({
     queryKey: ['shareholder', cardSelected],
     queryFn: () => fetchShareholder(cardSelected),
   });
+
   const mutation = useMutation({
     mutationKey: ['set management'],
     mutationFn: (sections) => sendShareholder(cardSelected, sections),
@@ -54,11 +62,17 @@ const Shareholder = ({ handleNext, cardSelected }) => {
     setFormSections([...formSections, { ...singleFile }]);
   };
 
-  const handleRemoveSection = (index) => {
-    if (formSections.length <= 1) {
-      return;
+  const handleRemoveSection = () => {
+    if (deleteIndex !== null) {
+      setFormSections(formSections.filter((_, i) => i !== deleteIndex));
+      setDeleteIndex(null);
     }
-    setFormSections(formSections.filter((_, i) => i !== index));
+    setOpenDialog(false);
+  };
+
+  const handleOpenDialog = (index) => {
+    setDeleteIndex(index);
+    setOpenDialog(true);
   };
 
   const handleChange = (index, input, value) => {
@@ -70,119 +84,117 @@ const Shareholder = ({ handleNext, cardSelected }) => {
 
   const handleSubmit = () => {
     mutation.mutateAsync(formSections);
-    console.log(formSections);
     handleNext();
   };
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '80vh',
-        padding: '20px',
+        padding: '0 16px',
       }}
     >
       <Box
         sx={{
           width: '100%',
           maxWidth: '900px',
-          padding: 4,
+          maxHeight: '80vh',
+          padding: 3,
           backgroundColor: '#ffffff',
           borderRadius: '16px',
-          boxShadow: '0px 15px 30px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 3,
+          gap: 2,
+          marginTop: 3,
+          overflowY: 'auto',
         }}
       >
-        <Typography variant="h5" sx={{ marginBottom: 3, color: '#333', fontWeight: 600 }}>
-          مدیریت سهامداران
-        </Typography>
+        <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-700">سهام داران</h1>
+        </div>
 
         {formSections && formSections.length > 0 ? (
           formSections.map((section, sectionIndex) => (
-            <Box key={sectionIndex} sx={{ width: '100%', marginBottom: 4 }}>
+            <form key={sectionIndex} className="w-full">
               <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  gap: 3,
-                  marginBottom: 2,
-                  alignItems: 'flex-start',
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' },
+                  gap: 2,
+                  marginBottom: 4,
+                  boxShadow: 6,
+                  padding: 6,
+                  position: 'relative',
                 }}
               >
-                <Box sx={{ flex: 1 }}>
-                  <TextField
-                    id={`name-${sectionIndex}`}
-                    label="نام و نام خانوادگی"
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      '& .MuiInputBase-root': { borderRadius: '8px' },
-                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
-                    }}
-                    value={section.name}
-                    onChange={(e) => handleChange(sectionIndex, 'name', e.target.value)}
-                    disabled={section.lockName}
-                  />
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <TextField
-                    type="text"
-                    name="national_code"
-                    inputProps={{ maxLength: 10 }}
-                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                    required
-                    id={`national-code-${sectionIndex}`}
-                    label="کد ملی"
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      '& .MuiInputBase-root': { borderRadius: '8px' },
-                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
-                    }}
-                    value={section.national_code}
-                    onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
-                    disabled={section.lockNationalCode}
-                  />
-                </Box>
-                <Box sx={{ flex: 1 }}>
-                  <TextField
-                    type="text"
-                    required
-                    inputProps={{ maxLength: 10 }}
-                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                    name="percent"
-                    id={`percent-${sectionIndex}`}
-                    label="درصد"
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      '& .MuiInputBase-root': { borderRadius: '8px' },
-                      '& .MuiInputLabel-root': { fontWeight: 500, color: '#888' },
-                    }}
-                    value={section.percent}
-                    onChange={(e) => handleChange(sectionIndex, 'percent', e.target.value)}
-                    disabled={section.lockPercent}
-                  />
-                </Box>
+                <TextField
+                  id={`name-${sectionIndex}`}
+                  label="نام و نام خانوادگی"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.name}
+                  onChange={(e) => handleChange(sectionIndex, 'name', e.target.value)}
+                  disabled={section.lockName}
+                />
+                <TextField
+                  type="text"
+                  name="national_code"
+                  inputProps={{ maxLength: 10 }}
+                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                  required
+                  id={`national-code-${sectionIndex}`}
+                  label="کد ملی"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.national_code}
+                  onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
+                  disabled={section.lockNationalCode}
+                />
+                <TextField
+                  type="text"
+                  required
+                  inputProps={{ maxLength: 10 }}
+                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                  name="percent"
+                  id={`percent-${sectionIndex}`}
+                  label="درصد"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.percent}
+                  onChange={(e) => handleChange(sectionIndex, 'percent', e.target.value)}
+                  disabled={section.lockPercent}
+                />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={section.lock}
+                      onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
+                    />
+                  }
+                  label="وضعیت"
+                  sx={{ gridColumn: 'span 3', alignSelf: 'center' }}
+                />
+                {formSections.length > 1 && (
+                  <IconButton
+                    color="error"
+                    sx={{ position: 'absolute', top: 0, right: 0 }}
+                    onClick={() => handleOpenDialog(sectionIndex)}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                )}
               </Box>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={section.lock}
-                    onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
-                  />
-                }
-                label="وضعیت"
-                sx={{ alignSelf: 'center', color: '#555' }}
-              />
+
               {sectionIndex < formSections.length - 1 && <Divider sx={{ marginY: 4 }} />}
-            </Box>
+            </form>
           ))
         ) : (
           <Typography variant="body1" color="textSecondary">
@@ -194,12 +206,12 @@ const Shareholder = ({ handleNext, cardSelected }) => {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 3,
+            gap: 2,
             marginTop: 3,
             width: '100%',
           }}
         >
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+          <div className="flex justify-center gap-3">
             <Button
               variant="outlined"
               startIcon={<AddIcon />}
@@ -207,38 +219,11 @@ const Shareholder = ({ handleNext, cardSelected }) => {
               sx={{
                 width: '40%',
                 textTransform: 'none',
-                borderRadius: '8px',
-                color: '#1976d2',
-                borderColor: '#1976d2',
-                '&:hover': {
-                  borderColor: '#1976d2',
-                  backgroundColor: 'rgba(25, 118, 210, 0.1)',
-                },
               }}
             >
               افزودن
             </Button>
-            {formSections.length > 1 && (
-              <Button
-                variant="outlined"
-                startIcon={<DeleteIcon />}
-                onClick={() => handleRemoveSection(formSections.length - 1)}
-                sx={{
-                  width: '40%',
-                  textTransform: 'none',
-                  borderRadius: '8px',
-                  color: '#d32f2f',
-                  borderColor: '#d32f2f',
-                  '&:hover': {
-                    borderColor: '#d32f2f',
-                    backgroundColor: 'rgba(211, 47, 47, 0.1)',
-                  },
-                }}
-              >
-                حذف
-              </Button>
-            )}
-          </Box>
+          </div>
 
           <Button
             type="button"
@@ -246,12 +231,8 @@ const Shareholder = ({ handleNext, cardSelected }) => {
             color="primary"
             sx={{
               width: '100%',
-              py: 1.5,
-              px: 3,
-              borderRadius: '8px',
-              textTransform: 'none',
-              fontWeight: 600,
-              boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+              py: 1,
+              px: 2,
             }}
             onClick={handleSubmit}
           >
@@ -259,7 +240,20 @@ const Shareholder = ({ handleNext, cardSelected }) => {
           </Button>
         </Box>
       </Box>
-    </Box>
+
+      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+        <DialogTitle sx={{ textAlign: 'center' }}>تأیید حذف</DialogTitle>
+        <DialogContent>
+          <Typography>آیا مطمئن هستید که می‌خواهید این بخش را حذف کنید؟</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDialog(false)}>لغو</Button>
+          <Button onClick={handleRemoveSection} color="error">
+            حذف
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 };
 
