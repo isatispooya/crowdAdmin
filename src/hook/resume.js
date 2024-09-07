@@ -32,7 +32,7 @@ export const sendResume = async (id, data) => {
       form.append(element.national_code, element.file);
     }
 
-    const response = await axios.patch(url, form, {
+    const response = await axios.post(url, form, {
       headers: {
         Authorization: `Bearer ${access}`,
         'Content-Type': 'multipart/form-data',

@@ -7,19 +7,20 @@ import Chip from '@mui/material/Chip';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CardStatus = ({ card, openStatusModal, cardSelected }) => {
-  const { data, status } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['shareholder', cardSelected],
     queryFn: () => fetchStatus(cardSelected),
   });
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    if (status === 'success' && data && data.manager) {
-      setFormData(data.manager.map((item) => ({ ...item, lock: item.lock || false })));
-    } else if (status === 'error') {
+    if (isSuccess === 'success' && data && data.manager) {
+
+      setFormData(data.manager.map((item) => ({ ...item})));
+    } else if (isSuccess === 'error') {
       console.error('Failed to fetch resume data');
     }
-  }, [data, status]);
+  }, [data, isSuccess]);
 
   const getStatusChip = (statusCard, onClick) => {
     const iconStyle = { fontSize: '18px' };

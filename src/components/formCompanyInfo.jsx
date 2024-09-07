@@ -1405,7 +1405,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                               display: 'block',
                             }}
                           >
-                            لیست دایی ها و بدهی ها:
+                            لیست دارایی ها و بدهی ها:
                           </FormLabel>
                           {typeof localData.assets_and_liabilities === 'string' ? (
                             <Box

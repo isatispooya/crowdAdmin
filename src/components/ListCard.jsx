@@ -20,7 +20,7 @@ import ConfirmDeleteModal from './ConfirmDeleteModal';
 import SendMessage from './sendMessage';
 import CardStatus from './cardStatus';
 
-const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
+const CardList = ({ handleNext }) => {
   const [cards, setCards] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
@@ -53,7 +53,7 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
   }, [access]);
 
   const handleCardClick = (id) => {
-    setCardSelected(id);
+    setSelectedCardId(id);
     handleNext();
   };
 
@@ -72,6 +72,7 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
   const openStatusModal = (card) => {
     setSelectedCard(card);
     setStatusModalOpen(true);
+    console.log();
   };
 
   const handleDeleteClick = async () => {
@@ -83,9 +84,8 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
         },
       });
       setCards((prevCards) => prevCards.filter((card) => card.id !== selectedCardId));
-      console.log(`Card with id: ${selectedCardId} deleted successfully.`);
     } catch (error) {
-      console.error('Error deleting card:', error);
+      console.error(error);
     } finally {
       setDeleteModalOpen(false);
       setSelectedCardId(null);
@@ -107,32 +107,36 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
   };
 
   return (
-    <div className="p-8 bg-transparent min-h-screen flex justify-center items-start">
-      <div className="bg-white shadow-2xl rounded-3xl p-10 max-w-7xl w-full">
-        <div className="bg-gray-200 text-white rounded-t-3xl p-6 text-center">
-          <h1 className="text-5xl font-bold text-gray-700">لیست کارت‌ها</h1>
+    <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
+      <div className="bg-white shadow-2xl rounded-3xl p-6 sm:p-8 lg:p-10 max-w-7xl w-full">
+        <div className="bg-gray-200 text-white rounded-t-3xl p-4 sm:p-6 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-700">
+            لیست کارت‌ها
+          </h1>
         </div>
-        <div className="p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+        <div className="p-4 sm:p-6 lg:p-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {cards.length > 0 ? (
               cards.map((card) => (
                 <div
                   key={card.id}
-                  className="bg-white shadow-lg rounded-2xl p-6 flex flex-col justify-between items-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 min-w-[280px] max-w-[320px] h-[350px]"
+                  className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 flex flex-col justify-between items-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 min-w-[240px] max-w-[320px] h-auto"
                   tabIndex={0}
                   role="button"
                   aria-label={`View card ${card.company_name}`}
                 >
-                  <div className="flex flex-col items-center flex-grow space-y-6">
-                    <h2 className="text-2xl font-bold text-gray-800">{card.company_name}</h2>
-                    <div className="flex flex-col justify-center items-center space-y-4">
-                      <p className="text-base font-medium text-gray-700">
+                  <div className="flex flex-col items-center flex-grow space-y-4 sm:space-y-5">
+                    <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+                      {card.company_name}
+                    </h2>
+                    <div className="flex flex-col justify-center items-center space-y-2 sm:space-y-3">
+                      <p className="text-sm sm:text-base font-medium text-gray-700">
                         شناسه: {card.nationalid}
                       </p>
-                      <p className="text-base font-medium text-gray-700 ">
+                      <p className="text-sm sm:text-base font-medium text-gray-700">
                         سرمایه: {formatNumber(card.registered_capital)}
                       </p>
-                      <p className="text-base font-medium text-gray-700">
+                      <p className="text-sm sm:text-base font-medium text-gray-700">
                         شماره ثبت: {card.registration_number}
                       </p>
                     </div>
@@ -142,7 +146,7 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
                       card={card}
                     />
                   </div>
-                  <div className="flex justify-center gap-4 mt-6">
+                  <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mt-4">
                     <Tooltip title="مشاهده و ویرایش">
                       <Button
                         variant="contained"
@@ -164,14 +168,14 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
                       </Button>
                     </Tooltip>
                     <TbMessagePlus
-                      style={{ fontSize: '28px', cursor: 'pointer' }}
+                      style={{ fontSize: '24px', cursor: 'pointer' }}
                       onClick={(event) => openSendMessageModal(event, card.id)}
                     />
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-center text-gray-600 text-xl">هیچ کارتی موجود نیست</p>
+              <p className="text-center text-gray-600 text-lg sm:text-xl">هیچ کارتی موجود نیست</p>
             )}
           </div>
         </div>
@@ -195,8 +199,8 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
         onClose={handleStatusModalClose}
         PaperProps={{
           style: {
-            maxWidth: '600px',
-            width: '90%',
+            maxWidth: '50%',
+            width: '50%',
           },
         }}
       >
@@ -239,9 +243,7 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
 };
 
 CardList.propTypes = {
-  setCardSelected: PropTypes.func.isRequired,
   handleNext: PropTypes.func.isRequired,
-  cardSelected: PropTypes.number,
 };
 
 export default CardList;
