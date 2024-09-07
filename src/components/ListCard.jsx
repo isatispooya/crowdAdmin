@@ -72,41 +72,61 @@ const CardList = ({ setCardSelected, handleNext }) => {
   const getStatusChip = (status) => {
     const iconStyle = { fontSize: '18px' };
     switch (status) {
-      case 'waiting':
+      case '1':
         return (
           <Chip
             icon={<FaClock style={iconStyle} />}
-            label="در انتظار"
+            label="بررسی شرکت"
             color="warning"
             variant="outlined"
             style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
           />
         );
-      case 'okay':
+      case '2':
         return (
           <Chip
             icon={<FaCheckCircle style={iconStyle} />}
-            label="تکمیل شده"
-            color="success"
+            label="بررسی مدیران"
+       color="warning"
             variant="outlined"
             style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
           />
         );
-      case 'editing':
+      case '3':
         return (
           <Chip
             icon={<FaQuestionCircle style={iconStyle} />}
-            label="نیاز به تکمیل"
-            color="default"
+            label="بررسی  مدیران"
+            color="warning"
             variant="outlined"
             style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
           />
         );
+        case '4':
+          return (
+            <Chip
+              icon={<FaQuestionCircle style={iconStyle} />}
+              label="بررسی سهامداران"
+            color="warning"
+            variant="outlined"
+              style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
+            />
+          );
+          case '5':
+          return (
+            <Chip
+              icon={<FaQuestionCircle style={iconStyle} />}
+              label="بررسی اعتبارسنجی"
+            color="warning"
+            variant="outlined"
+              style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
+            />
+          );
       default:
         return (
           <Chip
             icon={<FaQuestionCircle style={iconStyle} />}
-            label="نامشخص"
+            label="نامشخص "
             color="default"
             variant="outlined"
             style={{ borderRadius: '20px', fontWeight: 'bold', margin: '2px', padding: '4px 8px' }}
