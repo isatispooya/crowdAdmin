@@ -3,7 +3,6 @@ import { Stepper, Step, StepLabel, Button } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import CardList from './ListCard';
 import FormCompanyInfo from './formCompanyInfo';
-import SendMessage from './sendMessage';
 import Fildemnager from './fildemaneger';
 import Shareholder from './shareholder';
 import Resume from './resume';
@@ -15,7 +14,6 @@ const Sterpercrowd = () => {
   const steps = [
     'انتخاب کارت ',
     'ویرایش و مشاهده کارت',
-    'ارسال پیام به کاربر',
     'مدیران',
     'رزومه',
     'سهامداران',
@@ -43,23 +41,22 @@ const Sterpercrowd = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
         return (
           <div>
-            <CardList setCardSelected={setCardSelected} handleNext={handleNext} />
+            <CardList setCardSelected={setCardSelected} cardSelected={cardSelected} handleNext={handleNext} />
           </div>
         );
       case 1:
         return <FormCompanyInfo handleNext={handleNext} cardSelected={cardSelected} />;
       case 2:
-        return <SendMessage cardSelected={cardSelected} handleNext={handleNext} />;
-      case 3:
         return <Fildemnager handleNext={handleNext} cardSelected={cardSelected} />;
-      case 4:
+      case 3:
         return <Resume handleNext={handleNext} cardSelected={cardSelected} />;
-      case 5:
+      case 4:
         return <Shareholder handleNext={handleNext} cardSelected={cardSelected} />;
       default:
         return (

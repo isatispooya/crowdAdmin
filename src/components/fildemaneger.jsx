@@ -6,21 +6,40 @@ import {
   Divider,
   FormControl,
   FormControlLabel,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
   Switch,
   TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import DeleteIcon from '@mui/icons-material/Delete';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddIcon from '@mui/icons-material/Add';
 import { fetchManager, sendManager } from 'src/hook/manager';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 const Fildemnager = ({ handleNext, cardSelected }) => {
-  const [formSections, setFormSections] = useState([]);
+  const [formSections, setFormSections] = useState([
+    {
+      name: '',
+      position: '',
+      national_code: '',
+      national_id: '',
+      phone: '',
+      representative: '',
+      is_legal: false,
+      is_obliged: false,
+    },
+  ]);
   const [fetchedData, setFetchedData] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
 
   const { data, status } = useQuery({
     queryKey: ['userMessage', cardSelected],
@@ -31,26 +50,26 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
     mutationKey: ['set management'],
     mutationFn: (sections) => sendManager(cardSelected, sections),
   });
-  
-  // console.log(data , "12233465")
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const singleFile = {
-    name: '',
-    position: '',
-    national_code: '',
-    national_id: '',
-    phone: '',
-    representative: '',
-    is_legal: false,
-    is_obliged: false,
-  };
 
   useEffect(() => {
     if (status === 'success' && data) {
-      setFetchedData(data.data || [singleFile]);
+      const fetchedSections = data.data.length
+        ? data.data
+        : [
+            {
+              name: '',
+              position: '',
+              national_code: '',
+              national_id: '',
+              phone: '',
+              representative: '',
+              is_legal: false,
+              is_obliged: false,
+            },
+          ];
+      setFetchedData(fetchedSections);
     }
-  }, [data, singleFile, status]);
+  }, [data, status]);
 
   useEffect(() => {
     if (fetchedData.length) {
@@ -67,17 +86,38 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
     { type: false, title: 'خیر' },
     { type: true, title: 'بله' },
   ];
-   
-  
+
   const handleAddSection = () => {
-    setFormSections([...formSections, { ...singleFile }]);
+    setFormSections([
+      ...formSections,
+      {
+        name: '',
+        position: '',
+        national_code: '',
+        national_id: '',
+        phone: '',
+        representative: '',
+        is_legal: false,
+        is_obliged: false,
+      },
+    ]);
   };
 
   const handleRemoveSection = (index) => {
-    if (formSections.length <= 1) {
-      return;
+    setSelectedIndex(index);
+    setOpenModal(true);
+  };
+
+  const confirmRemoveSection = () => {
+    if (selectedIndex !== null) {
+      setFormSections(formSections.filter((_, i) => i !== selectedIndex));
     }
-    setFormSections(formSections.filter((_, i) => i !== index));
+    setOpenModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+    setSelectedIndex(null);
   };
 
   const handleChange = (index, input, value) => {
@@ -89,14 +129,8 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
 
   const handleSubmit = () => {
     mutation.mutateAsync(formSections);
-    console.log(formSections); 
     handleNext();
-
   };
-  
-
-
-
 
   return (
     <div
@@ -123,8 +157,17 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
           marginTop: 3,
         }}
       >
-        {formSections.length > 0 ? (
-          formSections.map((section, sectionIndex) => (
+        <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-700">اطلاعات مدیران</h1>
+        </div>
+        <Box
+          sx={{
+            width: '100%',
+            maxHeight: '60vh',
+            overflowY: 'auto',
+          }}
+        >
+          {formSections.map((section, sectionIndex) => (
             <form key={sectionIndex} className="w-full">
               <Box
                 sx={{
@@ -132,6 +175,9 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
                   gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
                   gap: 2,
                   marginBottom: 4,
+                  boxShadow: 6,
+                  padding: 6,
+                  position: 'relative',
                 }}
               >
                 <TextField
@@ -248,14 +294,21 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
                   label="وضعیت"
                   sx={{ alignSelf: 'center' }}
                 />
+                {formSections.length > 1 && (
+                  <IconButton
+                    color="error"
+                    sx={{ position: 'absolute', top: 0, right: 0 }}
+                    onClick={() => handleRemoveSection(sectionIndex)}
+                  >
+                    <HighlightOffIcon />
+                  </IconButton>
+                )}
               </Box>
 
               {sectionIndex < formSections.length - 1 && <Divider sx={{ marginY: 4 }} />}
             </form>
-          ))
-        ) : (
-          <p>No data available</p>
-        )}
+          ))}
+        </Box>
 
         <Box
           sx={{
@@ -276,21 +329,8 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
                 textTransform: 'none',
               }}
             >
-              افزودن
+              افزودن فرم جدید
             </Button>
-            {formSections.length > 1 && (
-              <Button
-                variant="outlined"
-                startIcon={<DeleteIcon />}
-                onClick={() => handleRemoveSection(formSections.length - 1)}
-                sx={{
-                  width: '40%',
-                  textTransform: 'none',
-                }}
-              >
-                حذف
-              </Button>
-            )}
           </div>
 
           <Button
@@ -307,6 +347,30 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
             تایید
           </Button>
         </Box>
+
+        <Dialog
+          open={openModal}
+          onClose={handleCloseModal}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title" sx={{ textAlign: 'center' }}>
+            تایید حذف
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              آیا مطمئن هستید که می‌خواهید این بخش را حذف کنید؟
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseModal} color="primary">
+              انصراف
+            </Button>
+            <Button onClick={confirmRemoveSection} color="error" autoFocus>
+              حذف
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </div>
   );

@@ -14,27 +14,36 @@ const Resume = ({ cardSelected, handleNext }) => {
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    if (status === 'success' && data) {
-      setFormData(data.manager.map((item) => ({ ...item })));
+    if (status === 'success' && data && data.manager) {
+      setFormData(data.manager.map((item) => ({ ...item, lock: item.lock || false })));
+    } else if (status === 'error') {
+      console.error('Failed to fetch resume data');
     }
   }, [data, status]);
 
   const mutation = useMutation({
     mutationKey: ['set management'],
-    mutationFn: (sections) => sendResume(cardSelected, sections),
+    mutationFn: () => sendResume(cardSelected, formData),
   });
 
-  const handleFileChange = (index) => (event) => {
-  const selectedFile = event.target.files[0];
-  const newFormData = [...formData];
-  newFormData[index].file = selectedFile;  
-  setFormData(newFormData);
-};
+  const handleFileChange = (file, index) => {
+    const newFormData = [...formData];
+    newFormData[index].file = file;
+    setFormData(newFormData);
+  };
+
+  const handleRemoveFile = (index) => () => {
+    const newFormData = [...formData];
+    newFormData[index].file = null;
+    setFormData(newFormData);
+  };
 
   const handleSwitchChange = (index) => (event) => {
-    const newFormData = [...formData];
-    newFormData[index].lock = event.target.checked;
-    setFormData(newFormData);
+    setFormData((prevFormData) => {
+      const newFormData = [...prevFormData];
+      newFormData[index].lock = event.target.checked;
+      return newFormData;
+    });
   };
 
   const handleTextFieldChange = (index, field) => (event) => {
@@ -44,10 +53,11 @@ const Resume = ({ cardSelected, handleNext }) => {
   };
 
   const handleButtonClick = () => {
-    mutation.mutate(formData);
-    // handleNext();
-    console.log('Form data sent:', formData);
+    mutation.mutate();
+    handleNext();
   };
+
+  console.log(formData);
 
   return (
     <div
@@ -57,7 +67,6 @@ const Resume = ({ cardSelected, handleNext }) => {
         alignItems: 'center',
         minHeight: '50vh',
         padding: '0 16px',
-        backgroundColor: '#f5f5f5',
       }}
     >
       <Box
@@ -73,6 +82,9 @@ const Resume = ({ cardSelected, handleNext }) => {
           gap: 3,
         }}
       >
+        <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-700">لیست رزومه</h1>
+        </div>
         {formData.length > 0 ? (
           formData.map((item, index) => (
             <form key={index} className="w-full">
@@ -87,7 +99,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={item.lock || false}
+                      checked={item.lock}
                       onChange={handleSwitchChange(index)}
                       name="customSwitch"
                       color="primary"
@@ -116,6 +128,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                     label="نام و نام خانوادگی"
                     variant="outlined"
                     fullWidth
+                    disabled
                     sx={{ mb: 2 }}
                     onChange={handleTextFieldChange(index, 'name')}
                   />
@@ -137,6 +150,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                     label="کد ملی"
                     variant="outlined"
                     fullWidth
+                    disabled
                     sx={{ mb: 2 }}
                     value={item.national_code}
                     onChange={handleTextFieldChange(index, 'national_code')}
@@ -152,27 +166,44 @@ const Resume = ({ cardSelected, handleNext }) => {
                   }}
                 >
                   {typeof item.file === 'string' && item.file ? (
-                    <a
-                      href={`${OnRun}/${item.file}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: '#ef5350',
-                        marginTop: '10px',
-                        fontSize: '13px',
-                        display: 'block',
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
                       }}
                     >
-                      مشاهده فایل بارگذاری شده
-                      <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
-                    </a>
+                      <a
+                        href={`${OnRun}/${item.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: '#ef5350',
+                          marginTop: '10px',
+                          fontSize: '13px',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        مشاهده فایل بارگذاری شده
+                        <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
+                      </a>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={handleRemoveFile(index)}
+                        sx={{ height: 'auto', mt: '4px' }}
+                      >
+                        حذف
+                      </Button>
+                    </Box>
                   ) : (
                     <Input
                       name="file"
                       type="file"
                       id="file-upload-resume"
                       sx={{ marginTop: '8px' }}
-                      onChange={handleFileChange(index,'file')}
+                      onChange={(e) => handleFileChange(e.target.files[0], index)}
                     />
                   )}
                 </Box>
@@ -180,7 +211,7 @@ const Resume = ({ cardSelected, handleNext }) => {
             </form>
           ))
         ) : (
-          <div>Loading data or no data available.</div>
+          <div>درحال بارگزاری</div>
         )}
 
         <Button variant="contained" color="primary" onClick={handleButtonClick}>
