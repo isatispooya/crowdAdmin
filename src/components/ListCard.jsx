@@ -72,7 +72,8 @@ const CardList = ({ handleNext }) => {
   const openStatusModal = (card) => {
     setSelectedCard(card);
     setStatusModalOpen(true);
-    console.log();
+    setSelectedCardId(card.id);
+
   };
 
   const handleDeleteClick = async () => {
@@ -104,6 +105,7 @@ const CardList = ({ handleNext }) => {
 
   const handleStatusModalClose = () => {
     setStatusModalOpen(false);
+    setSelectedCardId(null);
   };
 
   return (
@@ -217,9 +219,10 @@ const CardList = ({ handleNext }) => {
                 onChange={(e) => setSelectedCard({ ...selectedCard, status: e.target.value })}
                 label="وضعیت"
               >
-                <MenuItem value="1">تکمیل شده</MenuItem>
-                <MenuItem value="2">نیاز به تکمیل</MenuItem>
-                <MenuItem value="3">نامشخص</MenuItem>
+                <MenuItem value="1">برسی شرکت</MenuItem>
+                <MenuItem value="2">برسی مدیران</MenuItem>
+                <MenuItem value={'3' || '4' || '5'}>برسی سهامداران</MenuItem>
+                <MenuItem>نامشخص</MenuItem>
               </Select>
             </FormControl>
           )}
