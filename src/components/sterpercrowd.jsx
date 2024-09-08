@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Stepper, Step, StepLabel, Button } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import CardList from './ListCard';
-import FormCompanyInfo from './formCompanyInfo';
 import Fildemnager from './fildemaneger';
 import Shareholder from './shareholder';
 import Resume from './resume';
 import OtherCases from './OtherCases';
 import Validation from './validation';
 import History from './history';
+import FormCompanyInfo from './formCompanyInfo';
 
 const Sterpercrowd = () => {
   const [activeStep, setActiveStep] = useState(0);
