@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import { getCookie } from 'src/api/cookie';
 
-const History = ({ cardSelected, handleNext }) => {
+const History = ({ cardSelected }) => {
   const [historyData, setHistoryData] = useState(null);
   const [file, setFile] = useState(null);
   const access = getCookie('access');
@@ -130,7 +130,15 @@ const History = ({ cardSelected, handleNext }) => {
                 </Box>
               )}
             </Box>
-            <Button onClick={handleFileUpload}>تایید</Button>
+            <Button
+              onClick={handleFileUpload}
+              fullWidth
+              variant="contained"
+              color="primary"
+              sx={{ marginTop: 2 }}
+            >
+              ارسال
+            </Button>
           </form>
         </div>
       </Box>
@@ -139,7 +147,6 @@ const History = ({ cardSelected, handleNext }) => {
 };
 
 History.propTypes = {
-  handleNext: PropTypes.func.isRequired,
   cardSelected: PropTypes.string.isRequired,
 };
 

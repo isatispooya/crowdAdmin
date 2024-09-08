@@ -20,7 +20,7 @@ import ConfirmDeleteModal from './ConfirmDeleteModal';
 import SendMessage from './sendMessage';
 import CardStatus from './cardStatus';
 
-const CardList = ({ handleNext }) => {
+const CardList = ({ handleNext,setCardSelected,cardSelected }) => {
   const [cards, setCards] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
@@ -54,6 +54,7 @@ const CardList = ({ handleNext }) => {
 
   const handleCardClick = (id) => {
     setSelectedCardId(id);
+    setCardSelected(id)
     handleNext();
   };
 
@@ -247,6 +248,8 @@ const CardList = ({ handleNext }) => {
 
 CardList.propTypes = {
   handleNext: PropTypes.func.isRequired,
+  cardSelected:PropTypes.number,
+  setCardSelected:PropTypes.func
 };
 
 export default CardList;

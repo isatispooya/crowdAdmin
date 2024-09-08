@@ -101,6 +101,8 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
         representative: '',
         is_legal: false,
         is_obliged: false,
+        lock: false,
+
       },
     ]);
   };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Stepper, Step, StepLabel, Button } from '@mui/material';
+import { Stepper, Step, StepLabel } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
 import CardList from './ListCard';
 import Fildemnager from './fildemaneger';
@@ -43,9 +43,10 @@ const Sterpercrowd = () => {
     }
   };
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };  
+
+  const handleStepClick = (index) => {
+    setActiveStep(index);
+  };
 
   const renderStepContent = (step) => {
     switch (step) {
@@ -84,37 +85,24 @@ const Sterpercrowd = () => {
 
   return (
     <div>
-      <Stepper sx={{ marginTop: '40px' }} activeStep={activeStep}>
+      <Stepper
+        sx={{ marginTop: '40px' }}
+        activeStep={activeStep}
+        alternativeLabel
+      >
         {steps.map((label, index) => (
-          <Step key={index}>
+          <Step
+            key={index}
+            onClick={() => handleStepClick(index)}
+            sx={{
+              cursor: 'pointer',
+            }}
+          >
             <StepLabel>{label}</StepLabel>
           </Step>
         ))}
       </Stepper>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-        <Button
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          sx={{
-            '&:hover': {
-              backgroundColor: '#90caf9',
-            },
-          }}
-        >
-          قبلی
-        </Button>
-        <Button
-          onClick={handleNext}
-          sx={{
-            '&:hover': {
-              backgroundColor: '#90caf9',
-            },
-          }}
-        >
-          {activeStep === steps.length - 1 ? 'اتمام' : 'بعدی'}
-        </Button>
-      </div>
       <div style={{ position: 'relative', minHeight: '300px' }}>
         {renderStepContent(activeStep)}
       </div>

@@ -116,7 +116,7 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.claims_status}`}
-                        onClick={(e) => e.preventDefault()}
+              
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -176,12 +176,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                       }}
                     >
                       <Link
-                        href={
-                          localData.Lock_latest_insurance_staf
-                            ? null
-                            : `${OnRun}/${localData.latest_insurance_staf}`
-                        }
-                        onClick={(e) => localData.Lock_latest_insurance_staf && e.preventDefault()}
+                        href={`${OnRun}/${localData.latest_insurance_staf}`}
+                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -244,12 +240,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                       }}
                     >
                       <Link
-                        href={
-                          localData.Lock_assets_and_liabilities
-                            ? null
-                            : `${OnRun}/${localData.assets_and_liabilities}`
-                        }
-                        onClick={(e) => localData.Lock_assets_and_liabilities && e.preventDefault()}
+                        href={`${OnRun}/${localData.assets_and_liabilities}`}
+                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -314,8 +306,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                       }}
                     >
                       <Link
-                        href={localData.Lock_statutes ? null : `${OnRun}/${localData.statutes}`}
-                        onClick={(e) => localData.Lock_statutes && e.preventDefault()}
+                        href={`${OnRun}/${localData.statutes}`}
+                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -332,7 +324,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                       name="statutes"
                       type="file"
                       onChange={(e) => setLocalData({ ...localData, statutes: e.target.files[0] })}
-                      disabled={localData.Lock_statutes}
                       sx={{
                         borderRadius: '8px',
                         width: '100%',
@@ -374,12 +365,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                       }}
                     >
                       <Link
-                        href={
-                          localData.Lock_bank_account_turnover
-                            ? null
-                            : `${OnRun}/${localData.bank_account_turnover}`
-                        }
-                        onClick={(e) => localData.Lock_bank_account_turnover && e.preventDefault()}
+                        href={`${OnRun}/${localData.bank_account_turnover}`}
+                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -405,7 +392,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                           bank_account_turnover: e.target.files[0],
                         })
                       }
-                      disabled={localData.Lock_bank_account_turnover}
                       sx={{
                         borderRadius: '8px',
                         width: '100%',
@@ -447,11 +433,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                       }}
                     >
                       <Link
-                        href={
-                          localData.Lock_announcement_of_changes_capital
-                            ? null
-                            : `${OnRun}/${localData.announcement_of_changes_capital}`
-                        }
+                        href={`${OnRun}/${localData.announcement_of_changes_capital}`}
+                        
                         onClick={(e) =>
                           localData.Lock_announcement_of_changes_capital && e.preventDefault()
                         }
@@ -530,14 +513,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                       }}
                     >
                       <Link
-                        href={
-                          localData.Lock_announcement_of_changes_managers
-                            ? null
-                            : `${OnRun}/${localData.announcement_of_changes_managers}`
-                        }
-                        onClick={(e) =>
-                          localData.Lock_announcement_of_changes_managers && e.preventDefault()
-                        }
+                        href={`${OnRun}/${localData.announcement_of_changes_managers}`}
+                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -590,11 +567,12 @@ const OtherCases = ({ cardSelected, handleNext }) => {
 
             <Button
               onClick={handleButtonClick}
+              fullWidth
               variant="contained"
               color="primary"
               sx={{ marginTop: 2 }}
             >
-              ارسال
+              تایید
             </Button>
           </form>
         </div>

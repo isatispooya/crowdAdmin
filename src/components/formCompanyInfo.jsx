@@ -1196,12 +1196,13 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
             <div className="flex justify-center mt-8">
               <Button
                 type="button"
+                fullWidth
                 variant="contained"
                 color="primary"
                 className="py-2 px-6 rounded-full shadow-lg"
                 onClick={handleSubmit}
               >
-                ارسال به کاربر
+                تایید
               </Button>
             </div>
 
