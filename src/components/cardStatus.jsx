@@ -4,88 +4,73 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchStatus } from 'src/hook/status';
 import { useEffect, useState } from 'react';
 import Chip from '@mui/material/Chip';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CardStatus = ({ card, openStatusModal, cardSelected }) => {
-  const { data, status } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['shareholder', cardSelected],
     queryFn: () => fetchStatus(cardSelected),
   });
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    if (status === 'success' && data && data.manager) {
+    if (isSuccess === 'success' && data && data.manager) {
       setFormData(data.manager.map((item) => ({ ...item, lock: item.lock || false })));
-    } else if (status === 'error') {
+    } else if (isSuccess === 'error') {
       console.error('Failed to fetch resume data');
     }
-  }, [data, status]);
+  }, [data, isSuccess]);
 
-  const getStatusChip = (statusCard, onClick) => {
+  const getStatusChip = (status) => {
     const iconStyle = { fontSize: '18px' };
-
-    const chipStyle = {
+    const chipStyles = {
       borderRadius: '20px',
       fontWeight: 'bold',
       margin: '2px',
       padding: '4px 8px',
     };
 
-    const handleClick = () => {
-      if (onClick) onClick(statusCard);
-    };
-
-    switch (statusCard) {
+    switch (status) {
       case '1':
         return (
           <Chip
-            startDecorator={<FaClock style={iconStyle} />}
-            label="در انتظار"
+            icon={<FaClock style={iconStyle} />}
+            label="بررسی شرکت"
             color="warning"
-            style={chipStyle}
-            onClick={handleClick}
-          >
-            <ArrowDropDownIcon />
-          </Chip>
+            variant="outlined"
+            style={chipStyles}
+          />
         );
       case '2':
         return (
-          <>
-            <Chip
-              startDecorator={<FaCheckCircle style={iconStyle} />}
-              label="تکمیل شده"
-              color="success"
-              style={chipStyle}
-              onClick={handleClick}
-            />
-            <ArrowDropDownIcon />
-          </>
+          <Chip
+            icon={<FaCheckCircle style={iconStyle} />}
+            label="بررسی مدیران"
+            color="success"
+            variant="outlined"
+            style={chipStyles}
+          />
         );
       case '3':
+      case '4':
+      case '5':
         return (
-          <>
-            <Chip
-              startDecorator={<FaQuestionCircle style={iconStyle} />}
-              label="نیاز به تکمیل"
-              color="default"
-              style={chipStyle}
-              onClick={handleClick}
-            />
-            <ArrowDropDownIcon />
-          </>
+          <Chip
+            icon={<FaQuestionCircle style={iconStyle} />}
+            label="بررسی سهامداران"
+            color="info"
+            variant="outlined"
+            style={chipStyles}
+          />
         );
       default:
         return (
-          <>
-            <Chip
-              startDecorator={<FaQuestionCircle style={iconStyle} />}
-              label="نامشخص"
-              color="default"
-              style={chipStyle}
-              onClick={handleClick}
-            />
-            <ArrowDropDownIcon />
-          </>
+          <Chip
+            icon={<FaQuestionCircle style={iconStyle} />}
+            label="نامشخص"
+            color="default"
+            variant="outlined"
+            style={chipStyles}
+          />
         );
     }
   };

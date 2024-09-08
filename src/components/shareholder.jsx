@@ -27,6 +27,7 @@ const singleFile = {
   lockName: false,
   lockNationalCode: false,
   lockPercent: false,
+  phone: '',
   lock: false,
 };
 
@@ -115,7 +116,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-700">سهام داران</h1>
+          <h1 className="text-5xl font-bold text-gray-700">سهامداران</h1>
         </div>
 
         {formSections && formSections.length > 0 ? (
@@ -131,6 +132,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   padding: 6,
                   position: 'relative',
                 }}
+                F
               >
                 <TextField
                   id={`name-${sectionIndex}`}
@@ -140,7 +142,6 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   sx={{ mb: 2 }}
                   value={section.name}
                   onChange={(e) => handleChange(sectionIndex, 'name', e.target.value)}
-                  disabled={section.lockName}
                 />
                 <TextField
                   type="text"
@@ -155,7 +156,20 @@ const Shareholder = ({ handleNext, cardSelected }) => {
                   sx={{ mb: 2 }}
                   value={section.national_code}
                   onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
-                  disabled={section.lockNationalCode}
+                />
+                <TextField
+                  type="text"
+                  name="phone"
+                  inputProps={{ maxLength: 10 }}
+                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                  required
+                  id={`phone-${sectionIndex}`}
+                  label="شماره تلفن"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ mb: 2 }}
+                  value={section.phone}
+                  onChange={(e) => handleChange(sectionIndex, 'phone', e.target.value)}
                 />
                 <TextField
                   type="number"
@@ -209,7 +223,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
           ))
         ) : (
           <Typography variant="body1" color="textSecondary">
-            No data available
+            اطلاعاتی موجود نمیباشد
           </Typography>
         )}
 

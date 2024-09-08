@@ -6,6 +6,9 @@ import FormCompanyInfo from './formCompanyInfo';
 import Fildemnager from './fildemaneger';
 import Shareholder from './shareholder';
 import Resume from './resume';
+import OtherCases from './OtherCases';
+import Validation from './validation';
+import History from './history';
 
 const Sterpercrowd = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -15,8 +18,11 @@ const Sterpercrowd = () => {
     'انتخاب کارت ',
     'ویرایش و مشاهده کارت',
     'مدیران',
-    'رزومه',
+    'مستندات مدیران',
     'سهامداران',
+    'اعتبار سنجی',
+    'سایر موارد',
+    'سوپیشینه',
   ];
 
   const handleNext = () => {
@@ -46,7 +52,11 @@ const Sterpercrowd = () => {
       case 0:
         return (
           <div>
-            <CardList setCardSelected={setCardSelected} cardSelected={cardSelected} handleNext={handleNext} />
+            <CardList
+              setCardSelected={setCardSelected}
+              cardSelected={cardSelected}
+              handleNext={handleNext}
+            />
           </div>
         );
       case 1:
@@ -57,6 +67,12 @@ const Sterpercrowd = () => {
         return <Resume handleNext={handleNext} cardSelected={cardSelected} />;
       case 4:
         return <Shareholder handleNext={handleNext} cardSelected={cardSelected} />;
+      case 5:
+        return <Validation cardSelected={cardSelected} handleNext={handleNext} />;
+      case 6:
+        return <OtherCases cardSelected={cardSelected} handleNext={handleNext} />;
+      case 7:
+        return <History cardSelected={cardSelected} handleNext={handleNext}/>;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">

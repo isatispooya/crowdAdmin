@@ -213,9 +213,10 @@ const CardList = ({ setCardSelected, handleNext, cardSelected }) => {
                 onChange={(e) => setSelectedCard({ ...selectedCard, status: e.target.value })}
                 label="وضعیت"
               >
-                <MenuItem value="1">تکمیل شده</MenuItem>
-                <MenuItem value="2">نیاز به تکمیل</MenuItem>
-                <MenuItem value="3">نامشخص</MenuItem>
+                <MenuItem value="1">برسی شرکت</MenuItem>
+                <MenuItem value="2">برسی مدیران</MenuItem>
+                <MenuItem value={'3' || '4' || '5'}>برسی سهامداران</MenuItem>
+                <MenuItem>نامشخص</MenuItem>
               </Select>
             </FormControl>
           )}

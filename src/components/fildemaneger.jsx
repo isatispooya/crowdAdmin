@@ -35,6 +35,7 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
       representative: '',
       is_legal: false,
       is_obliged: false,
+      lock: false,
     },
   ]);
   const [fetchedData, setFetchedData] = useState([]);
@@ -65,6 +66,7 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
               representative: '',
               is_legal: false,
               is_obliged: false,
+              lock: false,
             },
           ];
       setFetchedData(fetchedSections);
@@ -214,34 +216,52 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
                   value={section.position}
                   onChange={(e) => handleChange(sectionIndex, 'position', e.target.value)}
                 />
-                <TextField
-                  type="text"
-                  name="national_code"
-                  inputProps={{ maxLength: 10 }}
-                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                  required
-                  id={`national-code-${sectionIndex}`}
-                  label="کد ملی"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={section.national_code}
-                  onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
-                />
-                <TextField
-                  type="text"
-                  required
-                  inputProps={{ maxLength: 10 }}
-                  onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-                  name="national_id"
-                  id={`national-id-${sectionIndex}`}
-                  label="کد شناسه"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={section.national_id}
-                  onChange={(e) => handleChange(sectionIndex, 'national_id', e.target.value)}
-                />
+                {!section.is_legal && (
+                  <TextField
+                    type="text"
+                    name="national_code"
+                    inputProps={{ maxLength: 10 }}
+                    onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                    required
+                    id={`national-code-${sectionIndex}`}
+                    label="کد ملی"
+                    variant="outlined"
+                    fullWidth
+                    sx={{ mb: 2 }}
+                    value={section.national_code}
+                    onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
+                  />
+                )}
+                {section.is_legal && (
+                  <>
+                    <TextField
+                      type="text"
+                      required
+                      inputProps={{ maxLength: 10 }}
+                      onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+                      name="national_id"
+                      id={`national-id-${sectionIndex}`}
+                      label="کد شناسه"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ mb: 2 }}
+                      value={section.national_id}
+                      onChange={(e) => handleChange(sectionIndex, 'national_id', e.target.value)}
+                    />
+                    <TextField
+                      type="text"
+                      required
+                      name="representative"
+                      id={`representative-${sectionIndex}`}
+                      label="نماینده"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ mb: 2 }}
+                      value={section.representative}
+                      onChange={(e) => handleChange(sectionIndex, 'representative', e.target.value)}
+                    />
+                  </>
+                )}
                 <TextField
                   type="text"
                   required
@@ -256,18 +276,7 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
                   value={section.phone}
                   onChange={(e) => handleChange(sectionIndex, 'phone', e.target.value)}
                 />
-                <TextField
-                  type="text"
-                  required
-                  name="representative"
-                  id={`representative-${sectionIndex}`}
-                  label="نماینده"
-                  variant="outlined"
-                  fullWidth
-                  sx={{ mb: 2 }}
-                  value={section.representative}
-                  onChange={(e) => handleChange(sectionIndex, 'representative', e.target.value)}
-                />
+
                 <FormControl fullWidth sx={{ mb: 2 }}>
                   <InputLabel id={`employee-label-${sectionIndex}`}>موظف</InputLabel>
                   <Select
@@ -287,8 +296,8 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={section.is_obliged}
-                      onChange={(e) => handleChange(sectionIndex, 'is_obliged', e.target.checked)}
+                      checked={section.lock}
+                      onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
                     />
                   }
                   label="وضعیت"

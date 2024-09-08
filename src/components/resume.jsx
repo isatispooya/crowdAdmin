@@ -57,8 +57,6 @@ const Resume = ({ cardSelected, handleNext }) => {
     handleNext();
   };
 
-  console.log(formData);
-
   return (
     <div
       style={{
@@ -83,7 +81,7 @@ const Resume = ({ cardSelected, handleNext }) => {
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-700">لیست رزومه</h1>
+          <h1 className="text-5xl font-bold text-gray-700">مستندات مدیران</h1>
         </div>
         {formData.length > 0 ? (
           formData.map((item, index) => (
@@ -128,34 +126,79 @@ const Resume = ({ cardSelected, handleNext }) => {
                     label="نام و نام خانوادگی"
                     variant="outlined"
                     fullWidth
-                    disabled
                     sx={{ mb: 2 }}
                     onChange={handleTextFieldChange(index, 'name')}
                   />
                 </Box>
+                {!item.is_legal && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: 2,
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <TextField
+                      type="text"
+                      name="national_code"
+                      inputProps={{ maxLength: 10 }}
+                      required
+                      label="کد ملی"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ mb: 2 }}
+                      value={item.national_code}
+                      onChange={handleTextFieldChange(index, 'national_code')}
+                    />
+                  </Box>
+                )}
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: 2,
-                    alignItems: 'flex-start',
-                  }}
-                >
-                  <TextField
-                    type="text"
-                    name="national_code"
-                    inputProps={{ maxLength: 10 }}
-                    required
-                    label="کد ملی"
-                    variant="outlined"
-                    fullWidth
-                    disabled
-                    sx={{ mb: 2 }}
-                    value={item.national_code}
-                    onChange={handleTextFieldChange(index, 'national_code')}
-                  />
-                </Box>
+                {item.is_legal && (
+                  <>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
+                        alignItems: 'flex-start',
+                      }}
+                    >
+                      <TextField
+                        type="text"
+                        required
+                        inputProps={{ maxLength: 10 }}
+                        name="national_id"
+                        label="کد شناسه"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        value={item.national_id}
+                        onChange={handleTextFieldChange(index, 'national_id')}
+                      />
+                    </Box>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 2,
+                        alignItems: 'flex-start',
+                      }}
+                    >
+                      <TextField
+                        type="text"
+                        required
+                        name="representative"
+                        label="نماینده"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                        value={item.representative}
+                        onChange={handleTextFieldChange(index, 'representative')}
+                      />
+                    </Box>
+                  </>
+                )}
 
                 <Box
                   sx={{
