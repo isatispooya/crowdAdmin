@@ -11,10 +11,15 @@ const CardStatus = ({ card, openStatusModal, cardSelected }) => {
     queryFn: () => fetchStatus(cardSelected),
   });
   const [formData, setFormData] = useState([]);
+console.log("123456789",cardSelected);
+
+
+  
 
   useEffect(() => {
     if (isSuccess === 'success' && data && data.manager) {
-      setFormData(data.manager.map((item) => ({ ...item, lock: item.lock || false })));
+
+      setFormData(data.manager.map((item) => ({ ...item})));
     } else if (isSuccess === 'error') {
       console.error('Failed to fetch resume data');
     }
@@ -74,6 +79,7 @@ const CardStatus = ({ card, openStatusModal, cardSelected }) => {
         );
     }
   };
+
 
   return (
     <div

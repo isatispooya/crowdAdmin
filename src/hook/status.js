@@ -4,10 +4,12 @@ import { getCookie } from "src/api/cookie";
 
 
 export const fetchStatus = async (id) => {
+  console.log(id);
+  
     try {
       const access = await getCookie('access');
       
-      const response = await api.get(`/api/setstatus/1/`, {
+      const response = await api.get(`/api/setstatus/${id}/`, {
         headers: {
           Authorization: `Bearer ${access}`,
           'Content-Type': 'application/json',

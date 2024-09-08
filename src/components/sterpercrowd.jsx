@@ -45,7 +45,7 @@ const Sterpercrowd = () => {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  };  
 
   const renderStepContent = (step) => {
     switch (step) {
