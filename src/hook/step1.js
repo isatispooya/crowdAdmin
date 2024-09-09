@@ -3,8 +3,6 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
 export const getStep1 = async (id) => {
-  console.log('111', id);
-
   let response;
   if (id) {
     const access = await getCookie('access');
@@ -82,14 +80,10 @@ export const getStep1 = async (id) => {
       },
     };
   }
-  console.log(response);
-
   return response;
 };
 
 export const createCart = async (data, id) => {
-  console.log(data);
-
   const formData = new FormData();
   formData.append('company_name', data.company_name || '');
   formData.append('activity_industry', data.activity_industry || '');

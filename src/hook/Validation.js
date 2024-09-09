@@ -23,23 +23,20 @@ export const fetchValidation = async (id) => {
   }
 };
 
-export const sendValidation = async (id, formData) => {
+
+
+export const sendValidation = async (id, data) => {
   try {
     const access = await getCookie('access');
     const url = `${OnRun}/api/validation/admin/${id}/`;
+    const form = new FormData();
 
-    const data = new FormData();
+    for (let index = 0; index < data.length; index += 1) {
+      const element = data[index];
+      form.append(element.national_code, element.file);
+    }
 
-    formData.forEach((item, index) => {
-      data.append(`manager[${index}][name]`, item.name || '');
-      data.append(`manager[${index}][national_code]`, item.national_code || '');
-
-      if (item.file) {
-        data.append(`manager[${index}][file]`, item.file);
-      }
-    });
-
-    const response = await axios.post(url, data, {
+    const response = await axios.post(url, form, {
       headers: {
         Authorization: `Bearer ${access}`,
         'Content-Type': 'multipart/form-data',
@@ -48,7 +45,14 @@ export const sendValidation = async (id, formData) => {
 
     return response.data;
   } catch (error) {
-    console.error('Error sending validation data:', error);
-    throw new Error('Failed to send validation data.');
+    console.error('Error sending resume data:', error);
+    throw new Error('Failed to send resume data.');
   }
 };
+
+
+
+
+
+    
+

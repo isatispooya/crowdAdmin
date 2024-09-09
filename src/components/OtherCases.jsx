@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormLabel, Input } from '@mui/material';
+import { Box, Button, FormControl, FormLabel, Input, Switch } from '@mui/material';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -44,6 +44,8 @@ const OtherCases = ({ cardSelected, handleNext }) => {
     handleNext();
   };
 
+  console.log(localData);
+
   return (
     <div
       style={{
@@ -70,7 +72,7 @@ const OtherCases = ({ cardSelected, handleNext }) => {
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-700">سایر موارد</h1>
+          <h1 className="text-2xl font-bold text-gray-700">سایر موارد</h1>
         </div>
         <div
           style={{
@@ -90,6 +92,17 @@ const OtherCases = ({ cardSelected, handleNext }) => {
               }}
             >
               <Box sx={{ marginBottom: '16px' }}>
+                <div dir="ltr">
+                  <Switch
+                    name="lock_claims_status"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="mr-4"
+                    checked={localData.lock_claims_status}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, lock_claims_status: e.target.checked })
+                    }
+                  />
+                </div>
                 <FormControl fullWidth>
                   <FormLabel
                     sx={{
@@ -116,7 +129,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.claims_status}`}
-              
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -151,6 +163,17 @@ const OtherCases = ({ cardSelected, handleNext }) => {
               </Box>
 
               <Box sx={{ marginBottom: '16px' }}>
+                <div dir="ltr">
+                  <Switch
+                    name="lock_latest_insurance_staf"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="mr-4"
+                    checked={localData.Lock_latest_insurance_staf}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, Lock_latest_insurance_staf: e.target.checked })
+                    }
+                  />
+                </div>
                 <FormControl fullWidth>
                   <FormLabel
                     sx={{
@@ -177,7 +200,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.latest_insurance_staf}`}
-                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -215,6 +237,18 @@ const OtherCases = ({ cardSelected, handleNext }) => {
               </Box>
 
               <Box sx={{ marginBottom: '16px' }}>
+                <div dir="ltr">
+                  <Switch
+                    name="lock_assets_and_liabilities"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="mr-4"
+                    checked={localData.Lock_assets_and_liabilities}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, Lock_assets_and_liabilities: e.target.checked })
+                    }
+                  />
+                </div>
+
                 <FormControl fullWidth>
                   <FormLabel
                     sx={{
@@ -241,7 +275,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.assets_and_liabilities}`}
-                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -281,6 +314,17 @@ const OtherCases = ({ cardSelected, handleNext }) => {
               </Box>
 
               <Box sx={{ marginBottom: '16px' }}>
+                <div dir="ltr">
+                  <Switch
+                    name="lock_statutes"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="mr-4"
+                    checked={localData.Lock_statutes}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, Lock_statutes: e.target.checked })
+                    }
+                  />
+                </div>
                 <FormControl fullWidth>
                   <FormLabel
                     sx={{
@@ -307,7 +351,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.statutes}`}
-                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -340,6 +383,17 @@ const OtherCases = ({ cardSelected, handleNext }) => {
               </Box>
 
               <Box sx={{ marginBottom: '16px' }}>
+                <div dir="ltr">
+                  <Switch
+                    name="lock_bank_account_turnover"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="mr-4"
+                    checked={localData.Lock_bank_account_turnover}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, Lock_bank_account_turnover: e.target.checked })
+                    }
+                  />
+                </div>
                 <FormControl fullWidth>
                   <FormLabel
                     sx={{
@@ -366,7 +420,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.bank_account_turnover}`}
-                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
@@ -408,6 +461,20 @@ const OtherCases = ({ cardSelected, handleNext }) => {
               </Box>
 
               <Box sx={{ marginBottom: '16px' }}>
+                <div dir="ltr">
+                  <Switch
+                    name="lock_announcement_of_changes_capital"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="mr-4"
+                    checked={localData.Lock_announcement_of_changes_capital}
+                    onChange={(e) =>
+                      setLocalData({
+                        ...localData,
+                        Lock_announcement_of_changes_capital: e.target.checked,
+                      })
+                    }
+                  />
+                </div>
                 <FormControl fullWidth>
                   <FormLabel
                     sx={{
@@ -434,7 +501,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.announcement_of_changes_capital}`}
-                        
                         onClick={(e) =>
                           localData.Lock_announcement_of_changes_capital && e.preventDefault()
                         }
@@ -488,6 +554,20 @@ const OtherCases = ({ cardSelected, handleNext }) => {
               </Box>
 
               <Box sx={{ marginBottom: '16px' }}>
+                <div dir="ltr">
+                  <Switch
+                    name="lock_announcement_of_changes_managers"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="mr-4"
+                    checked={localData.Lock_announcement_of_changes_managers}
+                    onChange={(e) =>
+                      setLocalData({
+                        ...localData,
+                        Lock_announcement_of_changes_managers: e.target.checked,
+                      })
+                    }
+                  />
+                </div>
                 <FormControl fullWidth>
                   <FormLabel
                     sx={{
@@ -514,7 +594,6 @@ const OtherCases = ({ cardSelected, handleNext }) => {
                     >
                       <Link
                         href={`${OnRun}/${localData.announcement_of_changes_managers}`}
-                        
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{

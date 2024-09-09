@@ -5,6 +5,7 @@ import { fetchResume, sendResume } from 'src/hook/resume';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
+import { Link } from 'react-router-dom';
 
 const Resume = ({ cardSelected, handleNext }) => {
   const { data, status } = useQuery({
@@ -78,10 +79,11 @@ const Resume = ({ cardSelected, handleNext }) => {
           display: 'flex',
           flexDirection: 'column',
           gap: 3,
+          marginTop: '40px',
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-700">مستندات مدیران</h1>
+          <h1 className="text-2xl font-bold text-gray-700">مستندات مدیران</h1>
         </div>
         {formData.length > 0 ? (
           formData.map((item, index) => (
@@ -89,9 +91,9 @@ const Resume = ({ cardSelected, handleNext }) => {
               <Box
                 sx={{
                   display: 'flex',
-                  justifyContent: 'space-between',
                   alignItems: 'center',
                   marginBottom: 4,
+                  padding: 1,
                 }}
               >
                 <FormControlLabel
@@ -103,6 +105,7 @@ const Resume = ({ cardSelected, handleNext }) => {
                       color="primary"
                     />
                   }
+                  sx={{ marginLeft: 2 }}
                 />
               </Box>
               <Box
@@ -153,7 +156,6 @@ const Resume = ({ cardSelected, handleNext }) => {
                     />
                   </Box>
                 )}
-
                 {item.is_legal && (
                   <>
                     <Box
@@ -199,7 +201,6 @@ const Resume = ({ cardSelected, handleNext }) => {
                     </Box>
                   </>
                 )}
-
                 <Box
                   sx={{
                     display: 'flex',
@@ -212,41 +213,52 @@ const Resume = ({ cardSelected, handleNext }) => {
                     <Box
                       sx={{
                         display: 'flex',
+                        justifyContent: 'space-between',
                         alignItems: 'center',
-                        gap: 1,
+                        backgroundColor: '#f7f7f7',
+                        padding: '10px',
+                        borderRadius: '8px',
+                        boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
+                        width: '100%',
                       }}
                     >
-                      <a
+                      <Link
                         href={`${OnRun}/${item.file}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{
-                          color: '#ef5350',
-                          marginTop: '10px',
-                          fontSize: '13px',
+                        sx={{
+                          fontSize: '14px',
+                          fontWeight: 'medium',
                           display: 'flex',
                           alignItems: 'center',
                         }}
                       >
-                        مشاهده فایل بارگذاری شده
-                        <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
-                      </a>
+                        مشاهده فایل رزومه
+                        <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '4px' }} />
+                      </Link>
                       <Button
-                        variant="outlined"
                         size="small"
                         onClick={handleRemoveFile(index)}
-                        sx={{ height: 'auto', mt: '4px' }}
+                        sx={{ height: 'auto', ml: '10px' }}
                       >
                         حذف
                       </Button>
                     </Box>
                   ) : (
                     <Input
-                      name="file"
+                      name="claims_status"
                       type="file"
-                      id="file-upload-resume"
-                      sx={{ marginTop: '8px' }}
                       onChange={(e) => handleFileChange(e.target.files[0], index)}
+                      sx={{
+                        borderRadius: '8px',
+                        width: '100%',
+                        color: '#424242',
+                        '&:focus': {
+                          outline: 'none',
+                          borderColor: '#3f51b5',
+                          boxShadow: '0 0 4px rgba(63, 81, 181, 0.5)',
+                        },
+                      }}
                     />
                   )}
                 </Box>
@@ -256,7 +268,6 @@ const Resume = ({ cardSelected, handleNext }) => {
         ) : (
           <div>درحال بارگزاری</div>
         )}
-
         <Button variant="contained" color="primary" onClick={handleButtonClick}>
           تایید
         </Button>

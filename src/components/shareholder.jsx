@@ -116,7 +116,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-700">سهامداران</h1>
+          <h1 className="text-2xl font-bold text-gray-700">سهامداران</h1>
         </div>
 
         {formSections && formSections.length > 0 ? (

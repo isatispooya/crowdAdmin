@@ -39,7 +39,6 @@ const SendMessage = ({ cardSelected, open, onClose }) => {
     setMessageContent(data?.message?.message);
   }, [data]);
 
-
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>

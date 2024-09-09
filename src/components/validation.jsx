@@ -6,6 +6,7 @@ import { fetchValidation, sendValidation } from 'src/hook/Validation';
 import { OnRun } from 'src/api/OnRun';
 import { toast } from 'react-toastify';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+import { Link } from 'react-router-dom';
 
 const Validation = ({ cardSelected, handleNext }) => {
   const { data, status } = useQuery({
@@ -28,10 +29,6 @@ const Validation = ({ cardSelected, handleNext }) => {
     mutationFn: () => sendValidation(cardSelected, formData),
     onSuccess: () => {
       toast.success('فایل‌ها با موفقیت ارسال شدند');
-      handleNext();
-    },
-    onError: () => {
-      toast.error('خطا در ارسال فایل‌ها');
     },
   });
 
@@ -61,14 +58,9 @@ const Validation = ({ cardSelected, handleNext }) => {
     setFormData(newFormData);
   };
 
-  const allFilesUploaded = () => formData.every((item) => item.file_manager || item.file_manager);
-
   const handleSubmit = () => {
-    if (allFilesUploaded()) {
-      mutation.mutate();
-    } else {
-      toast.error('لطفاً تمام فایل‌ها را بارگذاری کنید');
-    }
+    mutation.mutate();
+    handleNext();
   };
 
   return (
@@ -94,19 +86,11 @@ const Validation = ({ cardSelected, handleNext }) => {
           gap: 3,
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: '#f5f5f5',
-            borderRadius: '16px 16px 0 0',
-            padding: 4,
-            textAlign: 'center',
-            marginBottom: 4,
-          }}
-        >
-          <Typography variant="h4" color="textPrimary" fontWeight="bold">
-            اعتبار سنجی
-          </Typography>
-        </Box>
+      
+          <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
+          <h1 className="text-2xl font-bold text-gray-700">اعتبار سنجی</h1>
+        </div>
+        
 
         {status === 'loading' ? (
           <Typography>در حال بارگزاری...</Typography>
@@ -122,7 +106,6 @@ const Validation = ({ cardSelected, handleNext }) => {
                     color="primary"
                   />
                 }
-                label="قفل"
               />
               <Box
                 sx={{
@@ -147,44 +130,59 @@ const Validation = ({ cardSelected, handleNext }) => {
                   onChange={handleTextFieldChange(index, 'national_code')}
                 />
               </Box>
+
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 1,
+                  gap: 2,
+                  alignItems: 'flex-start',
                 }}
               >
                 {typeof item.file_manager === 'string' ? (
                   <Box
                     sx={{
                       display: 'flex',
+                      justifyContent: 'space-between',
                       alignItems: 'center',
-                      gap: 2,
+                      backgroundColor: '#f7f7f7',
+                      padding: '10px',
+                      borderRadius: '8px',
+                      boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
+                      width: '100%',
                     }}
                   >
-                    <a
+                    <Link
                       href={`${OnRun}/${item.file_manager}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      style={{
-                        color: '#ef5350',
+                      sx={{
                         fontSize: '14px',
-                        display: 'flex',
-                        alignItems: 'center',
+                        fontWeight: 'medium',
                       }}
                     >
                       مشاهده فایل بارگذاری شده
                       <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
-                    </a>
-                    <Button variant="outlined" size="small" onClick={handleRemoveFile(index)}>
+                    </Link>
+                    <Button size="small" onClick={handleRemoveFile(index)}>
                       حذف
                     </Button>
                   </Box>
                 ) : (
                   <Input
+                    name="claims_status"
                     type="file"
-                    sx={{ mt: 1 }}
                     onChange={(e) => handleFileChange(e.target.files[0], index)}
+                    sx={{
+                      borderRadius: '8px',
+                      width: '100%',
+                      color: '#424242',
+                      '&:focus': {
+                        outline: 'none',
+                        borderColor: '#3f51b5',
+                        boxShadow: '0 0 4px rgba(63, 81, 181, 0.5)',
+                      },
+                    }}
                   />
                 )}
               </Box>
@@ -192,12 +190,7 @@ const Validation = ({ cardSelected, handleNext }) => {
           ))
         )}
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSubmit}
-          disabled={mutation.isLoading}
-        >
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
           تایید
         </Button>
       </Box>

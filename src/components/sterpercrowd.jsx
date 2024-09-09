@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Stepper, Step, StepLabel } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
+import ContractPage from 'src/module/contract/page';
 import CardList from './ListCard';
 import Fildemnager from './fildemaneger';
 import Shareholder from './shareholder';
@@ -16,13 +17,14 @@ const Sterpercrowd = () => {
 
   const steps = [
     'انتخاب کارت ',
-    'ویرایش و مشاهده کارت',
+    'اطلاعات شرکت',
     'مدیران',
     'مستندات مدیران',
     'سهامداران',
     'اعتبار سنجی',
     'سایر موارد',
     'سوپیشینه',
+    'قرار داد عاملیت',
   ];
 
   const handleNext = () => {
@@ -42,7 +44,6 @@ const Sterpercrowd = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
-
 
   const handleStepClick = (index) => {
     setActiveStep(index);
@@ -73,7 +74,9 @@ const Sterpercrowd = () => {
       case 6:
         return <OtherCases cardSelected={cardSelected} handleNext={handleNext} />;
       case 7:
-        return <History cardSelected={cardSelected} handleNext={handleNext}/>;
+        return <History cardSelected={cardSelected} handleNext={handleNext} />;
+      case 8:
+        return <ContractPage />;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">
@@ -85,11 +88,7 @@ const Sterpercrowd = () => {
 
   return (
     <div>
-      <Stepper
-        sx={{ marginTop: '40px' }}
-        activeStep={activeStep}
-        alternativeLabel
-      >
+      <Stepper sx={{ marginTop: '40px' }} activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => (
           <Step
             key={index}

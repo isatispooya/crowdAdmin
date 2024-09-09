@@ -106,7 +106,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
         >
           <form onSubmit={handleSubmit}>
             <div className="bg-gray-200   text-white rounded-t-3xl p-6 text-center mb-8">
-              <h1 className="text-5xl font-bold text-gray-700">اطلاعات شرکت</h1>
+              <h1 className="text-2xl font-bold text-gray-700">اطلاعات شرکت</h1>
             </div>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -364,7 +364,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
             <Box display="flex" justifyContent="center" width="100%" mt={4}>
               <div className="mt-10 ">
                 <div className="bg-gray-200 text-white rounded-t-3xl p-6 text-center mb-8">
-                  <h1 className="text-5xl font-bold text-gray-700">پیوست اسناد</h1>
+                  <h1 className="text-2xl font-bold text-gray-700">پیوست اسناد</h1>
                 </div>
 
                 <Box
@@ -471,15 +471,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                                   sx={{ fontSize: '16px', marginLeft: '4px' }}
                                 />
                               </Link>
-                              <Button
-                                sx={{
-                                  color: '#e53935',
-                                  '&:hover': {
-                                    color: '#c62828',
-                                  },
-                                }}
-                                onClick={() => handleFileRemove('financial_report_lastyear')}
-                              >
+                              <Button onClick={() => handleFileRemove('financial_report_lastyear')}>
                                 حذف فایل
                               </Button>
                             </Box>
@@ -571,12 +563,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                                 />
                               </Link>
                               <Button
-                                sx={{
-                                  color: '#e53935',
-                                  '&:hover': {
-                                    color: '#c62828',
-                                  },
-                                }}
                                 onClick={() =>
                                   setLocalData({
                                     ...localData,
@@ -675,12 +661,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                                 />
                               </Link>
                               <Button
-                                sx={{
-                                  color: '#e53935',
-                                  '&:hover': {
-                                    color: '#c62828',
-                                  },
-                                }}
                                 onClick={() =>
                                   setLocalData({
                                     ...localData,
@@ -805,12 +785,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                                 />
                               </Link>
                               <Button
-                                sx={{
-                                  color: '#e53935',
-                                  '&:hover': {
-                                    color: '#c62828',
-                                  },
-                                }}
                                 onClick={() =>
                                   setLocalData({
                                     ...localData,
@@ -909,12 +883,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                                 />
                               </Link>
                               <Button
-                                sx={{
-                                  color: '#e53935',
-                                  '&:hover': {
-                                    color: '#c62828',
-                                  },
-                                }}
                                 onClick={() =>
                                   setLocalData({
                                     ...localData,
@@ -1013,12 +981,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                                 />
                               </Link>
                               <Button
-                                sx={{
-                                  color: '#e53935',
-                                  '&:hover': {
-                                    color: '#c62828',
-                                  },
-                                }}
                                 onClick={() =>
                                   setLocalData({
                                     ...localData,
@@ -1143,12 +1105,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                                 />
                               </Link>
                               <Button
-                                sx={{
-                                  color: '#e53935',
-                                  '&:hover': {
-                                    color: '#c62828',
-                                  },
-                                }}
                                 onClick={() =>
                                   setLocalData({
                                     ...localData,
@@ -1188,6 +1144,146 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                         </FormControl>
                       </Box>
                     </Box>
+
+
+
+
+
+
+
+
+                    <Box
+                      sx={{
+                        backgroundColor: '#fff',
+                        boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                        borderRadius: '8px',
+                        padding: '24px',
+                        marginBottom: '24px',
+                        width: { xs: '100%', sm: '48%' },
+                        border: '1px solid #ccc',
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          marginBottom: '16px',
+                          textAlign: 'center',
+                          color: '#424242',
+                          fontWeight: 'bold',
+                          borderBottom: '1px solid #e0e0e0',
+                          paddingBottom: '16px',
+                        }}
+                      >
+                      لوگو شرکت
+                      </Typography>
+
+                      <Box sx={{ marginBottom: '16px' }}>
+                        <FormControl fullWidth>
+                          <FormLabel
+                            sx={{
+                              color: '#424242',
+                              fontSize: '14px',
+                              fontWeight: 'medium',
+                              display: 'block',
+                              marginBottom: '8px',
+                            }}
+                          >
+                            فایل لوگو
+                            <Switch
+                              name="Lock_alignment_6columns_thisyear"
+                              inputProps={{ 'aria-label': 'controlled' }}
+                              sx={{ marginLeft: '8px' }}
+                              checked={localData.Lock_alignment_6columns_thisyear}
+                              onChange={(e) =>
+                                setLocalData({
+                                  ...localData,
+                                  Lock_alignment_6columns_thisyear: e.target.checked,
+                                })
+                              }
+                            />
+                          </FormLabel>
+                          {localData.alignment_6columns_thisyear ? (
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                backgroundColor: '#f7f7f7',
+                                padding: '16px',
+                                borderRadius: '8px',
+                                boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
+                                marginTop: '10px',
+                              }}
+                            >
+                              <Link
+                                href={`${OnRun}/${localData.alignment_6columns_thisyear}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{
+                                  fontSize: '14px',
+                                  fontWeight: 'medium',
+                                  color: '#ef5350',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  '&:hover': {
+                                    color: '#d32f2f',
+                                  },
+                                }}
+                              >
+                                مشاهده فایل بارگذاری شده
+                                <FileCopyOutlinedIcon
+                                  sx={{ fontSize: '16px', marginLeft: '4px' }}
+                                />
+                              </Link>
+                              <Button
+                                onClick={() =>
+                                  setLocalData({
+                                    ...localData,
+                                    alignment_6columns_thisyear: null,
+                                  })
+                                }
+                              >
+                                حذف فایل
+                              </Button>
+                            </Box>
+                          ) : (
+                            <Input
+                              name="alignment_6columns_thisyear"
+                              type="file"
+                              id="file-upload-thisyear-financial_report"
+                              sx={{
+                                marginTop: '8px',
+                                borderRadius: '8px',
+                                width: '100%',
+                                color: '#424242',
+                                '&:focus': {
+                                  outline: 'none',
+                                  borderColor: '#3f51b5',
+                                  boxShadow: '0 0 4px rgba(63, 81, 181, 0.5)',
+                                },
+                              }}
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                const fileValue = file ? URL.createObjectURL(file) : '';
+                                setLocalData({
+                                  ...localData,
+                                  alignment_6columns_thisyear: fileValue,
+                                });
+                              }}
+                            />
+                          )}
+                        </FormControl>
+                      </Box>
+                    </Box>
+
+
+
+
+
+
+
+
+
                   </Box>
                 </Box>
               </div>

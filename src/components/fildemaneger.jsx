@@ -102,7 +102,6 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
         is_legal: false,
         is_obliged: false,
         lock: false,
-
       },
     ]);
   };
@@ -162,7 +161,7 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-700">اطلاعات مدیران</h1>
+          <h1 className="text-2xl font-bold text-gray-700">اطلاعات مدیران</h1>
         </div>
         <Box
           sx={{
@@ -173,6 +172,16 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
         >
           {formSections.map((section, sectionIndex) => (
             <form key={sectionIndex} className="w-full">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={section.lock}
+                    onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
+                  />
+                }
+                label="وضعیت"
+                sx={{ alignSelf: 'center' }}
+              />
               <Box
                 sx={{
                   display: 'grid',
@@ -295,16 +304,7 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
                     ))}
                   </Select>
                 </FormControl>
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={section.lock}
-                      onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
-                    />
-                  }
-                  label="وضعیت"
-                  sx={{ alignSelf: 'center' }}
-                />
+
                 {formSections.length > 1 && (
                   <IconButton
                     color="error"

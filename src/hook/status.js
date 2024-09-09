@@ -1,26 +1,29 @@
-import api from "src/api/apiClient";
-import { getCookie } from "src/api/cookie";
+import api from 'src/api/apiClient';
+import { getCookie } from 'src/api/cookie';
+import { OnRun } from 'src/api/OnRun';
 
+export const fetchStatus = async () => {
+  const access = await getCookie('access');
 
+  const response = await api.get(`${OnRun}/api/setstatus/admin/`, {
+    headers: {
+      Authorization: `Bearer ${access}`,
+    },
+  });
 
-export const fetchStatus = async (id) => {
+  return response.data;
+};
+
+export const postStatus = async (id) => {
+  const access = await getCookie('access');
   console.log(id);
   
-    try {
-      const access = await getCookie('access');
-      
-      const response = await api.get(`/api/setstatus/${id}/`, {
-        headers: {
-          Authorization: `Bearer ${access}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching manager data:', error);
-      throw new Error('Failed to fetch manager data.');
-    }
-  };
+  const response = await api.post(`${OnRun}/api/setstatus/admin/${id}/`, {}, { // اضافه کردن {} به عنوان بدنه درخواست اگر نیاز است
+    headers: {
+      Authorization: `Bearer ${access}`,
+      'Content-Type': 'application/json',
+    },
+  });
 
-
+  return response.data;
+};

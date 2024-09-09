@@ -1,53 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Input, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, FormControlLabel, Switch, TextField, Input, Button } from '@mui/material';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { getCookie } from 'src/api/cookie';
 
-const History = ({ cardSelected }) => {
-  const [historyData, setHistoryData] = useState(null);
-  const [file, setFile] = useState(null);
-  const access = getCookie('access');
+import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
+import { OnRun } from 'src/api/OnRun';
+import { fetchHistory, uploadHistoryFile } from 'src/hook/history';
+import { Link } from 'react-router-dom';
+
+const History = ({ cardSelected, handleNext }) => {
+  const { data, status } = useQuery({
+    queryKey: ['history', cardSelected],
+    queryFn: () => fetchHistory(cardSelected),
+  });
+
+  const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (cardSelected) {
-        try {
-          const response = await axios.get(`/api/history/admin/${cardSelected}/`, {
-            headers: {
-              Authorization: `Bearer ${access}`,
-              'Content-Type': 'multipart/form-data',
-
-            },
-          });
-          setHistoryData(response.data);
-          console.log(response.data);
-          
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      }
-    };
-
-    fetchData();
-  }, [cardSelected, access]);
-
-  const handleFileUpload = async () => {
-    const formData = new FormData();
-    formData.append('file', file || '');
-
-    try {
-      const response = await axios.post(`/api/history/admin/${cardSelected}/`, formData, {
-        headers: {
-          Authorization: `Bearer ${access}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setHistoryData(response.data);
-    } catch (error) {
-      console.error(error);
+    if (status === 'success' && data && data.manager) {
+      console.log('Loaded data:', data.manager);
+      setFormData(
+        data.manager.map((item) => ({
+          ...item,
+          lock: item.lock || false,
+        }))
+      );
+    } else if (status === 'error') {
+      console.error('Failed to fetch history data');
     }
+  }, [data, status]);
+
+  const mutation = useMutation({
+    mutationKey: ['uploadHistoryFile'],
+    mutationFn: () => uploadHistoryFile(cardSelected, formData),
+  });
+
+  const handleFileChange = (file, index) => {
+    const newFormData = [...formData];
+    newFormData[index].file = file;
+    setFormData(newFormData);
   };
+
+  const handleRemoveFile = (index) => () => {
+    const newFormData = [...formData];
+    newFormData[index].file = null;
+    setFormData(newFormData);
+  };
+
+  const handleSwitchChange = (index) => (event) => {
+    console.log('Switch changed:', index, event.target.checked);
+    setFormData((prevFormData) => {
+      const newFormData = [...prevFormData];
+      newFormData[index].lock = event.target.checked;
+      return newFormData;
+    });
+  };
+
+  const handleTextFieldChange = (index, field) => (event) => {
+    const newFormData = [...formData];
+    newFormData[index][field] = event.target.value;
+    setFormData(newFormData);
+  };
+
+  const handleButtonClick = () => {
+    console.log('Sending data to server:', formData);
+    if (formData.length > 0) {
+      mutation.mutate(formData);
+    }
+    handleNext();
+  };
+
+  console.log('2344444444444444444444444444444444444', formData);
 
   return (
     <div
@@ -55,7 +78,7 @@ const History = ({ cardSelected }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '80vh',
+        minHeight: '50vh',
         padding: '0 16px',
       }}
     >
@@ -69,84 +92,157 @@ const History = ({ cardSelected }) => {
           boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          gap: 2,
-          marginTop: 3,
+          gap: 3,
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-700">سوپیشینه</h1>
+          <h1 className="text-2xl font-bold text-gray-700">سوءپیشینه</h1>
         </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            width: '100%',
-          }}
-        >
-          <form className="w-full">
-            <Box
-              sx={{
-                padding: '20px',
-                border: '1px solid #ccc',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                borderRadius: '8px',
-                marginBottom: '16px',
-              }}
-            >
-              {/* <div style={{ display: 'flex' }}>
-                <Switch checked={file.Lock_file}/>
-              </div> */}
 
-              <Box sx={{ marginBottom: '16px' }}>
-                <Input
-                  type="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  sx={{
-                    borderRadius: '8px',
-                    width: '100%',
-                    color: '#424242',
-                    '&:focus': {
-                      outline: 'none',
-                      borderColor: '#3f51b5',
-                      boxShadow: '0 0 4px rgba(63, 81, 181, 0.5)',
-                    },
-                  }}
+        {formData.length > 0 ? (
+          formData.map((item, index) => (
+            <form key={index} className="w-full">
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: 4,
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={item.lock}
+                      onChange={handleSwitchChange(index)}
+                      name="customSwitch"
+                      color="primary"
+                    />
+                  }
                 />
               </Box>
-              {historyData && historyData.file && (
-                <Box sx={{ marginTop: '16px', textAlign: 'center' }}>
-                  <a
-                    href={historyData.file}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      color: '#3f51b5',
-                      textDecoration: 'underline',
-                    }}
-                  >
-                    مشاهده فایل سابقه
-                  </a>
+
+              <Box
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
+                  gap: 2,
+                  marginBottom: 4,
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  <TextField
+                    value={item.name}
+                    label="نام و نام خانوادگی"
+                    variant="outlined"
+                    fullWidth
+                    sx={{ mb: 2 }}
+                    onChange={handleTextFieldChange(index, 'name')}
+                  />
                 </Box>
-              )}
-            </Box>
-            <Button
-              onClick={handleFileUpload}
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ marginTop: 2 }}
-            >
-              ارسال
-            </Button>
-          </form>
-        </div>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  <TextField
+                    type="text"
+                    name="national_code"
+                    inputProps={{ maxLength: 10 }}
+                    required
+                    label="کد ملی"
+                    variant="outlined"
+                    fullWidth
+                    sx={{ mb: 2 }}
+                    value={item.national_code}
+                    onChange={handleTextFieldChange(index, 'national_code')}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
+                    alignItems: 'flex-start',
+                  }}
+                >
+                  {typeof item.file === 'string' && item.file ? (
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        backgroundColor: '#f7f7f7',
+                        padding: '10px',
+                        borderRadius: '8px',
+                        boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
+                      }}
+                    >
+                      <Link
+                        href={`${OnRun}/${item.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                          fontSize: '14px',
+                          fontWeight: 'medium',
+                        }}
+                      >
+                        دریافت فایل سوء پیشینه
+                        <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
+                      </Link>
+                      <Button
+                        size="small"
+                        onClick={handleRemoveFile(index)}
+                        sx={{ height: 'auto', ml: '10px' }}
+                      >
+                        حذف
+                      </Button>
+                    </Box>
+                  ) : (
+                    <Input
+                      name="claims_status"
+                      type="file"
+                      onChange={(e) => handleFileChange(e.target.files[0], index)}
+                      sx={{
+                        borderRadius: '8px',
+                        width: '100%',
+                        color: '#424242',
+                        '&:focus': {
+                          outline: 'none',
+                          borderColor: '#3f51b5',
+                          boxShadow: '0 0 4px rgba(63, 81, 181, 0.5)',
+                        },
+                      }}
+                    />
+                  )}
+                </Box>
+              </Box>
+            </form>
+          ))
+        ) : (
+          <div>درحال بارگزاری</div>
+        )}
+
+        <Button variant="contained" color="primary" onClick={handleButtonClick}>
+          تایید
+        </Button>
       </Box>
     </div>
   );
 };
 
 History.propTypes = {
+  handleNext: PropTypes.func.isRequired,
   cardSelected: PropTypes.string.isRequired,
 };
 
