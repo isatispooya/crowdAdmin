@@ -21,17 +21,23 @@ import { toast } from 'react-toastify';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
 import { Link } from 'react-router-dom';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 import Label from './label';
 
-const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
+const FormCompanyInfo = ({onFileChange }) => {
+  const { incrementPage } = useNavigateStep();
+  const { cartId } = UseCartId();
+
+
   const [clicked, setClicked] = useState(false);
 
   const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const mutation = useMutation({ mutationFn: () => createCart(localData, cardSelected) });
+  const mutation = useMutation({ mutationFn: () => createCart(localData, cartId) });
 
   const { data, error, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ['cartDetail', cardSelected],
-    queryFn: () => getStep1(cardSelected),
+    queryKey: ['cartDetail', cartId],
+    queryFn: () => getStep1(cartId),
   });
 
   const [localData, setLocalData] = useState(() => data || {});
@@ -59,8 +65,8 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setClicked(true);
-    mutation.mutateAsync(localData, cardSelected);
-    handleNext();
+    mutation.mutateAsync(localData, cartId);
+    incrementPage();
   };
 
   if (isLoading) {
@@ -1145,13 +1151,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                       </Box>
                     </Box>
 
-
-
-
-
-
-
-
                     <Box
                       sx={{
                         backgroundColor: '#fff',
@@ -1174,7 +1173,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                           paddingBottom: '16px',
                         }}
                       >
-                      لوگو شرکت
+                        لوگو شرکت
                       </Typography>
 
                       <Box sx={{ marginBottom: '16px' }}>
@@ -1275,15 +1274,6 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
                         </FormControl>
                       </Box>
                     </Box>
-
-
-
-
-
-
-
-
-
                   </Box>
                 </Box>
               </div>
@@ -1311,9 +1301,7 @@ const FormCompanyInfo = ({ cardSelected, onFileChange, handleNext }) => {
 };
 
 FormCompanyInfo.propTypes = {
-  cardSelected: PropTypes.string,
   onFileChange: PropTypes.func.isRequired,
-  handleNext: PropTypes.func,
 };
 
 export default FormCompanyInfo;

@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Box, FormControlLabel, Switch, TextField, Input, Button } from '@mui/material';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import PropTypes from 'prop-types';
-
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
 import { fetchHistory, uploadHistoryFile } from 'src/hook/history';
 import { Link } from 'react-router-dom';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 
-const History = ({ cardSelected, handleNext }) => {
+const History = () => {
+  const { incrementPage } = useNavigateStep();
+  const { cartId } = UseCartId();
   const { data, status } = useQuery({
-    queryKey: ['history', cardSelected],
-    queryFn: () => fetchHistory(cardSelected),
+    queryKey: ['history', cartId],
+    queryFn: () => fetchHistory(cartId),
   });
 
   const [formData, setFormData] = useState([]);
@@ -32,7 +34,7 @@ const History = ({ cardSelected, handleNext }) => {
 
   const mutation = useMutation({
     mutationKey: ['uploadHistoryFile'],
-    mutationFn: () => uploadHistoryFile(cardSelected, formData),
+    mutationFn: () => uploadHistoryFile(cartId, formData),
   });
 
   const handleFileChange = (file, index) => {
@@ -67,7 +69,7 @@ const History = ({ cardSelected, handleNext }) => {
     if (formData.length > 0) {
       mutation.mutate(formData);
     }
-    handleNext();
+    incrementPage();
   };
 
   console.log('2344444444444444444444444444444444444', formData);
@@ -240,10 +242,4 @@ const History = ({ cardSelected, handleNext }) => {
     </div>
   );
 };
-
-History.propTypes = {
-  handleNext: PropTypes.func.isRequired,
-  cardSelected: PropTypes.string.isRequired,
-};
-
 export default History;

@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { OnRun } from 'src/api/OnRun';
 import { getCookie } from 'src/api/cookie';
-import PropTypes from 'prop-types';
 import { Button, Tooltip, Box } from '@mui/material';
 import { TbMessagePlus } from 'react-icons/tb';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 import ConfirmDeleteModal from './ConfirmDeleteModal';
 import SendMessage from './sendMessage';
-import CardStatus from './cardStatus';
 
-const CardList = ({ handleNext, setCardSelected }) => {
+const CardList = () => {
+  const { incrementPage } = useNavigateStep();
+  const { setCartId } = UseCartId();
   const [cards, setCards] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState(null);
@@ -37,7 +39,13 @@ const CardList = ({ handleNext, setCardSelected }) => {
 
   const handleCardClick = (id) => {
     setSelectedCardId(id);
-    setCardSelected(id);
+    setCartId(id);
+  };
+
+  const handleClick = (id) => {
+    setSelectedCardId(id);
+    setCartId(id);
+    incrementPage();
   };
 
   const handleModalOpen = (modalSetter, id) => {
@@ -96,15 +104,15 @@ const CardList = ({ handleNext, setCardSelected }) => {
                         شماره ثبت: {card.registration_number}
                       </p>
                     </div>
-                    <CardStatus
-                      cardSelected={selectedCardId}
-                      openStatusModal={() => {}}
-                      card={card}
-                    />
                   </div>
                   <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mt-4">
                     <Tooltip title="مشاهده و ویرایش">
-                      <Button variant="contained" color="primary" style={{ textTransform: 'none' }}>
+                      <Button
+                        onClick={handleClick}
+                        variant="contained"
+                        color="primary"
+                        style={{ textTransform: 'none' }}
+                      >
                         مشاهده و ویرایش
                       </Button>
                     </Tooltip>
@@ -148,17 +156,11 @@ const CardList = ({ handleNext, setCardSelected }) => {
 
       <SendMessage
         cardSelected={selectedCardId}
-        handleNext={handleNext}
         open={sendMessageModalOpen}
         onClose={handleModalClose}
       />
     </div>
   );
-};
-
-CardList.propTypes = {
-  handleNext: PropTypes.func.isRequired,
-  setCardSelected: PropTypes.func,
 };
 
 export default CardList;

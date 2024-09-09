@@ -14,11 +14,12 @@ import {
   DialogContent,
   DialogTitle,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddIcon from '@mui/icons-material/Add';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { fetchShareholder, sendShareholder } from 'src/hook/shareholder';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 
 const singleFile = {
   name: '',
@@ -31,20 +32,23 @@ const singleFile = {
   lock: false,
 };
 
-const Shareholder = ({ handleNext, cardSelected }) => {
+const Shareholder = () => {
+  const { incrementPage } = useNavigateStep();
+  const { cartId } = UseCartId();
+
   const [formSections, setFormSections] = useState([singleFile]);
   const [fetchedData, setFetchedData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
 
   const { data, status } = useQuery({
-    queryKey: ['shareholder', cardSelected],
-    queryFn: () => fetchShareholder(cardSelected),
+    queryKey: ['shareholder', cartId],
+    queryFn: () => fetchShareholder(cartId),
   });
 
   const mutation = useMutation({
     mutationKey: ['set management'],
-    mutationFn: (sections) => sendShareholder(cardSelected, sections),
+    mutationFn: (sections) => sendShareholder(cartId, sections),
   });
 
   useEffect(() => {
@@ -85,7 +89,7 @@ const Shareholder = ({ handleNext, cardSelected }) => {
 
   const handleSubmit = () => {
     mutation.mutateAsync(formSections);
-    handleNext();
+    incrementPage();
   };
 
   return (
@@ -281,10 +285,4 @@ const Shareholder = ({ handleNext, cardSelected }) => {
     </div>
   );
 };
-
-Shareholder.propTypes = {
-  handleNext: PropTypes.func.isRequired,
-  cardSelected: PropTypes.string.isRequired,
-};
-
 export default Shareholder;

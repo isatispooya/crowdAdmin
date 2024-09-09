@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Input, TextField, Typography, FormControlLabel, Switch } from '@mui/material';
-import PropTypes from 'prop-types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { fetchValidation, sendValidation } from 'src/hook/Validation';
 import { OnRun } from 'src/api/OnRun';
 import { toast } from 'react-toastify';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { Link } from 'react-router-dom';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 
-const Validation = ({ cardSelected, handleNext }) => {
+const Validation = () => {
+  const { incrementPage } = useNavigateStep();
+  const { cartId } = UseCartId();
   const { data, status } = useQuery({
-    queryKey: ['shareholder', cardSelected],
-    queryFn: () => fetchValidation(cardSelected),
+    queryKey: ['shareholder', cartId],
+    queryFn: () => fetchValidation(cartId),
   });
 
   const [formData, setFormData] = useState([]);
@@ -26,7 +29,7 @@ const Validation = ({ cardSelected, handleNext }) => {
 
   const mutation = useMutation({
     mutationKey: ['set management'],
-    mutationFn: () => sendValidation(cardSelected, formData),
+    mutationFn: () => sendValidation(cartId, formData),
     onSuccess: () => {
       toast.success('فایل‌ها با موفقیت ارسال شدند');
     },
@@ -60,7 +63,7 @@ const Validation = ({ cardSelected, handleNext }) => {
 
   const handleSubmit = () => {
     mutation.mutate();
-    handleNext();
+    incrementPage();
   };
 
   return (
@@ -86,11 +89,9 @@ const Validation = ({ cardSelected, handleNext }) => {
           gap: 3,
         }}
       >
-      
-          <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
+        <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-700">اعتبار سنجی</h1>
         </div>
-        
 
         {status === 'loading' ? (
           <Typography>در حال بارگزاری...</Typography>
@@ -196,11 +197,6 @@ const Validation = ({ cardSelected, handleNext }) => {
       </Box>
     </div>
   );
-};
-
-Validation.propTypes = {
-  handleNext: PropTypes.func.isRequired,
-  cardSelected: PropTypes.string.isRequired,
 };
 
 export default Validation;

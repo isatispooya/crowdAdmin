@@ -2,15 +2,19 @@ import { Box, FormControlLabel, Switch, TextField, Input, Button } from '@mui/ma
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { fetchResume, sendResume } from 'src/hook/resume';
-import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
 import { Link } from 'react-router-dom';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 
-const Resume = ({ cardSelected, handleNext }) => {
+const Resume = () => {
+  const { incrementPage } = useNavigateStep();
+  const { cartId } = UseCartId();
+
   const { data, status } = useQuery({
-    queryKey: ['shareholder', cardSelected],
-    queryFn: () => fetchResume(cardSelected),
+    queryKey: ['shareholder', cartId],
+    queryFn: () => fetchResume(cartId),
   });
   const [formData, setFormData] = useState([]);
 
@@ -24,7 +28,7 @@ const Resume = ({ cardSelected, handleNext }) => {
 
   const mutation = useMutation({
     mutationKey: ['set management'],
-    mutationFn: () => sendResume(cardSelected, formData),
+    mutationFn: () => sendResume(cartId, formData),
   });
 
   const handleFileChange = (file, index) => {
@@ -55,7 +59,7 @@ const Resume = ({ cardSelected, handleNext }) => {
 
   const handleButtonClick = () => {
     mutation.mutate();
-    handleNext();
+    incrementPage();
   };
 
   return (
@@ -274,11 +278,6 @@ const Resume = ({ cardSelected, handleNext }) => {
       </Box>
     </div>
   );
-};
-
-Resume.propTypes = {
-  handleNext: PropTypes.func.isRequired,
-  cardSelected: PropTypes.string.isRequired,
 };
 
 export default Resume;

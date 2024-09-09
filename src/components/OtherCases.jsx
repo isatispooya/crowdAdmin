@@ -3,19 +3,22 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
 import { fetchOtherCases, sendOtherCases } from 'src/hook/otherCases';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 
-const OtherCases = ({ cardSelected, handleNext }) => {
+const OtherCases = () => {
+  const { incrementPage } = useNavigateStep();
+ const { cartId } = UseCartId();
   const { data, error, isError, isSuccess } = useQuery({
-    queryKey: ['cartDetail', cardSelected],
-    queryFn: () => fetchOtherCases(cardSelected),
+    queryKey: ['cartDetail', cartId],
+    queryFn: () => fetchOtherCases(cartId),
   });
 
   const mutation = useMutation({
     mutationKey: ['set management'],
-    mutationFn: () => sendOtherCases(cardSelected, localData),
+    mutationFn: () => sendOtherCases(cartId, localData),
   });
   const [localData, setLocalData] = useState(() => data || {});
 
@@ -41,7 +44,7 @@ const OtherCases = ({ cardSelected, handleNext }) => {
 
   const handleButtonClick = () => {
     mutation.mutate();
-    handleNext();
+    incrementPage();
   };
 
   console.log(localData);
@@ -659,9 +662,4 @@ const OtherCases = ({ cardSelected, handleNext }) => {
     </div>
   );
 };
-OtherCases.propTypes = {
-  cardSelected: PropTypes.string,
-  handleNext: PropTypes.func,
-};
-
 export default OtherCases;

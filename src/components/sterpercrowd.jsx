@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Stepper, Step, StepLabel } from '@mui/material';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import ContractPage from 'src/module/contract/page';
+import useNavigateStep from 'src/hooks/use-navigate-step';
 import CardList from './ListCard';
 import Fildemnager from './fildemaneger';
 import Shareholder from './shareholder';
@@ -12,8 +13,7 @@ import History from './history';
 import FormCompanyInfo from './formCompanyInfo';
 
 const Sterpercrowd = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [cardSelected, setCardSelected] = useState(null);
+  const { page, changePage } = useNavigateStep();
 
   const steps = [
     'انتخاب کارت ',
@@ -27,56 +27,30 @@ const Sterpercrowd = () => {
     'قرار داد عاملیت',
   ];
 
-  const handleNext = () => {
-    if (activeStep === 1) {
-      const checkedContracts = JSON.parse(localStorage.getItem('checkedContracts')) || {};
-      const allChecked = Object.values(checkedContracts).every(Boolean);
-
-      if (!allChecked) {
-        toast.error('لطفاً همه قراردادها را مطالعه کنید.');
-        return;
-      }
-    }
-
-    if (activeStep === steps.length - 1) {
-      alert('اتمام');
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
-  };
-
-  const handleStepClick = (index) => {
-    setActiveStep(index);
-  };
-
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
         return (
           <div>
-            <CardList
-              setCardSelected={setCardSelected}
-              cardSelected={cardSelected}
-              handleNext={handleNext}
-            />
+            <CardList/>
           </div>
         );
       case 1:
-        return <FormCompanyInfo handleNext={handleNext} cardSelected={cardSelected} />;
+        return <FormCompanyInfo />;
       case 2:
-        return <Fildemnager handleNext={handleNext} cardSelected={cardSelected} />;
+        return <Fildemnager/>;
       case 3:
-        return <Resume handleNext={handleNext} cardSelected={cardSelected} />;
+        return <Resume/>;
       case 4:
-        return <Shareholder handleNext={handleNext} cardSelected={cardSelected} />;
+        return <Shareholder/>;
       case 5:
-        return <Validation cardSelected={cardSelected} handleNext={handleNext} />;
+        return <Validation/>;
       case 6:
-        return <OtherCases cardSelected={cardSelected} handleNext={handleNext} />;
+        return <OtherCases/>;
       case 7:
-        return <History cardSelected={cardSelected} handleNext={handleNext} />;
+        return <History/>;
       case 8:
-        return <ContractPage />;
+        return <ContractPage/>;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">
@@ -88,11 +62,11 @@ const Sterpercrowd = () => {
 
   return (
     <div>
-      <Stepper sx={{ marginTop: '40px' }} activeStep={activeStep} alternativeLabel>
+      <Stepper sx={{ marginTop: '40px' }} activeStep={page} alternativeLabel>
         {steps.map((label, index) => (
           <Step
             key={index}
-            onClick={() => handleStepClick(index)}
+            onClick={() => changePage(index)}
             sx={{
               cursor: 'pointer',
             }}
@@ -102,9 +76,7 @@ const Sterpercrowd = () => {
         ))}
       </Stepper>
 
-      <div style={{ position: 'relative', minHeight: '300px' }}>
-        {renderStepContent(activeStep)}
-      </div>
+      <div style={{ position: 'relative', minHeight: '300px' }}>{renderStepContent(page)}</div>
 
       <ToastContainer />
     </div>

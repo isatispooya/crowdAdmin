@@ -18,44 +18,35 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import PropTypes from 'prop-types';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import AddIcon from '@mui/icons-material/Add';
 import { fetchManager, sendManager } from 'src/hook/manager';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import useNavigateStep from 'src/hooks/use-navigate-step';
+import UseCartId from 'src/hooks/card_id';
 
-const Fildemnager = ({ handleNext, cardSelected }) => {
-  const [formSections, setFormSections] = useState([
-    {
-      name: '',
-      position: '',
-      national_code: '',
-      national_id: '',
-      phone: '',
-      representative: '',
-      is_legal: false,
-      is_obliged: false,
-      lock: false,
-    },
-  ]);
+const Fildemnager = () => {
+  const { incrementPage } = useNavigateStep();
+  const { cartId } = UseCartId();
+  const [formSections, setFormSections] = useState([]);
   const [fetchedData, setFetchedData] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   const { data, status } = useQuery({
-    queryKey: ['userMessage', cardSelected],
-    queryFn: () => fetchManager(cardSelected),
+    queryKey: ['userMessage', cartId],
+    queryFn: () => fetchManager(cartId),
   });
 
   const mutation = useMutation({
     mutationKey: ['set management'],
-    mutationFn: (sections) => sendManager(cardSelected, sections),
+    mutationFn: (sections) => sendManager(cartId, sections),
   });
 
   useEffect(() => {
     if (status === 'success' && data) {
-      const fetchedSections = data.data.length
-        ? data.data
+      const fetchedSections = data.length
+        ? data
         : [
             {
               name: '',
@@ -132,7 +123,7 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
 
   const handleSubmit = () => {
     mutation.mutateAsync(formSections);
-    handleNext();
+    incrementPage();
   };
 
   return (
@@ -385,11 +376,6 @@ const Fildemnager = ({ handleNext, cardSelected }) => {
       </Box>
     </div>
   );
-};
-
-Fildemnager.propTypes = {
-  handleNext: PropTypes.func.isRequired,
-  cardSelected: PropTypes.string.isRequired,
 };
 
 export default Fildemnager;
