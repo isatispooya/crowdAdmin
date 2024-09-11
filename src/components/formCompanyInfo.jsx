@@ -23,6 +23,8 @@ import { OnRun } from 'src/api/OnRun';
 import { Link } from 'react-router-dom';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import UseCartId from 'src/hooks/card_id';
+import moment from 'moment-jalaali';
+import { DatePicker } from '@mui/lab';
 import Label from './label';
 
 const FormCompanyInfo = ({ onFileChange }) => {
@@ -85,7 +87,11 @@ const FormCompanyInfo = ({ onFileChange }) => {
       return updated;
     });
   };
-  console.log(localData);
+  const handleDateChange = (date) => {
+    // تبدیل تاریخ میلادی به تاریخ شمسی
+    const formattedDate = date ? moment(date).format('jYYYY/jMM/jDD') : '';
+    setLocalData({ ...localData, date_newspaper: formattedDate });
+  };
 
   return localData ? (
     <div dir="rtl">
@@ -341,13 +347,23 @@ const FormCompanyInfo = ({ onFileChange }) => {
                     }
                   />
                 </div>
-                <TextField
-                  name="date_newspaper"
-                  label="تاریخ روزنامه رسمی"
-                  variant="outlined"
-                  fullWidth
-                  value={localData.date_newspaper}
-                  onChange={(e) => setLocalData({ ...localData, date_newspaper: e.target.value })}
+                <DatePicker
+                  selected={localData.date_newspaper ? new Date(localData.date_newspaper) : null}
+                  onChange={handleDateChange}
+                  dateFormat="yyyy/MM/dd"
+                  locale="fa"
+                  customInput={
+                    <TextField
+                      name="date_newspaper"
+                      label="تاریخ روزنامه رسمی"
+                      variant="outlined"
+                      fullWidth
+                      value={localData.date_newspaper}
+                      onChange={(e) =>
+                        setLocalData({ ...localData, date_newspaper: e.target.value })
+                      }
+                    />
+                  }
                 />
               </Grid>
 
