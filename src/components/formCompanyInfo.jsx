@@ -25,10 +25,9 @@ import useNavigateStep from 'src/hooks/use-navigate-step';
 import UseCartId from 'src/hooks/card_id';
 import Label from './label';
 
-const FormCompanyInfo = ({onFileChange }) => {
+const FormCompanyInfo = ({ onFileChange }) => {
   const { incrementPage } = useNavigateStep();
   const { cartId } = UseCartId();
-
 
   const [clicked, setClicked] = useState(false);
 
@@ -86,6 +85,7 @@ const FormCompanyInfo = ({onFileChange }) => {
       return updated;
     });
   };
+  console.log(localData);
 
   return localData ? (
     <div dir="rtl">
@@ -304,6 +304,92 @@ const FormCompanyInfo = ({onFileChange }) => {
                   onChange={(e) =>
                     setLocalData({ ...localData, activity_industry: e.target.value })
                   }
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <div dir="ltr">
+                  <Switch
+                    name="Lock_newspaper"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="ml-4"
+                    checked={localData.Lock_newspaper}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, Lock_newspaper: e.target.checked })
+                    }
+                  />
+                </div>
+                <TextField
+                  name="newspaper"
+                  label="شماره روزنامه رسمی"
+                  variant="outlined"
+                  fullWidth
+                  value={localData.newspaper}
+                  onChange={(e) => setLocalData({ ...localData, newspaper: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <div dir="ltr">
+                  <Switch
+                    name="Lock_date_newspaper"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="ml-4"
+                    checked={localData.Lock_date_newspaper}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, Lock_date_newspaper: e.target.checked })
+                    }
+                  />
+                </div>
+                <TextField
+                  name="date_newspaper"
+                  label="تاریخ روزنامه رسمی"
+                  variant="outlined"
+                  fullWidth
+                  value={localData.date_newspaper}
+                  onChange={(e) => setLocalData({ ...localData, date_newspaper: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <div dir="ltr">
+                  <Switch
+                    name="Lock_postal_code"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="ml-4"
+                    checked={localData.Lock_postal_code}
+                    onChange={(e) =>
+                      setLocalData({ ...localData, Lock_postal_code: e.target.checked })
+                    }
+                  />
+                </div>
+                <TextField
+                  name="postal_code"
+                  label="کد پستی"
+                  variant="outlined"
+                  fullWidth
+                  value={localData.postal_code}
+                  onChange={(e) => setLocalData({ ...localData, postal_code: e.target.value })}
+                />
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <div dir="ltr">
+                  <Switch
+                    name="Lock_city"
+                    inputProps={{ 'aria-label': 'controlled' }}
+                    className="ml-4"
+                    checked={localData.Lock_city}
+                    onChange={(e) => setLocalData({ ...localData, Lock_city: e.target.checked })}
+                  />
+                </div>
+                <TextField
+                  name="city"
+                  label="شهر"
+                  variant="outlined"
+                  fullWidth
+                  value={localData.city}
+                  onChange={(e) => setLocalData({ ...localData, city: e.target.value })}
                 />
               </Grid>
 
@@ -1189,19 +1275,19 @@ const FormCompanyInfo = ({onFileChange }) => {
                           >
                             فایل لوگو
                             <Switch
-                              name="Lock_alignment_6columns_thisyear"
+                              name="Lock_logo"
                               inputProps={{ 'aria-label': 'controlled' }}
                               sx={{ marginLeft: '8px' }}
-                              checked={localData.Lock_alignment_6columns_thisyear}
+                              checked={localData.Lock_logo}
                               onChange={(e) =>
                                 setLocalData({
                                   ...localData,
-                                  Lock_alignment_6columns_thisyear: e.target.checked,
+                                  Lock_logo: e.target.checked,
                                 })
                               }
                             />
                           </FormLabel>
-                          {localData.alignment_6columns_thisyear ? (
+                          {localData.logo ? (
                             <Box
                               sx={{
                                 display: 'flex',
@@ -1215,7 +1301,7 @@ const FormCompanyInfo = ({onFileChange }) => {
                               }}
                             >
                               <Link
-                                href={`${OnRun}/${localData.alignment_6columns_thisyear}`}
+                                href={`${OnRun}/${localData.logo}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 sx={{
@@ -1238,7 +1324,7 @@ const FormCompanyInfo = ({onFileChange }) => {
                                 onClick={() =>
                                   setLocalData({
                                     ...localData,
-                                    alignment_6columns_thisyear: null,
+                                    logo: null,
                                   })
                                 }
                               >
@@ -1266,7 +1352,7 @@ const FormCompanyInfo = ({onFileChange }) => {
                                 const fileValue = file ? URL.createObjectURL(file) : '';
                                 setLocalData({
                                   ...localData,
-                                  alignment_6columns_thisyear: fileValue,
+                                  logo: fileValue,
                                 });
                               }}
                             />

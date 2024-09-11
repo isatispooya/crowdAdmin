@@ -36,6 +36,8 @@ export const getStep1 = async (id) => {
           email: '',
           Lock_email: false,
           address: '',
+          city: null,
+          postal_code: null,
           Lock_address: false,
           financial_report_thisyear: null,
           Lock_financial_report_thisyear: false,
@@ -76,6 +78,7 @@ export const getStep1 = async (id) => {
           claims_status: null,
           Lock_claims_status: false,
           massage: '',
+          logo: null,
         },
       },
     };
@@ -94,6 +97,8 @@ export const createCart = async (data, id) => {
   formData.append('company_kind', data.company_kind || '');
   formData.append('amount_of_request', data.amount_of_request || '');
   formData.append('address', data.address || '');
+  formData.append('city', data.city || '');
+  formData.append('postal_code', data.postal_code || '');
   formData.append('email', data.email || '');
   formData.append('Lock_company_name', data.Lock_company_name);
   formData.append('Lock_company_kind', data.Lock_company_kind);
@@ -128,6 +133,9 @@ export const createCart = async (data, id) => {
   formData.append('Lock_assets_and_liabilities', data.Lock_assets_and_liabilities);
   formData.append('Lock_latest_insurance_staf', data.Lock_latest_insurance_staf);
   formData.append('Lock_claims_status', data.Lock_claims_status);
+  formData.append('Lock_logo', data.Lock_logo);
+  formData.append('Lock_city', data.Lock_city);
+  formData.append('Lock_postal_code', data.Lock_postal_code);
 
   if (data.alignment_6columns_thisyear && typeof data.alignment_6columns_thisyear !== 'string') {
     formData.append('alignment_6columns_thisyear', data.alignment_6columns_thisyear);
@@ -176,6 +184,15 @@ export const createCart = async (data, id) => {
   }
   if (data.claims_status && typeof data.claims_status !== 'string') {
     formData.append('claims_status', data.claims_status);
+  }
+  if (data.logo && typeof data.logo !== 'string') {
+    formData.append('logo', data.logo);
+  }
+  if (data.logo && typeof data.logo !== 'string') {
+    formData.append('logo', data.city);
+  }
+  if (data.logo && typeof data.logo !== 'string') {
+    formData.append('logo', data.postal_code);
   }
 
   const access = await getCookie('access');

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Stepper, Step, StepLabel } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
-import ContractPage from 'src/module/contract/page';
+import ContractPage from 'src/module/contract/page/contarctPage';
 import useNavigateStep from 'src/hooks/use-navigate-step';
+import HistoryPage from 'src/module/history/page/historyPage';
+import ManagerPage from 'src/module/managers/page/managerpage';
+import ManagerdocumentsPage from 'src/module/Managerdocuments/page/Managerdocuments';
+import { ShareholderPage } from 'src/module/shareholder/page';
+import { ValidationPage } from 'src/module/validation/page';
+import { OtherCasesPage } from 'src/module/otherCases/page';
 import CardList from './ListCard';
-import Fildemnager from './fildemaneger';
-import Shareholder from './shareholder';
-import Resume from './resume';
-import OtherCases from './OtherCases';
-import Validation from './validation';
-import History from './history';
 import FormCompanyInfo from './formCompanyInfo';
 
 const Sterpercrowd = () => {
@@ -32,25 +32,25 @@ const Sterpercrowd = () => {
       case 0:
         return (
           <div>
-            <CardList/>
+            <CardList />
           </div>
         );
       case 1:
         return <FormCompanyInfo />;
       case 2:
-        return <Fildemnager/>;
+        return <ManagerPage />;
       case 3:
-        return <Resume/>;
+        return <ManagerdocumentsPage />;
       case 4:
-        return <Shareholder/>;
+        return <ShareholderPage />;
       case 5:
-        return <Validation/>;
+        return <ValidationPage />;
       case 6:
-        return <OtherCases/>;
+        return <OtherCasesPage />;
       case 7:
-        return <History/>;
+        return <HistoryPage />;
       case 8:
-        return <ContractPage/>;
+        return <ContractPage />;
       default:
         return (
           <div className="flex items-center justify-center self-center mt-8 text-lg">
