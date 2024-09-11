@@ -14,7 +14,7 @@ import FormCompanyInfo from './formCompanyInfo';
 
 const Sterpercrowd = () => {
   const { page, changePage } = useNavigateStep();
-
+  
   const steps = [
     'انتخاب کارت ',
     'اطلاعات شرکت',
