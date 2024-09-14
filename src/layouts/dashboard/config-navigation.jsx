@@ -17,9 +17,19 @@ const navConfig = [
     path: '/',
     icon: icon('ic_analytics'),
   },
+  // {
+  //   title: 'مشاهده طرح ها',
+  //   path: '/request',
+  //   icon: icon('ic_sheet'),
+  // },
   {
-    title: 'مشاهده طرح ها',
-    path: '/request',
+    title: 'ایجاد طرح',
+    path: '/plan',
+    icon: icon('ic_sheet'),
+  },
+  {
+    title: 'کاربران',
+    path: '/user',
     icon: icon('ic_sheet'),
   },
 ];

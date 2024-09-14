@@ -4,11 +4,11 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
-
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const RequestPage = lazy(() => import('src/pages/request'));
+export const PlanPage = lazy(() => import('src/components/plan'));
+export const UserPage = lazy(() => import('src/components/user'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
-export const UserPage = lazy(() => import('src/pages/user'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const ProcessProjectPage = lazy(() => import('src/pages/processProject'));
@@ -31,6 +31,10 @@ export default function Router() {
         { path: 'request', element: <UserPage /> },
         { path: 'process', element: <ProcessProjectPage /> },
         { path: 'ProfilePage', element: <ProfilePage /> },
+        { path: 'plan', element: <PlanPage /> },
+        { path: 'user', element: <UserPage /> },
+
+
       ],
     },
     {
@@ -38,6 +42,7 @@ export default function Router() {
       element: <LoginPage />,
     },
     { path: 'request', element: <RequestPage /> },
+
 
     {
       path: '404',

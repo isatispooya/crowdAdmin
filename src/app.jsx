@@ -9,11 +9,14 @@ import ThemeProvider from 'src/theme';
 import { useState } from 'react';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
-
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 import 'src/global.css';
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-datepicker/dist/react-datepicker.css'; 
+import 'tabulator-tables/dist/css/tabulator.min.css';
+
+
 
 
 

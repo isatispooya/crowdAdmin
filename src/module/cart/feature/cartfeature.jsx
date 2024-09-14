@@ -10,7 +10,10 @@ const CardFeature = ({
   setSendMessageModalOpen,
   handleModalOpen,
 }) => {
-  const formatNumber = (value) => value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const formatNumber = (value) => {
+    if (value == null) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
 
   return (
     <Box>
