@@ -9,12 +9,12 @@ import ManagerdocumentsPage from 'src/module/Managerdocuments/page/Managerdocume
 import { ShareholderPage } from 'src/module/shareholder/page';
 import { ValidationPage } from 'src/module/validation/page';
 import { OtherCasesPage } from 'src/module/otherCases/page';
-import CardList from './ListCard';
-import FormCompanyInfo from './formCompanyInfo';
+import CompanyInfoPage from 'src/module/companyInfo/page/companyInfopage';
+import CardPage from 'src/module/cart/page/cartPage';
 
 const Sterpercrowd = () => {
   const { page, changePage } = useNavigateStep();
-  
+
   const steps = [
     'انتخاب کارت ',
     'اطلاعات شرکت',
@@ -32,11 +32,11 @@ const Sterpercrowd = () => {
       case 0:
         return (
           <div>
-            <CardList />
+            <CardPage />
           </div>
         );
       case 1:
-        return <FormCompanyInfo />;
+        return <CompanyInfoPage />;
       case 2:
         return <ManagerPage />;
       case 3:

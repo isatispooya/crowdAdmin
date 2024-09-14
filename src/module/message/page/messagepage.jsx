@@ -1,30 +1,28 @@
-import * as React from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+import { fetchUserMessage } from 'src/hook/message';
 import {
-  Box,
   Button,
-  FormControlLabel,
-  Switch,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
-import { fetchUserMessage, sendMessage } from 'src/hook/message';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { sendMessage } from '../service/massage';
+import MessageFeature from '../feature/messagefeature';
 
-const SendMessage = ({ cardSelected, open, onClose }) => {
+const MessagePage = ({ cardSelected, open, onClose }) => {
   const { data } = useQuery({
     queryKey: ['userMessage', cardSelected],
     queryFn: () => fetchUserMessage(cardSelected),
   });
 
-  const [messageContent, setMessageContent] = React.useState('');
-  const [sendStatus, setSendStatus] = React.useState(false);
+  const [messageContent, setMessageContent] = useState('');
+  const [sendStatus, setSendStatus] = useState(false);
 
   const mutation = useMutation({
     mutationKey: ['sendMessage', cardSelected],
@@ -32,11 +30,14 @@ const SendMessage = ({ cardSelected, open, onClose }) => {
   });
 
   const handleSendMessage = () => {
-    mutation.mutate({ content: messageContent, send_sms: sendStatus });
+    mutation.mutate();
     onClose();
   };
-  React.useEffect(() => {
-    setMessageContent(data?.message?.message);
+
+  useEffect(() => {
+    if (data?.message?.message) {
+      setMessageContent(data.message.message);
+    }
   }, [data]);
 
   return (
@@ -57,36 +58,12 @@ const SendMessage = ({ cardSelected, open, onClose }) => {
         </IconButton>
       </DialogTitle>
       <DialogContent dividers>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 2,
-          }}
-        >
-          <TextareaAutosize
-            placeholder="متن پیام خود را بنویسید..."
-            minRows={4}
-            value={messageContent}
-            onChange={(e) => setMessageContent(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '16px',
-              border: '1px solid #1e88e5',
-              borderRadius: '8px',
-              outline: 'none',
-              resize: 'none',
-              boxSizing: 'border-box',
-            }}
-          />
-          <FormControlLabel
-            control={
-              <Switch checked={sendStatus} onChange={(e) => setSendStatus(e.target.checked)} />
-            }
-            label="وضعیت ارسال پیام"
-          />
-        </Box>
+        <MessageFeature
+          sendStatus={sendStatus}
+          messageContent={messageContent}
+          setMessageContent={setMessageContent}
+          setSendStatus={setSendStatus}
+        />
       </DialogContent>
       <DialogActions>
         <Button
@@ -110,10 +87,10 @@ const SendMessage = ({ cardSelected, open, onClose }) => {
   );
 };
 
-SendMessage.propTypes = {
-  cardSelected: PropTypes.number,
-  open: PropTypes.bool,
-  onClose: PropTypes.func,
+MessagePage.propTypes = {
+  cardSelected: PropTypes.number.isRequired,
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
-export default SendMessage;
+export default MessagePage;

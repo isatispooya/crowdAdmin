@@ -1,24 +1,16 @@
-import useNavigateStep from 'src/hooks/use-navigate-step';
 import UseCartId from 'src/hooks/card_id';
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { createCart, getStep1 } from 'src/hook/step1';
-import CompanyInfoInput from '../featuer/companyinput';
-
-const { Box } = require('@mui/material');
+import { useQuery } from '@tanstack/react-query';
+import { Box } from '@mui/material';
+import CompanyFeatuet from '../feature/companyfeature';
+import { fetchCompany } from '../service/compantInfoService';
 
 const CompanyInfoPage = () => {
-
-  const { incrementPage } = useNavigateStep();
   const { cartId } = UseCartId();
 
-  const [clicked, setClicked] = useState(false);
-
-  const mutation = useMutation({ mutationFn: () => createCart(localData, cartId) });
-
-  const { data, error, isLoading, isError, isSuccess } = useQuery({
+  const { data, isSuccess } = useQuery({
     queryKey: ['cartDetail', cartId],
-    queryFn: () => getStep1(cartId),
+    queryFn: () => fetchCompany(cartId),
   });
 
   const [localData, setLocalData] = useState(() => data || {});
@@ -29,7 +21,6 @@ const CompanyInfoPage = () => {
     }
   }, [isSuccess, data]);
 
-
   const handleRangeChange = (event) => {
     const value = parseInt(event.target.value, 10);
     setLocalData({
@@ -37,23 +28,6 @@ const CompanyInfoPage = () => {
       amount_of_request: value,
     });
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setClicked(true);
-    mutation.mutateAsync(localData, cartId);
-    incrementPage();
-  };
-
-  if (isLoading) {
-    return <p>loading ....</p>;
-  }
-  if (isError) {
-    return <p>error ....</p>;
-  }
-  if (!data) {
-    return <p>data ....</p>;
-  }
 
   const handleFileRemove = (type) => {
     setLocalData((prev) => {
@@ -63,10 +37,10 @@ const CompanyInfoPage = () => {
     });
   };
 
-
   return (
     <form>
       <div dir="rtl">
+      
         <Box
           sx={{
             display: 'flex',
@@ -88,10 +62,11 @@ const CompanyInfoPage = () => {
               boxShadow: 3,
             }}
           >
-            <CompanyInfoInput
+            <CompanyFeatuet
               localData={localData}
               setLocalData={setLocalData}
               handleRangeChange={handleRangeChange}
+              handleFileRemove={handleFileRemove}
             />
           </Box>
         </Box>

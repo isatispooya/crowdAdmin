@@ -1,4 +1,4 @@
-import { Label } from '@mui/icons-material';
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { DatePicker } from '@mui/lab';
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import moment from 'moment-jalaali';
@@ -14,11 +14,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
   };
 
   return (
-    <Grid container spacing={2}>
-      <div className="bg-gray-200 text-white rounded-t-3xl p-6 text-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-700">اطلاعات شرکت</h1>
-      </div>
-
+    <>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <div dir="ltr">
@@ -284,7 +280,6 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
       </Grid>
-
       <Box
         mt={8}
         width="100%"
@@ -294,9 +289,9 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
         alignItems="center"
       >
         <Box display="flex" alignItems="center" mb={2}>
-          <Label className="block text-gray-700 text-sm font-medium">
+          <label className="block text-gray-700 text-sm font-medium">
             میزان منابع درخواستی (ریال):
-          </Label>
+          </label>
           <div dir="ltr">
             <Switch
               name="Lock_amount_of_request"
@@ -323,7 +318,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           {formatNumber(localData.amount_of_request)} ریال
         </span>
       </Box>
-    </Grid>
+    </>
   );
 };
 
