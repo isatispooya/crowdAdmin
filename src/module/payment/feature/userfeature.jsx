@@ -7,9 +7,9 @@ import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
 import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReactDOM from 'react-dom';
-import UserModal from './usermodal';
+import PaymentModal from './usermodal';
 
-const UserFeature = () => {
+const PaymentFeature = () => {
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
@@ -25,8 +25,8 @@ const UserFeature = () => {
 
   const columns = [
     { title: 'نام', field: 'name', width: 160 },
-    { title: 'سن', field: 'age', align: 'left', width: 150 },
-    { title: 'جنسیت', field: 'gender', width: 150 },
+    { title: 'مبلغ پرداختی', field: 'payment', align: 'left', width: 150 },
+    { title: 'وضعیت عملیات', field: 'status', width: 150 },
     { title: 'ایمیل', field: 'email', width: 235 },
     {
       title: 'عملیات',
@@ -46,9 +46,9 @@ const UserFeature = () => {
   ];
 
   const data = [
-    { id: 1, name: 'علی رضایی', age: 25, gender: 'مرد', email: 'alire.doe@example.com' },
-    { id: 2, name: 'رضا امیری', age: 30, gender: 'مرد', email: 'reza.smith@example.com' },
-    { id: 3, name: 'نیوشا اسدی', age: 45, gender: 'زن', email: 'niw.bob@example.com' },
+    { id: 1, name: 'علی رضایی', payment: 25000000, status: 'موفق', email: 'alire.doe@example.com' },
+    { id: 2, name: 'رضا امیری', payment: 30000000, status: 'موفق', email: 'reza.smith@example.com' },
+    { id: 3, name: 'نیوشا اسدی', payment: 44455000, status: 'ناموفق', email: 'niw.bob@example.com' },
   ];
 
   return (
@@ -60,9 +60,9 @@ const UserFeature = () => {
         options={{ movableRows: true }}
       />
 
-      <UserModal selectedRow={selectedRow} handleClose={handleClose} open={open} />
+      <PaymentModal selectedRow={selectedRow} handleClose={handleClose} open={open} />
     </div>
   );
 };
 
-export default UserFeature;
+export default PaymentFeature;

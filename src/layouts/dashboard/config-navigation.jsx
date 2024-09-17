@@ -23,13 +23,18 @@ const navConfig = [
   //   icon: icon('ic_sheet'),
   // },
   {
-    title: 'ایجاد طرح',
+    title: ' طرح',
     path: '/plan',
     icon: icon('ic_sheet'),
   },
   {
-    title: 'کاربران',
+    title: 'اطلاعات کاربران',
     path: '/user',
+    icon: icon('ic_sheet'),
+  },
+  {
+    title: 'اطلاعات پرداخت',
+    path: '/payment',
     icon: icon('ic_sheet'),
   },
 ];

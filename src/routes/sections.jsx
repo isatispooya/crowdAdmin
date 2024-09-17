@@ -7,7 +7,9 @@ import DashboardLayout from 'src/layouts/dashboard';
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const RequestPage = lazy(() => import('src/pages/request'));
 export const PlanPage = lazy(() => import('src/components/plan'));
+export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
 export const UserPage = lazy(() => import('src/components/user'));
+export const PaymentPage = lazy(() => import('src/components/payment'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
@@ -32,9 +34,9 @@ export default function Router() {
         { path: 'process', element: <ProcessProjectPage /> },
         { path: 'ProfilePage', element: <ProfilePage /> },
         { path: 'plan', element: <PlanPage /> },
+        { path: '/plandetail/:id', element: <PlanDetailPage /> },
         { path: 'user', element: <UserPage /> },
-
-
+        { path: 'payment', element: <PaymentPage /> },
       ],
     },
     {
@@ -42,7 +44,6 @@ export default function Router() {
       element: <LoginPage />,
     },
     { path: 'request', element: <RequestPage /> },
-
 
     {
       path: '404',

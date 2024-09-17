@@ -1,11 +1,50 @@
-import { Box } from "@mui/material";
-import PlanFeature from "../feature/planfeature";
+import { Box } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { fetchPlan } from '../service/planService';
+import PlanTableFeature from '../feature/plantablefeature';
 
-const PlanPage=()=>{
-    console.log('ggg');
-    
-return(
-<div
+const PlanPage = () => {
+  const [planData, setPlanData] = useState([]);
+
+  const { data } = useQuery({
+    queryKey: ['userMessage'],
+    queryFn: () => fetchPlan(),
+  });
+
+  useEffect(() => {
+    if (data?.data && Array.isArray(data.data)) {
+      setPlanData(data.data);
+    } else {
+      setPlanData([]);
+    }
+  }, [data]);
+
+
+  // const mutation = useMutation({
+  //   mutationKey: ['sendPlan', cartId],
+  //   mutationFn: () => sendPlan(cartId, planData),
+  //   onSuccess: () => {
+  //     refetch();
+  //   },
+  // });
+
+
+
+  // const handleSendPlan = () => {
+  //   mutation.mutate();
+  // };
+
+
+
+  // const handleInputChange = (index, field, value) => {
+  //   const newData = [...planData];
+  //   newData[index] = { ...newData[index], [field]: value };
+  //   setPlanData(newData);
+  // };
+
+  return (
+    <div
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -17,7 +56,7 @@ return(
       <Box
         sx={{
           width: '100%',
-          maxWidth: '1000px',
+          maxWidth: '1400px',
           padding: 3,
           backgroundColor: '#ffffff',
           borderRadius: '16px',
@@ -29,12 +68,13 @@ return(
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-700">ایجاد طرح</h1>
+          <h1 className="text-2xl font-bold text-gray-700"> طرح</h1>
         </div>
-        <PlanFeature/>
+
+        <PlanTableFeature planData={planData} />
       </Box>
     </div>
-)
-}
+  );
+};
 
-export default PlanPage
+export default PlanPage;
