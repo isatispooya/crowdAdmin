@@ -4,7 +4,6 @@ import {
   Grid,
   InputAdornment,
   TextField,
-  Button,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -28,10 +27,11 @@ const PlanCreateModal = ({ open, onClose }) => {
     funded_amount: '',
     profit_amount: '',
     duration: '',
+    refund: '',
+    payment_period: '',
     status: '',
     activity_area: '',
-    date_range: [null, null],
-    refund: '',
+    date_range: [],
     link: '',
     applicant_percentage: '',
     nominal_price: '',
@@ -61,18 +61,12 @@ const PlanCreateModal = ({ open, onClose }) => {
   const handleDateChange = (date) => {
     setFormData((prevData) => ({ ...prevData, date_range: date }));
   };
-  const { mutate, isLoading, isError, error, isSuccess } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: sendPlanData,
-    onSuccess: (data) => {
-      console.log('Plan created successfully:', data);
-      onClose();
-    },
-    onError: (err) => {
-      console.error('Error creating plan:', err);
-    },
   });
 
   const handleSubmit = () => {
+    console.log(formData); 
     mutate(formData);
   };
 
@@ -210,7 +204,7 @@ const PlanCreateModal = ({ open, onClose }) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-     <SubmitButton onClick={handleSubmit}/>
+        <SubmitButton onClick={handleSubmit} />
       </DialogActions>
     </Dialog>
   );

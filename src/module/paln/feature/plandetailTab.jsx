@@ -70,13 +70,13 @@ const PlanDetailTab = ({ planData, idRow }) => {
         <PlanAddPic idRow={idRow} planData={planData}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <PlanDocumentation/>
+        <PlanDocumentation idRow={idRow}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <PlanGuarante/>
+        <PlanGuarante idRow={idRow}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <PlanComments/>
+        <PlanComments idRow={idRow}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
         <PlanInvestors/>

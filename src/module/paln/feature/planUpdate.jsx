@@ -8,7 +8,7 @@ import SelectField from 'src/components/fild/selectedfiled';
 import { SubmitButton } from 'src/components/button';
 import PropTypes from 'prop-types';
 import GlobalTextField from 'src/components/fild/textfiled';
-import { UpdatePlan } from '../service/planService';
+import { UpdatePlan } from '../service/planDetailService';
 import planUpdateInfo, { durationOptions, statusOptions } from './planUpdateInfo';
 
 const PlanUpdate = ({ planData, idRow }) => {

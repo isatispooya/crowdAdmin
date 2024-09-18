@@ -1,35 +1,22 @@
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 import PlanDetailTab from '../feature/plandetailTab';
-import { fetchDetail } from '../service/planService';
+import { fetchDetail } from '../service/planDetailService';
 
 const PlanDetailPage = () => {
-  const [planData, setPlanData] = useState(null);
   const [idRow, setIdRow] = useState();
-  const { id } = useParams(); 
+  const { id } = useParams();
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['planDetail', id], 
-    queryFn: () => fetchDetail(id), 
-    enabled: !!id,
+  const { data } = useQuery({
+    queryKey: ['planDetail', id],
+    queryFn: () => fetchDetail(id),
   });
-
-  useEffect(() => {
-    if (data) {
-      setPlanData(data); 
-    }
-  }, [data]);
 
   useEffect(() => {
     setIdRow(id);
   }, [id]);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading data</div>;
-
-  console.log('1:', planData);
 
   return (
     <div
@@ -55,7 +42,7 @@ const PlanDetailPage = () => {
           marginTop: '40px',
         }}
       >
-        <PlanDetailTab planData={planData} idRow={idRow}/>
+        <PlanDetailTab planData={data} idRow={idRow} />
       </Box>
     </div>
   );

@@ -71,7 +71,7 @@ const PlanPage = () => {
           <h1 className="text-2xl font-bold text-gray-700"> طرح</h1>
         </div>
 
-        <PlanTableFeature planData={planData} />
+        <PlanTableFeature planData={planData} setPlanData={setPlanData}/>
       </Box>
     </div>
   );

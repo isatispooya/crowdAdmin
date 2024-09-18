@@ -1,22 +1,34 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Input,
-  Button,
-  Link,
-  IconButton,
-  Divider,
-} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Input, Button, Link, IconButton, Divider } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { AddFormButton, SubmitButton } from 'src/components/button';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import PropTypes from 'prop-types';
+import { fetchDocument, sendDocument } from '../service/documentService';
 
-const PlanDocumentation = () => {
-  const [forms, setForms] = useState([{ id: Date.now(), files: [], lock: false }]);
+const PlanDocumentation = ({ idRow }) => {
+  const [forms, setForms] = useState([{ id: Date.now(), files: [] }]);
 
-  const handleButtonClick = () => {
-    console.log('Submit button clicked');
+  const { data } = useQuery({
+    queryKey: ['plandocument', idRow],
+    queryFn: () => fetchDocument(idRow),
+  });
+
+  useEffect(() => {
+    if (data && Array.isArray(data.data)) {
+      setForms(data.data.length > 0 ? data.data : [{ id: Date.now(), files: [] }]);
+    }
+  }, [data]);
+
+
+  const mutation = useMutation({
+    mutationKey: ['senddocument', idRow],
+    mutationFn: () => sendDocument(idRow, forms),
+  });
+
+  const handleSenddocument = () => {
+    mutation.mutate();
   };
 
   const handleFileChange = (event, formId) => {
@@ -45,7 +57,7 @@ const PlanDocumentation = () => {
   };
 
   const handleAddFormClick = () => {
-    setForms((prevForms) => [...prevForms, { id: Date.now(), files: [], lock: false }]);
+    setForms((prevForms) => [...prevForms, { id: Date.now(), files: [] }]);
   };
 
   return (
@@ -75,12 +87,7 @@ const PlanDocumentation = () => {
             }}
           >
             {form.files.length > 0 ? (
-              <Box
-                sx={{
-                  marginTop: '20px',
-                  marginBottom: '20px',
-                }}
-              >
+              <Box sx={{ marginTop: '20px', marginBottom: '20px' }}>
                 {form.files.map((file, index) => (
                   <Box
                     key={index}
@@ -152,7 +159,6 @@ const PlanDocumentation = () => {
                 <HighlightOffIcon />
               </IconButton>
             )}
-
           </Box>
 
           {forms.length > 1 && <Divider sx={{ marginY: 4 }} />}
@@ -162,9 +168,13 @@ const PlanDocumentation = () => {
       <Box mt={2} display="flex" flexDirection="column" alignItems="center" marginBottom={2}>
         <AddFormButton onClick={handleAddFormClick} />
       </Box>
-      <SubmitButton onClick={handleButtonClick} />
+      <SubmitButton onClick={handleSenddocument} />
     </Box>
   );
+};
+
+PlanDocumentation.propTypes = {
+  idRow: PropTypes.number.isRequired,
 };
 
 export default PlanDocumentation;

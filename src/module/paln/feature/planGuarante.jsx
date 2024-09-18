@@ -1,22 +1,33 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Input,
-  Button,
-  Link,
-  IconButton,
-  Divider,
-} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Input, Button, Link, IconButton, Divider } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { AddFormButton, SubmitButton } from 'src/components/button';
+import PropTypes from 'prop-types';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { fetchGuarante, sendGuarante } from '../service/guaranteService';
 
-const PlanGuarante = () => {
+const PlanGuarante = ({ idRow }) => {
   const [forms, setForms] = useState([{ id: Date.now(), files: [], lock: false }]);
 
+  const { data } = useQuery({
+    queryKey: ['planGuarante', idRow],
+    queryFn: () => fetchGuarante(idRow),
+  });
+
+  useEffect(() => {
+    if (data && Array.isArray(data.data)) {
+      setForms(data.data.length > 0 ? data.data : [{ id: Date.now(), files: [] }]);
+    }
+  }, [data]);
+
+  const mutation = useMutation({
+    mutationKey: ['sendGuarante', idRow],
+    mutationFn: () => sendGuarante(idRow, forms),
+  });
+
   const handleButtonClick = () => {
-    console.log('Submit button clicked');
+    mutation.mutate();
   };
 
   const handleFileChange = (event, formId) => {
@@ -152,7 +163,6 @@ const PlanGuarante = () => {
                 <HighlightOffIcon />
               </IconButton>
             )}
-
           </Box>
 
           {forms.length > 1 && <Divider sx={{ marginY: 4 }} />}
@@ -165,6 +175,10 @@ const PlanGuarante = () => {
       <SubmitButton onClick={handleButtonClick} />
     </Box>
   );
+};
+
+PlanGuarante.propTypes = {
+  idRow: PropTypes.number.isRequired,
 };
 
 export default PlanGuarante;

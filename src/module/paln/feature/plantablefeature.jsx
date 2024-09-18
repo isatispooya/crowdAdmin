@@ -7,14 +7,13 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
-import { QueryClient } from 'react-query';
 import { useMutation } from '@tanstack/react-query';
 import PlanDeleteModal from './plandeleteModal';
 import PlanCreateModal from './planCreateModal';
 import PlanUpdateModal from './planUpdate';
 import deletePlan from '../service/planService';
 
-const PlanTableFeature = ({ planData }) => {
+const PlanTableFeature = ({ planData,setPlanData }) => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -26,13 +25,6 @@ const PlanTableFeature = ({ planData }) => {
   const mutation = useMutation({
     mutationKey: ['deletePlan', selectedRow?.id],
     mutationFn: () => deletePlan(selectedRow?.id),
-    onSuccess: () => {
-      QueryClient.invalidateQueries('plans');
-      setShowConfirm(false);
-    },
-    onError: (error) => {
-      console.error('Error deleting plan:', error);
-    },
   });
 
   const handleAddOpen = () => setOpenAddModal(true);
@@ -66,7 +58,6 @@ const PlanTableFeature = ({ planData }) => {
   };
 
   const handleContextMenu = (e, row) => {
-    e.preventDefault();
     const rowData = row.getData();
     setSelectedRow(rowData);
     setContextMenu(
@@ -150,6 +141,7 @@ const PlanTableFeature = ({ planData }) => {
 
 PlanTableFeature.propTypes = {
   planData: PropTypes.array.isRequired,
+  setPlanData:PropTypes.func
 };
 
 export default PlanTableFeature;

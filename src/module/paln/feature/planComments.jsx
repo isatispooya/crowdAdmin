@@ -1,16 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
+import PropTypes from 'prop-types';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { fetchCommit, sendCommit } from '../service/commentService';
 
-const PlanComments = () => {
+const PlanComments = ({ idRow }) => {
+  const [commentData, setCommentData] = useState([]);
+
+  const { data } = useQuery({
+    queryKey: ['planCommit', idRow],
+    queryFn: () => fetchCommit(idRow),
+  });
+
+  useEffect(() => {
+    if (data) {
+      setCommentData(data.data);
+    }
+  }, [data]);
+
+  const mutation = useMutation({
+    mutationKey: ['sendCommits', idRow],
+    mutationFn: (updatedData) => sendCommit(updatedData, idRow),
+  });
+
+  const handleCellEdited = () => {
+    // mutation.mutate(commentData);
+    console.log(commentData);
+  };
+
+
+
   const columns = [
     { title: 'نام', field: 'name', width: 250 },
     { title: 'متن نظر', field: 'comment', width: 340 },
     {
       title: 'وضعیت',
       field: 'status',
-      align: 'center',
+      hozAlign: 'center',
       width: 220,
       formatter: 'tickCross',
       editor: 'select',
@@ -18,8 +46,8 @@ const PlanComments = () => {
     },
     {
       title: 'نمایش نام',
-      field: 'showName',
-      align: 'center',
+      field: 'known',
+      hozAlign: 'center',
       width: 220,
       formatter: 'tickCross',
       editor: 'select',
@@ -27,27 +55,20 @@ const PlanComments = () => {
     },
   ];
 
-  const data = [
-    { id: 1, name: 'رضا ترابی', comment: 'این یک نظر است.', status: true, showName: true },
-    { id: 2, name: 'محسن میرزایی', comment: 'این نظر دیگری است.', status: false, showName: true },
-    { id: 3, name: 'مریم احدی', comment: 'نظر سوم اینجا است.', status: true, showName: false },
-    { id: 4, name: 'سمانه زارع', comment: 'نظر چهارم موجود است.', status: true, showName: true },
-  ];
-
   return (
     <div>
       <ReactTabulator
-        data={data}
+        data={commentData}
         columns={columns}
         layout="fitData"
-        options={{
-          movableColumns: true,
-          pagination: 'local',
-          paginationSize: 10,
-        }}
+        cellEdited={handleCellEdited}
       />
     </div>
   );
+};
+
+PlanComments.propTypes = {
+  idRow: PropTypes.number.isRequired,
 };
 
 export default PlanComments;
