@@ -1,26 +1,56 @@
 import React from 'react';
 import { ReactTabulator } from 'react-tabulator';
-import 'react-tabulator/lib/styles.css'; 
-import 'react-tabulator/css/tabulator.min.css'; 
+import 'react-tabulator/lib/styles.css';
+import 'react-tabulator/css/tabulator.min.css';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
+import { fetchPlanInvestors } from '../service/detailplan/PlanInvestorsService';
 
 const PlanInvestors = () => {
-  const columns = [
-    { title: 'نام', field: 'name', width: 250 },
-    { title: 'مقدار', field: 'amount', align: 'left', width: 200 },
-    { title: 'کدملی', field: 'nationalCode', width: 340 },
-    { title: 'مبلغ', field: 'cost', align: 'center', width: 250 },
-  ];
+  const { id } = useParams();
+  const { data } = useQuery({
+    queryKey: ['planDocument', id],
+    queryFn: () => fetchPlanInvestors(id),
+  });
 
-  const data = [
-    { id: 1, name: 'رضا ترابی', amount: 29, nationalCode: '44267785432', cost: 10000000 },
-    { id: 2, name: 'محسن میرزایی', amount: 35, nationalCode: '4743985643', cost: 2343555000 },
-    { id: 3, name: 'مریم احدی', amount: 22, nationalCode: '5430066923', cost: 1578800 },
-    { id: 4, name: 'سمانه زارع', amount: 28, nationalCode: '223311234', cost: 298500 },
+  const formatNumber = (value) => {
+    if (value == null) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  const columns = [
+    {
+      title: 'نام و نام خانوادگی',
+      field: 'fullName',
+      width: 450,
+      formatter: (cell) => {
+        const { firstName, lastName } = cell.getData();
+        return firstName && lastName ? `${firstName.trim()} ${lastName.trim()}` : '';
+      },
+    },
+    { title: 'مقدار', field: 'amount', align: 'left', width: 450 },
+    { title: 'مبلغ', field: 'total_amount', align: 'center', width: 300, formatter: (cell) => formatNumber(cell.getValue()) },
   ];
 
   return (
     <div>
-      <ReactTabulator data={data} columns={columns} layout="fitData" />
+      <Box sx={{ padding: 3 }}>
+        <Box
+          sx={{
+            backgroundColor: '#e0e0e0',
+            color: '#333',
+            borderRadius: '16px 16px 0 0',
+            padding: '16px',
+            textAlign: 'center',
+          }}
+        >
+          <Typography variant="h4" fontWeight="bold">
+            سرمایه گذاران
+          </Typography>
+        </Box>
+        <ReactTabulator data={data} columns={columns} layout="fitData" />
+      </Box>
     </div>
   );
 };

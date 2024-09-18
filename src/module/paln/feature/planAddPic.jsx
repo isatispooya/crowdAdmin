@@ -2,11 +2,21 @@ import React, { useState } from 'react';
 import { Box, Typography, Input, Button, Link } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { SubmitButton } from 'src/components/button';
+import { useMutation } from '@tanstack/react-query';
+import PropTypes from 'prop-types';
+import { sendPic } from '../service/planpicService';
 
-const PlanAddPic = () => {
-  const [file, setFile] = useState(null);
+const PlanAddPic = ({ planData, idRow }) => {
+  const [file, setFile] = useState(planData);
+  
+
+  const mutation = useMutation({
+    mutationKey: ['sendPic', idRow],
+    mutationFn: () => sendPic(idRow, file),
+  });
+
   const handleButtonClick = () => {
-    console.log('g');
+    mutation.mutate();
   };
 
   const handleFileChange = (event) => {
@@ -35,7 +45,6 @@ const PlanAddPic = () => {
           افزودن عکس
         </Typography>
       </Box>
-
       {file ? (
         <Box
           sx={{
@@ -50,7 +59,7 @@ const PlanAddPic = () => {
           }}
         >
           <Link
-            href={URL.createObjectURL(file)}
+            href={file instanceof File ? URL.createObjectURL(file) : '#'}
             target="_blank"
             rel="noopener noreferrer"
             sx={{
@@ -94,11 +103,17 @@ const PlanAddPic = () => {
           onChange={handleFileChange}
         />
       )}
+
       <Box mt={2}>
         <SubmitButton onClick={handleButtonClick} />
       </Box>
     </Box>
   );
+};
+
+PlanAddPic.propTypes = {
+  planData: PropTypes.object,
+  idRow: PropTypes.number,
 };
 
 export default PlanAddPic;

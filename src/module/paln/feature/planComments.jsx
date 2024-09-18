@@ -26,15 +26,29 @@ const PlanComments = ({ idRow }) => {
   });
 
   const handleCellEdited = () => {
-    // mutation.mutate(commentData);
+    mutation.mutate(commentData);
     console.log(commentData);
   };
 
-
+  const safeFormatter = (cell) => (cell.getValue() !== null ? cell.getValue() : '');
 
   const columns = [
-    { title: 'نام', field: 'name', width: 250 },
-    { title: 'متن نظر', field: 'comment', width: 340 },
+    {
+      title: 'نام و نام خانوادگی',
+      field: 'fullName',
+      width: 250,
+      formatter: (cell) => {
+        const { firstName } = cell.getData();
+        const { lastName } = cell.getData();
+        return firstName && lastName ? `${firstName} ${lastName}` : '';
+      },
+    },
+    {
+      title: 'متن نظر',
+      field: 'comment',
+      width: 340,
+      formatter: safeFormatter,
+    },
     {
       title: 'وضعیت',
       field: 'status',
@@ -43,6 +57,9 @@ const PlanComments = ({ idRow }) => {
       formatter: 'tickCross',
       editor: 'select',
       editorParams: { values: { true: 'انتشار', false: 'عدم انتشار' } },
+      formatterParams: {
+        allowedValues: { true: 'انتشار', false: 'عدم انتشار' },
+      },
     },
     {
       title: 'نمایش نام',

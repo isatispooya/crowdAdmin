@@ -53,11 +53,11 @@ const PlanDetailTab = ({ planData, idRow }) => {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="مشاهده " {...a11yProps(0)} />
           <Tab label="ویرایش" {...a11yProps(1)} />
-          <Tab label="افزودن عکس به طرح" {...a11yProps(2)} />
+          <Tab label="افزودن عکس  " {...a11yProps(2)} />
           <Tab label="افزودن مستندات" {...a11yProps(3)} />
           <Tab label="افزودن تضامین" {...a11yProps(4)} />
           <Tab label="نظرات" {...a11yProps(5)} />
-          <Tab label="مشاهده سرمایه گذاران" {...a11yProps(6)} />
+          <Tab label="سرمایه گذاران" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -67,19 +67,19 @@ const PlanDetailTab = ({ planData, idRow }) => {
         <PlanUpdate planData={planData} idRow={idRow} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <PlanAddPic idRow={idRow} planData={planData}/>
+        <PlanAddPic idRow={idRow} planData={planData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <PlanDocumentation idRow={idRow}/>
+        <PlanDocumentation idRow={idRow} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <PlanGuarante idRow={idRow}/>
+        <PlanGuarante idRow={idRow} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <PlanComments idRow={idRow}/>
+        <PlanComments idRow={idRow} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
-        <PlanInvestors/>
+        <PlanInvestors />
       </CustomTabPanel>
     </Box>
   );
