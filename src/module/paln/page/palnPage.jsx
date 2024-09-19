@@ -7,8 +7,8 @@ import PlanTableFeature from '../feature/plantablefeature';
 const PlanPage = () => {
   const [planData, setPlanData] = useState([]);
 
-  const { data } = useQuery({
-    queryKey: ['userMessage'],
+  const { data,refetch } = useQuery({
+    queryKey: ['plan'],
     queryFn: () => fetchPlan(),
   });
 
@@ -19,30 +19,6 @@ const PlanPage = () => {
       setPlanData([]);
     }
   }, [data]);
-
-
-  // const mutation = useMutation({
-  //   mutationKey: ['sendPlan', cartId],
-  //   mutationFn: () => sendPlan(cartId, planData),
-  //   onSuccess: () => {
-  //     refetch();
-  //   },
-  // });
-
-
-
-  // const handleSendPlan = () => {
-  //   mutation.mutate();
-  // };
-
-
-
-  // const handleInputChange = (index, field, value) => {
-  //   const newData = [...planData];
-  //   newData[index] = { ...newData[index], [field]: value };
-  //   setPlanData(newData);
-  // };
-
   return (
     <div
       style={{
@@ -71,7 +47,7 @@ const PlanPage = () => {
           <h1 className="text-2xl font-bold text-gray-700"> طرح</h1>
         </div>
 
-        <PlanTableFeature planData={planData} setPlanData={setPlanData}/>
+        <PlanTableFeature planData={planData} refetch={refetch} setPlanData={setPlanData}/>
       </Box>
     </div>
   );

@@ -5,6 +5,11 @@ import PropTypes from 'prop-types';
 const PlanDetail = ({ planData }) => {
   const data = planData?.data;
 
+  const formatNumber = (value) => {
+    if (value == null) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   return (
     <Box
       sx={{
@@ -44,10 +49,10 @@ const PlanDetail = ({ planData }) => {
               <strong>نام شرکت:</strong> {data.company_name || ''}
             </Typography>
             <Typography>
-              <strong>مبلغ تامین شده:</strong> {data.funded_amount || ''}
+              <strong>مبلغ تامین شده:</strong> {formatNumber(data.funded_amount) || ''}
             </Typography>
             <Typography>
-              <strong>مقدار سود:</strong> {data.funded_amount || 'N/A'}
+              <strong>مقدار سود:</strong> {formatNumber(data.funded_amount) || ''}
             </Typography>
             <Typography>
               <strong>شناوری:</strong> {data.buoyancy || ''}
@@ -77,7 +82,7 @@ const PlanDetail = ({ planData }) => {
               <strong>درصد تامین متقاضی:</strong> {data.applicant_funding_percentage || ''}
             </Typography>
             <Typography>
-              <strong>قیمت اسمی هر گواهی:</strong> {data.nominal_price_certificate || ''}
+              <strong>قیمت اسمی هر گواهی:</strong> {formatNumber(data.nominal_price_certificate) || ''}
             </Typography>
             <Typography>
               <strong>توضیحات:</strong> {data.description || ''}

@@ -21,7 +21,19 @@ const PlanUpdate = ({ planData, idRow }) => {
     onError: (error) => console.error('Update failed:', error),
   });
 
-  const handleChange = (key, value) => setData((prev) => ({ ...prev, [key]: value }));
+  const handleChange = (key, value) => {
+    setData((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const formatNumber = (value) => {
+    if (value == null) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  const handleNumberChange = (key, value) => {
+    const numberValue = value.replace(/,/g, ''); // Remove commas for internal state
+    handleChange(key, numberValue);
+  };
 
   return (
     <Box sx={{ padding: 3 }}>
@@ -39,14 +51,20 @@ const PlanUpdate = ({ planData, idRow }) => {
         </Typography>
       </Box>
       <Grid container spacing={2} mt={5}>
-        {planUpdateInfo.map(({ id, label, type, adornment, format }) => (
+        {planUpdateInfo.map(({ id, label, type }) => (
           <Grid item xs={12} lg={6} key={id}>
             <GlobalTextField
               id={id}
               label={label}
               type={type}
-              value={data[id] || ''}
-              onChange={(e) => handleChange(id, e.target.value)}
+              value={type === 'number' ? formatNumber(data[id]) : data[id] || ''}
+              onChange={(e) => {
+                if (type === 'number') {
+                  handleNumberChange(id, e.target.value);
+                } else {
+                  handleChange(id, e.target.value);
+                }
+              }}
             />
           </Grid>
         ))}

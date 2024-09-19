@@ -13,7 +13,7 @@ import PlanCreateModal from './planCreateModal';
 import PlanUpdateModal from './planUpdate';
 import deletePlan from '../service/planService';
 
-const PlanTableFeature = ({ planData,setPlanData }) => {
+const PlanTableFeature = ({ planData, refetch }) => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
@@ -40,9 +40,12 @@ const PlanTableFeature = ({ planData,setPlanData }) => {
   const handleConfirmClose = () => setShowConfirm(false);
 
   const handleSendDeletePlan = () => {
-    mutation.mutate();
+    mutation.mutate(undefined, {
+      onSuccess: () => {
+        refetch();
+      },
+    });
     setShowConfirm(false);
-    planData();
   };
 
   const handleUpdateClose = () => setOpenUpdateModal(false);
@@ -58,29 +61,61 @@ const PlanTableFeature = ({ planData,setPlanData }) => {
   };
 
   const handleContextMenu = (e, row) => {
+    e.preventDefault();
     const rowData = row.getData();
-    setSelectedRow(rowData);
-    setContextMenu(
-      contextMenu === null
-        ? {
-            mouseX: e.clientX - 2,
-            mouseY: e.clientY - 4,
-          }
-        : null
-    );
+    if (rowData) {
+      setSelectedRow(rowData);
+      setContextMenu({
+        mouseX: e.clientX - 2,
+        mouseY: e.clientY - 4,
+      });
+    }
   };
 
   const handleCloseContextMenu = () => {
     setContextMenu(null);
   };
 
+  const formatNumber = (value) => {
+    if (value == null) return '0'; // یا می‌توانید این را به صورت دلخواه تغییر دهید
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+
   const columns = [
-    { title: 'نام طرح', field: 'plan_name', width: 250 },
+    { title: 'نام طرح', field: 'plan_name', width: 350 },
     { title: 'نام شرکت', field: 'company_name', width: 300 },
-    { title: 'نماد', field: 'symbol', width: 200 },
-    { title: 'مبلغ تایین شده', field: 'funded_amount', align: 'left', width: 200 },
-    { title: 'سود', field: 'fundeprofitd_amount', align: 'left', width: 200 },
-  ];
+    { title: 'نماد', field: 'symbol', width: 220 },
+    {
+        title: 'مبلغ اعتبار',
+        field: 'credit_amount',
+        align: 'left',
+        width: 250,
+        formatter: (cell) => formatNumber(cell.getValue()),
+    },
+    {
+        title: 'مبلغ بدهی',
+        field: 'debt_amount',
+        align: 'left',
+        width: 250,
+        formatter: (cell) => formatNumber(cell.getValue()),
+    },
+    {
+        title: 'مبلغ تعیین شده',
+        field: 'funded_amount',
+        align: 'left',
+        width: 250,
+        formatter: (cell) => formatNumber(cell.getValue()),
+    },
+    {
+        title: 'سود',
+        field: 'fundeprofitd_amount',
+        align: 'left',
+        width: 200,
+    },
+];
+
+
 
   return (
     <div style={{ width: '100%' }}>
@@ -141,7 +176,7 @@ const PlanTableFeature = ({ planData,setPlanData }) => {
 
 PlanTableFeature.propTypes = {
   planData: PropTypes.array.isRequired,
-  setPlanData:PropTypes.func
+  refetch: PropTypes.func.isRequired,
 };
 
 export default PlanTableFeature;

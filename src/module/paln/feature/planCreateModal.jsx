@@ -31,7 +31,6 @@ const PlanCreateModal = ({ open, onClose }) => {
     payment_period: '',
     status: '',
     activity_area: '',
-    date_range: [],
     link: '',
     applicant_percentage: '',
     nominal_price: '',
@@ -61,13 +60,20 @@ const PlanCreateModal = ({ open, onClose }) => {
   const handleDateChange = (date) => {
     setFormData((prevData) => ({ ...prevData, date_range: date }));
   };
-  const { mutate } = useMutation({
-    mutationFn: sendPlanData,
+
+  const mutation = useMutation({
+    mutationKey: ['document'],
+    mutationFn: () => sendPlanData(formData),
+    onSuccess: () => {
+      onClose(); // Close modal on success
+    },
+    onError: (error) => {
+      console.error('Error creating plan:', error);
+    },
   });
 
   const handleSubmit = () => {
-    console.log(formData); 
-    mutate(formData);
+    mutation.mutate(); 
   };
 
   return (
@@ -92,11 +98,7 @@ const PlanCreateModal = ({ open, onClose }) => {
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField
-                name="funded_amount"
-                label="مبلغ تایین شده"
-                onChange={handleChange}
-              />
+              <GlobalTextField name="funded_amount" label="مبلغ تایین شده" onChange={handleChange} />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
@@ -126,7 +128,7 @@ const PlanCreateModal = ({ open, onClose }) => {
             <Box mb={2}>
               <SelectField
                 id="payment_period"
-                name="duration"
+                name="payment_period"
                 label="دوره پرداخت"
                 options={durationOptions}
                 onChange={handleChange}
@@ -166,11 +168,6 @@ const PlanCreateModal = ({ open, onClose }) => {
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField name="refund" label="بازگردان" onChange={handleChange} />
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <Box mb={2}>
               <GlobalTextField name="link" label="لینک فرابورس" onChange={handleChange} />
             </Box>
           </Grid>
@@ -189,11 +186,7 @@ const PlanCreateModal = ({ open, onClose }) => {
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField
-                name="nominal_price"
-                label="قیمت اسمی هرگواهی"
-                onChange={handleChange}
-              />
+              <GlobalTextField name="nominal_price" label="قیمت اسمی هرگواهی" onChange={handleChange} />
             </Box>
           </Grid>
           <Grid item xs={12} lg={12}>
@@ -204,7 +197,7 @@ const PlanCreateModal = ({ open, onClose }) => {
         </Grid>
       </DialogContent>
       <DialogActions>
-        <SubmitButton onClick={handleSubmit} />
+        <SubmitButton onClick={handleSubmit} disabled={mutation.isLoading} />
       </DialogActions>
     </Dialog>
   );

@@ -27,17 +27,29 @@ const UserModal = ({ selectedRow, handleClose, open }) => (
       {selectedRow && (
         <Box sx={{ marginTop: 2, textAlign: 'center' }}>
           <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#333' }}>
-            {selectedRow.name}
+            {`${selectedRow.firstName} ${selectedRow.lastName}`}
           </Typography>
           <Box sx={{ marginTop: 2, fontSize: '1.1rem' }}>
-            <Typography sx={{ marginBottom: 1 }}>
-              <strong>سن:</strong> {selectedRow.age}
-            </Typography>
             <Typography sx={{ marginBottom: 1 }}>
               <strong>جنسیت:</strong> {selectedRow.gender}
             </Typography>
             <Typography sx={{ marginBottom: 1 }}>
-              <strong>ایمیل:</strong> {selectedRow.email}
+              <strong>کدملی:</strong> {selectedRow.uniqueIdentifier}
+            </Typography>
+            <Typography sx={{ marginBottom: 1 }}>
+              <strong>تاریخ تولد:</strong> {new Date(selectedRow.birthDate).toLocaleDateString('fa-IR')}
+            </Typography>
+            <Typography sx={{ marginBottom: 1 }}>
+              <strong>محل تولد:</strong> {selectedRow.placeOfBirth}
+            </Typography>
+            <Typography sx={{ marginBottom: 1 }}>
+              <strong>محل صدور:</strong> {selectedRow.placeOfIssue}
+            </Typography>
+            <Typography sx={{ marginBottom: 1 }}>
+              <strong>نام پدر:</strong> {selectedRow.fatherName}
+            </Typography>
+            <Typography sx={{ marginBottom: 1 }}>
+              <strong>شماره سریال:</strong> {selectedRow.serial}
             </Typography>
           </Box>
         </Box>

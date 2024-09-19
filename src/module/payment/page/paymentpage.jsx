@@ -1,8 +1,15 @@
 import { Box } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import PaymentFeature from '../feature/userfeature';
+import { fetchPayment } from '../service/paymentService';
 
 const PaymentPage = () => {
   console.log('h');
+  const { data } = useQuery({
+    queryKey: ['planDetail'],
+    queryFn: fetchPayment,
+  });
+
 
   return (
     <div
@@ -31,7 +38,7 @@ const PaymentPage = () => {
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-700">اطلاعات پرداخت</h1>
         </div>
-        <PaymentFeature/>
+        <PaymentFeature data={data}/>
       </Box>
     </div>
   );

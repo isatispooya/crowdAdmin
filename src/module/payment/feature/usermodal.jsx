@@ -19,7 +19,7 @@ const PaymentModal = ({ selectedRow, handleClose, open }) => (
   >
     <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '1.5rem' }}>
       <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-2">
-        <h1 className="text-2xl font-bold text-gray-700">اطلاعات کاربر</h1>
+        <h1 className="text-2xl font-bold text-gray-700">جزئیات پرداخت</h1>
       </div>
     </DialogTitle>
 
@@ -27,17 +27,20 @@ const PaymentModal = ({ selectedRow, handleClose, open }) => (
       {selectedRow && (
         <Box sx={{ marginTop: 2, textAlign: 'center' }}>
           <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#333' }}>
-            {selectedRow.name}
+            {`تاریخ تراکنش: ${new Date(selectedRow.transaction_date).toLocaleString('fa-IR')}`}
           </Typography>
           <Box sx={{ marginTop: 2, fontSize: '1.1rem' }}>
             <Typography sx={{ marginBottom: 1 }}>
-              <strong>مبلغ پرداختی:</strong> {selectedRow.payment}
+              <strong>مقدار اعتبار:</strong> {selectedRow.credit_amount.toLocaleString()} تومان
             </Typography>
             <Typography sx={{ marginBottom: 1 }}>
-              <strong>وضعیت پرداخت:</strong> {selectedRow.status}
+              <strong>مقدار بدهی:</strong> {selectedRow.debt_amount.toLocaleString()} تومان
             </Typography>
             <Typography sx={{ marginBottom: 1 }}>
-              <strong>ایمیل:</strong> {selectedRow.email}
+              <strong>وضعیت پرداخت:</strong> {selectedRow.status ? 'موفق' : 'ناموفق'}
+            </Typography>
+            <Typography sx={{ marginBottom: 1 }}>
+              <strong>کیف پول:</strong> {selectedRow.wallet}
             </Typography>
           </Box>
         </Box>
@@ -52,7 +55,13 @@ const PaymentModal = ({ selectedRow, handleClose, open }) => (
 );
 
 PaymentModal.propTypes = {
-  selectedRow: PropTypes.object,
+  selectedRow: PropTypes.shape({
+    transaction_date: PropTypes.string.isRequired,
+    credit_amount: PropTypes.number.isRequired,
+    debt_amount: PropTypes.number.isRequired,
+    status: PropTypes.bool.isRequired,
+    wallet: PropTypes.number.isRequired,
+  }),
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
