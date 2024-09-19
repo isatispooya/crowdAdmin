@@ -34,11 +34,10 @@ const PlanGuarante = ({ idRow }) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const newFiles = [...files];
-      newFiles[index].file = selectedFile; // به روزرسانی فایل
+      newFiles[index].file = selectedFile;
       setFiles(newFiles);
     }
   };
-  
 
   const handleTitleChange = (index, event) => {
     const newFiles = [...files];

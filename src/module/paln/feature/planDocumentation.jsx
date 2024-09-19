@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Input,  Link, IconButton } from '@mui/material';
+import { Box, Typography, Input, Link, IconButton } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { SubmitButton, AddFormButton } from 'src/components/button';
@@ -16,7 +16,11 @@ const PlanDocumentation = ({ idRow }) => {
   });
 
   useEffect(() => {
-    setFiles(data.length > 0 ? data : [null]);
+    if (data && Array.isArray(data)) {
+      setFiles(data.length > 0 ? data : [null]);
+    } else {
+      setFiles([null]);
+    }
   }, [data]);
 
   const mutation = useMutation({
@@ -100,10 +104,7 @@ const PlanDocumentation = ({ idRow }) => {
                 مشاهده فایل بارگذاری شده
                 <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
               </Link>
-              <IconButton
-                color="error"
-                onClick={() => handleFileRemove(index)}
-              >
+              <IconButton color="error" onClick={() => handleFileRemove(index)}>
                 <HighlightOffIcon />
               </IconButton>
             </Box>
