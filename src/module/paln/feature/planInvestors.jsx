@@ -23,14 +23,20 @@ const PlanInvestors = () => {
     {
       title: 'نام و نام خانوادگی',
       field: 'fullName',
-      width: 450,
+      width: 500,
       formatter: (cell) => {
         const { firstName, lastName } = cell.getData();
         return firstName && lastName ? `${firstName.trim()} ${lastName.trim()}` : '';
       },
     },
-    { title: 'مقدار', field: 'amount', align: 'left', width: 450 },
-    { title: 'مبلغ', field: 'total_amount', align: 'center', width: 300, formatter: (cell) => formatNumber(cell.getValue()) },
+    { title: 'مقدار سهم', field: 'amount', align: 'left', width: 455 },
+    {
+      title: 'مبلغ',
+      field: 'total_amount',
+      align: 'center',
+      width: 300,
+      formatter: (cell) => formatNumber(cell.getValue()),
+    },
   ];
 
   return (
