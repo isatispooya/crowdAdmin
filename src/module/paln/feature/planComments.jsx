@@ -1,36 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
 import PropTypes from 'prop-types';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchCommit, sendCommit } from '../service/commentService';
+import { useQuery } from '@tanstack/react-query';
+import { Box, Typography } from '@mui/material';
+import { fetchCommit } from '../service/commentService';
+import PlanCommentsModal from './planCommentModal';
 
 const PlanComments = ({ idRow }) => {
-  const [commentData, setCommentData] = useState([]);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['planCommit', idRow],
     queryFn: () => fetchCommit(idRow),
   });
 
-  useEffect(() => {
-    if (data) {
-      setCommentData(data.data);
-    }
-  }, [data]);
-
-  const mutation = useMutation({
-    mutationKey: ['sendCommits', idRow],
-    mutationFn: (updatedData) => sendCommit(updatedData, idRow),
-  });
-
-  const handleCellEdited = () => {
-    mutation.mutate(commentData);
-    console.log(commentData);
+  const handleRowClick = (e, row) => {
+    setSelectedComment(row.getData());
+    setOpenModal(true);
   };
 
-  const safeFormatter = (cell) => (cell.getValue() !== null ? cell.getValue() : '');
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const columns = [
     {
@@ -38,16 +32,15 @@ const PlanComments = ({ idRow }) => {
       field: 'fullName',
       width: 250,
       formatter: (cell) => {
-        const { firstName } = cell.getData();
-        const { lastName } = cell.getData();
+        const { firstName, lastName } = cell.getData();
         return firstName && lastName ? `${firstName} ${lastName}` : '';
       },
     },
     {
       title: 'متن نظر',
       field: 'comment',
-      width: 340,
-      formatter: safeFormatter,
+      width: 540,
+      formatter: (cell) => (cell.getValue() !== null ? cell.getValue() : ''),
     },
     {
       title: 'وضعیت',
@@ -55,11 +48,6 @@ const PlanComments = ({ idRow }) => {
       hozAlign: 'center',
       width: 220,
       formatter: 'tickCross',
-      editor: 'select',
-      editorParams: { values: { true: 'انتشار', false: 'عدم انتشار' } },
-      formatterParams: {
-        allowedValues: { true: 'انتشار', false: 'عدم انتشار' },
-      },
     },
     {
       title: 'نمایش نام',
@@ -67,18 +55,40 @@ const PlanComments = ({ idRow }) => {
       hozAlign: 'center',
       width: 220,
       formatter: 'tickCross',
-      editor: 'select',
-      editorParams: { values: { true: 'نام نمایش داده شود', false: 'نام نمایش داده نشود' } },
     },
   ];
 
   return (
     <div>
-      <ReactTabulator
-        data={commentData}
-        columns={columns}
-        layout="fitData"
-        cellEdited={handleCellEdited}
+      <Box sx={{ padding: 3 }}>
+        <Box
+          sx={{
+            backgroundColor: '#e0e0e0',
+            color: '#333',
+            borderRadius: '16px 16px 0 0',
+            padding: '16px',
+            textAlign: 'center',
+          }}
+        >
+          <Typography variant="h4" fontWeight="bold" mb={2}>
+            نظرات
+          </Typography>
+          <ReactTabulator
+            data={data?.data}
+            columns={columns}
+            layout="fitData"
+            events={{
+              rowClick: handleRowClick,
+            }}
+          />
+        </Box>
+      </Box>
+      <PlanCommentsModal
+        openModal={openModal}
+        handleCloseModal={handleCloseModal}
+        selectedComment={selectedComment}
+        setSelectedComment={setSelectedComment}
+        refetch={refetch}
       />
     </div>
   );
