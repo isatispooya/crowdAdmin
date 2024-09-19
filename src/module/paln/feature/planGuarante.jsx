@@ -11,7 +11,7 @@ const PlanGuarante = ({ idRow }) => {
   const [files, setFiles] = useState([]);
 
   const { data } = useQuery({
-    queryKey: ['planDocument', idRow],
+    queryKey: ['useguarante', idRow],
     queryFn: () => fetchGuarante(idRow),
   });
 
@@ -21,7 +21,7 @@ const PlanGuarante = ({ idRow }) => {
     }
   }, [data]);
   const mutation = useMutation({
-    mutationKey: ['document', idRow],
+    mutationKey: ['guarante', idRow],
     mutationFn: () => sendGuarante(idRow, files),
   });
 
