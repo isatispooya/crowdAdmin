@@ -20,7 +20,6 @@ const PlanGuarante = ({ idRow }) => {
       setFiles([{ title: data.data.title, file: data.data.file }]);
     }
   }, [data]);
-
   const mutation = useMutation({
     mutationKey: ['document', idRow],
     mutationFn: () => sendGuarante(idRow, files),
@@ -35,10 +34,11 @@ const PlanGuarante = ({ idRow }) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
       const newFiles = [...files];
-      newFiles[index].file = selectedFile;
+      newFiles[index].file = selectedFile; // به روزرسانی فایل
       setFiles(newFiles);
     }
   };
+  
 
   const handleTitleChange = (index, event) => {
     const newFiles = [...files];
