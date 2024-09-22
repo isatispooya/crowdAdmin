@@ -9,12 +9,17 @@ import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import CardHeader from '@mui/material/CardHeader';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
 
-// ----------------------------------------------------------------------
+const taskList = [
+  { id: '1', name: 'حقوقارو زود تر پرداخت کنم ' },
+  { id: '2', name: 'به هر فرد 5 ت بیشتر حقوق بدم' },
+  { id: '3', name: 'مرخصی ها از 2 روز به 10 روز تغییر کنه ' },
+];
 
-export default function AnalyticsTasks({ title, subheader, list, ...other }) {
+export default function AnalyticsTasks({ title, subheader, ...other }) {
   const [selected, setSelected] = useState(['2']);
 
   const handleClickComplete = (taskId) => {
@@ -26,10 +31,22 @@ export default function AnalyticsTasks({ title, subheader, list, ...other }) {
   };
 
   return (
-    <Card {...other}>
+    <Card {...other} sx={{ p: 2, mt: 2 }}>
       <CardHeader title={title} subheader={subheader} />
+      
+      <Typography 
+        variant="h6" 
+        sx={{ 
+          mt: 2, 
+          mb: 2, 
+          textAlign: 'center', 
+          fontWeight: 'bold',
+        }}
+      >
+         عملیات ها
+      </Typography>
 
-      {list.map((task) => (
+      {taskList.map((task) => (
         <TaskItem
           key={task.id}
           task={task}
@@ -42,7 +59,6 @@ export default function AnalyticsTasks({ title, subheader, list, ...other }) {
 }
 
 AnalyticsTasks.propTypes = {
-  list: PropTypes.array,
   subheader: PropTypes.string,
   title: PropTypes.string,
 };

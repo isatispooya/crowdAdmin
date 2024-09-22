@@ -3,12 +3,12 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 import { OnRun } from 'src/api/OnRun';
 
-const access = await getCookie('access');
+const accessApi =  getCookie('accessApi');
 
 export const fetchGuarante = async (id) => {
   const response = await api.get(`/api/appendices/admin/${id}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -20,17 +20,16 @@ export const sendGuarante = async (id, data) => {
   
   data.forEach((element, index) => {
     if (element.file) {
-      form.append('file', element.file);  // کلید فایل بدون اندیس
+      form.append('file', element.file);  
     }
     if (element.title) {
-      form.append('title', element.title);  // کلید عنوان بدون اندیس
+      form.append('title', element.title);  
     }
   });
 
   const response = await axios.post(`${OnRun}/api/appendices/admin/${id}/`, form, {
     headers: {
-      Authorization: `Bearer ${access}`,
-      // 'Content-Type' را حذف کنید تا به صورت خودکار تنظیم شود
+      Authorization: `Bearer ${accessApi}`,
     },
   });
 

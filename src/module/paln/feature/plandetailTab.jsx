@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundraisingPage';
 import PlanDetail from './planDetail';
 import PlanUpdate from './planUpdate';
 import PlanAddPic from './planAddPic';
@@ -58,6 +59,7 @@ const PlanDetailTab = ({ planData, idRow }) => {
           <Tab label="افزودن تضامین" {...a11yProps(4)} />
           <Tab label="نظرات" {...a11yProps(5)} />
           <Tab label="سرمایه گذاران" {...a11yProps(6)} />
+          <Tab label="پایان جمع آوری وجه" {...a11yProps(7)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -80,6 +82,9 @@ const PlanDetailTab = ({ planData, idRow }) => {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
         <PlanInvestors />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={7}>
+        <EndOffUndraisingPage/>
       </CustomTabPanel>
     </Box>
   );

@@ -1,12 +1,12 @@
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-const access = getCookie('access');
+const accessApi = getCookie('accessApi');
 
 export const fetchCards = async () => {
   const response = await api.get(`/api/cart/admin/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -16,7 +16,7 @@ export const fetchCards = async () => {
 export const deleteCard = async (cardId) => {
   const response = await api.delete(`/api/cart/admin/${cardId}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });

@@ -82,7 +82,7 @@ export default function LoginView() {
         data: { uniqueIdentifier: nationalCode, code: otp },
       })
         .then((response) => {
-          setCookie('access', response.data.access, 5);
+          setCookie('accessApi', response.data.access, 5);
           toast.success('ورود با موفقیت انجام شد');
           if (registerd) {
             router.push('/');

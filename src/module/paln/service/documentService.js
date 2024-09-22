@@ -3,12 +3,12 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 import { OnRun } from 'src/api/OnRun';
 
-// بارگذاری توکن دسترسی به صورت داخلی در هر درخواست
+const accessApi =  getCookie('accessApi');  
+
 export const fetchDocument = async (id) => {
-  const access = await getCookie('access');  // گرفتن توکن در داخل تابع
   const response = await api.get(`/api/documentation/admin/${id}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -16,21 +16,20 @@ export const fetchDocument = async (id) => {
 };
 
 export const sendDocument = async (id, data) => {
-  const access = await getCookie('access');  // گرفتن توکن در داخل تابع
   const form = new FormData();
   
   data.forEach((element) => {
     if (element.file) {
-      form.append('file', element.file);  // کلید فایل بدون اندیس
+      form.append('file', element.file); 
     }
     if (element.title) {
-      form.append('title', element.title);  // کلید عنوان بدون اندیس
+      form.append('title', element.title);  
     }
   });
 
   const response = await axios.post(`${OnRun}/api/documentation/admin/${id}/`, form, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
     },
   });
 

@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import PaymentModal from './usermodal';
+import PaymentModal from './peymentmodal';
 
 const PaymentFeature = ({ data }) => {
   const [open, setOpen] = useState(false);

@@ -29,13 +29,12 @@ const Attachement = ({ id }) => {
       const formData = new FormData();
       formData.append('name', data.name || "");
       formData.append('national_code', data.national_code || "");
-      // formData.append('otherField', data.otherField || ""); // افزودن فیلدهای دیگر اگر لازم است
       
-      const access = await getCookie('access');
+      const accessApi =  getCookie('accessApi');
       const response = await axios.post(`${OnRun}/api/resume/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${access}`,
+          Authorization: `Bearer ${accessApi}`,
         },
         maxBodyLength: Infinity
       });

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-
-import Sterpercrowd from 'src/components/sterpercrowd';
+import AppWidgetSummary from '../app-widget-summary';
+import AnalyticsTasks from '../app-tasks';
 
 export default function AppView() {
   return (
@@ -12,7 +12,11 @@ export default function AppView() {
           خوش آمدید 👋
         </Grid>
       </Grid>
-      <Sterpercrowd />
+      <AppWidgetSummary />
+
+      <AnalyticsTasks />
+
+      {/* <CardSafeBox /> */}
     </Container>
   );
 }

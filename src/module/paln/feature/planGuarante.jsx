@@ -5,6 +5,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { AddFormButton } from 'src/components/button';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
+import { OnRun } from 'src/api/OnRun';
 import { fetchGuarante, sendGuarante } from '../service/guaranteService';
 
 const PlanGuarante = ({ idRow }) => {
@@ -122,7 +123,8 @@ const PlanGuarante = ({ idRow }) => {
               }}
             >
               <Link
-                href={file.file}
+
+                href={ `${OnRun}/${file.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{

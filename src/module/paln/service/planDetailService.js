@@ -1,12 +1,12 @@
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-const access = await getCookie('access');
+const accessApi =  getCookie('accessApi');
 
 export const fetchDetail = async (id) => {
   const response = await api.get(`/api/plan/admin/${id}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -36,7 +36,7 @@ export const UpdatePlan = async (id, data) => {
 
   const response = await api.patch(url, formData, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'multipart/form-data',
     },
   });

@@ -27,13 +27,13 @@ const UserFeature = ({ data }) => {
     {
       title: 'نام و نام خانوادگی',
       field: 'fullName',
-      width: 250,
+      width: 240,
       formatter: (cell) => {
         const { firstName, lastName } = cell.getData();
         return firstName && lastName ? `${firstName} ${lastName}` : '';
       },
     },
-    { title: 'کدملی', field: 'uniqueIdentifier', width: 160 },
+    { title: 'کدملی', field: 'uniqueIdentifier', width: 150 },
     {
       title: 'تاریخ تولد',
       field: 'birthDate',
@@ -54,12 +54,12 @@ const UserFeature = ({ data }) => {
       },
     },
     { title: 'جنسیت', field: 'gender', width: 150 },
-    { title: 'محل تولد', field: 'placeOfBirth', width: 160 },
-    { title: 'محل صدور', field: 'placeOfIssue', width: 160 },
+    { title: 'محل تولد', field: 'placeOfBirth', width: 150 },
+    { title: 'محل صدور', field: 'placeOfIssue', width: 150 },
     {
       title: 'عملیات',
       field: 'operations',
-      width: 150,
+      width: 50,
       formatter: (cell) => {
         const iconButtonContainer = document.createElement('div');
         ReactDOM.render(

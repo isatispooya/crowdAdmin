@@ -3,7 +3,7 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
 const postPlanDetail = async (data) => {
-  const access = getCookie('access');
+  const accessApi = getCookie('accessApi');
 
   const url = `/api/plan/admin/${data.id}/`;
   const formData = new FormData();
@@ -26,7 +26,7 @@ const postPlanDetail = async (data) => {
 
   const response = await api.patch(url, formData, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'multipart/form-data',
     },
   });

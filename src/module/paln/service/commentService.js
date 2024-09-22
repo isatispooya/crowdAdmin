@@ -1,12 +1,12 @@
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-const access = await getCookie('access');
+const accessApi =  getCookie('accessApi');
 
 export const fetchCommit = async (id) => {
   const response = await api.get(`/api/comment/admin/${id}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -25,7 +25,7 @@ export const sendCommit = async (id, data) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${access}`,
+        Authorization: `Bearer ${accessApi}`,
         'Content-Type': 'application/json',
       },
     }

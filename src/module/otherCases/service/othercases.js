@@ -3,12 +3,12 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 import { OnRun } from 'src/api/OnRun';
 
-const access = await getCookie('access');
+const accessApi =  getCookie('accessApi');
 
 export const fetchOtherCases = async (id) => {
   const response = await api.get(`/api/addinformation/admin/${id}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -28,7 +28,7 @@ export const sendOtherCases = async (id, data) => {
 
   const response = await axios.post(`${OnRun}/api/addinformation/admin/${id}/`, formData, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'multipart/form-data',
     },
   });

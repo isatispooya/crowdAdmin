@@ -5,11 +5,11 @@ import { getCookie } from 'src/api/cookie';
 export const fetchCompany = async (id) => {
   let response;
   if (id) {
-    const access = await getCookie('access');
+    const accessApi =  getCookie('accessApi');
 
     response = await api.get(`/api/cart/detail/admin/${id}/`, {
       headers: {
-        Authorization: `Bearer ${access}`,
+        Authorization: `Bearer ${accessApi}`,
       },
     });
   } else {
@@ -195,11 +195,11 @@ export const createCart = async (data, id) => {
     formData.append('logo', data.postal_code);
   }
 
-  const access = await getCookie('access');
+  const accessApi =  getCookie('access');
   const response = await api.patch(`/api/cart/admin/${id}/`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
     },
     maxBodyLength: Infinity,
   });

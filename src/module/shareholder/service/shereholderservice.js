@@ -3,12 +3,12 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 import { OnRun } from 'src/api/OnRun';
 
-const access = await getCookie('access');
+const accessApi =  getCookie('accessApi');
 
 export const fetchShareholder = async (id) => {
   const response = await api.get(`/api/shareholder/admin/${id}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -22,7 +22,7 @@ export const sendShareholder = async (id, data) => {
     (data = { shareholder: data }),
     {
       headers: {
-        Authorization: `Bearer ${access}`,
+        Authorization: `Bearer ${accessApi}`,
         'Content-Type': 'application/json',
       },
     }

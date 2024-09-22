@@ -2,11 +2,11 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
 export const fetchUser = async () => {
-  const access = await getCookie('access');
+  const accessApi =  getCookie('accessApi');
 
   const response = await api.get(`/api/listuser/admin/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });

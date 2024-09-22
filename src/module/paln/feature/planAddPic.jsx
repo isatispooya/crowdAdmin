@@ -4,6 +4,7 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { SubmitButton } from 'src/components/button';
 import { useMutation } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
+import { OnRun } from 'src/api/OnRun';
 import { sendPic } from '../service/planpicService';
 
 const PlanAddPic = ({ planData, idRow }) => {
@@ -29,6 +30,9 @@ const PlanAddPic = ({ planData, idRow }) => {
   const handleFileRemove = () => {
     setFile(null);
   };
+
+  console.log(planData);
+  
 
   return (
     <Box sx={{ padding: 3 }}>
@@ -58,8 +62,9 @@ const PlanAddPic = ({ planData, idRow }) => {
             marginBottom: '20px',
           }}
         >
+
           <Link
-            href={file instanceof File ? URL.createObjectURL(file) : '#'}
+            href={`${OnRun}/${planData.data.picture}`}
             target="_blank"
             rel="noopener noreferrer"
             sx={{

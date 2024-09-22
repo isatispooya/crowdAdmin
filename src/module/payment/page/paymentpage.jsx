@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import PaymentFeature from '../feature/userfeature';
+import PaymentFeature from '../feature/paymentfeature';
 import { fetchPayment } from '../service/paymentService';
 
 const PaymentPage = () => {

@@ -5,8 +5,8 @@ import { getCookie } from "src/api/cookie";
 
 
 const getManagement =async (id) =>{
-    const access = await getCookie('access');
-    const response = await axios.get(`${OnRun}/api/manager/${id}/`,{headers:{Authorization:`Bearer ${access}`}})
+    const accessApi =  getCookie('accessApi');
+    const response = await axios.get(`${OnRun}/api/manager/${id}/`,{headers:{Authorization:`Bearer ${accessApi}`}})
     
     return response.data.data
 }

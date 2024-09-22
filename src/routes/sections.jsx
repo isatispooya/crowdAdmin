@@ -5,6 +5,7 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/dashboard';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
+export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
 export const RequestPage = lazy(() => import('src/pages/request'));
 export const PlanPage = lazy(() => import('src/components/plan'));
 export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
@@ -30,6 +31,7 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
+        { path: 'card', element: <Sterpercrowd />},
         { path: 'request', element: <UserPage /> },
         { path: 'process', element: <ProcessProjectPage /> },
         { path: 'ProfilePage', element: <ProfilePage /> },

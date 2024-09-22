@@ -1,12 +1,12 @@
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-const access = await getCookie('access');
+const accessApi =  getCookie('accessApi');
 
 export const fetchPlanInvestors = async (id) => {
   const response = await api.get(`/api/participant/admin/${id}/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });

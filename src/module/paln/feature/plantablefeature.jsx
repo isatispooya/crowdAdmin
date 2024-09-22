@@ -82,35 +82,35 @@ const PlanTableFeature = ({ planData, refetch }) => {
   };
 
   const columns = [
-    { title: 'نام طرح', field: 'plan_name', width: 350 },
-    { title: 'نام شرکت', field: 'company_name', width: 300 },
-    { title: 'نماد', field: 'symbol', width: 220 },
+    { title: 'نام طرح', field: 'plan_name', width: 300 },
+    { title: 'نام شرکت', field: 'company_name', width: 150 },
+    { title: 'نماد', field: 'symbol', width: 240 },
     {
       title: 'مبلغ اعتبار',
       field: 'credit_amount',
       align: 'left',
-      width: 250,
+      width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
     },
     {
       title: 'مبلغ بدهی',
       field: 'debt_amount',
       align: 'left',
-      width: 250,
+      width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
     },
     {
       title: 'مبلغ تعیین شده',
       field: 'funded_amount',
       align: 'left',
-      width: 250,
+      width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
     },
     {
       title: 'سود',
       field: 'applicant_funding_percentage',
       align: 'left',
-      width: 200,
+      width: 150,
     },
   ];
 

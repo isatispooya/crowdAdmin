@@ -1,12 +1,12 @@
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-const access = await getCookie('access');
+const accessApi =  getCookie('accessApi');
 
 export const fetchPlan = async () => {
   const response = await api.get(`/api/plan/admin/`, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -19,7 +19,7 @@ export const fetchPlan = async () => {
 export const sendPlanData = async (data) => {
   const response = await api.post('/api/plan/admin/', data, {
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
@@ -35,7 +35,7 @@ const deletePlan = async (id) => {
   try {
     const response = await api.delete(url, {
       headers: {
-        Authorization: `Bearer ${access}`,
+        Authorization: `Bearer ${accessApi}`,
         'Content-Type': 'application/json',
       },
     });

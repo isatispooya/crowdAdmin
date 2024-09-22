@@ -3,12 +3,12 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
 const usePlanDetailGet = (id) => {
-  const access = getCookie('access');
+  const accessApi = getCookie('accessApi');
 
   const getPlanDetail = async () => {
     const response = await api.get(`/api/plan/admin/${id}/`, {
       headers: {
-        Authorization: `Bearer ${access}`,
+        Authorization: `Bearer ${accessApi}`,
         'Content-Type': 'application/json',
       },
     });
