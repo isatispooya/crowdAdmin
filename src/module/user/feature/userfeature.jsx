@@ -1,5 +1,4 @@
 /* eslint-disable react/no-deprecated */
-
 import React, { useState } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
@@ -35,7 +34,25 @@ const UserFeature = ({ data }) => {
       },
     },
     { title: 'کدملی', field: 'uniqueIdentifier', width: 160 },
-    { title: 'تاریخ تولد', field: 'birthDate', width: 160 },
+    {
+      title: 'تاریخ تولد',
+      field: 'birthDate',
+      width: 160,
+      formatter: (cell) => {
+        const date = new Date(cell.getValue());
+        const options = {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          timeZone: 'Asia/Tehran',
+        };
+
+        return new Intl.DateTimeFormat('fa-IR', options).format(date);
+      },
+    },
     { title: 'جنسیت', field: 'gender', width: 150 },
     { title: 'محل تولد', field: 'placeOfBirth', width: 160 },
     { title: 'محل صدور', field: 'placeOfIssue', width: 160 },
@@ -61,7 +78,7 @@ const UserFeature = ({ data }) => {
       <ReactTabulator
         data={data}
         columns={columns}
-        layout="fitData"
+        layout="fitDataStretch"
         options={{ movableRows: true }}
       />
 

@@ -24,7 +24,7 @@ const PaymentPage = () => {
       <Box
         sx={{
           width: '100%',
-          maxWidth: '900px',
+          maxWidth: '1400px',
           padding: 3,
           backgroundColor: '#ffffff',
           borderRadius: '16px',

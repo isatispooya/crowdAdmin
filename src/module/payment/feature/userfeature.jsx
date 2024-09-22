@@ -25,19 +25,32 @@ const PaymentFeature = ({ data }) => {
   };
 
   const columns = [
-    { title: 'شناسه', field: 'id', width: 80 },
+    { title: 'شناسه', field: 'id', width: 200 },
     {
       title: 'تاریخ تراکنش',
       field: 'transaction_date',
-      width: 200,
-      formatter: (cell) => new Date(cell.getValue()).toLocaleString(),
+      width: 350,
+      formatter: (cell) => {
+        const date = new Date(cell.getValue());
+        const options = {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+          timeZone: 'Asia/Tehran',
+        };
+
+        return new Intl.DateTimeFormat('fa-IR', options).format(date);
+      },
     },
-    { title: 'مبلغ اعتبار', field: 'credit_amount', align: 'left', width: 150 },
-    { title: 'مبلغ بدهی', field: 'debt_amount', width: 150 },
+    { title: 'مبلغ اعتبار', field: 'credit_amount', align: 'left', width: 200 },
+    { title: 'مبلغ بدهی', field: 'debt_amount', width: 200 },
     {
       title: 'وضعیت',
       field: 'status',
-      width: 100,
+      width: 200,
       formatter: (cell) => (cell.getValue() ? 'موفق' : 'ناموفق'),
     },
     {

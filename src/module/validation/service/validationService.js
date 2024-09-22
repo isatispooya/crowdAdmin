@@ -12,7 +12,6 @@ export const fetchValidation = async (id) => {
       'Content-Type': 'application/json',
     },
   });
-
   return response.data;
 };
 

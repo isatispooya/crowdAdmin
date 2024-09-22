@@ -20,22 +20,7 @@ import { SubmitButton } from 'src/components/button';
 import { sendPlanData } from '../service/planService';
 
 const PlanCreateModal = ({ open, onClose }) => {
-  const [formData, setFormData] = useState({
-    plan_name: '',
-    company_name: '',
-    symbol: '',
-    funded_amount: '',
-    profit_amount: '',
-    duration: '',
-    refund: '',
-    payment_period: '',
-    status: '',
-    activity_area: '',
-    link: '',
-    applicant_percentage: '',
-    nominal_price: '',
-    description: '',
-  });
+  const [formData, setFormData] = useState({});
 
   const durationOptions = [
     { value: '1', label: 'ماهانه' },
@@ -52,28 +37,21 @@ const PlanCreateModal = ({ open, onClose }) => {
     { value: '5', label: 'کنسل شده' },
   ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
   const handleDateChange = (date) => {
     setFormData((prevData) => ({ ...prevData, date_range: date }));
   };
 
   const mutation = useMutation({
-    mutationKey: ['document'],
-    mutationFn: () => sendPlanData(formData),
+    mutationKey: ['create'],
+    mutationFn: sendPlanData,
     onSuccess: () => {
-      onClose(); // Close modal on success
-    },
-    onError: (error) => {
-      console.error('Error creating plan:', error);
+      window.location.reload();
     },
   });
+  
 
   const handleSubmit = () => {
-    mutation.mutate(); 
+    mutation.mutate(formData);
   };
 
   return (
@@ -83,55 +61,98 @@ const PlanCreateModal = ({ open, onClose }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField name="plan_name" label="نام طرح" onChange={handleChange} />
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <Box mb={2}>
-              <GlobalTextField name="company_name" label="نام شرکت" onChange={handleChange} />
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <Box mb={2}>
-              <GlobalTextField name="symbol" label="نماد" onChange={handleChange} />
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <Box mb={2}>
-              <GlobalTextField name="funded_amount" label="مبلغ تایین شده" onChange={handleChange} />
-            </Box>
-          </Grid>
-          <Grid item xs={12} lg={6}>
-            <Box mb={2}>
-              <TextField
-                name="profit_amount"
-                label="میزان سود"
-                type="text"
-                InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
-                variant="outlined"
-                fullWidth
-                onChange={handleChange}
+              <GlobalTextField
+                value={formData.plan_name}
+                label="نام طرح"
+                onChange={(e) => {
+                  setFormData({ ...formData, plan_name: e.target.value });
+                }}
               />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField name="duration" label="مدت کلی" onChange={handleChange} />
+              <GlobalTextField
+                value={formData.company_name}
+                label="نام شرکت"
+                onChange={(e) => {
+                  setFormData({ ...formData, company_name: e.target.value });
+                }}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField name="refund" label="شناوری" onChange={handleChange} />
+              <GlobalTextField
+                value={formData.symbol}
+                label="نماد"
+                onChange={(e) => {
+                  setFormData({ ...formData, symbol: e.target.value });
+                }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Box mb={2}>
+              <GlobalTextField
+                type="number"
+                value={formData.funded_amount}
+                label="مبلغ تایین شده"
+                onChange={(e) => {
+                  setFormData({ ...formData, funded_amount: e.target.value });
+                }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Box mb={2}>
+              <TextField
+                value={formData.profit_amount}
+                label="میزان سود"
+                type="number"
+                InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
+                variant="outlined"
+                fullWidth
+                onChange={(e) => {
+                  setFormData({ ...formData, profit_amount: e.target.value });
+                }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Box mb={2}>
+              <GlobalTextField
+                value={formData.total_time}
+                label="مدت کلی"
+                type="number"
+                onChange={(e) => {
+                  setFormData({ ...formData, total_time: e.target.value });
+                }}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <Box mb={2}>
+              <GlobalTextField
+                value={formData.buoyancy}
+                label="شناوری"
+                type="number"
+                onChange={(e) => {
+                  setFormData({ ...formData, buoyancy: e.target.value });
+                }}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
               <SelectField
                 id="payment_period"
-                name="payment_period"
+                value={formData.payment_period}
                 label="دوره پرداخت"
                 options={durationOptions}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData({ ...formData, payment_period: e.target.value });
+                }}
               />
             </Box>
           </Grid>
@@ -139,16 +160,24 @@ const PlanCreateModal = ({ open, onClose }) => {
             <Box mb={2}>
               <SelectField
                 id="status"
-                name="status"
+                value={formData.plan_status}
                 label="وضعیت اجرای طرح"
                 options={statusOptions}
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData({ ...formData, plan_status: e.target.value });
+                }}
               />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField name="activity_area" label="حوزه فعالیت" onChange={handleChange} />
+              <GlobalTextField
+                value={formData.activity_area}
+                label="حوزه فعالیت"
+                onChange={(e) => {
+                  setFormData({ ...formData, activity_area: e.target.value });
+                }}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
@@ -163,35 +192,57 @@ const PlanCreateModal = ({ open, onClose }) => {
                 inputStyle={{ height: '100%', width: '100%' }}
                 placeholder="روز های باقی مانده"
                 onChange={handleDateChange}
+                value={formData.total_time}
               />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField name="link" label="لینک فرابورس" onChange={handleChange} />
+              <GlobalTextField
+                value={formData.farabours_link}
+                label="لینک فرابورس"
+                onChange={(e) => {
+                  setFormData({ ...formData, farabours_link: e.target.value });
+                }}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
               <TextField
-                name="applicant_percentage"
+                value={formData.applicant_funding_percentage}
                 label="درصد تامین متقاضی"
-                type="text"
+                type="number"
                 InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                 variant="outlined"
                 fullWidth
-                onChange={handleChange}
+                onChange={(e) => {
+                  setFormData({ ...formData, applicant_funding_percentage: e.target.value });
+                }}
               />
             </Box>
           </Grid>
           <Grid item xs={12} lg={6}>
             <Box mb={2}>
-              <GlobalTextField name="nominal_price" label="قیمت اسمی هرگواهی" onChange={handleChange} />
+              <GlobalTextField
+                value={formData.nominal_price_certificate}
+                type="number"
+                label="قیمت اسمی هرگواهی"
+                onChange={(e) => {
+                  setFormData({ ...formData, nominal_price_certificate: e.target.value });
+                }}
+              />
             </Box>
           </Grid>
           <Grid item xs={12} lg={12}>
             <Box mb={2}>
-              <GlobalTextField name="description" label="توضیحات" onChange={handleChange} />
+              <GlobalTextField
+                value={formData.description}
+                label="توضیحات"
+                onChange={(e) => {
+                  setFormData({ ...formData, description: e.target.value });
+                }}
+              />
             </Box>
           </Grid>
         </Grid>

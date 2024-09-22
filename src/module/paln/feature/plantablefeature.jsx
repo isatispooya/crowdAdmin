@@ -77,45 +77,42 @@ const PlanTableFeature = ({ planData, refetch }) => {
   };
 
   const formatNumber = (value) => {
-    if (value == null) return '0'; // یا می‌توانید این را به صورت دلخواه تغییر دهید
+    if (value == null) return '0';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-};
-
+  };
 
   const columns = [
     { title: 'نام طرح', field: 'plan_name', width: 350 },
     { title: 'نام شرکت', field: 'company_name', width: 300 },
     { title: 'نماد', field: 'symbol', width: 220 },
     {
-        title: 'مبلغ اعتبار',
-        field: 'credit_amount',
-        align: 'left',
-        width: 250,
-        formatter: (cell) => formatNumber(cell.getValue()),
+      title: 'مبلغ اعتبار',
+      field: 'credit_amount',
+      align: 'left',
+      width: 250,
+      formatter: (cell) => formatNumber(cell.getValue()),
     },
     {
-        title: 'مبلغ بدهی',
-        field: 'debt_amount',
-        align: 'left',
-        width: 250,
-        formatter: (cell) => formatNumber(cell.getValue()),
+      title: 'مبلغ بدهی',
+      field: 'debt_amount',
+      align: 'left',
+      width: 250,
+      formatter: (cell) => formatNumber(cell.getValue()),
     },
     {
-        title: 'مبلغ تعیین شده',
-        field: 'funded_amount',
-        align: 'left',
-        width: 250,
-        formatter: (cell) => formatNumber(cell.getValue()),
+      title: 'مبلغ تعیین شده',
+      field: 'funded_amount',
+      align: 'left',
+      width: 250,
+      formatter: (cell) => formatNumber(cell.getValue()),
     },
     {
-        title: 'سود',
-        field: 'fundeprofitd_amount',
-        align: 'left',
-        width: 200,
+      title: 'سود',
+      field: 'applicant_funding_percentage',
+      align: 'left',
+      width: 200,
     },
-];
-
-
+  ];
 
   return (
     <div style={{ width: '100%' }}>
@@ -127,7 +124,7 @@ const PlanTableFeature = ({ planData, refetch }) => {
       >
         افزودن طرح
       </Button>
-      <div style={{ height: '500px' }}>
+      <div>
         <ReactTabulator
           data={planData}
           columns={columns}
