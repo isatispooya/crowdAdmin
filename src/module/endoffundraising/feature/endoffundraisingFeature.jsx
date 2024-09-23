@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import { useFetchDocumentation } from '../hooks/getDocumentation';
+import { useFetchDocumentation } from '../hooks/useDocumentation';
 
 const EndOffUndraisingFeature = () => {
   const { id } = useParams();
