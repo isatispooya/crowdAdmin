@@ -25,7 +25,7 @@ const EndOffUndraisingPage = () => (
       <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center">
         <h1 className="text-2xl font-bold text-gray-700">پایان جمع آوری وجه </h1>
       </div>
-      <EndOffUndraisingFeature/>
+      <EndOffUndraisingFeature />
     </Box>
   </div>
 );

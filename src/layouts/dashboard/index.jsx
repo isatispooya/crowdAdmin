@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 
+import ScrollToTopButton from 'src/components/scrollBtn';
 import Nav from './nav';
 import Main from './main';
 
@@ -22,6 +23,7 @@ export default function DashboardLayout({ children }) {
         <Nav  openNav={openNav} onCloseNav={() => setOpenNav(false)} />
 
         <Main >{children}</Main>
+        <ScrollToTopButton/>
       </Box>
   );
 }

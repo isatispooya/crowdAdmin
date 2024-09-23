@@ -84,7 +84,7 @@ const PlanDetailTab = ({ planData, idRow }) => {
         <PlanInvestors />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={7}>
-        <EndOffUndraisingPage/>
+        <EndOffUndraisingPage />
       </CustomTabPanel>
     </Box>
   );
