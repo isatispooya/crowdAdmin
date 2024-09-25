@@ -10,7 +10,6 @@ export const fetchCommit = async (id) => {
       'Content-Type': 'application/json',
     },
   });
-
   return response.data;
 };
 

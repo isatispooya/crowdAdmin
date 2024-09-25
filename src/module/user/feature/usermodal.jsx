@@ -24,20 +24,22 @@ const UserModal = ({ selectedRow, handleClose, open }) => (
     </DialogTitle>
 
     <DialogContent>
-      {selectedRow && (
+      {selectedRow ? (
         <Box sx={{ marginTop: 2, textAlign: 'center' }}>
           <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#333' }}>
             {`${selectedRow.firstName} ${selectedRow.lastName}`}
           </Typography>
           <Box sx={{ marginTop: 2, fontSize: '1.1rem' }}>
             <Typography sx={{ marginBottom: 1 }}>
-              <strong>جنسیت:</strong> {selectedRow.gender}
+              <strong>جنسیت:</strong> {selectedRow.gender === 'Female' ? 'زن' : 'مرد'}
             </Typography>
+
             <Typography sx={{ marginBottom: 1 }}>
               <strong>کدملی:</strong> {selectedRow.uniqueIdentifier}
             </Typography>
             <Typography sx={{ marginBottom: 1 }}>
-              <strong>تاریخ تولد:</strong> {new Date(selectedRow.birthDate).toLocaleDateString('fa-IR')}
+              <strong>تاریخ تولد:</strong>{' '}
+              {new Date(selectedRow.birthDate).toLocaleDateString('fa-IR')}
             </Typography>
             <Typography sx={{ marginBottom: 1 }}>
               <strong>محل تولد:</strong> {selectedRow.placeOfBirth}
@@ -53,7 +55,7 @@ const UserModal = ({ selectedRow, handleClose, open }) => (
             </Typography>
           </Box>
         </Box>
-      )}
+      ) : null}
     </DialogContent>
     <DialogActions sx={{ justifyContent: 'center' }}>
       <Button onClick={handleClose} variant="contained" color="primary">

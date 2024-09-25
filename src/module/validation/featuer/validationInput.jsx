@@ -1,11 +1,14 @@
 import { Box, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
+import DatePicker from 'react-multi-date-picker';
 
 const ValidationInput = ({ item, index, handleTextFieldChange }) => (
   <Box
     sx={{
       display: 'grid',
-      gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+      gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' },
       gap: 2,
       marginBottom: 2,
     }}
@@ -23,6 +26,14 @@ const ValidationInput = ({ item, index, handleTextFieldChange }) => (
       variant="outlined"
       fullWidth
       onChange={handleTextFieldChange(index, 'national_code')}
+    />
+    <DatePicker
+      value={item.date || ''}
+      calendar={persian}
+      locale={persian_fa}
+      calendarPosition="bottom-right"
+      style={{ width: '100%', padding: 25 }}
+      placeholder="تاریخ"
     />
   </Box>
 );

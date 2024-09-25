@@ -14,9 +14,13 @@ import Typography from '@mui/material/Typography';
 import Iconify from 'src/components/iconify';
 
 const taskList = [
-  { id: '1', name: 'حقوقارو زود تر پرداخت کنم ' },
-  { id: '2', name: 'به هر فرد 5 ت بیشتر حقوق بدم' },
-  { id: '3', name: 'مرخصی ها از 2 روز به 10 روز تغییر کنه ' },
+  { id: '1', name: 'پاس کردن چک ها' },
+  { id: '2', name: 'برسی بتن' },
+  { id: '3', name: 'برسی فولاد ' },
+  { id: '4', name: 'برسی ' },
+  { id: '5', name: 'برسی بتن' },
+
+
 ];
 
 export default function AnalyticsTasks({ title, subheader, ...other }) {

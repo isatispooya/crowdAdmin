@@ -82,15 +82,16 @@ const PlanTableFeature = ({ planData, refetch }) => {
   };
 
   const columns = [
-    { title: 'نام طرح', field: 'plan_name', width: 300 },
-    { title: 'نام شرکت', field: 'company_name', width: 150 },
-    { title: 'نماد', field: 'symbol', width: 240 },
+    { title: 'نام طرح', field: 'plan_name', width: 300 ,headerFilter:"input"},
+    { title: 'نام شرکت', field: 'company_name', width: 150 ,headerFilter:"input"},
+    { title: 'نماد', field: 'symbol', width: 240,headerFilter:"input" },
     {
       title: 'مبلغ اعتبار',
       field: 'credit_amount',
       align: 'left',
       width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
+      headerFilter:"input"
     },
     {
       title: 'مبلغ بدهی',
@@ -98,6 +99,7 @@ const PlanTableFeature = ({ planData, refetch }) => {
       align: 'left',
       width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
+      headerFilter:"input"
     },
     {
       title: 'مبلغ تعیین شده',
@@ -105,12 +107,14 @@ const PlanTableFeature = ({ planData, refetch }) => {
       align: 'left',
       width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
+      headerFilter:"input"
     },
     {
       title: 'سود',
       field: 'applicant_funding_percentage',
       align: 'left',
       width: 150,
+      headerFilter:"input"
     },
   ];
 

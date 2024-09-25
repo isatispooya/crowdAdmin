@@ -8,85 +8,115 @@ import { useFetchDocumentation } from '../hooks/useDocumentation';
 
 const EndOffUndraisingFeature = () => {
   const { id } = useParams();
-  const { data: formData, isLoading, error, postDate, updateData } = useFetchDocumentation(id);
-  const [jalaliDate, setJalaliDate] = useState(null);
+  const { data: formData, getData, postDate, updateData } = useFetchDocumentation(id);
+  const [localFormData, setLocalFormData] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     if (formData?.data?.length > 0) {
-      const jalaliDate1 = formData.data[0].date_jalali;
-
-      setJalaliDate(jalaliDate1);
+      setLocalFormData(formData.data);
     }
   }, [formData]);
 
-  const handleChange = (newDate) => {
-    setJalaliDate(newDate);
+  const handelPost = () => {
+    console.log(selectedDate);
+    
+    // const timestamp = Math.floor(new Date(selectedDate).getTime() / 1000).toString(); 
+    const dataToPost = {
+      timestamp:selectedDate,
+    };
+    postDate(dataToPost);
+    getData();
   };
 
   const handleUpdate = async () => {
-    try {
-      await postDate(jalaliDate);
-      await updateData(formData);
-      console.log('تاریخ با موفقیت بروزرسانی شد');
-    } catch (err) {
-      console.error('خطا در بروزرسانی تاریخ:', err);
-    }
+    updateData(localFormData);
   };
 
-  if (isLoading) {
-    return <Typography>در حال بارگذاری...</Typography>;
-  }
-
-  if (error) {
-    return <Typography>خطایی رخ داده است</Typography>;
-  }
-  console.log(jalaliDate, 'جلیل');
+  const handleChangeAmount = (index, value) => {
+    const updatedData = localFormData.map((item, idx) =>
+      idx === index ? { ...item, amount: value } : item
+    );
+    setLocalFormData(updatedData);
+  };
 
   return (
     <Box sx={{ maxWidth: 800, margin: '20px auto', padding: 3 }}>
-      {formData?.data?.map((item, index) => (
-        <Paper key={index} elevation={3} sx={{ padding: 3, marginBottom: 2 }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 2,
-              flexDirection: 'row',
-            }}
-          >
-            <Typography sx={{ fontWeight: 'bold', marginRight: 2 }}>مبلغ چک:</Typography>
-            <TextField
-              label="مبلغ"
-              value={item.amount || ''}
-              sx={{ flexGrow: 1, minWidth: '150px', marginLeft: 3 }}
-              variant="outlined"
-            />
-
-            <Typography sx={{ fontWeight: 'bold', marginLeft: 3 }}>تاریخ چک:</Typography>
-            <Box sx={{ minWidth: '150px', marginLeft: 3 }}>
-              <DatePicker
-                format="YYYY/MM/DD"
-                calendar={persian}
-                locale={persian_fa}
-                value={jalaliDate}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  height: '40px',
-                  padding: '10px',
-                  borderRadius: '5px',
-                  borderColor: '#ccc',
-                }}
+      {localFormData.length > 0 ? (
+        localFormData.map((item, index) => (
+          <Paper key={index} elevation={3} sx={{ padding: 3, marginBottom: 2 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: 2,
+                flexDirection: 'row',
+              }}
+            >
+              <Typography sx={{ fontWeight: 'bold', marginRight: 2 }}>مبلغ چک:</Typography>
+              <TextField
+                label="مبلغ"
+                value={item.amount || ''}
+                onChange={(e) => handleChangeAmount(index, e.target.value)}
+                sx={{ flexGrow: 1, minWidth: '150px', marginLeft: 3 }}
+                variant="outlined"
               />
+              <Typography sx={{ fontWeight: 'bold', marginLeft: 3 }}>تاریخ چک:</Typography>
+              <Box sx={{ minWidth: '150px', marginLeft: 3 }}>
+                <DatePicker
+                  format="YYYY/MM/DD"
+                  calendar={persian}
+                  locale={persian_fa}
+                  value={item.date_jalali}
+                  onChange={(date) => {
+                    const updatedData = [...localFormData];
+                    updatedData[index].date_jalali = date.format('YYYY/MM/DD');
+                    setLocalFormData(updatedData);
+                  }}
+                  style={{
+                    width: '100%',
+                    height: '40px',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    borderColor: '#ccc',
+                  }}
+                />
+              </Box>
             </Box>
-          </Box>
-        </Paper>
-      ))}
+          </Paper>
+        ))
+      ) : (
+        <Box sx={{ marginBottom: 2 }}>
+          <div style={{ direction: 'rtl' }}>
+            <DatePicker
+              calendar={persian}
+              locale={persian_fa}
+              calendarPosition="bottom-right"
+              onChange={setSelectedDate}
+              style={{
+                minWidth: '550px',
+                width: '100%',
+                height: '50px',
+                padding: '10px',
+                borderRadius: '5px',
+                borderColor: '#ccc',
+              }}
+            />
+          </div>
 
-      <Button variant="contained" color="primary" onClick={handleUpdate}>
-        بروزرسانی
-      </Button>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+            <Button variant="contained" color="primary" onClick={handelPost}>
+              پایان
+            </Button>
+          </div>
+        </Box>
+      )}
+      {localFormData.length > 0 && (
+        <Button variant="contained" color="primary" onClick={handleUpdate}>
+          بروزرسانی
+        </Button>
+      )}
     </Box>
   );
 };

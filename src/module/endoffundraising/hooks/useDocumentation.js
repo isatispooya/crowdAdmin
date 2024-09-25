@@ -5,7 +5,8 @@ import { OnRun } from 'src/api/OnRun';
 
 // تابع برای دریافت اطلاعات
 const getData = async (id) => {
-  const accessApi = getCookie('accessApi');
+
+  const accessApi = getCookie('accessApi');  
   const response = await axios.get(`${OnRun}/api/documation/recieve/admin/${id}/`, {
     headers: {
       'Content-Type': 'application/json',
@@ -16,9 +17,9 @@ const getData = async (id) => {
 };
 
 
-const postDate = async (id, date) => {
+const postDate = async (id, date) => {  
   const accessApi = getCookie('accessApi');
-  const response = await axios.post(`${OnRun}/api/documation/recieve/admin/${id}/`, { date }, {
+  const response = await axios.post(`${OnRun}/api/documation/recieve/admin/${id}/`, date , {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${accessApi}`,
@@ -49,6 +50,7 @@ export const useFetchDocumentation = (id) => {
 
 
   const postMutation = useMutation({
+    mutationKey:['postendof'],
     mutationFn: (date) => postDate(id, date),
   });
 
@@ -57,11 +59,11 @@ export const useFetchDocumentation = (id) => {
     mutationFn: (formData) => updateData(id, formData),
   });
 
-  
 
   return {
     ...queryResult,
-    postDate: postMutation.mutateAsync,
-    updateData: updateMutation.mutateAsync,
+    postDate: postMutation.mutate,
+    updateData: updateMutation.mutate,
+    getData: queryResult.refetch,
   };
 };

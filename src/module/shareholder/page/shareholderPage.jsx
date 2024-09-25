@@ -12,9 +12,6 @@ const singleFile = {
   name: '',
   national_code: '',
   percent: '',
-  lockName: false,
-  lockNationalCode: false,
-  lockPercent: false,
   phone: '',
   lock: false,
 };

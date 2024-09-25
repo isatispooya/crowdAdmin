@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { AddFormButton, SubmitButton } from 'src/components/button';
 import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
-import { sendManager } from 'src/module/managers/service/managerService';
+import { sendShareholder } from '../service/shereholderservice';
 
 const ShareHolderButton = ({ handleAddSection, formSections }) => {
   const { cartId } = UseCartId();
   const { incrementPage } = useNavigateStep();
   const mutation = useMutation({
-    mutationKey: ['set management'],
-    mutationFn: (sections) => sendManager(cartId, sections),
+    mutationKey: ['shereholder'],
+    mutationFn: (sections) => sendShareholder(cartId, sections),
   });
   const handleSubmit = () => {
     mutation.mutateAsync(formSections).then(() => incrementPage());

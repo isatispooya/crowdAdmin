@@ -23,13 +23,20 @@ const PaymentFeature = ({ data }) => {
     setOpen(false);
     setSelectedRow(null);
   };
+  const formatNumber = (value) => {
+    if (value == null) return '0';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+  console.log(selectedRow);
+  
 
   const columns = [
-    { title: 'شناسه', field: 'id', width: 200 },
+    { title: 'شناسه', field: 'id', width: 200, headerFilter: 'input' },
     {
       title: 'تاریخ تراکنش',
       field: 'transaction_date',
-      width: 350,
+      width: 250,
+      headerFilter: 'input',
       formatter: (cell) => {
         const date = new Date(cell.getValue());
         const options = {
@@ -45,13 +52,37 @@ const PaymentFeature = ({ data }) => {
         return new Intl.DateTimeFormat('fa-IR', options).format(date);
       },
     },
-    { title: 'مبلغ اعتبار', field: 'credit_amount', align: 'left', width: 200 },
-    { title: 'مبلغ بدهی', field: 'debt_amount', width: 200 },
+    {
+      title: 'مبلغ اعتبار',
+      field: 'credit_amount',
+      align: 'left',
+      width: 250,
+      formatter: (cell) => formatNumber(cell.getValue()),
+      headerFilter: 'input',
+    },
+
+    {
+      title: 'مبلغ بدهی',
+      field: 'debt_amount',
+      align: 'left',
+      width: 250,
+      formatter: (cell) => formatNumber(cell.getValue()),
+      headerFilter: 'input',
+    },
+
     {
       title: 'وضعیت',
       field: 'status',
       width: 200,
+      headerFilter: 'input',
       formatter: (cell) => (cell.getValue() ? 'موفق' : 'ناموفق'),
+    },
+
+    {
+      title: 'شرح تراکنش',
+      field: 'description_transaction',
+      width: 200,
+      headerFilter: 'input',
     },
     {
       title: 'عملیات',

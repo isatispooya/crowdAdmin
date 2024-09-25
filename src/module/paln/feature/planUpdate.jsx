@@ -31,7 +31,7 @@ const PlanUpdate = ({ planData, idRow }) => {
   };
 
   const handleNumberChange = (key, value) => {
-    const numberValue = value.replace(/,/g, ''); // Remove commas for internal state
+    const numberValue = value.replace(/,/g, '');
     handleChange(key, numberValue);
   };
 
@@ -83,7 +83,9 @@ const PlanUpdate = ({ planData, idRow }) => {
             label="وضعیت اجرای طرح"
             value={data.plan_status || ''}
             options={statusOptions}
-            onChange={(value) => handleChange('plan_status', value)}
+            onChange={(value) => {
+              handleChange('plan_status', value);
+            }}
           />
         </Grid>
         <Grid item xs={12} lg={6}>

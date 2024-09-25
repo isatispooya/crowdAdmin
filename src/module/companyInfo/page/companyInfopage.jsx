@@ -39,38 +39,41 @@ const CompanyInfoPage = () => {
 
   return (
     <form>
-      <div dir="rtl">
-      
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            p: 3,
-          }}
-        >
+      {isSuccess ? (
+        <div dir="rtl">
           <Box
-            p={3}
-            display="flex"
-            flexDirection="column"
-            alignItems="flex-end"
             sx={{
-              backgroundColor: 'white',
-              width: '100%',
-              maxWidth: '1200px',
-              borderRadius: '8px',
-              boxShadow: 3,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              p: 3,
             }}
           >
-            <CompanyFeatuet
-              localData={localData}
-              setLocalData={setLocalData}
-              handleRangeChange={handleRangeChange}
-              handleFileRemove={handleFileRemove}
-            />
+            <Box
+              p={3}
+              display="flex"
+              flexDirection="column"
+              alignItems="flex-end"
+              sx={{
+                backgroundColor: 'white',
+                width: '100%',
+                maxWidth: '1200px',
+                borderRadius: '8px',
+                boxShadow: 3,
+              }}
+            >
+              <CompanyFeatuet
+                localData={localData}
+                setLocalData={setLocalData}
+                handleRangeChange={handleRangeChange}
+                handleFileRemove={handleFileRemove}
+              />
+            </Box>
           </Box>
-        </Box>
-      </div>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </form>
   );
 };

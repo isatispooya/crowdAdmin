@@ -18,6 +18,8 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
     e.preventDefault();
     mutation.mutateAsync(localData, cartId);
     incrementPage();
+    console.log(localData);
+    
   };
   return (
     <>

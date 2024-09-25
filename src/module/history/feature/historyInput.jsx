@@ -5,6 +5,9 @@ import { OnRun } from 'src/api/OnRun';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import PropTypes from 'prop-types';
 import GlobalTextField from 'src/components/fild/textfiled';
+import DatePicker from 'react-multi-date-picker';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
 
 const HistoryInput = ({
   handleTextFieldChange,
@@ -21,20 +24,27 @@ const HistoryInput = ({
         onChange={handleTextFieldChange(index, 'name')}
       />
     </Box>
+    <GlobalTextField
+      label="کد ملی"
+      value={item.national_code}
+      onChange={handleTextFieldChange(index, 'national_code')}
+      inputProps={{ maxLength: 10 }}
+      required
+    />
     <Box
       sx={{
         display: 'flex',
-        flexDirection: 'column',
         gap: 2,
         alignItems: 'flex-start',
       }}
     >
-      <GlobalTextField
-        label="کد ملی"
-        value={item.national_code}
-        onChange={handleTextFieldChange(index, 'national_code')}
-        inputProps={{ maxLength: 10 }}
-        required
+      <DatePicker
+        value={item.date || ''}
+        calendar={persian}
+        locale={persian_fa}
+        calendarPosition="bottom-right"
+        style={{ padding: 25 }}
+        placeholder="تاریخ"
       />
     </Box>
     <Box

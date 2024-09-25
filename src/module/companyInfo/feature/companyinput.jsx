@@ -1,17 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { DatePicker } from '@mui/lab';
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import moment from 'moment-jalaali';
 import PropTypes from 'prop-types';
+import DatePicker from 'react-multi-date-picker';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
 import GlobalTextField from 'src/components/fild/textfiled';
+import Label from 'src/components/label';
 
 const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
   const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-  const handleDateChange = (date) => {
-    const formattedDate = date ? moment(date).format('jYYYY/jMM/jDD') : '';
-    setLocalData({ ...localData, date_newspaper: formattedDate });
-  };
 
   return (
     <>
@@ -29,7 +27,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           <GlobalTextField
             id="company_name"
             label="نام شرکت"
-            value={localData.company_name}
+            value={localData.company_name || ''}
             onChange={(e) => setLocalData({ ...localData, company_name: e.target.value })}
           />
         </Grid>
@@ -210,20 +208,35 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               }
             />
           </div>
-          <DatePicker
-            selected={localData.date_newspaper ? new Date(localData.date_newspaper) : null}
-            onChange={handleDateChange}
-            dateFormat="yyyy/MM/dd"
-            locale="fa"
-            customInput={
-              <GlobalTextField
-                id="date_newspaper"
-                label="تاریخ روزنامه رسمی"
-                value={localData.date_newspaper}
-                onChange={(e) => setLocalData({ ...localData, date_newspaper: e.target.value })}
-              />
-            }
-          />
+          <div style={{ direction: 'rtl',marginTop:-35 }}>
+          <Label mb={2}>تاریخ روزنامه رسمی</Label>
+            <DatePicker
+              value={
+                localData.date_newspaper
+                  ? moment(localData.date_newspaper, 'jYYYYjMMjDD').toDate()
+                  : null
+              }
+              onChange={() => {
+                setLocalData({
+                  ...localData,
+                  date_newspaper: localData.date_newspaper
+                    ? moment(localData.date_newspaper, 'jYYYYjMMjDD').toDate()
+                    : null,
+                });
+              }}
+              calendar={persian}
+              locale={persian_fa}
+              calendarPosition="bottom-right"
+              style={{
+                minWidth: '550px',
+                width: '100%',
+                height: '50px',
+                padding: '10px',
+                borderRadius: '5px',
+                borderColor: '#ccc',
+              }}
+            />
+          </div>
         </Grid>
 
         <Grid item xs={12} sm={6}>

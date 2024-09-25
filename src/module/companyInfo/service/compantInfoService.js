@@ -78,6 +78,7 @@ export const fetchCompany = async (id) => {
           claims_status: null,
           Lock_claims_status: false,
           massage: '',
+          date_newspaper:null,
           logo: null,
         },
       },
@@ -89,6 +90,7 @@ export const fetchCompany = async (id) => {
 export const createCart = async (data, id) => {
   const formData = new FormData();
   formData.append('company_name', data.company_name || '');
+  formData.append('date_newspaper', data.date_newspaper || '');
   formData.append('activity_industry', data.activity_industry || '');
   formData.append('registration_number', data.registration_number || '');
   formData.append('nationalid', data.nationalid || '');

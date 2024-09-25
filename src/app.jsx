@@ -15,6 +15,8 @@ import 'src/global.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.css'; 
 import 'tabulator-tables/dist/css/tabulator.min.css';
+import 'react-tabulator/lib/styles.css';
+import 'react-tabulator/lib/css/tabulator_bootstrap4.min.css';
 
 
 
