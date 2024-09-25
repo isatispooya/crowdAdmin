@@ -281,17 +281,9 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             <DatePicker
               value={
                 localData.date_newspaper
-                  ? moment(localData.date_newspaper, 'jYYYYjMMjDD').toDate()
+                  ? moment(localData.date_newspaper, 'jYYYY/jMM/jDD').toDate()
                   : null
               }
-              onChange={() => {
-                setLocalData({
-                  ...localData,
-                  date_newspaper: localData.date_newspaper
-                    ? moment(localData.date_newspaper, 'jYYYYjMMjDD').toDate()
-                    : null,
-                });
-              }}
               calendar={persian}
               locale={persian_fa}
               calendarPosition="bottom-right"
