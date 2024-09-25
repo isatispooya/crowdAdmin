@@ -51,18 +51,13 @@ const ShareholderInput = ({ sectionIndex, section, handleChange }) => (
       }}
       name="percent"
       id={`percent-${sectionIndex}`}
-      label="درصد"
+      label="تعداد سهام"
       variant="outlined"
       fullWidth
       sx={{ mb: 2 }}
       value={section.percent}
       onChange={(e) => {
-        const value = parseFloat(e.target.value);
-        if (!Number.isNaN(value) && value >= 0 && value <= 100) {
-          handleChange(sectionIndex, 'percent', value.toFixed(0));
-        } else {
-          handleChange(sectionIndex, 'percent', '0');
-        }
+        handleChange(sectionIndex, 'percent',e.target.value );
       }}
     />
   </>

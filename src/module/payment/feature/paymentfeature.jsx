@@ -28,14 +28,13 @@ const PaymentFeature = ({ data }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
   console.log(selectedRow);
-  
 
   const columns = [
-    { title: 'شناسه', field: 'id', width: 200, headerFilter: 'input' },
+    { title: 'شناسه', field: 'id', width: 100, headerFilter: 'input' },
     {
       title: 'تاریخ تراکنش',
       field: 'transaction_date',
-      width: 250,
+      width: 200,
       headerFilter: 'input',
       formatter: (cell) => {
         const date = new Date(cell.getValue());
@@ -56,7 +55,7 @@ const PaymentFeature = ({ data }) => {
       title: 'مبلغ اعتبار',
       field: 'credit_amount',
       align: 'left',
-      width: 250,
+      width: 200,
       formatter: (cell) => formatNumber(cell.getValue()),
       headerFilter: 'input',
     },

@@ -39,7 +39,7 @@ const HistoryInput = ({
       }}
     >
       <DatePicker
-        value={item.date || ''}
+        value={item.date ? new Date(item.date) : null}
         calendar={persian}
         locale={persian_fa}
         calendarPosition="bottom-right"

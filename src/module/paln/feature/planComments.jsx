@@ -24,7 +24,7 @@ const PlanComments = ({ idRow }) => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
-  };
+  };  
 
   const columns = [
     {

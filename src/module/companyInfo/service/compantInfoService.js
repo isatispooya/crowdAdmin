@@ -5,7 +5,7 @@ import { getCookie } from 'src/api/cookie';
 export const fetchCompany = async (id) => {
   let response;
   if (id) {
-    const accessApi =  getCookie('accessApi');
+    const accessApi = getCookie('accessApi');
 
     response = await api.get(`/api/cart/detail/admin/${id}/`, {
       headers: {
@@ -30,7 +30,7 @@ export const fetchCompany = async (id) => {
           Lock_personnel: false,
           company_kind: '',
           Lock_company_kind: false,
-          amount_of_request: '10000000000',
+          amount_of_request: '',
           Lock_amount_of_request: false,
           code: null,
           email: '',
@@ -78,8 +78,14 @@ export const fetchCompany = async (id) => {
           claims_status: null,
           Lock_claims_status: false,
           massage: '',
-          date_newspaper:null,
+          date_newspaper: null,
           logo: null,
+          Lock_exchange_code: false,
+          Lock_year_of_establishment: false,
+          Lock_amount_of_registered_capital: false,
+          exchange_code: '',
+          year_of_establishment: '',
+          amount_of_registered_capital: '',
         },
       },
     };
@@ -90,6 +96,11 @@ export const fetchCompany = async (id) => {
 export const createCart = async (data, id) => {
   const formData = new FormData();
   formData.append('company_name', data.company_name || '');
+
+  formData.append('company_name', data.exchange_code || '');
+  formData.append('year_of_establishment', data.year_of_establishment || '');
+  formData.append('amount_of_registered_capital', data.amount_of_registered_capital || '');
+
   formData.append('date_newspaper', data.date_newspaper || '');
   formData.append('activity_industry', data.activity_industry || '');
   formData.append('registration_number', data.registration_number || '');
@@ -113,6 +124,7 @@ export const createCart = async (data, id) => {
   formData.append('Lock_activity_industry', data.Lock_activity_industry);
   formData.append('Lock_address', data.Lock_address);
   formData.append('Lock_amount_of_request', data.Lock_amount_of_request);
+  formData.append('Lock_amount_of_registered_capital', data.Lock_amount_of_registered_capital);
   formData.append('Lock_financial_report_yearold', data.Lock_financial_report_yearold);
   formData.append('Lock_audit_report_yearold', data.Lock_audit_report_yearold);
   formData.append('Lock_statement_yearold', data.Lock_statement_yearold);
@@ -122,6 +134,8 @@ export const createCart = async (data, id) => {
   formData.append('Lock_statement_lastyear', data.Lock_statement_lastyear);
   formData.append('Lock_alignment_6columns_lastyear', data.Lock_alignment_6columns_lastyear);
   formData.append('Lock_alignment_6columns_thisyear', data.Lock_alignment_6columns_thisyear);
+  formData.append('Lock_year_of_establishment', data.Lock_year_of_establishment);
+
   formData.append(
     'Lock_announcement_of_changes_managers',
     data.Lock_announcement_of_changes_managers
@@ -131,6 +145,8 @@ export const createCart = async (data, id) => {
     data.Lock_announcement_of_changes_capital
   );
   formData.append('Lock_bank_account_turnover', data.Lock_bank_account_turnover);
+  formData.append('Lock_exchange_code', data.Lock_exchange_code);
+
   formData.append('Lock_statutes', data.Lock_statutes);
   formData.append('Lock_assets_and_liabilities', data.Lock_assets_and_liabilities);
   formData.append('Lock_latest_insurance_staf', data.Lock_latest_insurance_staf);
@@ -166,12 +182,18 @@ export const createCart = async (data, id) => {
   ) {
     formData.append('announcement_of_changes_managers', data.announcement_of_changes_managers);
   }
+
   if (
     data.announcement_of_changes_capital &&
     typeof data.announcement_of_changes_capital !== 'string'
   ) {
     formData.append('announcement_of_changes_capital', data.announcement_of_changes_capital);
   }
+
+  if (data.amount_of_registered_capital && typeof data.amount_of_registered_capital !== 'string') {
+    formData.append('amount_of_registered_capital', data.amount_of_registered_capital);
+  }
+
   if (data.bank_account_turnover && typeof data.bank_account_turnover !== 'string') {
     formData.append('bank_account_turnover', data.bank_account_turnover);
   }
@@ -197,7 +219,7 @@ export const createCart = async (data, id) => {
     formData.append('logo', data.postal_code);
   }
 
-  const accessApi =  getCookie('access');
+  const accessApi = getCookie('access');
   const response = await api.patch(`/api/cart/admin/${id}/`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',

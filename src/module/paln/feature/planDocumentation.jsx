@@ -6,6 +6,7 @@ import { AddFormButton } from 'src/components/button';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
+import { toast, ToastContainer } from 'react-toastify';
 import { fetchDocument, sendDocument } from '../service/documentService';
 
 const PlanDocumentation = ({ idRow }) => {
@@ -25,6 +26,12 @@ const PlanDocumentation = ({ idRow }) => {
   const mutation = useMutation({
     mutationKey: ['document', idRow],
     mutationFn: () => sendDocument(idRow, files),
+    onSuccess: () => {
+      toast.success('تغییرات شما با موفقیت اعمال شد');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   const handleButtonClick = (index) => {
@@ -63,6 +70,8 @@ const PlanDocumentation = ({ idRow }) => {
 
   return (
     <Box sx={{ padding: 3 }}>
+      <ToastContainer />
+
       <Box
         sx={{
           backgroundColor: '#e0e0e0',

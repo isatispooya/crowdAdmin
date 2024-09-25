@@ -12,10 +12,6 @@ export const fetchPlan = async () => {
   });
   return response.data;
 };
-
-  
-
-
 export const sendPlanData = async (data) => {
   const response = await api.post('/api/plan/admin/', data, {
     headers: {

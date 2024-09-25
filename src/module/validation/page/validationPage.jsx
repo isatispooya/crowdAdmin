@@ -62,6 +62,9 @@ const ValidationPage = () => {
     setFormData(newFormData);
   };
 
+  console.log(data);
+  
+
   return (
     <div style={Styles.container}>
       <Box sx={Styles.box}>
@@ -78,6 +81,7 @@ const ValidationPage = () => {
               handleRemoveFile={handleRemoveFile}
               item={item}
               index={index}
+              setFormData={setFormData}
             />
           ))}
         <SubmitButton onClick={handleSubmit} />

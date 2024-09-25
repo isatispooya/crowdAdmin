@@ -10,6 +10,21 @@ const PlanDetail = ({ planData }) => {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
 
+  const formatPaymentPeriod = (value) => {
+    switch (value) {
+      case 1:
+        return 'ماهانه';
+      case 3:
+        return 'سه ماهه';
+      case 6:
+        return 'شش ماهه';
+      case 12:
+        return 'دوازده ماهه';
+      default:
+        return '';
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -58,7 +73,7 @@ const PlanDetail = ({ planData }) => {
               <strong>شناوری:</strong> {data.buoyancy || ''}
             </Typography>
             <Typography>
-              <strong>دوره پرداخت:</strong> {data.payment_period || ''}
+              <strong>دوره پرداخت:</strong> {formatPaymentPeriod(data.payment_period) || ''}
             </Typography>
             <Typography>
               <strong>وضعیت اجرای طرح:</strong> {data.plan_status || ''}
@@ -82,7 +97,8 @@ const PlanDetail = ({ planData }) => {
               <strong>درصد تامین متقاضی:</strong> {data.applicant_funding_percentage || ''}
             </Typography>
             <Typography>
-              <strong>قیمت اسمی هر گواهی:</strong> {formatNumber(data.nominal_price_certificate) || ''}
+              <strong>قیمت اسمی هر گواهی:</strong>{' '}
+              {formatNumber(data.nominal_price_certificate) || ''}
             </Typography>
             <Typography>
               <strong>توضیحات:</strong> {data.description || ''}

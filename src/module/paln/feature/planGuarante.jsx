@@ -6,6 +6,7 @@ import { AddFormButton } from 'src/components/button';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
+import { toast, ToastContainer } from 'react-toastify';
 import { fetchGuarante, sendGuarante } from '../service/guaranteService';
 
 const PlanGuarante = ({ idRow }) => {
@@ -19,11 +20,20 @@ const PlanGuarante = ({ idRow }) => {
   useEffect(() => {
     if (data) {
       setFiles([{ title: data.data.title, file: data.data.file }]);
+    } else {
+      setFiles([{ title: '', file: null }]);
     }
   }, [data]);
+
   const mutation = useMutation({
     mutationKey: ['guarante', idRow],
     mutationFn: () => sendGuarante(idRow, files),
+    onSuccess: () => {
+      toast.success('تغییرات شما با موفقیت اعمال شد');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
   });
 
   const handleButtonClick = (index) => {
@@ -62,6 +72,8 @@ const PlanGuarante = ({ idRow }) => {
 
   return (
     <Box sx={{ padding: 3 }}>
+      <ToastContainer />
+
       <Box
         sx={{
           backgroundColor: '#e0e0e0',
@@ -123,8 +135,7 @@ const PlanGuarante = ({ idRow }) => {
               }}
             >
               <Link
-
-                href={ `${OnRun}/${file.file}`}
+                href={`${OnRun}/${file.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{

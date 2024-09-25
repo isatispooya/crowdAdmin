@@ -6,6 +6,7 @@ import ValidationInput from './validationInput';
 const Validationfeatuer = ({
   index,
   item,
+  setFormData,
   handleSwitchChange,
   handleTextFieldChange,
   handleFileChange,
@@ -24,7 +25,7 @@ const Validationfeatuer = ({
     />
     <Box sx={{ display: 'flex' }}>
       <Box>
-        <ValidationInput index={index} item={item} handleTextFieldChange={handleTextFieldChange} />
+        <ValidationInput setFormData={setFormData} index={index} item={item} handleTextFieldChange={handleTextFieldChange} />
       </Box>
       <Box sx={{ marginLeft: '20px', marginTop: '10px' }}>
         <ValidationFile
@@ -41,6 +42,7 @@ const Validationfeatuer = ({
 Validationfeatuer.propTypes = {
   index: PropTypes.number,
   item: PropTypes.object,
+  setFormData:PropTypes.func,
   handleSwitchChange: PropTypes.func,
   handleTextFieldChange: PropTypes.func,
   handleFileChange: PropTypes.func,

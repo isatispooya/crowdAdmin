@@ -15,11 +15,12 @@ export const fetchHistory = async (cartId) => {
   return response.data;
 };
 
-export const uploadHistoryFile = async (cartId, formData) => {
+export const uploadHistoryFile = async (cartId, formData) => {  
   const form = new FormData();
   formData.forEach((item) => {
     if (item.file) {
       form.append(item.national_code, item.file);
+      form.append(`${item.national_code}_date`, item.date);
     }
   });
   const response = await axios.post(`${OnRun}/api/history/admin/${cartId}/`, form, {

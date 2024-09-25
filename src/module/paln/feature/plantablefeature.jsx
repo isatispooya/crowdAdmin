@@ -8,6 +8,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { toast, ToastContainer } from 'react-toastify';
 import PlanDeleteModal from './plandeleteModal';
 import PlanCreateModal from './planCreateModal';
 import PlanUpdateModal from './planUpdate';
@@ -42,6 +43,7 @@ const PlanTableFeature = ({ planData, refetch }) => {
   const handleSendDeletePlan = () => {
     mutation.mutate(undefined, {
       onSuccess: () => {
+        toast.success('حذف طرح با موفقیت انجام شد');
         refetch();
       },
     });
@@ -55,8 +57,6 @@ const PlanTableFeature = ({ planData, refetch }) => {
     const { id } = rowData;
     if (id) {
       navigate(`/plandetail/${id}`);
-    } else {
-      console.error('No ID found in row data.');
     }
   };
 
@@ -82,16 +82,16 @@ const PlanTableFeature = ({ planData, refetch }) => {
   };
 
   const columns = [
-    { title: 'نام طرح', field: 'plan_name', width: 300 ,headerFilter:"input"},
-    { title: 'نام شرکت', field: 'company_name', width: 150 ,headerFilter:"input"},
-    { title: 'نماد', field: 'symbol', width: 240,headerFilter:"input" },
+    { title: 'نام طرح', field: 'plan_name', width: 300, headerFilter: 'input' },
+    { title: 'نام شرکت', field: 'company_name', width: 150, headerFilter: 'input' },
+    { title: 'نماد', field: 'symbol', width: 240, headerFilter: 'input' },
     {
       title: 'مبلغ اعتبار',
       field: 'credit_amount',
       align: 'left',
       width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
-      headerFilter:"input"
+      headerFilter: 'input',
     },
     {
       title: 'مبلغ بدهی',
@@ -99,7 +99,7 @@ const PlanTableFeature = ({ planData, refetch }) => {
       align: 'left',
       width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
-      headerFilter:"input"
+      headerFilter: 'input',
     },
     {
       title: 'مبلغ تعیین شده',
@@ -107,19 +107,21 @@ const PlanTableFeature = ({ planData, refetch }) => {
       align: 'left',
       width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
-      headerFilter:"input"
+      headerFilter: 'input',
     },
     {
       title: 'سود',
       field: 'applicant_funding_percentage',
       align: 'left',
       width: 150,
-      headerFilter:"input"
+      headerFilter: 'input',
     },
   ];
 
   return (
     <div style={{ width: '100%' }}>
+      <ToastContainer />
+
       <Button
         variant="contained"
         color="primary"
@@ -140,7 +142,7 @@ const PlanTableFeature = ({ planData, refetch }) => {
           }}
         />
       </div>
-      <PlanCreateModal open={openAddModal} onClose={handleAddClose} />
+      <PlanCreateModal refetch={refetch} open={openAddModal} onClose={handleAddClose} />
       <PlanDeleteModal
         showConfirm={showConfirm}
         handleConfirmClose={handleConfirmClose}

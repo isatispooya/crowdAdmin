@@ -5,15 +5,19 @@ import { SubmitButton } from 'src/components/button';
 import { useMutation } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
+import { toast, ToastContainer } from 'react-toastify';
 import { sendPic } from '../service/planpicService';
 
 const PlanAddPic = ({ planData, idRow }) => {
-  const [file, setFile] = useState(planData);
   
+  const [file, setFile] = useState(planData);
 
   const mutation = useMutation({
     mutationKey: ['sendPic', idRow],
     mutationFn: () => sendPic(idRow, file),
+    onSuccess: () => {
+      toast.success('تغییرات شما با موفقیت اعمال شد');
+    },
   });
 
   const handleButtonClick = () => {
@@ -21,7 +25,7 @@ const PlanAddPic = ({ planData, idRow }) => {
   };
 
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
+    const selectedFile = event.target.files;
     if (selectedFile) {
       setFile(selectedFile);
     }
@@ -29,13 +33,12 @@ const PlanAddPic = ({ planData, idRow }) => {
 
   const handleFileRemove = () => {
     setFile(null);
-  };
-
-  console.log(planData);
-  
+  };  
 
   return (
     <Box sx={{ padding: 3 }}>
+      <ToastContainer />
+
       <Box
         sx={{
           backgroundColor: '#e0e0e0',
@@ -62,7 +65,6 @@ const PlanAddPic = ({ planData, idRow }) => {
             marginBottom: '20px',
           }}
         >
-
           <Link
             href={`${OnRun}/${planData.data.picture}`}
             target="_blank"
@@ -110,7 +112,7 @@ const PlanAddPic = ({ planData, idRow }) => {
       )}
 
       <Box mt={2}>
-        <SubmitButton onClick={handleButtonClick} />
+        <SubmitButton mt={2} onClick={handleButtonClick} />
       </Box>
     </Box>
   );

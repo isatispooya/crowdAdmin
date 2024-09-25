@@ -22,6 +22,7 @@ export const sendValidation = async (id, data) => {
   for (let index = 0; index < data.length; index += 1) {
     const element = data[index];
     form.append(element.national_code, element.file);
+    form.append(`${element.national_code}_date`, element.date);
   }
 
   const response = await axios.post(`${OnRun}/api/validation/admin/${id}/`, form, {
