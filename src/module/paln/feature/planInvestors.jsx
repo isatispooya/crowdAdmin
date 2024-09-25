@@ -55,7 +55,22 @@ const PlanInvestors = () => {
             سرمایه گذاران
           </Typography>
         </Box>
-        <ReactTabulator data={data} columns={columns} layout="fitData" />
+        {data && data.length > 0 ? (
+          <ReactTabulator data={data} columns={columns} layout="fitData" />
+        ) : (
+          <Box
+            sx={{
+              borderRadius: '8px',
+              padding: '20px',
+              textAlign: 'center',
+              mt: 2,
+            }}
+          >
+            <Typography variant="h6" fontWeight="bold">
+              اطلاعاتی جهت نمایش وجود ندارد !
+            </Typography>
+          </Box>
+        )}
       </Box>
     </div>
   );

@@ -12,6 +12,10 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
   const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   console.log(localData);
 
+  const handleChange = (key, value) => {
+    setLocalData((prev) => ({ ...prev, [key]: value }));
+  };
+
   return (
     <>
       <Grid container spacing={2}>
@@ -50,7 +54,10 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               labelId="company_kind-label"
               name="company_kind"
               value={localData.company_kind}
-              onChange={(e) => setLocalData({ ...localData, company_kind: e.target.value })}
+              onChange={(e) => {
+                const { value } = e.target;
+                handleChange('company_kind', value);
+              }}
               label="نوع شرکت"
             >
               <MenuItem value="1">شرکت سهامی سجام</MenuItem>

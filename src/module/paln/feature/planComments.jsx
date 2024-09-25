@@ -24,7 +24,7 @@ const PlanComments = ({ idRow }) => {
 
   const handleCloseModal = () => {
     setOpenModal(false);
-  };  
+  };
 
   const columns = [
     {
@@ -70,18 +70,34 @@ const PlanComments = ({ idRow }) => {
             textAlign: 'center',
           }}
         >
-          <Typography variant="h4" fontWeight="bold" mb={2}>
+          <Typography variant="h4" fontWeight="bold">
             نظرات
           </Typography>
+        </Box>
+
+        {data?.data && data.data.length > 0 ? (
           <ReactTabulator
-            data={data?.data}
+            data={data.data}
             columns={columns}
             layout="fitData"
             events={{
               rowClick: handleRowClick,
             }}
           />
-        </Box>
+        ) : (
+          <Box
+            sx={{
+              borderRadius: '8px',
+              padding: '20px',
+              textAlign: 'center',
+              mt: 2,
+            }}
+          >
+            <Typography variant="h6" fontWeight="bold">
+              اطلاعاتی جهت نمایش وجود ندارد !
+            </Typography>
+          </Box>
+        )}
       </Box>
       <PlanCommentsModal
         openModal={openModal}
