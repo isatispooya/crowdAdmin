@@ -15,6 +15,8 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
   const handleChange = (key, value) => {
     setLocalData((prev) => ({ ...prev, [key]: value }));
   };
+  console.log(localData);
+  
 
   return (
     <>

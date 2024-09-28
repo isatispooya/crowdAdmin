@@ -1,7 +1,8 @@
+import moment from 'moment-jalaali';
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-const accessApi =  getCookie('accessApi');
+const accessApi = getCookie('accessApi');
 
 export const fetchDetail = async (id) => {
   const response = await api.get(`/api/plan/admin/${id}/`, {
@@ -10,11 +11,19 @@ export const fetchDetail = async (id) => {
       'Content-Type': 'application/json',
     },
   });
+  console.log('gggggggggg', response.data);
 
   return response.data;
 };
 
 export const UpdatePlan = async (id, data) => {
+  const remainingFromDate = moment(data.remaining_from_to, 'YYYY/MM/DD').format(
+    'YYYY-MM-DDTHH:mm:ss'
+  );
+  const remainingToDate = moment(data.remaining_date_to, 'YYYY/MM/DD').format(
+    'YYYY-MM-DDTHH:mm:ss'
+  );
+
   const url = `/api/plan/admin/${id}/`;
   const formData = new FormData();
   formData.append('plan_name', data.plan_name || '');
@@ -29,6 +38,8 @@ export const UpdatePlan = async (id, data) => {
   formData.append('activity_field', data.activity_field || '');
   formData.append('remaining_days', data.remaining_days || '');
   formData.append('marketer', data.marketer || '');
+  formData.append('remaining_date_to', remainingToDate);
+  formData.append('remaining_from_to', remainingFromDate);
   formData.append('farabours_link', data.farabours_link || '');
   formData.append('applicant_funding_percentage', data.applicant_funding_percentage || '');
   formData.append('nominal_price_certificate', data.nominal_price_certificate || '');
@@ -43,4 +54,3 @@ export const UpdatePlan = async (id, data) => {
 
   return response.data;
 };
-

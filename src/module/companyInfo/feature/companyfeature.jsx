@@ -17,9 +17,7 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
   const handleSubmit = async (e) => {
     e.preventDefault();
     mutation.mutateAsync(localData, cartId);
-    incrementPage();
-    console.log(localData);
-    
+    incrementPage();    
   };
   return (
     <>

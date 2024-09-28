@@ -13,30 +13,3 @@ export const statusOptions = [
   { value: '4', label: 'کنسل شده' },
 ];
 
-const planUpdateInfo = [
-  { id: 'plan_name', label: 'نام طرح' },
-  { id: 'company_name', label: 'نام شرکت' },
-  { id: 'symbol', label: 'نماد' },
-  { id: 'funded_amount', label: 'مبلغ تایین شده', type: 'text', format: true },
-  { id: 'profit', label: 'میزان سود', type: 'text', adornment: '%' },
-  { id: 'total_time', label: 'مدت کلی' },
-  { id: 'buoyancy', label: 'شناوری' },
-  { id: 'activity_field', label: 'حوزه فعالیت' },
-  { id: 'marketer', label: 'بازگردان' },
-  { id: 'farabours_link', label: 'لینک فرابورس' },
-  {
-    id: 'applicant_funding_percentage',
-    label: 'درصد تامین متقاضی',
-    type: 'text',
-    adornment: '%',
-  },
-  {
-    id: 'nominal_price_certificate',
-    label: 'قیمت اسمی هرگواهی',
-    type: 'text',
-    format: true,
-  },
-  { id: 'description', label: 'توضیحات' },
-];
-
-export default planUpdateInfo;

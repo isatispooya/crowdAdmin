@@ -5,7 +5,6 @@ import {
   InputAdornment,
   TextField,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions,
 } from '@mui/material';
@@ -18,35 +17,22 @@ import PropTypes from 'prop-types';
 import { useMutation } from '@tanstack/react-query';
 import { SubmitButton } from 'src/components/button';
 import { toast, ToastContainer } from 'react-toastify';
+import Label from 'src/components/label';
 import { sendPlanData } from '../service/planService';
+
+const formatNumber = (num) => {
+  if (!num) return '';
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
 
 const PlanCreateModal = ({ open, onClose, refetch }) => {
   const [formData, setFormData] = useState({});
-
-  const durationOptions = [
-    { value: '1', label: 'ماهانه' },
-    { value: '3', label: 'سه ماهه' },
-    { value: '6', label: 'شش ماهه' },
-    { value: '12', label: 'دوازده ماهه' },
-  ];
-
-  const statusOptions = [
-    { value: '1', label: 'لغو شده' },
-    { value: '2', label: 'در حال اجرا' },
-    { value: '3', label: 'تکمیل شده' },
-    { value: '4', label: 'در انتظار' },
-    { value: '5', label: 'کنسل شده' },
-  ];
-
-  const handleDateChange = (date) => {
-    setFormData((prevData) => ({ ...prevData, date_range: date }));
-  };
 
   const mutation = useMutation({
     mutationKey: ['create'],
     mutationFn: sendPlanData,
     onSuccess: () => {
-      toast.success('طرح شما ب موفقیت ساخته شد');
+      toast.success('طرح شما با موفقیت ساخته شد');
       onClose();
       refetch();
     },
@@ -59,13 +45,27 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
     mutation.mutate(formData);
   };
 
+  const handlePercentageChange = (e, key) => {
+    const value = e.target.value.replace(/,/g, '');
+    if (value <= 100) {
+      setFormData({ ...formData, [key]: value });
+    }
+  };
+  const formatDate = (date) => {
+    if (!date) return null;
+    const jsDate = new Date(date.year, date.month, date.day);
+    return jsDate.toISOString();
+  };
+
   return (
     <>
       <ToastContainer />
       <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
-        <DialogTitle>ایجاد طرح جدید</DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
+            <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8 mt-2">
+              <h1 className="text-2xl font-bold text-gray-700"> طرح</h1>
+            </div>
             <Grid item xs={12} lg={6}>
               <Box mb={2}>
                 <GlobalTextField
@@ -102,11 +102,12 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
             <Grid item xs={12} lg={6}>
               <Box mb={2}>
                 <GlobalTextField
-                  type="number"
-                  value={formData.funded_amount}
-                  label="مبلغ تایین شده"
+                  type="text"
+                  value={formData.funded_amount ? formatNumber(formData.funded_amount) : ''}
+                  label="مبلغ تعیین شده"
                   onChange={(e) => {
-                    setFormData({ ...formData, funded_amount: e.target.value });
+                    const value = e.target.value.replace(/,/g, '');
+                    setFormData({ ...formData, funded_amount: value });
                   }}
                 />
               </Box>
@@ -114,15 +115,13 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
             <Grid item xs={12} lg={6}>
               <Box mb={2}>
                 <TextField
-                  value={formData.profit_amount}
+                  value={formData.profit_amount ? formatNumber(formData.profit_amount) : ''}
                   label="میزان سود"
                   type="number"
                   InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                   variant="outlined"
                   fullWidth
-                  onChange={(e) => {
-                    setFormData({ ...formData, profit_amount: e.target.value });
-                  }}
+                  onChange={(e) => handlePercentageChange(e, 'profit_amount')}
                 />
               </Box>
             </Grid>
@@ -131,9 +130,10 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                 <GlobalTextField
                   value={formData.total_time}
                   label="مدت کلی"
-                  type="number"
+                  type="text"
                   onChange={(e) => {
-                    setFormData({ ...formData, total_time: e.target.value });
+                    const value = e.target.value.replace(/,/g, '');
+                    setFormData({ ...formData, total_time: value });
                   }}
                 />
               </Box>
@@ -143,9 +143,10 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                 <GlobalTextField
                   value={formData.buoyancy}
                   label="شناوری"
-                  type="number"
+                  type="text"
                   onChange={(e) => {
-                    setFormData({ ...formData, buoyancy: e.target.value });
+                    const value = e.target.value.replace(/,/g, '');
+                    setFormData({ ...formData, buoyancy: value });
                   }}
                 />
               </Box>
@@ -156,7 +157,12 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                   id="payment_period"
                   value={formData.payment_period}
                   label="دوره پرداخت"
-                  options={durationOptions}
+                  options={[
+                    { value: '1', label: 'ماهانه' },
+                    { value: '3', label: 'سه ماهه' },
+                    { value: '6', label: 'شش ماهه' },
+                    { value: '12', label: 'دوازده ماهه' },
+                  ]}
                   onChange={(e) => {
                     setFormData({ ...formData, payment_period: e.target.value });
                   }}
@@ -169,7 +175,13 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                   id="status"
                   value={formData.plan_status}
                   label="وضعیت اجرای طرح"
-                  options={statusOptions}
+                  options={[
+                    { value: '1', label: 'لغو شده' },
+                    { value: '2', label: 'در حال اجرا' },
+                    { value: '3', label: 'تکمیل شده' },
+                    { value: '4', label: 'در انتظار' },
+                    { value: '5', label: 'کنسل شده' },
+                  ]}
                   onChange={(e) => {
                     setFormData({ ...formData, plan_status: e.target.value });
                   }}
@@ -187,22 +199,42 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                 />
               </Box>
             </Grid>
+
             <Grid item xs={12} lg={6}>
-              <Box mb={2}>
+              <Box mt={-4} mb={3}>
+                <Label mb={1}>تاریخ شروع</Label>
                 <DatePicker
-                  range
-                  dateSeparator=" تا "
                   calendar={persian}
                   locale={persian_fa}
                   calendarPosition="bottom-right"
-                  style={{ width: '100%', height: '56px' }}
+                  style={{ minWidth: 560, height: '54px' }}
                   inputStyle={{ height: '100%', width: '100%' }}
-                  placeholder="روز های باقی مانده"
-                  onChange={handleDateChange}
-                  value={formData.total_time}
+                  placeholder="تاریخ شروع"
+                  onChange={(value) => {
+                    const formattedDate = formatDate(value);
+                    setFormData({ ...formData, remaining_from_to: formattedDate });
+                  }}
                 />
               </Box>
             </Grid>
+            <Grid item xs={12} lg={6}>
+              <Box mt={-4} mb={3}>
+                <Label mb={1}>تاریخ پایان</Label>
+                <DatePicker
+                  calendar={persian}
+                  locale={persian_fa}
+                  calendarPosition="bottom-right"
+                  style={{ minWidth: 560, height: '54px' }}
+                  inputStyle={{ height: '100%', width: '100%' }}
+                  placeholder="تاریخ پایان"
+                  onChange={(value) => {
+                    const formattedDate = formatDate(value);
+                    setFormData({ ...formData, remaining_date_to: formattedDate });
+                  }}
+                />
+              </Box>
+            </Grid>
+
             <Grid item xs={12} lg={6}>
               <Box mb={2}>
                 <GlobalTextField
@@ -223,31 +255,23 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                   InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                   variant="outlined"
                   fullWidth
-                  onChange={(e) => {
-                    setFormData({ ...formData, applicant_funding_percentage: e.target.value });
-                  }}
+                  onChange={(e) => handlePercentageChange(e, 'applicant_funding_percentage')}
                 />
               </Box>
             </Grid>
             <Grid item xs={12} lg={6}>
               <Box mb={2}>
                 <GlobalTextField
-                  value={formData.nominal_price_certificate}
-                  type="number"
-                  label="قیمت اسمی هرگواهی"
+                  value={
+                    formData.nominal_price_certificate
+                      ? formatNumber(formData.nominal_price_certificate)
+                      : ''
+                  }
+                  type="text"
+                  label="قیمت اسمی گواهی"
                   onChange={(e) => {
-                    setFormData({ ...formData, nominal_price_certificate: e.target.value });
-                  }}
-                />
-              </Box>
-            </Grid>
-            <Grid item xs={12} lg={12}>
-              <Box mb={2}>
-                <GlobalTextField
-                  value={formData.description}
-                  label="توضیحات"
-                  onChange={(e) => {
-                    setFormData({ ...formData, description: e.target.value });
+                    const value = e.target.value.replace(/,/g, '');
+                    setFormData({ ...formData, nominal_price_certificate: value });
                   }}
                 />
               </Box>
