@@ -23,9 +23,10 @@ export const fetchCompany = async (id) => {
           registration_number: '',
           Lock_registration_number: false,
           nationalid: '',
+          amount_of_registered_shares: '',
           Lock_nationalid: false,
           registered_capital: '',
-          Lock_registered_capital: false,
+          Lock_amount_of_registered_shares: false,
           personnel: null,
           Lock_personnel: false,
           company_kind: '',
@@ -77,15 +78,14 @@ export const fetchCompany = async (id) => {
           Lock_latest_insurance_staf: false,
           claims_status: null,
           Lock_claims_status: false,
-          massage: '',
-          date_newspaper: null,
+          massage: null,
+          date_newspaper: '',
           logo: null,
           Lock_exchange_code: false,
           Lock_year_of_establishment: false,
           Lock_amount_of_registered_capital: false,
-          exchange_code: '',
-          year_of_establishment: '',
-          amount_of_registered_capital: '',
+          exchange_code: null,
+          year_of_establishment: null,
         },
       },
     };
@@ -93,15 +93,14 @@ export const fetchCompany = async (id) => {
   return response;
 };
 
-export const createCart = async (data, id) => {
+export const createCart = async (data, id) => {  
   const formData = new FormData();
   formData.append('company_name', data.company_name || '');
-
-  formData.append('company_name', data.exchange_code || '');
+  formData.append('exchange_code', data.exchange_code || '');
   formData.append('year_of_establishment', data.year_of_establishment || '');
-  formData.append('amount_of_registered_capital', data.amount_of_registered_capital || '');
-
+  formData.append('amount_of_registered_shares', data.amount_of_registered_shares || '');
   formData.append('date_newspaper', data.date_newspaper || '');
+  formData.append('newspaper', data.newspaper || '');
   formData.append('activity_industry', data.activity_industry || '');
   formData.append('registration_number', data.registration_number || '');
   formData.append('nationalid', data.nationalid || '');
@@ -124,7 +123,6 @@ export const createCart = async (data, id) => {
   formData.append('Lock_activity_industry', data.Lock_activity_industry);
   formData.append('Lock_address', data.Lock_address);
   formData.append('Lock_amount_of_request', data.Lock_amount_of_request);
-  formData.append('Lock_amount_of_registered_capital', data.Lock_amount_of_registered_capital);
   formData.append('Lock_financial_report_yearold', data.Lock_financial_report_yearold);
   formData.append('Lock_audit_report_yearold', data.Lock_audit_report_yearold);
   formData.append('Lock_statement_yearold', data.Lock_statement_yearold);
@@ -135,7 +133,6 @@ export const createCart = async (data, id) => {
   formData.append('Lock_alignment_6columns_lastyear', data.Lock_alignment_6columns_lastyear);
   formData.append('Lock_alignment_6columns_thisyear', data.Lock_alignment_6columns_thisyear);
   formData.append('Lock_year_of_establishment', data.Lock_year_of_establishment);
-
   formData.append(
     'Lock_announcement_of_changes_managers',
     data.Lock_announcement_of_changes_managers
@@ -146,7 +143,6 @@ export const createCart = async (data, id) => {
   );
   formData.append('Lock_bank_account_turnover', data.Lock_bank_account_turnover);
   formData.append('Lock_exchange_code', data.Lock_exchange_code);
-
   formData.append('Lock_statutes', data.Lock_statutes);
   formData.append('Lock_assets_and_liabilities', data.Lock_assets_and_liabilities);
   formData.append('Lock_latest_insurance_staf', data.Lock_latest_insurance_staf);
@@ -190,7 +186,10 @@ export const createCart = async (data, id) => {
     formData.append('announcement_of_changes_capital', data.announcement_of_changes_capital);
   }
 
-  if (data.amount_of_registered_capital && typeof data.amount_of_registered_capital !== 'string') {
+  if (
+    data.Lock_amount_of_registered_capital &&
+    typeof data.amount_of_registered_capital !== 'string'
+  ) {
     formData.append('amount_of_registered_capital', data.amount_of_registered_capital);
   }
 
@@ -212,12 +211,6 @@ export const createCart = async (data, id) => {
   if (data.logo && typeof data.logo !== 'string') {
     formData.append('logo', data.logo);
   }
-  if (data.logo && typeof data.logo !== 'string') {
-    formData.append('logo', data.city);
-  }
-  if (data.logo && typeof data.logo !== 'string') {
-    formData.append('logo', data.postal_code);
-  }
 
   const accessApi = getCookie('access');
   const response = await api.patch(`/api/cart/admin/${id}/`, formData, {
@@ -227,6 +220,8 @@ export const createCart = async (data, id) => {
     },
     maxBodyLength: Infinity,
   });
+  console.log('ghgfhfghf',response.data);
+  
 
   return response;
 };

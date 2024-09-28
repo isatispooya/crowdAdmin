@@ -13,12 +13,17 @@ import { createCart } from '../service/compantInfoService';
 const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLocalData }) => {
   const { incrementPage } = useNavigateStep();
   const { cartId } = UseCartId();
+
   const mutation = useMutation({ mutationFn: () => createCart(localData, cartId) });
+  console.log("local",localData);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     mutation.mutateAsync(localData, cartId);
     incrementPage();    
   };
+
+
   return (
     <>
       <Box display="flex" justifyContent="center" width="100%" mt={4}>

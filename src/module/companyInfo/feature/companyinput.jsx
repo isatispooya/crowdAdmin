@@ -10,13 +10,9 @@ import Label from 'src/components/label';
 
 const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
   const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  console.log(localData);
-
   const handleChange = (key, value) => {
     setLocalData((prev) => ({ ...prev, [key]: value }));
   };
-  console.log(localData);
-  
 
   return (
     <>
@@ -50,12 +46,12 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             />
           </div>
           <FormControl fullWidth variant="outlined">
-            <InputLabel id="company_kind-label">نوع شرکت</InputLabel>
+            <InputLabel id="company_kind">نوع شرکت</InputLabel>
             <Select
               inputProps={{ 'aria-label': 'controlled' }}
-              labelId="company_kind-label"
+              labelId="company_kind"
               name="company_kind"
-              value={localData.company_kind}
+              value={localData.company_kind || ''}
               onChange={(e) => {
                 const { value } = e.target;
                 handleChange('company_kind', value);
@@ -145,11 +141,10 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             />
           </div>
           <GlobalTextField
-            id="amount_of_registered_capital"
             label="تعداد سهام ثبتی"
-            value={localData.amount_of_registered_capital}
+            value={localData.amount_of_registered_shares || ''}
             onChange={(e) =>
-              setLocalData({ ...localData, amount_of_registered_capital: e.target.value })
+              setLocalData({ ...localData, amount_of_registered_shares: e.target.value })
             }
           />
         </Grid>
@@ -157,7 +152,6 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
         <Grid item xs={12} sm={6}>
           <div dir="ltr">
             <Switch
-              name="Lock_year_of_establishment"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
               checked={localData.lock_year_of_establishment}
@@ -166,12 +160,28 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               }
             />
           </div>
-          <GlobalTextField
-            id="year_of_establishment"
-            label="سال تاسیس"
-            value={localData.year_of_establishment}
-            onChange={(e) => setLocalData({ ...localData, year_of_establishment: e.target.value })}
-          />
+
+          <div style={{ direction: 'rtl', marginTop: -35 }}>
+            <Label mb={2}>تاریخ روزنامه رسمی آخرین مدیران</Label>
+            <DatePicker
+              value={
+                localData.year_of_establishment
+                  ? moment(localData.year_of_establishment, 'YYYY/MM/DD').toDate()
+                  : null
+              }
+              calendar={persian}
+              locale={persian_fa}
+              calendarPosition="bottom-right"
+              style={{
+                minWidth: '550px',
+                width: '100%',
+                height: '50px',
+                padding: '10px',
+                borderRadius: '5px',
+                borderColor: '#ccc',
+              }}
+            />
+          </div>
         </Grid>
 
         <Grid item xs={12} sm={6}>
@@ -283,7 +293,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             <DatePicker
               value={
                 localData.date_newspaper
-                  ? moment(localData.date_newspaper, 'jYYYY/jMM/jDD').toDate()
+                  ? moment(localData.date_newspaper, 'YYYY/MM/DD').toDate()
                   : null
               }
               calendar={persian}
