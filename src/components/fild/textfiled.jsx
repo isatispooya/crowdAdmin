@@ -3,17 +3,19 @@ import { TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const GlobalTextField = ({
-  id,
   label,
   value,
   onChange,
+  setContractData,
+  contractData,
   type = 'text',
   inputProps = {},
   required = false,
 }) => (
   <TextField
     type={type}
-    id={id}
+    contractData={contractData}
+    setContractData={setContractData}
     label={label}
     variant="outlined"
     fullWidth
@@ -30,13 +32,14 @@ const GlobalTextField = ({
 );
 
 GlobalTextField.propTypes = {
-  id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   type: PropTypes.string,
   inputProps: PropTypes.object,
   required: PropTypes.bool,
+  contractData: PropTypes.any.isRequired,
+  setContractData: PropTypes.func.isRequired,
 };
 
 export default GlobalTextField;

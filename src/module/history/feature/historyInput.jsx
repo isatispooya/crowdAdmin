@@ -14,19 +14,18 @@ const HistoryInput = ({
   index,
   handleRemoveFile,
   handleFileChange,
-  setFormData}) => {
-  
+  setFormData,
+}) => {
   const handleDateChange = (date) => {
     const jsDate = date && typeof date.toDate === 'function' ? date.toDate() : null;
     const updatedItem = { ...item, date: jsDate ? jsDate.toISOString() : null };
-    
+
     setFormData((prevData) => {
       const newData = [...prevData];
       newData[index] = updatedItem;
       return newData;
     });
   };
-
 
   return (
     <>
@@ -44,19 +43,11 @@ const HistoryInput = ({
         inputProps={{ maxLength: 10 }}
         required
       />
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 2,
-          alignItems: 'flex-start',
-        }}
-      >
+      <Box sx={{}}>
         <DatePicker
           style={{
-            width: '100%',
-            padding: 16,
+            padding: 27,
             backgroundColor: '#ffffff',
-            marginTop: '12px',
           }}
           value={item.date ? new Date(item.date) : null}
           onChange={handleDateChange}
@@ -65,14 +56,7 @@ const HistoryInput = ({
           className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
         />
       </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          alignItems: 'flex-start',
-        }}
-      >
+      <Box sx={{ width: '100%' }}>
         {typeof item.file === 'string' && item.file ? (
           <Box
             sx={{
@@ -80,6 +64,7 @@ const HistoryInput = ({
               justifyContent: 'space-between',
               alignItems: 'center',
               backgroundColor: '#f7f7f7',
+              width: '100%',
               padding: '10px',
               borderRadius: '8px',
               boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
@@ -91,10 +76,14 @@ const HistoryInput = ({
               sx={{
                 fontSize: '14px',
                 fontWeight: 'medium',
+                textDecoration: 'none',
+                color: 'inherit', 
+                display: 'flex', 
+                alignItems: 'center',
               }}
             >
               دریافت فایل سوء پیشینه
-              <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
+              <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '8px' }} />
             </Link>
             <Button
               size="small"
@@ -106,7 +95,7 @@ const HistoryInput = ({
           </Box>
         ) : (
           <Input
-            sx={{ marginTop: '10px' }}
+            sx={{ width: '100%', marginTop: '10px' }}
             type="file"
             onChange={(e) => handleFileChange(e.target.files[0], index)}
           />
@@ -122,8 +111,7 @@ HistoryInput.propTypes = {
   item: PropTypes.object.isRequired,
   handleRemoveFile: PropTypes.func.isRequired,
   handleFileChange: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired, 
-  
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default HistoryInput;

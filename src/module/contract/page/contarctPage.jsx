@@ -1,9 +1,19 @@
 // page/ContractPage.js
-import React from 'react';
+import React, { useState } from 'react';
 import { Box } from '@mui/material';
+import UseCartId from 'src/hooks/card_id';
 import ContractFeature from '../feature/contentfeature';
+import useGetContract from '../services/useGetContract';
+import UsePostContract from '../services/usePostContract';
 
 const ContractPage = () => {
+  const [contractData, setContractData] = useState({});
+  const { cartId } = UseCartId();
+  const { data: dataContract, isError } = useGetContract(cartId);
+  const { mutate, isLoading, isError: err } = UsePostContract(cartId);
+
+  console.log(dataContract)
+
   const handelClick = () => {
     console.log('click');
   };
@@ -34,7 +44,7 @@ const ContractPage = () => {
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-700">قرارداد عاملیت</h1>
         </div>
-        <ContractFeature handelClick={handelClick} />
+        <ContractFeature handelClick={handelClick} value={contractData} setContractData={setContractData} />
       </Box>
     </div>
   );
