@@ -1,19 +1,26 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
-import moment from 'moment-jalaali';
 import PropTypes from 'prop-types';
-import DatePicker from 'react-multi-date-picker';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import GlobalTextField from 'src/components/fild/textfiled';
-import Label from 'src/components/label';
 
 const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
   const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const handleChange = (key, value) => {
     setLocalData((prev) => ({ ...prev, [key]: value }));
   };
-
+  const handleDateChangeNewse = (date) => {
+    const updatedData = { ...localData }; 
+    updatedData.date_newspaper = new Date(date).toISOString(); 
+    setLocalData(updatedData); 
+  };
+  const handleDateChange = (date) => {
+    const updatedData = { ...localData };  
+    updatedData.year_of_establishment =new Date(date).toISOString(); 
+    setLocalData(updatedData); 
+  };
   return (
     <>
       <Grid container spacing={2}>
@@ -160,28 +167,46 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               }
             />
           </div>
-
-          <div style={{ direction: 'rtl', marginTop: -35 }}>
-            <Label mb={2}>تاریخ روزنامه رسمی آخرین مدیران</Label>
-            <DatePicker
-              value={
-                localData.year_of_establishment
-                  ? moment(localData.year_of_establishment, 'YYYY/MM/DD').toDate()
-                  : null
-              }
-              calendar={persian}
-              locale={persian_fa}
-              calendarPosition="bottom-right"
-              style={{
-                minWidth: '550px',
-                width: '100%',
-                height: '50px',
-                padding: '10px',
-                borderRadius: '5px',
-                borderColor: '#ccc',
-              }}
-            />
-          </div>
+          <div className="mb-6">
+        <label className="block text-gray-800 text-xs text-nowrap font-semibold mb-2">
+          تاریخ روزنامه رسمی آخرین مدیران:
+        </label>
+        <DatePicker
+         style={{
+          minWidth: '440px',
+          width: '80px',
+          height: '50px',
+          padding: '10px',
+          borderRadius: '5px',
+          borderColor: '#ccc',
+        }}
+      value={localData.date_newspaper ? new DateObject(localData.date_newspaper) : null}
+      onChange={handleDateChangeNewse}
+      calendar={persian}
+      locale={persian_fa}
+      className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
+    />
+      </div>
+      <div className="mb-6">
+        <label className="block text-gray-800 text-xs text-nowrap font-semibold mb-2">
+          تاریخ تاسیس
+        </label>
+        <DatePicker
+         style={{
+          minWidth: '440px',
+          width: '80px',
+          height: '50px',
+          padding: '10px',
+          borderRadius: '5px',
+          borderColor: '#ccc',
+        }}
+      value={localData.year_of_establishment ? new DateObject(localData.year_of_establishment) : null}
+      onChange={handleDateChange}
+      calendar={persian}
+      locale={persian_fa}
+      className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
+    />
+      </div>
         </Grid>
 
         <Grid item xs={12} sm={6}>
@@ -288,7 +313,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               }
             />
           </div>
-          <div style={{ direction: 'rtl', marginTop: -35 }}>
+          {/* <div style={{ direction: 'rtl', marginTop: -35 }}>
             <Label mb={2}>تاریخ روزنامه رسمی آخرین مدیران</Label>
             <DatePicker
               value={
@@ -299,7 +324,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               calendar={persian}
               locale={persian_fa}
               calendarPosition="bottom-right"
-              style={{
+                 style={{
                 minWidth: '550px',
                 width: '100%',
                 height: '50px',
@@ -308,7 +333,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
                 borderColor: '#ccc',
               }}
             />
-          </div>
+          </div> */}
         </Grid>
 
         <Grid item xs={12} sm={6}>
