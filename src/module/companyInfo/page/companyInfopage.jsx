@@ -32,10 +32,11 @@ const CompanyInfoPage = () => {
   const handleFileRemove = (type) => {
     setLocalData((prev) => {
       const updated = { ...prev };
-      delete updated[type];
+      updated[type] = null; 
       return updated;
     });
   };
+  
 
   return (
     <form>

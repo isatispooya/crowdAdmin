@@ -267,22 +267,23 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-
         <Grid item xs={6} sm={3}>
-       
           <div className="mb-6">
-          <div className="flex items-center">
-        <label className="block text-gray-800 text-xs font-semibold mb-2">تاریخ تاسیس :</label>
-        <Switch
-            name="lock_year_of_establishment"
-            inputProps={{ 'aria-label': 'controlled' }}
-            className="ml-4"
-            checked={localData.lock_year_of_establishment}
-            onChange={(e) =>
-              setLocalData({ ...localData, lock_year_of_establishment: e.target.checked })
-            }
-          />
-            </div>            <DatePicker
+            <div className="flex items-center">
+              <label className="block text-gray-800 text-xs font-semibold mb-2">
+                تاریخ تاسیس :
+              </label>
+              <Switch
+                name="lock_year_of_establishment"
+                inputProps={{ 'aria-label': 'controlled' }}
+                className="ml-4"
+                checked={localData.lock_year_of_establishment}
+                onChange={(e) =>
+                  setLocalData({ ...localData, lock_year_of_establishment: e.target.checked })
+                }
+              />
+            </div>
+            <DatePicker
               style={{
                 width: '100%',
                 padding: 24,
