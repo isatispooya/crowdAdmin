@@ -7,7 +7,6 @@ import DatePicker from 'react-multi-date-picker';
 const ValidationInput = ({ item, setFormData, index, handleTextFieldChange }) => {
   
   const handleDateChange = (date) => {
-    // بررسی اینکه آیا تاریخ دارای متد toDate است
     const jsDate = date && typeof date.toDate === 'function' ? date.toDate() : null;
     const updatedItem = { ...item, date: jsDate ? jsDate.toISOString() : null };
     

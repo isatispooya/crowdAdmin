@@ -63,7 +63,6 @@ const ValidationPage = () => {
 
   const handleButtonClick = () => {
     mutate({ formData });
-    console.log(formData);
   };
   return (
     <div style={Styles.container}>
