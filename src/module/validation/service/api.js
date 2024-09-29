@@ -19,7 +19,6 @@ export const postValidation = async ({ cartId, formData }) => {
   for (let index = 0; index < formData.length; index += 1) {
     
     const element = formData[index];
-    console.log('sss',element);
 
     if (
       element.file_manager &&
