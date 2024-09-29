@@ -13,12 +13,6 @@ const MainForm = ({ localData, setLocalData }) => {
     });
   };
 
-  const handleSwitchChange = (key, checked) => {
-    setLocalData((prev) => ({
-      ...prev,
-      [key]: checked,
-    }));
-  };
   return (
     <Box
       sx={{
@@ -36,8 +30,6 @@ const MainForm = ({ localData, setLocalData }) => {
         setLocalData={setLocalData}
         handleFileRemove={handleFileRemove}
         OnRun={OnRun}
-        checked={localData.lock_claims_status ?? false}
-        onSwitchChange={(checked) => handleSwitchChange('lock_claims_status', checked)}
       />
 
       <SwitchWithFileInput
@@ -47,8 +39,8 @@ const MainForm = ({ localData, setLocalData }) => {
         setLocalData={setLocalData}
         handleFileRemove={handleFileRemove}
         OnRun={OnRun}
-        checked={localData.lock_latest_insurance_staf || false}
       />
+
       <SwitchWithFileInput
         switchLabel="لیست دایی ها و بدهی ها"
         fileKey="assets_and_liabilities"
@@ -56,8 +48,8 @@ const MainForm = ({ localData, setLocalData }) => {
         setLocalData={setLocalData}
         handleFileRemove={handleFileRemove}
         OnRun={OnRun}
-        checked={localData.lock_assets_and_liabilities || false}
       />
+
       <SwitchWithFileInput
         switchLabel="اساسنامه"
         fileKey="statutes"
@@ -65,8 +57,8 @@ const MainForm = ({ localData, setLocalData }) => {
         setLocalData={setLocalData}
         handleFileRemove={handleFileRemove}
         OnRun={OnRun}
-        checked={localData.lock_statutes || false}
       />
+
       <SwitchWithFileInput
         switchLabel="فایل گردش حسابهای بانکی اصلی شرکت"
         fileKey="bank_account_turnover"
@@ -74,8 +66,8 @@ const MainForm = ({ localData, setLocalData }) => {
         setLocalData={setLocalData}
         handleFileRemove={handleFileRemove}
         OnRun={OnRun}
-        checked={localData.lock_bank_account_turnover || false}
       />
+
       <SwitchWithFileInput
         switchLabel="آگهی آخرین تغییرات سرمایه ای"
         fileKey="announcement_of_changes_capital"
@@ -83,24 +75,56 @@ const MainForm = ({ localData, setLocalData }) => {
         setLocalData={setLocalData}
         handleFileRemove={handleFileRemove}
         OnRun={OnRun}
-        checked={localData.lock_announcement_of_changes_capital || false}
       />
       <SwitchWithFileInput
-        switchLabel="آگهی آخرین تغییرات مدیران"
+        switchLabel="آگهی آخرین تغییرات
+        مدیران"
         fileKey="announcement_of_changes_managers"
         localData={localData}
         setLocalData={setLocalData}
         handleFileRemove={handleFileRemove}
         OnRun={OnRun}
-        checked={localData.lock_announcement_of_changes_managers || false}
+      />
+      <SwitchWithFileInput
+        switchLabel="  معرف حسابرس"
+        fileKey="auditor_representative"
+        localData={localData}
+        setLocalData={setLocalData}
+        handleFileRemove={handleFileRemove}
+        OnRun={OnRun}
+      />
+      <SwitchWithFileInput
+        switchLabel="اعلان شماره حساب"
+        fileKey="announcing_account_number"
+        localData={localData}
+        setLocalData={setLocalData}
+        handleFileRemove={handleFileRemove}
+        OnRun={OnRun}
+      />
+
+      <SwitchWithFileInput
+        switchLabel=" کاتالوگ محصولات "
+        fileKey="product_catalog"
+        localData={localData}
+        setLocalData={setLocalData}
+        handleFileRemove={handleFileRemove}
+        OnRun={OnRun}
+      />
+      <SwitchWithFileInput
+        switchLabel="  مجوز ها   "
+        fileKey="licenses"
+        localData={localData}
+        setLocalData={setLocalData}
+        handleFileRemove={handleFileRemove}
+        OnRun={OnRun}
       />
     </Box>
   );
 };
 
 MainForm.propTypes = {
-  localData: PropTypes.object,
-  setLocalData: PropTypes.func,
+  localData: PropTypes.object.isRequired,
+  setLocalData: PropTypes.func.isRequired,
 };
 
 export default MainForm;
