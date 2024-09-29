@@ -64,7 +64,6 @@ const HistoryPage = () => {
 
   const handleButtonClick = () => {
     mutate({ formData });
-    console.log(formData);
   };
 
   return (

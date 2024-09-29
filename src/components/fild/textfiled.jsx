@@ -20,7 +20,11 @@ const GlobalTextField = ({
     sx={{ mb: 2 }}
     value={value}
     onChange={onChange}
-    inputProps={inputProps}
+    inputProps={{
+      ...inputProps,
+      inputMode: type === 'number' ? 'numeric' : undefined,
+      pattern: type === 'number' ? '[0-9]*' : undefined,
+    }}
     required={required}
   />
 );
