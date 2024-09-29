@@ -79,7 +79,7 @@ export const fetchCompany = async (id) => {
           claims_status: null,
           Lock_claims_status: false,
           massage: null,
-          date_newspaper: '',
+          date_newspaper: null,
           logo: null,
           Lock_exchange_code: false,
           Lock_year_of_establishment: false,
@@ -133,6 +133,13 @@ export const createCart = async (data, id) => {
   formData.append('Lock_alignment_6columns_lastyear', data.Lock_alignment_6columns_lastyear);
   formData.append('Lock_alignment_6columns_thisyear', data.Lock_alignment_6columns_thisyear);
   formData.append('Lock_year_of_establishment', data.Lock_year_of_establishment);
+  if (data.date_newspaper) {
+    formData.append('date_newspaper', data.date_newspaper); 
+  }
+  if (data.year_of_establishment) {
+    formData.append('year_of_establishment', data.year_of_establishment); 
+  }
+  
   formData.append(
     'Lock_announcement_of_changes_managers',
     data.Lock_announcement_of_changes_managers
