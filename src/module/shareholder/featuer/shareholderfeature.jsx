@@ -12,6 +12,15 @@ const ShareholderFeature = ({
   handleOpenDialog,
 }) => (
     <form key={sectionIndex} className="w-full">
+     <FormControlLabel
+          control={
+            <Switch
+              checked={section.lock}
+              onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
+            />
+          }
+          sx={{ gridColumn: 'span 3', alignSelf: 'center' }}
+        />
       <Box
         sx={{
           display: 'grid',
@@ -28,16 +37,7 @@ const ShareholderFeature = ({
           section={section}
           handleChange={handleChange}
         />
-        <FormControlLabel
-          control={
-            <Switch
-              checked={section.lock}
-              onChange={(e) => handleChange(sectionIndex, 'lock', e.target.checked)}
-            />
-          }
-          label="وضعیت"
-          sx={{ gridColumn: 'span 3', alignSelf: 'center' }}
-        />
+       
         {formSections.length > 1 && (
           <IconButton
             color="error"

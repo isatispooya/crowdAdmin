@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import moment from 'moment-jalaali';
 
 const PlanDetail = ({ planData }) => {
   const data = planData?.data;
@@ -82,7 +83,12 @@ const PlanDetail = ({ planData }) => {
               <strong>حوزه فعالیت:</strong> {data.activity_field || ''}
             </Typography>
             <Typography>
-              <strong>روزهای باقی مانده:</strong> {data.remaining_days || ''}
+              <strong>تاریخ شروع:</strong>{' '}
+              {moment(data.remaining_date_to).format('YYYY/MM/DD') || ''}
+            </Typography>
+            <Typography>
+              <strong>تاریخ پایان:</strong>{' '}
+              {moment(data.remaining_from_to).format('YYYY/MM/DD') || ''}
             </Typography>
             <Typography>
               <strong>بازگردان:</strong> {data.marketer || ''}

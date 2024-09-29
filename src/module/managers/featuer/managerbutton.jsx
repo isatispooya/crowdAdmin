@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { sendManager } from '../service/managerService';
 
 const ManagerButton = ({ formSections, handleAddSection }) => {
-  console.log('g');
   const { cartId } = UseCartId();
   const { incrementPage } = useNavigateStep();
   const mutation = useMutation({

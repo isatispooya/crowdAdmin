@@ -8,7 +8,7 @@ import { postValidation } from "./api";
 const usePostValidation = (cartId) =>{
     const {refetch} = useGetValidation(cartId)
     const {mutate, isPending,isSuccess,isError,error} = useMutation({
-        mutationKey: ['validation'],
+        mutationKey: ['validationPost'],
         mutationFn: ({formData}) => postValidation({cartId, formData}),
         onSettled:()=>{
             refetch()

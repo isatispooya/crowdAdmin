@@ -1,5 +1,4 @@
 import { Box, Button, Input } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { OnRun } from 'src/api/OnRun';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
@@ -26,18 +25,18 @@ const ValidationFile = ({ item, handleRemoveFile, handleFileChange, index }) => 
           width: '100%',
         }}
       >
-        <Link
+        <a
           href={`${OnRun}/${item.file_manager}`}
           target="_blank"
           rel="noopener noreferrer"
-          sx={{
+          style={{
             fontSize: '14px',
             fontWeight: 'medium',
           }}
         >
           مشاهده فایل بارگذاری شده
           <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
-        </Link>
+        </a>
         <Button size="small" onClick={handleRemoveFile(index)}>
           حذف
         </Button>
