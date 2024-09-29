@@ -9,6 +9,7 @@ const HistoryFeature = ({
   handleTextFieldChange,
   item,
   index,
+  setFormData,
 }) => (
   <form key={index} className="w-full">
     <Box
@@ -39,12 +40,14 @@ const HistoryFeature = ({
       }}
     >
       <HistoryInput
-        handleTextFieldChange={handleTextFieldChange}
-        item={item}
-        index={index}
-        handleRemoveFile={handleRemoveFile}
-        handleFileChange={handleFileChange}
-      />
+    item={item}
+    index={index}
+    handleTextFieldChange={handleTextFieldChange}
+    handleSwitchChange={handleSwitchChange}
+    handleRemoveFile={handleRemoveFile}
+    handleFileChange={handleFileChange}
+    setFormData={setFormData} 
+  />
     </Box>
   </form>
 );
@@ -55,6 +58,7 @@ HistoryFeature.propTypes = {
   handleTextFieldChange: PropTypes.func,
   item: PropTypes.object,
   index: PropTypes.number,
+  setFormData: PropTypes.func,
 };
 
 export default HistoryFeature;

@@ -33,6 +33,7 @@ const HistoryPage = () => {
     const newFormData = [...formData];
     newFormData[index].file = null;
     setFormData(newFormData);
+    console.log("222222")
   };
 
   const handleSwitchChange = (index) => (event) => {
@@ -62,10 +63,11 @@ const HistoryPage = () => {
     }
   }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
 
+
   const handleButtonClick = () => {
     mutate({ formData });
+    console.log('formData',formData)
   };
-
   return (
     <div style={Styles.container}>
       <Box sx={Styles.box}>
@@ -75,14 +77,15 @@ const HistoryPage = () => {
         {formData.length > 0 &&
           formData.map((item, index) => (
             <HistoryFeature
-              key={index}
-              index={index}
-              item={item}
-              handleTextFieldChange={handleTextFieldChange}
-              handleSwitchChange={handleSwitchChange}
-              handleRemoveFile={handleRemoveFile}
-              handleFileChange={handleFileChange}
-            />
+            key={index}
+            index={index}
+            item={item}
+            handleTextFieldChange={handleTextFieldChange}
+            handleSwitchChange={handleSwitchChange}
+            handleRemoveFile={handleRemoveFile}
+            handleFileChange={handleFileChange}
+            setFormData={setFormData}
+          />
           ))}
         <SubmitButton onClick={handleButtonClick} />
       </Box>
