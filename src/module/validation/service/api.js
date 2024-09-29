@@ -36,5 +36,7 @@ export const postValidation = async ({ cartId, formData }) => {
       'Content-Type': 'multipart/form-data',
     },
   });
+  console.log("ff",response.data)
+
   return response.data;
 };

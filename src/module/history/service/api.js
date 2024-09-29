@@ -15,23 +15,26 @@ export const getHistory = async (cartId) => {
 
 export const postHistory = async ({ cartId, formData }) => {
   const form = new FormData();
-
   for (let index = 0; index < formData.length; index += 1) {
     const element = formData[index];
 
-    if (element.file_manager && typeof element.file_manager !== 'string') {
-      form.append(element.national_code, element.file_manager);
+    if (element.file && typeof element.file !== 'string') {
+      form.append(element.national_code, element.file);
     }
     form.append(`lock_${element.national_code}`, element.lock);
-    form.append(element.date);
-  }
+    
+    if (element.date) {
+      const timestamp = new Date(element.date).getTime();
+      form.append(`${element.national_code}_date`, timestamp);
+    }
 
+  }
   const response = await api.post(`/api/history/admin/${cartId}/`, form, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'multipart/form-data',
     },
   });
-
+  console.log("ff",response)
   return response.data;
 };
