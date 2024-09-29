@@ -16,7 +16,7 @@ const Sterpercrowd = () => {
   const { page, changePage } = useNavigateStep();
 
   const steps = [
-    'انتخاب کارت ',
+    'درخواست ها',
     'اطلاعات شرکت',
     'مدیران',
     'مستندات مدیران',

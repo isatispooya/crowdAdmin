@@ -1,41 +1,27 @@
 /* eslint-disable no-nested-ternary */
 import { Box } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import { SubmitButton } from 'src/components/button';
-import { fetchHistory, uploadHistoryFile } from '../service/usehistory';
 import Styles from '../style.jsx/historyStyle';
 import HistoryFeature from '../feature/historyfeature';
+import useGetHistory from '../service/useGetHistory';
+import usePostHistory from '../service/usePostHistory';
 
 const HistoryPage = () => {
-  const { incrementPage } = useNavigateStep();
   const { cartId } = UseCartId();
-  const { data, status, error } = useQuery({
-    queryKey: ['history', cartId],
-    queryFn: () => fetchHistory(cartId),
-  });
 
+  const { data, isPending, isError } = useGetHistory(cartId);
+
+  const { incrementPage } = useNavigateStep();
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    if (status === 'success') {
-      if (data && data.manager) {
-        setFormData(
-          data.manager.map((item) => ({
-            ...item,
-            lock: item.lock || false,
-          }))
-        );
-      }
+    if (!isError && data && !isPending) {
+      setFormData(data.manager.map((item) => ({ ...item })));
     }
-  }, [data, status, error]);
-
-  const mutation = useMutation({
-    mutationKey: ['uploadHistoryFile'],
-    mutationFn: () => uploadHistoryFile(cartId, formData),
-  });
+  }, [data, isError, isPending]);
 
   const handleFileChange = (file, index) => {
     const newFormData = [...formData];
@@ -63,11 +49,22 @@ const HistoryPage = () => {
     setFormData(newFormData);
   };
 
-  const handleButtonClick = () => {
-    if (formData.length > 0) {
-      mutation.mutate(formData);
+  const {
+    mutate,
+    isError: isErrorPost,
+    isPending: isPendingPost,
+    isSuccess: isSuccessPost,
+  } = usePostHistory(cartId);
+
+  useEffect(() => {
+    if (!isErrorPost && !isPendingPost && isSuccessPost) {
+      incrementPage();
     }
-    incrementPage();
+  }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
+
+  const handleButtonClick = () => {
+    mutate({ formData });
+    console.log(formData);
   };
 
   return (

@@ -72,7 +72,7 @@ const CompanyInfoPage = () => {
           </Box>
         </div>
       ) : (
-        <p>Loading...</p>
+        <p>در حال بارگزاری...</p>
       )}
     </form>
   );

@@ -1,27 +1,26 @@
 import { Box } from '@mui/material';
 import UseCartId from 'src/hooks/card_id';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { SubmitButton } from 'src/components/button';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import ManagerdocumentsFeatuer from '../featuer/Managerdocumentsfeatuer';
-import { fetchResume, sendResume } from '../service/Managerdocuments';
+import useGetResume from '../service/useGetResume';
+import usePostResume from '../service/usePostResume';
 
 const ManagerdocumentsPage = () => {
   const { cartId } = UseCartId();
   const { incrementPage } = useNavigateStep();
 
-  const { data, status } = useQuery({
-    queryKey: ['shareholder', cartId],
-    queryFn: () => fetchResume(cartId),
-  });
+  const { data, isPending,isError } = useGetResume(cartId)
   const [formData, setFormData] = useState([]);
+  
+  
 
   useEffect(() => {
-    if (status === 'success' && data && data.manager) {
+    if (!isError && data && !isPending) {
       setFormData(data.manager.map((item) => ({ ...item, lock: item.lock || false })));
     }
-  }, [data, status]);
+  }, [data, isError, isPending]);
 
   const handleSwitchChange = (index) => (event) => {
     setFormData((prevFormData) => {
@@ -37,14 +36,19 @@ const ManagerdocumentsPage = () => {
     setFormData(newFormData);
   };
 
-  const mutation = useMutation({
-    mutationKey: ['set management'],
-    mutationFn: () => sendResume(cartId, formData),
-  });
+
+  const {mutate,isError:isErrorPost,isPending:isPendingPost,isSuccess:isSuccessPost} = usePostResume(cartId)
+
   const handleButtonClick = () => {
-    mutation.mutate();
-    incrementPage();
+    mutate({formData});
   };
+
+
+  useEffect(()=>{
+    if (!isErrorPost && !isPendingPost && isSuccessPost) {
+      incrementPage()
+    }
+  },[incrementPage, isErrorPost, isPendingPost, isSuccessPost])
 
   return (
     <div

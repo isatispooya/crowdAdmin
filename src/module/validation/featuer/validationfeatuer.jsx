@@ -18,7 +18,7 @@ const Validationfeatuer = ({
         <Switch
           checked={item.lock}
           onChange={handleSwitchChange(index)}
-          name="lockSwitch"
+          name="lock"
           color="primary"
         />
       }

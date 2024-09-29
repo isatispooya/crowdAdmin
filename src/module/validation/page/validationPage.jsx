@@ -1,46 +1,32 @@
 import { Box } from '@mui/material';
 import UseCartId from 'src/hooks/card_id';
 import { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import { SubmitButton } from 'src/components/button';
 import Validationfeatuer from '../featuer/validationfeatuer';
-import { fetchValidation, sendValidation } from '../service/validationService';
 import Styles from '../style.jsx/manageStyle';
+import useGetValidation from '../service/useGetValidation';
+import usePostValidation from '../service/usePostValidation';
 
 const ValidationPage = () => {
   const { cartId } = UseCartId();
+
+  const { data, isPending, isError } = useGetValidation(cartId);
+
   const { incrementPage } = useNavigateStep();
   const [formData, setFormData] = useState([]);
 
-  const handleSubmit = () => {
-    mutation.mutate();
-    incrementPage();
-  };
-
-  const { data, status } = useQuery({
-    queryKey: ['shareholder', cartId],
-    queryFn: () => fetchValidation(cartId),
-  });
-
   useEffect(() => {
-    if (status === 'success' && data?.data.managers) {
+    if (!isError && data && !isPending) {
       setFormData(data.data.managers.map((item) => ({ ...item })));
-    } else if (status === 'error') {
-      console.error('Failed to fetch validation data');
     }
-  }, [data, status]);
+  }, [data, isError, isPending]);
 
   const handleFileChange = (file, index) => {
     const newFormData = [...formData];
-    newFormData[index].file = file;
+    newFormData[index].file_manager = file;
     setFormData(newFormData);
   };
-
-  const mutation = useMutation({
-    mutationKey: ['set management'],
-    mutationFn: () => sendValidation(cartId, formData),
-  });
 
   const handleRemoveFile = (index) => () => {
     const newFormData = [...formData];
@@ -62,9 +48,23 @@ const ValidationPage = () => {
     setFormData(newFormData);
   };
 
-  console.log(data);
-  
+  const {
+    mutate,
+    isError: isErrorPost,
+    isPending: isPendingPost,
+    isSuccess: isSuccessPost,
+  } = usePostValidation(cartId);
 
+  useEffect(() => {
+    if (!isErrorPost && !isPendingPost && isSuccessPost) {
+      incrementPage();
+    }
+  }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
+
+  const handleButtonClick = () => {
+    mutate({ formData });
+    console.log(formData);
+  };
   return (
     <div style={Styles.container}>
       <Box sx={Styles.box}>
@@ -84,7 +84,7 @@ const ValidationPage = () => {
               setFormData={setFormData}
             />
           ))}
-        <SubmitButton onClick={handleSubmit} />
+        <SubmitButton onClick={handleButtonClick} />
       </Box>
     </div>
   );

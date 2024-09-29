@@ -4,6 +4,8 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import PropTypes from 'prop-types';
 
 const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
+
+
   const handleFileChange = (file, index) => {
     const newFormData = [...formData];
     newFormData[index].file = file;
@@ -14,7 +16,7 @@ const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
     const newFormData = [...formData];
     newFormData[index].file = null;
     setFormData(newFormData);
-  };
+  };  
 
   return (
     <Box

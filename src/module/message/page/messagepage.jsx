@@ -12,21 +12,24 @@ import {
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CloseIcon from '@mui/icons-material/Close';
 import PropTypes from 'prop-types';
+import UseCartId from 'src/hooks/card_id';
 import { sendMessage } from '../service/massage';
 import MessageFeature from '../feature/messagefeature';
 
-const MessagePage = ({ cardSelected, open, onClose }) => {
+const MessagePage = ({ open, onClose }) => {
+  const { cartId } = UseCartId([]);
+
   const { data } = useQuery({
-    queryKey: ['userMessage', cardSelected],
-    queryFn: () => fetchUserMessage(cardSelected),
+    queryKey: ['userMessage', cartId],
+    queryFn: () => fetchUserMessage(cartId),
   });
 
   const [messageContent, setMessageContent] = useState('');
   const [sendStatus, setSendStatus] = useState(false);
 
   const mutation = useMutation({
-    mutationKey: ['sendMessage', cardSelected],
-    mutationFn: () => sendMessage(cardSelected, messageContent, sendStatus),
+    mutationKey: ['sendMessage', cartId],
+    mutationFn: () => sendMessage(cartId, messageContent, sendStatus),
   });
 
   const handleSendMessage = () => {
@@ -88,7 +91,6 @@ const MessagePage = ({ cardSelected, open, onClose }) => {
 };
 
 MessagePage.propTypes = {
-  cardSelected: PropTypes.number.isRequired,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };

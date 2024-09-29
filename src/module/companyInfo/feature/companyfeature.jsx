@@ -29,7 +29,7 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
       <Box display="flex" justifyContent="center" width="100%" mt={4}>
         <div>
           <div className="bg-gray-200 text-white rounded-t-3xl p-6 text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-700">اطلاعات شرکت</h1>
+            <h1 className="text-2xl font-bold text-gray-700">اطلاعات درخواست</h1>
           </div>
 
           <Box
