@@ -14,8 +14,6 @@ export const getResume = async (cartId) => {
 };
 
 export const postResume = async ({cartId, formData}) => {
-  console.log(formData);
-  
   const form = new FormData();
   for (let index = 0; index < formData.length; index += 1) {
     const element = formData[index];

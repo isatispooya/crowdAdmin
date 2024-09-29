@@ -1,5 +1,4 @@
 import { Box, Button, FormControl, FormLabel, Input, Switch, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
 import { OnRun } from 'src/api/OnRun';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
@@ -68,14 +67,13 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
               marginTop: '10px',
             }}
           >
-            <Link
+            <a
               href={`${OnRun}/${localData.financial_report_yearold}`}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{
+              style={{
                 fontSize: '14px',
                 fontWeight: 'medium',
-                color: '#ef5350',
                 display: 'flex',
                 alignItems: 'center',
                 '&:hover': {
@@ -85,7 +83,7 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             >
               مشاهده فایل بارگذاری شده
               <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
-            </Link>
+            </a>
 
             <Button onClick={() => handleFileRemove('financial_report_yearold')}>حذف فایل</Button>
           </Box>
@@ -107,10 +105,9 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             }}
             onChange={(e) => {
               const file = e.target.files[0];
-              const fileValue = file ? URL.createObjectURL(file) : '';
               setLocalData({
                 ...localData,
-                financial_report_yearold: fileValue,
+                financial_report_yearold: file,
               });
             }}
           />
@@ -156,14 +153,13 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
               marginTop: '10px',
             }}
           >
-            <Link
+            <a
               href={`${OnRun}/${localData.audit_report_yearold}`}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{
+              style={{
                 fontSize: '14px',
                 fontWeight: 'medium',
-                color: '#ef5350',
                 display: 'flex',
                 alignItems: 'center',
                 '&:hover': {
@@ -173,7 +169,7 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             >
               مشاهده فایل بارگذاری شده
               <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
-            </Link>
+            </a>
             <Button
               onClick={() =>
                 setLocalData({
@@ -203,10 +199,9 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             }}
             onChange={(e) => {
               const file = e.target.files[0];
-              const fileValue = file ? URL.createObjectURL(file) : '';
               setLocalData({
                 ...localData,
-                audit_report_yearold: fileValue,
+                audit_report_yearold: file,
               });
             }}
           />
@@ -225,7 +220,7 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             marginBottom: '8px',
           }}
         >
-          اظهار نامه
+          اظهارنامه مالیات برعملکرد
           <Switch
             name="Lock_statement_yearold"
             inputProps={{ 'aria-label': 'controlled' }}
@@ -252,14 +247,13 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
               marginTop: '10px',
             }}
           >
-            <Link
+            <a
               href={`${OnRun}/${localData.statement_yearold}`}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{
+              style={{
                 fontSize: '14px',
                 fontWeight: 'medium',
-                color: '#ef5350',
                 display: 'flex',
                 alignItems: 'center',
                 '&:hover': {
@@ -269,7 +263,7 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             >
               مشاهده فایل بارگذاری شده
               <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
-            </Link>
+            </a>
             <Button
               onClick={() =>
                 setLocalData({
@@ -299,10 +293,9 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             }}
             onChange={(e) => {
               const file = e.target.files[0];
-              const fileValue = file ? URL.createObjectURL(file) : '';
               setLocalData({
                 ...localData,
-                statement_yearold: fileValue,
+                statement_yearold: file,
               });
             }}
           />

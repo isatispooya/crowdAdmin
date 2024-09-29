@@ -26,7 +26,6 @@ export const fetchCompany = async (id) => {
           amount_of_registered_shares: '',
           Lock_nationalid: false,
           registered_capital: '',
-          Lock_amount_of_registered_shares: false,
           personnel: null,
           Lock_personnel: false,
           company_kind: '',
@@ -38,6 +37,7 @@ export const fetchCompany = async (id) => {
           Lock_email: false,
           address: '',
           city: null,
+          lock_city: false,
           postal_code: null,
           Lock_address: false,
           financial_report_thisyear: null,
@@ -81,11 +81,16 @@ export const fetchCompany = async (id) => {
           massage: null,
           date_newspaper: null,
           logo: null,
-          Lock_exchange_code: false,
+          lock_exchange_code: false,
           Lock_year_of_establishment: false,
-          Lock_amount_of_registered_capital: false,
           exchange_code: null,
           year_of_establishment: null,
+          lock_amount_of_registered_shares: false,
+          lock_newspaper: false,
+          lock_date_newspaper: false,
+          lock_year_of_establishment: false,
+          lock_postal_code: false,
+          Lock_logo:false
         },
       },
     };
@@ -93,7 +98,7 @@ export const fetchCompany = async (id) => {
   return response;
 };
 
-export const createCart = async (data, id) => {  
+export const createCart = async (data, id) => {
   const formData = new FormData();
   formData.append('company_name', data.company_name || '');
   formData.append('exchange_code', data.exchange_code || '');
@@ -112,14 +117,15 @@ export const createCart = async (data, id) => {
   formData.append('city', data.city || '');
   formData.append('postal_code', data.postal_code || '');
   formData.append('email', data.email || '');
+  formData.append('amount_of_request', data.amount_of_request);
   formData.append('Lock_company_name', data.Lock_company_name);
   formData.append('Lock_company_kind', data.Lock_company_kind);
-  formData.append('amount_of_request', data.amount_of_request);
   formData.append('Lock_nationalid', data.Lock_nationalid);
   formData.append('Lock_registration_number', data.Lock_registration_number);
   formData.append('Lock_registered_capital', data.Lock_registered_capital);
   formData.append('Lock_personnel', data.Lock_personnel);
   formData.append('Lock_email', data.Lock_email);
+  formData.append('Lock_city', data.Lock_city);
   formData.append('Lock_activity_industry', data.Lock_activity_industry);
   formData.append('Lock_address', data.Lock_address);
   formData.append('Lock_amount_of_request', data.Lock_amount_of_request);
@@ -132,14 +138,21 @@ export const createCart = async (data, id) => {
   formData.append('Lock_statement_lastyear', data.Lock_statement_lastyear);
   formData.append('Lock_alignment_6columns_lastyear', data.Lock_alignment_6columns_lastyear);
   formData.append('Lock_alignment_6columns_thisyear', data.Lock_alignment_6columns_thisyear);
-  formData.append('Lock_year_of_establishment', data.Lock_year_of_establishment);
+  formData.append('lock_year_of_establishment', data.lock_year_of_establishment);
+  formData.append('lock_amount_of_registered_shares', data.lock_amount_of_registered_shares);
+  formData.append('Lock_newspaper', data.Lock_newspaper);
+  formData.append('Lock_date_newspaper', data.Lock_date_newspaper);
+  formData.append('lock_postal_code', data.lock_postal_code);
+  formData.append('Lock_logo', data.lock_logo);
+
+
   if (data.date_newspaper) {
-    formData.append('date_newspaper', data.date_newspaper); 
+    formData.append('date_newspaper', data.date_newspaper);
   }
   if (data.year_of_establishment) {
-    formData.append('year_of_establishment', data.year_of_establishment); 
+    formData.append('year_of_establishment', data.year_of_establishment);
   }
-  
+
   formData.append(
     'Lock_announcement_of_changes_managers',
     data.Lock_announcement_of_changes_managers
@@ -149,13 +162,13 @@ export const createCart = async (data, id) => {
     data.Lock_announcement_of_changes_capital
   );
   formData.append('Lock_bank_account_turnover', data.Lock_bank_account_turnover);
-  formData.append('Lock_exchange_code', data.Lock_exchange_code);
+  formData.append('lock_exchange_code', data.lock_exchange_code);
   formData.append('Lock_statutes', data.Lock_statutes);
   formData.append('Lock_assets_and_liabilities', data.Lock_assets_and_liabilities);
   formData.append('Lock_latest_insurance_staf', data.Lock_latest_insurance_staf);
   formData.append('Lock_claims_status', data.Lock_claims_status);
-  formData.append('Lock_logo', data.Lock_logo);
-  formData.append('Lock_city', data.Lock_city);
+  formData.append('lock_logo', data.lock_logo);
+  formData.append('lock_city', data.lock_city);
   formData.append('Lock_postal_code', data.Lock_postal_code);
 
   if (data.alignment_6columns_thisyear && typeof data.alignment_6columns_thisyear !== 'string') {
@@ -227,8 +240,7 @@ export const createCart = async (data, id) => {
     },
     maxBodyLength: Infinity,
   });
-  console.log('ghgfhfghf',response.data);
-  
+  console.log('ghgfhfghf', response.data);
 
   return response;
 };

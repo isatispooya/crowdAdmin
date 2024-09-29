@@ -1,14 +1,13 @@
-import { Box, Button, Input as MuiInput, Link as MuiLink } from '@mui/material';
+import { Box, Button, Input as MuiInput } from '@mui/material';
 import { OnRun } from 'src/api/OnRun';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import PropTypes from 'prop-types';
 
 const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
 
-
   const handleFileChange = (file, index) => {
     const newFormData = [...formData];
-    newFormData[index].file = file;
+    newFormData[index] = { ...newFormData[index], file }; 
     setFormData(newFormData);
   };
 
@@ -16,7 +15,7 @@ const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
     const newFormData = [...formData];
     newFormData[index].file = null;
     setFormData(newFormData);
-  };  
+  };
 
   return (
     <Box
@@ -40,11 +39,11 @@ const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
             width: '100%',
           }}
         >
-          <MuiLink
+          <a
             href={`${OnRun}/${item.file}`}
             target="_blank"
             rel="noopener noreferrer"
-            sx={{
+            style={{
               fontSize: '14px',
               fontWeight: 'medium',
               display: 'flex',
@@ -53,7 +52,7 @@ const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
           >
             مشاهده فایل رزومه
             <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '4px' }} />
-          </MuiLink>
+          </a>
           <Button size="small" onClick={handleRemoveFile(key)} sx={{ height: 'auto', ml: '10px' }}>
             حذف
           </Button>
@@ -80,9 +79,12 @@ const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
 };
 
 ManagerdocumentFile.propTypes = {
-  index: PropTypes.number,
-  item: PropTypes.object,
-  formData: PropTypes.object,
-  setFormData: PropTypes.func,
+  index: PropTypes.number.isRequired,
+  item: PropTypes.shape({
+    file: PropTypes.string,
+  }).isRequired,
+  formData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setFormData: PropTypes.func.isRequired,
 };
+
 export default ManagerdocumentFile;

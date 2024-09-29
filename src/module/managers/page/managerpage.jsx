@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
@@ -66,6 +66,14 @@ const ManagerPage = () => {
     );
     setFormSections(updatedSections);
   };
+
+  if (status === 'loading') {
+    return (
+      <Box sx={Styles.loadingContainer}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <div style={Styles.container}>

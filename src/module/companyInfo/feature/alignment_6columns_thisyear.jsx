@@ -1,5 +1,4 @@
 import { Box, Button, FormControl, FormLabel, Input, Switch, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
@@ -14,10 +13,9 @@ const ColumnsThisyear = ({ setLocalData, localData, handleFileRemove }) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    const fileValue = file ? URL.createObjectURL(file) : '';
     setLocalData({
       ...localData,
-      alignment_6columns_thisyear: fileValue,
+      alignment_6columns_thisyear: file,
     });
   };
 
@@ -77,14 +75,13 @@ const ColumnsThisyear = ({ setLocalData, localData, handleFileRemove }) => {
               marginTop: '10px',
             }}
           >
-            <Link
-              to={`${OnRun}/${localData.alignment_6columns_thisyear}`}
+            <a
+              href={`${OnRun}/${localData.alignment_6columns_thisyear}`}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{
+              style={{
                 fontSize: '14px',
                 fontWeight: 'medium',
-                color: '#ef5350',
                 display: 'flex',
                 alignItems: 'center',
                 textDecoration: 'none',
@@ -95,7 +92,7 @@ const ColumnsThisyear = ({ setLocalData, localData, handleFileRemove }) => {
             >
               مشاهده فایل بارگذاری شده
               <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
-            </Link>
+            </a>
             <Button onClick={() => handleFileRemove('alignment_6columns_thisyear')}>
               حذف فایل
             </Button>

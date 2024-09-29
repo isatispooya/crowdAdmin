@@ -20,16 +20,17 @@ const ManagerFeatuer = ({
       }
     />
     <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr 1fr' },
-        gap: 2,
-        marginBottom: 4,
-        boxShadow: 6,
-        padding: 6,
-        position: 'relative',
-      }}
-    >
+  sx={{
+    display: 'grid',
+    gridTemplateColumns: { xs: '1fr', sm: '1fr', md: '1fr 1fr' },
+    gap: 2,
+    marginBottom: 4,
+    boxShadow: 6,
+    padding: 6,
+    position: 'relative',
+  }}
+>
+
       <ManagerInput section={section} sectionIndex={sectionIndex} handleChange={handleChange} />
       {formSections.length > 1 && (
         <IconButton

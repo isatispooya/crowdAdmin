@@ -4,18 +4,19 @@ import { SubmitButton } from 'src/components/button';
 import UseCartId from 'src/hooks/card_id';
 import PropTypes from 'prop-types';
 import { useMutation } from '@tanstack/react-query';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import Logo from './logo';
 import ColumnsThisyear from './alignment_6columns_thisyear';
 import ReportLastYear from './report_lastyear';
 import CompanyInfoInput from './companyinput';
 import { createCart } from '../service/compantInfoService';
+import ReportYaerOld from './report_yearold';
 
 const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLocalData }) => {
   const { incrementPage } = useNavigateStep();
   const { cartId } = UseCartId();
 
   const mutation = useMutation({ mutationFn: () => createCart(localData, cartId) });
-  console.log('local', localData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +75,13 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
                       width: '100%',
                     }}
                   >
+                    <div className="flex items-center justify-center mb-8">
+                      <PriorityHighIcon className="text-2xl text-red-600 mr-2" />
+
+                      <p className="text-xl text-red-600 font-semibold">
+                        حجم فایل می تواند 20 مگابایت باشد
+                      </p>
+                    </div>
                     <Box
                       sx={{
                         display: 'flex',
@@ -85,6 +93,11 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
                       }}
                     >
                       <ReportLastYear
+                        setLocalData={setLocalData}
+                        localData={localData}
+                        handleFileRemove={handleFileRemove}
+                      />
+                      <ReportYaerOld
                         setLocalData={setLocalData}
                         localData={localData}
                         handleFileRemove={handleFileRemove}

@@ -40,6 +40,7 @@ const ManagerdocumentsPage = () => {
   const {mutate,isError:isErrorPost,isPending:isPendingPost,isSuccess:isSuccessPost} = usePostResume(cartId)
 
   const handleButtonClick = () => {
+    console.log('hh',formData);
     mutate({formData});
   };
 

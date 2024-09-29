@@ -88,7 +88,7 @@ const Logo = ({ setLocalData, localData, handleFileRemove }) => (
           }}
           onChange={(e) => {
             const file = e.target.files[0];
-            setLocalData({ ...localData, logo: file ? URL.createObjectURL(file) : '' });
+            setLocalData({ ...localData, logo: file });
           }}
         />
       )}

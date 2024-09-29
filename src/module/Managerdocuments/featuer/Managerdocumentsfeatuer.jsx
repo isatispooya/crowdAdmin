@@ -32,13 +32,21 @@ const ManagerdocumentsFeatuer = ({
       />
     </Box>
     <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
-        gap: 2,
-        marginBottom: 4,
-      }}
-    >
+  sx={{
+    display: 'grid',
+    gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
+    gap: 2,
+    marginBottom: 4,
+    boxShadow: 2,
+    padding: 5,
+    borderRadius:1,
+    transition: 'box-shadow 0.3s', 
+    '&:hover': {
+      boxShadow: 6, 
+    },
+  }}
+>
+
       <ManagerdocumentsInput
         index={index}
         item={item}
