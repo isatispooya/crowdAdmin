@@ -9,12 +9,18 @@ import { sendOtherCases } from '../service/othercases';
 const OtherCasesFeatuer = ({ localData, setLocalData }) => {
   const { cartId } = UseCartId();
   const { incrementPage } = useNavigateStep();
+
   const mutation = useMutation({
-    mutationKey: ['set management'],
+    mutationKey: ['set othercases'],
     mutationFn: () => sendOtherCases(cartId, localData),
+    onSuccess: (data) => {
+      setLocalData(data);
+    },
   });
-  const handleButtonClick = () => {
-    mutation.mutate();
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    mutation.mutate(localData);
     incrementPage();
   };
 
@@ -27,8 +33,8 @@ const OtherCasesFeatuer = ({ localData, setLocalData }) => {
 };
 
 OtherCasesFeatuer.propTypes = {
-  localData: PropTypes.object,
-  setLocalData: PropTypes.func,
+  localData: PropTypes.object.isRequired,
+  setLocalData: PropTypes.func.isRequired,
 };
 
 export default OtherCasesFeatuer;

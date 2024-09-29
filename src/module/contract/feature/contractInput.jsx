@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Switch } from '@mui/material';
 import GlobalTextField from 'src/components/fild/textfiled';
-import useGetContract from '../services/useGetContract';
 
 const ContentInput = () => {
  

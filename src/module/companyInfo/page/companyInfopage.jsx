@@ -16,10 +16,11 @@ const CompanyInfoPage = () => {
   const [localData, setLocalData] = useState(() => data || {});
 
   useEffect(() => {
-    if (isSuccess && data) {
+    if (isSuccess && data && data.data) {
       setLocalData(data.data.cart);
     }
   }, [isSuccess, data]);
+  
 
   const handleRangeChange = (event) => {
     const value = parseInt(event.target.value, 10);

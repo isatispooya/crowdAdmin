@@ -1,4 +1,5 @@
 import { Box, Button, FormControl, FormLabel, Input, Switch, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { OnRun } from 'src/api/OnRun';
 import PropTypes from 'prop-types';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
@@ -246,13 +247,14 @@ const ReportLastYear = ({ setLocalData, localData, handleFileRemove }) => (
               marginTop: '10px',
             }}
           >
-            <a
+            <Link
               href={`${OnRun}/${localData.statement_lastyear}`}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
+              sx={{
                 fontSize: '14px',
                 fontWeight: 'medium',
+                color: '#ef5350',
                 display: 'flex',
                 alignItems: 'center',
                 '&:hover': {
@@ -262,7 +264,7 @@ const ReportLastYear = ({ setLocalData, localData, handleFileRemove }) => (
             >
               مشاهده فایل بارگذاری شده
               <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
-            </a>
+            </Link>
             <Button
               onClick={() =>
                 setLocalData({
