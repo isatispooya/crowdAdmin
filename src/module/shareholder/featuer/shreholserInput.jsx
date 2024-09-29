@@ -27,21 +27,8 @@ const ShareholderInput = ({ sectionIndex, section, handleChange }) => (
       value={section.national_code}
       onChange={(e) => handleChange(sectionIndex, 'national_code', e.target.value)}
     />
-    <TextField
-      type="text"
-      name="phone"
-      inputProps={{ maxLength: 10 }}
-      onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
-      required
-      id={`phone-${sectionIndex}`}
-      label="شماره تلفن"
-      variant="outlined"
-      fullWidth
-      sx={{ mb: 2 }}
-      value={section.phone}
-      onChange={(e) => handleChange(sectionIndex, 'phone', e.target.value)}
-    />
-    <TextField
+
+<TextField
       type="number"
       required
       inputProps={{
@@ -60,6 +47,21 @@ const ShareholderInput = ({ sectionIndex, section, handleChange }) => (
         handleChange(sectionIndex, 'percent',e.target.value );
       }}
     />
+    <TextField
+      type="text"
+      name="phone"
+      inputProps={{ maxLength: 10 }}
+      onInput={(e) => (e.target.value = e.target.value.replace(/[^0-9]/g, ''))}
+      required
+      id={`phone-${sectionIndex}`}
+      label="شماره تلفن"
+      variant="outlined"
+      fullWidth
+      sx={{ mb: 2 }}
+      value={section.phone}
+      onChange={(e) => handleChange(sectionIndex, 'phone', e.target.value)}
+    />
+   
   </>
 );
 ShareholderInput.propTypes = {

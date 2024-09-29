@@ -113,21 +113,23 @@ const PlanUpdate = ({ planData, idRow }) => {
             />
           </Box>
         </Grid>
+
         <Grid item xs={12} lg={6}>
           <Box mb={2}>
             <TextField
-              value={data.profit_amount ? formatNumber(data.profit_amount) : ''}
+              value={data.profit_amount}
               label="میزان سود"
-              type="text"
+              type="number"
+              InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
               variant="outlined"
-              fullWidthّ
+              fullWidth
               onChange={(e) => {
-                const value = e.target.value.replace(/,/g, '');
-                handleChange('profit_amount', value);
+                handleChange('profit_amount', e.target.value);
               }}
             />
           </Box>
         </Grid>
+
         <Grid item xs={12} lg={6}>
           <Box mb={2}>
             <GlobalTextField
