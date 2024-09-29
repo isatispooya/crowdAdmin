@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Input, Link, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import PropTypes from 'prop-types';
 import GlobalTextField from 'src/components/fild/textfiled';
@@ -13,7 +13,6 @@ const HistoryInput = ({
   item,
   index,
   handleRemoveFile,
-  handleFileChange,
   setFormData,
 }) => {
   const handleDateChange = (date) => {
@@ -129,7 +128,6 @@ HistoryInput.propTypes = {
   index: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
   handleRemoveFile: PropTypes.func.isRequired,
-  handleFileChange: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
 };
 
