@@ -13,6 +13,7 @@ export const fetchOtherCases = async (id) => {
     },
   });
 
+  console.log(' response.data', response.data)
   return response.data;
 };
 
@@ -25,13 +26,13 @@ export const sendOtherCases = async (id, data) => {
   formData.append('statutes', data.statutes || '');
   formData.append('announcement_of_changes_capital', data.announcement_of_changes_capital || '');
   formData.append('announcement_of_changes_managers', data.announcement_of_changes_managers || '');
-  formData.append('Lock_claims_status', data.claims_status || '');
-  formData.append('Lock_latest_insurance_staf', data.latest_insurance_staf || '');
-  formData.append('Lock_bank_account_turnover', data.bank_account_turnover || '');
-  formData.append('Lock_assets_and_liabilities', data.assets_and_liabilities || '');
-  formData.append('Lock_statutes', data.statutes || '');
-  formData.append('Lock_announcement_of_changes_capital', data.announcement_of_changes_capital || '');
-  formData.append('Lock_announcement_of_changes_managers', data.announcement_of_changes_managers || '');
+  formData.append('lock_claims_status', data.lock_claims_status );
+  formData.append('lock_latest_insurance_staf', data.lock_latest_insurance_staf);
+  formData.append('lock_bank_account_turnover', data.lock_bank_account_turnover );
+  formData.append('lock_assets_and_liabilities', data.lock_assets_and_liabilities );
+  formData.append('lock_statutes', data.statutes );
+  formData.append('lock_announcement_of_changes_capital', data.lock_announcement_of_changes_capital );
+  formData.append('lock_announcement_of_changes_managers', data.lock_announcement_of_changes_managers );
 
 
   const response = await axios.post(`${OnRun}/api/addinformation/admin/${id}/`, formData, {
