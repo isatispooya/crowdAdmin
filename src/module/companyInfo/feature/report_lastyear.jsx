@@ -224,7 +224,7 @@ const ReportLastYear = ({ setLocalData, localData, handleFileRemove }) => (
             marginBottom: '8px',
           }}
         >
-          اظهارنامه
+          اظهارنامه مالیات برعملکرد
           <Switch
             name="Lock_statement_lastyear"
             inputProps={{ 'aria-label': 'controlled' }}

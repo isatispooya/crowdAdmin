@@ -15,14 +15,13 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
   const { cartId } = UseCartId();
 
   const mutation = useMutation({ mutationFn: () => createCart(localData, cartId) });
-  console.log("local",localData);
-  
+  console.log('local', localData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     mutation.mutateAsync(localData, cartId);
-    incrementPage();    
+    incrementPage();
   };
-
 
   return (
     <>

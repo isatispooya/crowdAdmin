@@ -1,30 +1,30 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import PropTypes from 'prop-types';
-import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import GlobalTextField from 'src/components/fild/textfiled';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
+import { cleanNumber, formatNumber } from '../../../utils/formatNumbers';
 
 const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
-  const formatNumber = (value) => String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   const handleChange = (key, value) => {
     setLocalData((prev) => ({ ...prev, [key]: value }));
   };
   const handleDateChangeNewse = (date) => {
-    const updatedData = { ...localData }; 
-    updatedData.date_newspaper = new Date(date).toISOString(); 
-    setLocalData(updatedData); 
+    const updatedData = { ...localData };
+    updatedData.date_newspaper = new Date(date).toISOString();
+    setLocalData(updatedData);
   };
   const handleDateChange = (date) => {
-    const updatedData = { ...localData };  
-    updatedData.year_of_establishment =new Date(date).toISOString(); 
-    setLocalData(updatedData); 
+    const updatedData = { ...localData };
+    updatedData.year_of_establishment = new Date(date).toISOString();
+    setLocalData(updatedData);
   };
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_company_name"
@@ -42,7 +42,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_company_kind"
@@ -77,7 +77,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_nationalid"
@@ -90,12 +90,13 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           <GlobalTextField
             id="nationalid"
             label="شماره شناسه"
+            type="number"
             value={localData.nationalid}
             onChange={(e) => setLocalData({ ...localData, nationalid: e.target.value })}
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_registration_number"
@@ -108,14 +109,13 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             />
           </div>
           <GlobalTextField
-            id="registration_number"
+            type="number"
             label="شماره ثبت"
             value={localData.registration_number}
             onChange={(e) => setLocalData({ ...localData, registration_number: e.target.value })}
           />
         </Grid>
-
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_registered_capital"
@@ -131,11 +131,16 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             id="registered_capital"
             label="سرمایه ثبتی (ریال)"
             value={formatNumber(localData.registered_capital)}
-            onChange={(e) => setLocalData({ ...localData, registered_capital: e.target.value })}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              const validInput = inputValue.replace(/[^0-9,]/g, '');
+              const cleanedValue = cleanNumber(validInput);
+              setLocalData({ ...localData, registered_capital: cleanedValue });
+            }}
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_amount_of_registered_capital"
@@ -149,67 +154,128 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           </div>
           <GlobalTextField
             label="تعداد سهام ثبتی"
-            value={localData.amount_of_registered_shares || ''}
-            onChange={(e) =>
-              setLocalData({ ...localData, amount_of_registered_shares: e.target.value })
-            }
+            value={formatNumber(localData.amount_of_registered_shares) || ''}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              const validInput = inputValue.replace(/[^0-9]/g, '');
+              const cleanedValue = cleanNumber(validInput);
+              setLocalData({ ...localData, amount_of_registered_shares: cleanedValue });
+            }}
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
+              name="Lock_newspaper"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.lock_year_of_establishment}
-              onChange={(e) =>
-                setLocalData({ ...localData, Lock_year_of_establishment: e.target.checked })
-              }
+              checked={localData.Lock_newspaper}
+              onChange={(e) => setLocalData({ ...localData, Lock_newspaper: e.target.checked })}
             />
           </div>
+          <GlobalTextField
+            type="number"
+            label="شماره روزنامه رسمی آخرین مدیران"
+            value={localData.newspaper}
+            onChange={(e) => setLocalData({ ...localData, newspaper: e.target.value })}
+          />
+        </Grid>
+        <Grid item xs={6} sm={3}>
           <div className="mb-6">
-        <label className="block text-gray-800 text-xs text-nowrap font-semibold mb-2">
-          تاریخ روزنامه رسمی آخرین مدیران:
-        </label>
-        <DatePicker
-         style={{
-          minWidth: '440px',
-          width: '80px',
-          height: '50px',
-          padding: '10px',
-          borderRadius: '5px',
-          borderColor: '#ccc',
-        }}
-      value={localData.date_newspaper ? new DateObject(localData.date_newspaper) : null}
-      onChange={handleDateChangeNewse}
-      calendar={persian}
-      locale={persian_fa}
-      className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
-    />
-      </div>
-      <div className="mb-6">
-        <label className="block text-gray-800 text-xs text-nowrap font-semibold mb-2">
-          تاریخ تاسیس
-        </label>
-        <DatePicker
-         style={{
-          minWidth: '440px',
-          width: '80px',
-          height: '50px',
-          padding: '10px',
-          borderRadius: '5px',
-          borderColor: '#ccc',
-        }}
-      value={localData.year_of_establishment ? new DateObject(localData.year_of_establishment) : null}
-      onChange={handleDateChange}
-      calendar={persian}
-      locale={persian_fa}
-      className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
-    />
-      </div>
+            <label className="block text-gray-800 text-xs text-nowrap font-semibold mb-2">
+              تاریخ روزنامه رسمی آخرین مدیران:
+            </label>
+            <DatePicker
+              style={{
+                width: '100%',
+                padding: 22,
+                backgroundColor: '#ffffff',
+              }}
+              value={localData.date_newspaper ? new DateObject(localData.date_newspaper) : null}
+              onChange={handleDateChangeNewse}
+              calendar={persian}
+              locale={persian_fa}
+              className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
+            />
+          </div>
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
+          <div dir="ltr">
+            <Switch
+              name="Lock_personnel"
+              inputProps={{ 'aria-label': 'controlled' }}
+              className="ml-4"
+              checked={localData.Lock_personnel}
+              onChange={(e) => setLocalData({ ...localData, Lock_personnel: e.target.checked })}
+            />
+          </div>
+          <GlobalTextField
+            type="number"
+            label="تعداد کارکنان"
+            value={localData.personnel}
+            onChange={(e) => setLocalData({ ...localData, personnel: e.target.value })}
+          />
+        </Grid>
+
+        <Grid item xs={6} sm={3}>
+          <div dir="ltr">
+            <Switch
+              name="Lock_city"
+              inputProps={{ 'aria-label': 'controlled' }}
+              className="ml-4"
+              checked={localData.Lock_city}
+              onChange={(e) => setLocalData({ ...localData, Lock_city: e.target.checked })}
+            />
+          </div>
+          <GlobalTextField
+            id="city"
+            label="شهر محل ثبت"
+            value={localData.city}
+            onChange={(e) => setLocalData({ ...localData, city: e.target.value })}
+          />
+        </Grid>
+
+        <Grid item xs={6} sm={3}>
+          <div dir="ltr">
+            <Switch
+              name="Lock_address"
+              inputProps={{ 'aria-label': 'controlled' }}
+              className="ml-4"
+              checked={localData.Lock_address}
+              onChange={(e) => setLocalData({ ...localData, Lock_address: e.target.checked })}
+            />
+          </div>
+          <GlobalTextField
+            id="address"
+            label="آدرس شرکت"
+            value={localData.address}
+            onChange={(e) => setLocalData({ ...localData, address: e.target.value })}
+          />
+        </Grid>
+
+        <Grid item xs={6} sm={3}>
+          <div className="mb-6">
+            <label className="block text-gray-800 text-xs font-semibold mb-2">تاریخ تاسیس :</label>
+            <DatePicker
+              style={{
+                width: '100%',
+                padding: 22,
+                backgroundColor: '#ffffff',
+              }}
+              value={
+                localData.year_of_establishment ? new Date(localData.year_of_establishment) : null
+              }
+              onChange={handleDateChange}
+              calendar={persian}
+              locale={persian_fa}
+              className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
+            />
+          </div>
+        </Grid>
+
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_exchange_code"
@@ -227,25 +293,25 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
-              name="Lock_personnel"
+              name="Lock_postal_code"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_personnel}
-              onChange={(e) => setLocalData({ ...localData, Lock_personnel: e.target.checked })}
+              checked={localData.Lock_postal_code}
+              onChange={(e) => setLocalData({ ...localData, Lock_postal_code: e.target.checked })}
             />
           </div>
           <GlobalTextField
-            id="personnel"
-            label="تعداد کارکنان"
-            value={localData.personnel}
-            onChange={(e) => setLocalData({ ...localData, personnel: e.target.value })}
+            id="postal_code"
+            label="کد پستی"
+            value={localData.postal_code}
+            onChange={(e) => setLocalData({ ...localData, postal_code: e.target.value })}
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_email"
@@ -263,7 +329,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={3}>
           <div dir="ltr">
             <Switch
               name="Lock_activity_industry"
@@ -282,114 +348,8 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             onChange={(e) => setLocalData({ ...localData, activity_industry: e.target.value })}
           />
         </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <div dir="ltr">
-            <Switch
-              name="Lock_newspaper"
-              inputProps={{ 'aria-label': 'controlled' }}
-              className="ml-4"
-              checked={localData.Lock_newspaper}
-              onChange={(e) => setLocalData({ ...localData, Lock_newspaper: e.target.checked })}
-            />
-          </div>
-          <GlobalTextField
-            id="newspaper"
-            label="شماره روزنامه رسمی"
-            value={localData.newspaper}
-            onChange={(e) => setLocalData({ ...localData, newspaper: e.target.value })}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <div dir="ltr">
-            <Switch
-              name="Lock_date_newspaper"
-              inputProps={{ 'aria-label': 'controlled' }}
-              className="ml-4"
-              checked={localData.Lock_date_newspaper}
-              onChange={(e) =>
-                setLocalData({ ...localData, Lock_date_newspaper: e.target.checked })
-              }
-            />
-          </div>
-          {/* <div style={{ direction: 'rtl', marginTop: -35 }}>
-            <Label mb={2}>تاریخ روزنامه رسمی آخرین مدیران</Label>
-            <DatePicker
-              value={
-                localData.date_newspaper
-                  ? moment(localData.date_newspaper, 'YYYY/MM/DD').toDate()
-                  : null
-              }
-              calendar={persian}
-              locale={persian_fa}
-              calendarPosition="bottom-right"
-                 style={{
-                minWidth: '550px',
-                width: '100%',
-                height: '50px',
-                padding: '10px',
-                borderRadius: '5px',
-                borderColor: '#ccc',
-              }}
-            />
-          </div> */}
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <div dir="ltr">
-            <Switch
-              name="Lock_postal_code"
-              inputProps={{ 'aria-label': 'controlled' }}
-              className="ml-4"
-              checked={localData.Lock_postal_code}
-              onChange={(e) => setLocalData({ ...localData, Lock_postal_code: e.target.checked })}
-            />
-          </div>
-          <GlobalTextField
-            id="postal_code"
-            label="کد پستی"
-            value={localData.postal_code}
-            onChange={(e) => setLocalData({ ...localData, postal_code: e.target.value })}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-          <div dir="ltr">
-            <Switch
-              name="Lock_city"
-              inputProps={{ 'aria-label': 'controlled' }}
-              className="ml-4"
-              checked={localData.Lock_city}
-              onChange={(e) => setLocalData({ ...localData, Lock_city: e.target.checked })}
-            />
-          </div>
-          <GlobalTextField
-            id="city"
-            label="شهر"
-            value={localData.city}
-            onChange={(e) => setLocalData({ ...localData, city: e.target.value })}
-          />
-        </Grid>
-
-        <Grid item xs={12} sm={12}>
-          <div dir="ltr">
-            <Switch
-              name="Lock_address"
-              inputProps={{ 'aria-label': 'controlled' }}
-              className="ml-4"
-              checked={localData.Lock_address}
-              onChange={(e) => setLocalData({ ...localData, Lock_address: e.target.checked })}
-            />
-          </div>
-          <GlobalTextField
-            id="address"
-            label="آدرس شرکت"
-            value={localData.address}
-            onChange={(e) => setLocalData({ ...localData, address: e.target.value })}
-          />
-        </Grid>
       </Grid>
+
       <Box
         mt={8}
         width="100%"
