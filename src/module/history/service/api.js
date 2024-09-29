@@ -22,12 +22,11 @@ export const postHistory = async ({ cartId, formData }) => {
       form.append(element.national_code, element.file);
     }
     form.append(`lock_${element.national_code}`, element.lock);
-    
+
     if (element.date) {
       const timestamp = new Date(element.date).getTime();
       form.append(`${element.national_code}_date`, timestamp);
     }
-
   }
   const response = await api.post(`/api/history/admin/${cartId}/`, form, {
     headers: {
@@ -35,6 +34,6 @@ export const postHistory = async ({ cartId, formData }) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-  console.log("ff",response)
+  console.log('ff', response);
   return response.data;
 };

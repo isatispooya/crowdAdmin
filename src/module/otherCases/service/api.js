@@ -13,7 +13,7 @@ export const grtOtherCases = async (id) => {
     },
   });
 
-  return response.data;
+  return response?.data?.cart;
 };
 
 export const postOtherCases = async (id, data) => {

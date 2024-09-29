@@ -33,21 +33,23 @@ const HistoryFeature = ({
     </Box>
     <Box
       sx={{
-        display: 'grid',
+       
+        width : "100%",
+        display: 'flex',
         gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
         gap: 2,
         marginBottom: 4,
       }}
     >
       <HistoryInput
-    item={item}
-    index={index}
-    handleTextFieldChange={handleTextFieldChange}
-    handleSwitchChange={handleSwitchChange}
-    handleRemoveFile={handleRemoveFile}
-    handleFileChange={handleFileChange}
-    setFormData={setFormData} 
-  />
+        item={item}
+        index={index}
+        handleTextFieldChange={handleTextFieldChange}
+        handleSwitchChange={handleSwitchChange}
+        handleRemoveFile={handleRemoveFile}
+        handleFileChange={handleFileChange}
+        setFormData={setFormData}
+      />
     </Box>
   </form>
 );
