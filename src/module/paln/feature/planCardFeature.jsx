@@ -2,89 +2,94 @@ import React, { useEffect, useState } from 'react';
 import { Grid, Card, CardContent, Typography, Button, Box, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import useGetCard from '../service/planCard/useGetCard';
+import { useGetPlans } from '../hooks/getPlans';
 
 const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);
   const navigate = useNavigate();
 
-  const { data, isPending, isError } = useGetCard();
+  const { data: plans, isLoading, error, isError, refetch } = useGetPlans();
 
   useEffect(() => {
-    if (!isError && data && !isPending) {
-      setPlanData(data);
+    if (!isError && plans && !isLoading) {
+      setPlanData(plans);
     }
-  }, [data, isError, isPending]);
-
-  const handleCardClick = (id) => {
-    navigate(`/plandetail/${id}`);
+  }, [plans, isError, isLoading]);
+  console.log(plans , "plans")
+  const handleCardClick = (traceCode) => {
+    navigate(`/plandetail/${traceCode}`);
   };
 
   return (
     <Box sx={{ width: '100%', p: 2 }}>
       <ToastContainer />
-      {isPending ? (
+
+      {isLoading && (
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
           <CircularProgress />
         </Box>
-      ) : (
-        <Grid container spacing={2}>
-          {planData.length > 0 ? (
-            planData.map((plan) => (
-              <Grid item xs={12} sm={4} md={3} key={plan.id}>
-                <Card
-                  sx={{
-                    padding: '20px',
-                    cursor: 'pointer',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
-                    transition: 'transform 0.2s, box-shadow 0.2s',
-                    '&:hover': {
-                      transform: 'scale(1.05)',
-                      boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
-                    },
-                    borderRadius: '15px',
-                  }}
-                >
-                  <CardContent
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      textAlign: 'center',
-                    }}
-                  >
-                    <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', mb: 1 }}>
-                      {plan}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      نام طرح:
-                    </Typography>
-                    <Typography variant="body2" sx={{ fontWeight: 'bold', mb: 1 }}>
-                      مبلغ تعیین شده: {plan.amount}
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      سود: {plan.amount_of_shareholders} %
-                    </Typography>
-                  </CardContent>
-
-                  <Button
-                    fullWidth
-                    onClick={() => handleCardClick(plan)}
-                    variant="contained"
-                    color="primary"
-                    sx={{ textTransform: 'none' }}
-                  >
-                    مشاهده
-                  </Button>
-                </Card>
-              </Grid>
-            ))
-          ) : (
-            <Typography>هیچ طرحی وجود ندارد</Typography>
-          )}
-        </Grid>
       )}
+
+      {!isLoading && planData.length === 0 && (
+        <Typography>هیچ طرحی وجود ندارد</Typography>
+      )}
+
+      <Grid container spacing={2}>
+        {!isLoading && planData.length > 0 && planData.map((plan) => (
+          <Grid item xs={12} sm={4} md={3} key={plan.trace_code}>
+            <Card
+              sx={{
+                padding: '20px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
+                },
+                borderRadius: '15px',
+              }}
+              onClick={() => handleCardClick(plan.trace_code)} 
+            >
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', mb: 1 }}>
+                  {plan.persian_name || 'بدون نام'}
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 1 }}>
+                  مبلغ تعیین شده: {plan.total_price ? `${plan.total_price} ریال` : 'نامشخص'}
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 1 }}>
+                  تعداد واحدها: {plan.company_unit_counts || 'نامشخص'}
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 1 }}>
+                  قیمت واحد: {plan.unit_price ? `${plan.unit_price} ریال` : 'نامشخص'}
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 1 }}>
+                  صنعت: {plan.industry_group_description || 'نامشخص'}
+                </Typography>
+              </CardContent>
+
+              <Button
+                fullWidth
+                onClick={() => handleCardClick(plan.trace_code)} // Use trace_code to navigate
+                variant="contained"
+                color="primary"
+                sx={{ textTransform: 'none' }}
+              >
+                مشاهده
+              </Button>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

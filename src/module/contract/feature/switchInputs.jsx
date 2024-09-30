@@ -70,9 +70,7 @@ const SwitchContract = ({ contractData, setContractData }) => {
               ))}
             </Grid>
           </FormGroup>
-          {Object.keys(contractData).length === 0 && (
-            <FormHelperText>در حال بارگذاری اطلاعات قرارداد...</FormHelperText>
-          )}
+
         </FormControl>
       </Box>
     </Box>

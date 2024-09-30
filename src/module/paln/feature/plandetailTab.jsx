@@ -41,7 +41,7 @@ function a11yProps(index) {
   };
 }
 
-const PlanDetailTab = ({ planData, idRow,refetch }) => {
+const PlanDetailTab = ({ planData, idRow, refetch }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -53,7 +53,7 @@ const PlanDetailTab = ({ planData, idRow,refetch }) => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="مشاهده " {...a11yProps(0)} />
-          <Tab label="ویرایش" {...a11yProps(1)} />
+
           <Tab label="افزودن عکس  " {...a11yProps(2)} />
           <Tab label="افزودن مستندات" {...a11yProps(3)} />
           <Tab label="افزودن تضامین" {...a11yProps(4)} />
@@ -63,10 +63,7 @@ const PlanDetailTab = ({ planData, idRow,refetch }) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <PlanDetail planData={planData} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <PlanUpdate planData={planData} refetch={refetch}  idRow={idRow} />
+        <PlanDetail planData={planData} />س
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <PlanAddPic idRow={idRow} planData={planData} />
@@ -93,7 +90,7 @@ const PlanDetailTab = ({ planData, idRow,refetch }) => {
 PlanDetailTab.propTypes = {
   planData: PropTypes.object,
   idRow: PropTypes.number,
-  refetch:PropTypes.func
+  refetch: PropTypes.func,
 };
 
 export default PlanDetailTab;
