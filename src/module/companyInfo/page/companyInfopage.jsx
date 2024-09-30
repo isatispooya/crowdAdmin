@@ -30,13 +30,14 @@ const CompanyInfoPage = () => {
     });
   };
 
-  const handleFileRemove = (type) => {
+   const handleFileRemove = (type ) => {
     setLocalData((prev) => {
       const updated = { ...prev };
-      updated[type] = null; 
+      delete updated[type];
       return updated;
     });
   };
+
   
 
   return (
