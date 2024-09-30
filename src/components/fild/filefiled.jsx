@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import { Box, Switch, FormControl, FormLabel, Input, Button, Link } from '@mui/material';
 import { OnRun } from 'src/api/OnRun';
 
-const SwitchWithFileInput = ({ switchLabel, fileKey, localData, setLocalData, handleFileRemove }) => {
-  
-  return(
+const SwitchWithFileInput = ({ switchLabel, fileKey, localData, setLocalData, handleFileRemove }) =>(
   <Box sx={{ marginBottom: '16px' }}>
     <div dir="ltr">
       <Switch

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { OnRun } from 'src/api/OnRun';
-import SwitchWithFileInput from 'src/components/fild/filefiled';
 import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import { SubmitButton } from 'src/components/button';
+import SwitchWithFileInput from 'src/components/fild/filefiled';
 import useGetOther from '../service/useGetOtherCases';
 import { otherLocalData } from '../objects';
 import { usePostOther } from '../service';

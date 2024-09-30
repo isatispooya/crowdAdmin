@@ -8,7 +8,7 @@ import useGetContract from '../services/useGetContract';
 const ContractPage = () => {
   const [contractData, setContractData] = useState({});
   const { cartId } = UseCartId();
-  const { data: dataContract } = useGetContract(cartId);
+  const { data: dataContract , isError} = useGetContract(cartId);
 
   console.log(' :', dataContract);
 

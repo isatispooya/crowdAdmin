@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid, Switch } from '@mui/material';
 import GlobalTextField from 'src/components/fild/textfiled';
 import PropTypes from 'prop-types';
-import useGetContract from '../services/useGetContract';
 
 const ContentInput = ({contractData , setContractData}) => {
    console.log(contractData , "112345")
