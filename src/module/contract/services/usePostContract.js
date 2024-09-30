@@ -3,7 +3,6 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
 const postContract = async ({ cartId, contractData }) => {
-  console.log('fggggg', contractData);
 
   const access = getCookie('access');
 

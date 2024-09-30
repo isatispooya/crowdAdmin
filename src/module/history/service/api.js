@@ -34,6 +34,5 @@ export const postHistory = async ({ cartId, formData }) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-  console.log('ff', response);
   return response.data;
 };
