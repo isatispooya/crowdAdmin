@@ -1,8 +1,7 @@
+/* eslint-disable arrow-body-style */
 import PaymentPage from 'src/module/payment/page/paymentpage';
 
 const User = () => {
-  console.log('kjdlkfjks');
-
   return <PaymentPage />;
 };
 

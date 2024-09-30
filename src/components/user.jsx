@@ -1,12 +1,8 @@
 import UserPage from "src/module/user/page/userPage";
 
-const User =()=>{
-    console.log('kjdlkfjks');
-    
-return(
+const User =()=>(
    
     <UserPage/>
 )
-}
 
 export default User

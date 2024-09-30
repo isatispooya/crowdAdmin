@@ -15,11 +15,10 @@ export const otherLocalData = {
     lock_auditor_representative: false,
     lock_bank_account_turnover: false,
     lock_claims_status: false,
-    lock_insurance_staf: false,
+    lock_latest_insurance_staf:false,
     lock_licenses: false,
     lock_product_catalog: false,
     lock_statutes: false,
-    lock_latest_insurance_staf: false,
     product_catalog: null,
     statutes: null,
   }

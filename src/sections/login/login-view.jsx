@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
 import axios from 'axios';
-import { setCookie } from 'src/api/cookie';
+import { setCookie, getCookie } from 'src/api/cookie';
 import { useRouter } from 'src/routes/hooks';
 import { bgGradient } from 'src/theme/css';
 import { OnRun } from 'src/api/OnRun';
@@ -27,6 +27,7 @@ export default function LoginView() {
   const [step, setStep] = useState(1);
   const [registerd, setRegisterd] = useState(false);
   const [loading, setLoading] = useState(false);
+  const accessApi = getCookie('accessApi');
 
   const getCaptcha = () => {
     axios
@@ -40,7 +41,11 @@ export default function LoginView() {
       });
   };
 
-
+  useEffect(() => {
+    if (accessApi) {
+      router.push('/');
+    }
+  });
 
   const applyNationalCode = () => {
     if (captchaInput.length === 0) {

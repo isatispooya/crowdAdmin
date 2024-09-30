@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundraisingPage';
-import PlanDetail from './planDetail';
+import PlanDetail from './planCardDetail';
 import PlanUpdate from './planUpdate';
 import PlanAddPic from './planAddPic';
 import PlanDocumentation from './planDocumentation';
