@@ -14,7 +14,6 @@ const CardFeature = ({
     if (value == null) return '';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
-  console.log('hgg',card)
 
   return (
     <Box>
