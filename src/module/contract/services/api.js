@@ -10,6 +10,6 @@ export const getcontract = async (cartId) => {
       'Content-Type': 'application/json',
     },
   });
-   console.log(response.data , "123456789876543456789")
+
   return response.data;
 };

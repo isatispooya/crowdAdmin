@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
-import UseCartId from 'src/hooks/card_id';
 import { toast } from 'react-toastify';
+import UseCartId from 'src/hooks/card_id';
 import ContractFeature from '../feature/contentfeature';
 import useGetContract from '../services/useGetContract';
 
 const ContractPage = () => {
   const [contractData, setContractData] = useState({});
   const { cartId } = UseCartId();
-  const { data: dataContract , isError} = useGetContract(cartId);
+  const { data: dataContract, isError } = useGetContract(cartId);
 
-  console.log(' :', dataContract);
+  // Log the fetched dataContract for debugging
+  console.log('Fetched contract data:', dataContract);
 
   const handelClick = () => {
-    console.log('click');
+    console.log('Button clicked');
   };
 
   useEffect(() => {
     if (dataContract && !isError) {
       const contractInfo = Array.isArray(dataContract) ? dataContract[0] : dataContract;
-      setContractData(contractInfo);
+      setContractData(contractInfo); // Set contract data in the state
     } else if (isError) {
-      toast.error('Error fetching contract data:', isError);
+      // Properly handle error message
+      toast.error(`Error fetching contract data: ${isError.message || 'Unknown error'}`);
     }
   }, [dataContract, isError]);
 
@@ -55,7 +57,7 @@ const ContractPage = () => {
 
         <ContractFeature
           handelClick={handelClick}
-          contractData={contractData}
+          contractData={contractData || {}} // Ensure contractData is not undefined
           setContractData={setContractData}
         />
       </Box>

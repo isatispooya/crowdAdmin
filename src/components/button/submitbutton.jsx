@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const SubmitButton = ({ onClick }) => (
+const SubmitButton = ({ onClick  }) => (
   <Button
     type="button"
     variant="contained"
@@ -20,6 +20,7 @@ const SubmitButton = ({ onClick }) => (
 
 SubmitButton.propTypes = {
   onClick: PropTypes.func.isRequired,
+  
 };
 
 export default SubmitButton;

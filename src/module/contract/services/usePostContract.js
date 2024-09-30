@@ -3,16 +3,16 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
 const postContract = async ({ cartId, contractData }) => {
-  console.log('fggggg', contractData);
+ 
 
-  const access = getCookie('access');
+  const accessApi = getCookie('accessApi');
 
   const response = await api.post(
     `/api/setcart/admin/${cartId}/`,
     contractData,
     {
       headers: {
-        Authorization: `Bearer ${access}`,
+        Authorization: `Bearer ${accessApi}`,
         'Content-Type': 'application/json',
       },
     }
