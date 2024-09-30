@@ -23,19 +23,15 @@ const OtherCasesFeatuer = () => {
   };
 
 
-
-
-
   useEffect(() => {
     if (data) {
       setLocalData(data);
     }
   }, [data]);
 
-  console.log('localData', localData);
 
   const { incrementPage } = useNavigateStep();
-  const {mutate} = usePostOther
+  const {mutate} = usePostOther(cartId)
   const handleButtonClick = () => {
     mutate({cartId,localData});
     incrementPage();
@@ -60,7 +56,6 @@ const OtherCasesFeatuer = () => {
           handleFileRemove={handleFileRemove}
           OnRun={OnRun}
         />
-
         <SwitchWithFileInput
           switchLabel="آخرین لیست بیمه کارکنان"
           fileKey="latest_insurance_staf"
@@ -69,7 +64,6 @@ const OtherCasesFeatuer = () => {
           handleFileRemove={handleFileRemove}
           OnRun={OnRun}
         />
-
         <SwitchWithFileInput
           switchLabel="لیست دایی ها و بدهی ها"
           fileKey="assets_and_liabilities"
@@ -130,7 +124,14 @@ const OtherCasesFeatuer = () => {
           handleFileRemove={handleFileRemove}
           OnRun={OnRun}
         />
-
+           <SwitchWithFileInput
+          switchLabel="گردش حسابهای مالی"
+          fileKey="bank_account_turnover"
+          localData={localData}
+          setLocalData={setLocalData}
+          handleFileRemove={handleFileRemove}
+          OnRun={OnRun}
+        />
         <SwitchWithFileInput
           switchLabel=" کاتالوگ محصولات "
           fileKey="product_catalog"

@@ -240,7 +240,6 @@ export const createCart = async (data, id) => {
     },
     maxBodyLength: Infinity,
   });
-  console.log('ghgfhfghf', response.data);
 
   return response;
 };

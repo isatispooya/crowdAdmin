@@ -8,7 +8,6 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('National Code:', nationalCode);
   };
 
   return (

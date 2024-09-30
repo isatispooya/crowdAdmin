@@ -61,7 +61,6 @@ const CardPage = () => {
     setSendMessageModalOpen(false);
   };
 
-  console.log(cards);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
