@@ -2,8 +2,8 @@ import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
 const accessApi = getCookie('accessApi');
-export const GetDetailPlan = async (id) => {
-  const response = await api.get(`/api/plan/farabours/${id}/`, {
+export const GetDetailPlan = async (trace_code) => {
+  const response = await api.get(`/api/plan/${trace_code}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',

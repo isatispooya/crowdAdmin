@@ -39,6 +39,7 @@ const PlanDetail = () => {
           details(data).map((item, index) => (
             <Typography variant="h6" key={index}>
               {item.label}: {item.value}
+              {console.log(item.label , "aaaaaaaaaaaaaaaaaaaaaa")}
             </Typography>
           ))
         ) : (

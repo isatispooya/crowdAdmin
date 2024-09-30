@@ -8,13 +8,15 @@ import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
 import { toast, ToastContainer } from 'react-toastify';
 import { fetchGuarante, sendGuarante } from '../service/guaranteService';
+import { useParams } from 'react-router-dom';
 
-const PlanGuarante = ({ idRow }) => {
+const PlanGuarante = () => {
   const [files, setFiles] = useState([]);
+  const {trace_code} = useParams()
 
   const { data } = useQuery({
-    queryKey: ['useguarante', idRow],
-    queryFn: () => fetchGuarante(idRow),
+    queryKey: ['useguarante', trace_code],
+    queryFn: () => fetchGuarante(trace_code),
   });
 
   useEffect(() => {

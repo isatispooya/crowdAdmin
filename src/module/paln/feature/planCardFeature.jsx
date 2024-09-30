@@ -79,7 +79,7 @@ const PlanTableFeature = () => {
 
               <Button
                 fullWidth
-                onClick={() => handleCardClick(plan.trace_code)} // Use trace_code to navigate
+                onClick={() => handleCardClick(plan.trace_code)}
                 variant="contained"
                 color="primary"
                 sx={{ textTransform: 'none' }}

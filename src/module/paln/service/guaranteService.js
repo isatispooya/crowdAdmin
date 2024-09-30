@@ -5,8 +5,8 @@ import { OnRun } from 'src/api/OnRun';
 
 const accessApi =  getCookie('accessApi');
 
-export const fetchGuarante = async (id) => {
-  const response = await api.get(`/api/appendices/admin/${id}/`, {
+export const fetchGuarante = async (trace_code) => {
+  const response = await api.get(`/api/appendices/${trace_code}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
