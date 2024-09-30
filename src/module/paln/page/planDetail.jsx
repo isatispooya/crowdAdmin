@@ -9,6 +9,9 @@ const PlanDetailPage = () => {
   const [idRow, setIdRow] = useState();
   const { id } = useParams();
 
+  console.log(id);
+  
+
   const { data , refetch } = useQuery({
     queryKey: ['planDetail', id],
     queryFn: () => fetchDetail(id),
@@ -17,6 +20,8 @@ const PlanDetailPage = () => {
   useEffect(() => {
     setIdRow(id);
   }, [id]);
+
+
 
   return (
     <div

@@ -90,7 +90,7 @@ export const fetchCompany = async (id) => {
           lock_date_newspaper: false,
           lock_year_of_establishment: false,
           lock_postal_code: false,
-          Lock_logo:false
+          Lock_logo: false,
         },
       },
     };
@@ -144,7 +144,6 @@ export const createCart = async (data, id) => {
   formData.append('Lock_date_newspaper', data.Lock_date_newspaper);
   formData.append('lock_postal_code', data.lock_postal_code);
   formData.append('Lock_logo', data.lock_logo);
-
 
   if (data.date_newspaper) {
     formData.append('date_newspaper', data.date_newspaper);
@@ -232,7 +231,7 @@ export const createCart = async (data, id) => {
     formData.append('logo', data.logo);
   }
 
-  const accessApi = getCookie('access');
+  const accessApi = getCookie('accessApi');
   const response = await api.patch(`/api/cart/admin/${id}/`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
