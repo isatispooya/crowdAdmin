@@ -39,8 +39,6 @@ export default function Nav({ openNav, onCloseNav }) {
   useEffect(() => {
     if (!accessApi) {
       router.push('/login');
-    }else{
-      router.push('/');
     }
   }, [accessApi, router]);
 
