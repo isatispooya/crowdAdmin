@@ -11,25 +11,29 @@ const GlobalTextField = ({
   type = 'text',
   inputProps = {},
   required = false,
-}) => (
-  <TextField
-    type={type}
-    contractData={contractData}
-    setContractData={setContractData}
-    label={label}
-    variant="outlined"
-    fullWidth
-    sx={{ mb: 2 }}
-    value={value}
-    onChange={onChange}
-    inputProps={{
-      ...inputProps,
-      inputMode: type === 'number' ? 'numeric' : undefined,
-      pattern: type === 'number' ? '[0-9]*' : undefined,
-    }}
-    required={required}
-  />
-);
+  // eslint-disable-next-line arrow-body-style
+}) => {
+  
+  return (
+    <TextField
+      type={type}
+      contractData={contractData}
+      setContractData={setContractData}
+      label={label}
+      variant="outlined"
+      fullWidth
+      sx={{ mb: 2 }}
+      value={value}
+      onChange={onChange}
+      inputProps={{
+        ...inputProps,
+        inputMode: type === 'number' ? 'numeric' : undefined,
+        pattern: type === 'number' ? '[0-9]*' : undefined,
+      }}
+      required={required}
+    />
+  );
+};
 
 GlobalTextField.propTypes = {
   label: PropTypes.string.isRequired,
