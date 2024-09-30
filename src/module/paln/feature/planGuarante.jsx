@@ -7,8 +7,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
 import { toast, ToastContainer } from 'react-toastify';
-import { fetchGuarante, sendGuarante } from '../service/guaranteService';
 import { useParams } from 'react-router-dom';
+import { fetchGuarante, sendGuarante } from '../service/guaranteService';
 
 const PlanGuarante = () => {
   const [files, setFiles] = useState([]);
@@ -27,21 +27,21 @@ const PlanGuarante = () => {
     }
   }, [data]);
 
-  const mutation = useMutation({
-    mutationKey: ['guarante', idRow],
-    mutationFn: () => sendGuarante(idRow, files),
-    onSuccess: () => {
-      toast.success('تغییرات شما با موفقیت اعمال شد');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationKey: ['guarante', idRow],
+  //   mutationFn: () => sendGuarante(idRow, files),
+  //   onSuccess: () => {
+  //     toast.success('تغییرات شما با موفقیت اعمال شد');
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error.message);
+  //   },
+  // });
 
-  const handleButtonClick = (index) => {
-    const fileToSend = files[index];
-    mutation.mutate([fileToSend]);
-  };
+  // const handleButtonClick = (index) => {
+  //   const fileToSend = files[index];
+  //   mutation.mutate([fileToSend]);
+  // };
 
   const handleFileChange = (index, event) => {
     const selectedFile = event.target.files[0];
@@ -176,7 +176,7 @@ const PlanGuarante = () => {
             <Button
               variant="contained"
               size="small"
-              onClick={() => handleButtonClick(index)}
+              // onClick={() => handleButtonClick(index)}
               sx={{
                 color: '#fff',
                 '&:hover': {
@@ -199,8 +199,6 @@ const PlanGuarante = () => {
   );
 };
 
-PlanGuarante.propTypes = {
-  idRow: PropTypes.number.isRequired,
-};
+
 
 export default PlanGuarante;
