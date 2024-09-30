@@ -77,8 +77,7 @@ const SwitchWithFileInput = ({ switchLabel, fileKey, localData, setLocalData, ha
       )}
     </FormControl>
   </Box>
-);
-}
+)
 
 SwitchWithFileInput.propTypes = {
   switchLabel: PropTypes.string.isRequired,

@@ -41,7 +41,7 @@ function a11yProps(index) {
   };
 }
 
-const PlanDetailTab = ({ planData, idRow }) => {
+const PlanDetailTab = ({ planData, idRow,refetch }) => {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -66,7 +66,7 @@ const PlanDetailTab = ({ planData, idRow }) => {
         <PlanDetail planData={planData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <PlanUpdate planData={planData} idRow={idRow} />
+        <PlanUpdate planData={planData} refetch={refetch}  idRow={idRow} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <PlanAddPic idRow={idRow} planData={planData} />
@@ -93,6 +93,7 @@ const PlanDetailTab = ({ planData, idRow }) => {
 PlanDetailTab.propTypes = {
   planData: PropTypes.object,
   idRow: PropTypes.number,
+  refetch:PropTypes.func
 };
 
 export default PlanDetailTab;

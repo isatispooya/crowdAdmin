@@ -9,7 +9,7 @@ const PlanDetailPage = () => {
   const [idRow, setIdRow] = useState();
   const { id } = useParams();
 
-  const { data } = useQuery({
+  const { data , refetch } = useQuery({
     queryKey: ['planDetail', id],
     queryFn: () => fetchDetail(id),
   });
@@ -42,7 +42,7 @@ const PlanDetailPage = () => {
           marginTop: '40px',
         }}
       >
-        <PlanDetailTab planData={data} idRow={idRow} />
+        <PlanDetailTab planData={data} refetch={refetch} idRow={idRow} />
       </Box>
     </div>
   );

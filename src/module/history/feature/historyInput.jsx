@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Input, Link } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import PropTypes from 'prop-types';
 import GlobalTextField from 'src/components/fild/textfiled';
@@ -13,13 +13,12 @@ const HistoryInput = ({
   item,
   index,
   handleRemoveFile,
-  handleFileChange,
-  setFormData}) => {
-  
+  setFormData,
+}) => {
   const handleDateChange = (date) => {
     const jsDate = date && typeof date.toDate === 'function' ? date.toDate() : null;
     const updatedItem = { ...item, date: jsDate ? jsDate.toISOString() : null };
-    
+
     setFormData((prevData) => {
       const newData = [...prevData];
       newData[index] = updatedItem;
@@ -27,92 +26,100 @@ const HistoryInput = ({
     });
   };
 
-
   return (
-    <>
-      <Box>
-        <GlobalTextField
-          label="نام و نام خانوادگی"
-          value={item.name}
-          onChange={handleTextFieldChange(index, 'name')}
-        />
-      </Box>
-      <GlobalTextField
-        label="کد ملی"
-        value={item.national_code}
-        onChange={handleTextFieldChange(index, 'national_code')}
-        inputProps={{ maxLength: 10 }}
-        required
-      />
-      <Box
-        sx={{
-          display: 'flex',
-          gap: 2,
-          alignItems: 'flex-start',
-        }}
-      >
-        <DatePicker
-          style={{
-            width: '100%',
-            padding: 16,
-            backgroundColor: '#ffffff',
-            marginTop: '12px',
-          }}
-          value={item.date ? new Date(item.date) : null}
-          onChange={handleDateChange}
-          calendar={persian}
-          locale={persian_fa}
-          className="shadow appearance-none border bg-white border-gray-300 rounded-lg w-full text-black leading-tight disabled:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-300 hover:border-indigo-300 transition-colors"
-        />
-      </Box>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-          alignItems: 'flex-start',
-        }}
-      >
-        {typeof item.file === 'string' && item.file ? (
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              backgroundColor: '#f7f7f7',
-              padding: '10px',
-              borderRadius: '8px',
-              boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
-            }}
-          >
-            <Link
-              href={`${OnRun}/${item.file}`}
-              target="_blank"
+    <Box sx={{ mb: 3, p: 2 }}>
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <GlobalTextField
+            label="نام و نام خانوادگی"
+            value={item.name}
+            onChange={handleTextFieldChange(index, 'name')}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <GlobalTextField
+            label="کد ملی"
+            value={item.national_code}
+            onChange={handleTextFieldChange(index, 'national_code')}
+            inputProps={{ maxLength: 10 }}
+            required
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={3}>
+          <Box sx={{ mb: 2 }}>
+            <Box
               sx={{
-                fontSize: '14px',
-                fontWeight: 'medium',
+                width: '100%',
+                padding: '12px',
+                backgroundColor: '#ffffff',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
-              دریافت فایل سوء پیشینه
-              <FileCopyOutlinedIcon style={{ fontSize: '16px' }} />
-            </Link>
-            <Button
-              size="small"
-              onClick={handleRemoveFile(index)}
-              sx={{ height: 'auto', ml: '10px' }}
-            >
-              حذف
-            </Button>
+              <DatePicker
+                style={{
+                  width: '100%',
+                  border: 'none',
+                  outline: 'none',
+                }}
+                value={item.date ? new Date(item.date) : null}
+                onChange={handleDateChange}
+                calendar={persian}
+                locale={persian_fa}
+              />
+            </Box>
           </Box>
-        ) : (
-          <Input
-            sx={{ marginTop: '10px' }}
-            type="file"
-            onChange={(e) => handleFileChange(e.target.files[0], index)}
-          />
-        )}
-      </Box>
-    </>
+        </Grid>
+        <Grid item xs={3}>
+          {typeof item.file === 'string' && item.file && (
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  backgroundColor: '#f7f7f7',
+                  padding: '10px',
+                  borderRadius: '8px',
+                  boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                <a
+                  href={`${OnRun}/${item.file}`}
+                  target="_blank"
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 'medium',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }} rel="noreferrer"
+                >
+                  دریافت فایل سوء پیشینه
+                  <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '8px' }} />
+                </a>
+                <Button
+                  size="small"
+                  onClick={handleRemoveFile(index)}
+                  sx={{
+                    height: 'auto',
+                    ml: '10px',
+                    '&:hover': {
+                      backgroundColor: '#e0e0e0',
+                    },
+                  }}
+                >
+                  حذف
+                </Button>
+              </Box>
+          )}
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
@@ -121,9 +128,7 @@ HistoryInput.propTypes = {
   index: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
   handleRemoveFile: PropTypes.func.isRequired,
-  handleFileChange: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired, 
-  
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default HistoryInput;

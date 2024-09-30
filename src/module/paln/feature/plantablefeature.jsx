@@ -97,11 +97,15 @@ const PlanTableFeature = ({ planData, refetch }) => {
     },
     {
       title: 'سود',
-      field: 'applicant_funding_percentage',
+      field: 'amount_of_shareholders',
       align: 'left',
       width: 250,
       headerFilter: 'input',
-    },
+      formatter(cell) {
+        return `${cell.getValue()  } %`;
+      }
+    }
+    
   ];
 
   return (

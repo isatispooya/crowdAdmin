@@ -42,7 +42,16 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
   });
 
   const handleSubmit = () => {
-    mutation.mutate(formData);
+    const startDate = new Date(formData.remaining_from_to).getTime();
+    const endDate = new Date(formData.remaining_date_to).getTime();
+
+    const dataToSubmit = {
+      ...formData,
+      remaining_from_to: startDate,
+      remaining_date_to: endDate,
+    };
+
+    mutation.mutate(dataToSubmit);
   };
 
   const handlePercentageChange = (e, key) => {
@@ -51,9 +60,10 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
       setFormData({ ...formData, [key]: value });
     }
   };
+
   const formatDate = (date) => {
     if (!date) return null;
-    const jsDate = new Date(date.year, date.month, date.day);
+    const jsDate = new Date(date.year, date.month - 1, date.day);
     return jsDate.toISOString();
   };
 
@@ -115,13 +125,13 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
             <Grid item xs={12} lg={6}>
               <Box mb={2}>
                 <TextField
-                  value={formData.profit_amount ? formatNumber(formData.profit_amount) : ''}
+                  value={formData.amount_of_shareholders ? formatNumber(formData.amount_of_shareholders) : ''}
                   label="میزان سود"
                   type="number"
                   InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
                   variant="outlined"
                   fullWidth
-                  onChange={(e) => handlePercentageChange(e, 'profit_amount')}
+                  onChange={(e) => handlePercentageChange(e, 'amount_of_shareholders')}
                 />
               </Box>
             </Grid>
@@ -217,6 +227,7 @@ const PlanCreateModal = ({ open, onClose, refetch }) => {
                 />
               </Box>
             </Grid>
+
             <Grid item xs={12} lg={6}>
               <Box mt={-4} mb={3}>
                 <Label mb={1}>تاریخ پایان</Label>

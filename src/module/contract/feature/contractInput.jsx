@@ -2,57 +2,56 @@ import React from 'react';
 import { Grid, Switch } from '@mui/material';
 import GlobalTextField from 'src/components/fild/textfiled';
 
-const ContentInput = () => (
-  <>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="کارمزد فرابورس" />
+const ContentInput = () => {
+ 
+  const fielsLabels = [
+    {
+      label: 'کارمزد فرابورس',
+      key: 'farabourse_fee',
+    },
+    {
+      label: 'کارمزد انتشار',
+      key: 'publication_fee',
+    },
+    {
+      label: 'کارمزد ارائه خدمات',
+      key: 'service_fee',
+    },
+    {
+      label: 'کارمزد طراحی',
+      key: 'design_fee',
+    },
+    {
+      label: 'دوره بازپرداخت',
+      key: 'repayment_period',
+    },
+    {
+      label: 'دوره تامین مالی',
+      key: 'financing_period',
+    },
+    {
+      label: 'سود مشارکت اسمی',
+      key: 'nominal_profit',
+    },
+    {
+      label: 'ضمانت نامه',
+      key: 'guarantee',
+    },
+  ];
+
+  return (
+    <Grid container spacing={2}>
+      {fielsLabels.map(({ label, key }) => (
+        <Grid item xs={12} sm={6} key={key}>
+          <div dir="ltr">
+            <Switch />
+            
+          </div>
+          <GlobalTextField label={label}  />
+        </Grid>
+      ))}
     </Grid>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="کارمزد انتشار" />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="کارمزد ارائه خدمات" />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="کارمزد طراحی" />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="دوره بازپرداخت" />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="دوره تامین مالی" />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="سود مشارکت اسمی" />
-    </Grid>
-    <Grid item xs={12} sm={6}>
-      <div dir="ltr">
-        <Switch />
-      </div>
-      <GlobalTextField label="ضمانت نامه" />
-    </Grid>
-  </>
-);
+  );
+};
 
 export default ContentInput;
