@@ -17,10 +17,12 @@ const postPlanDetail = async (data) => {
   formData.append('payment_period', data.payment_period || '');
   formData.append('plan_status', data.plan_status || '');
   formData.append('activity_field', data.activity_field || '');
-  formData.append('remaining_days', data.remaining_days || '');
+  formData.append('remaining_date_to', data.remaining_date_to || '');
+  formData.append('remaining_from_to', data.remaining_from_to || '');
   formData.append('marketer', data.marketer || '');
   formData.append('farabours_link', data.farabours_link || '');
   formData.append('applicant_funding_percentage', data.applicant_funding_percentage || '');
+  formData.append('amount_of_shareholders', data.amount_of_shareholders || '');
   formData.append('nominal_price_certificate', data.nominal_price_certificate || '');
   formData.append('description', data.description || '');
 

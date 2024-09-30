@@ -40,6 +40,8 @@ export default function LoginView() {
       });
   };
 
+
+
   const applyNationalCode = () => {
     if (captchaInput.length === 0) {
       toast.warning('کد تصویر صحیح نیست');

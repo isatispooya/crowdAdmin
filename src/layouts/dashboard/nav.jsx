@@ -13,7 +13,7 @@ import { RouterLink } from 'src/routes/components';
 import { useResponsive } from 'src/hooks/use-responsive';
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
-import { getCookie, setCookie } from 'src/api/cookie';
+import { getCookie } from 'src/api/cookie';
 import SvgColor from 'src/components/svg-color';
 import navConfig from './config-navigation';
 import { NAV } from './config-layout';
@@ -24,11 +24,27 @@ export default function Nav({ openNav, onCloseNav }) {
   const cookie = getCookie('sym');
   const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
+  const accessApi = getCookie('accessApi');
+
 
   const exit = () => {
+    document.cookie.split(';').forEach((c) => {
+      document.cookie = c
+        .replace(/^ +/, '')
+        .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+    });
     router.push('/login');
-    setCookie('phu', '', 0);
   };
+
+  useEffect(() => {
+    if (!accessApi) {
+      router.push('/login');
+    }else{
+      router.push('/');
+    }
+  }, [accessApi, router]);
+
+
 
   useEffect(() => {
     if (openNav) {

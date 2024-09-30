@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stepper, Step, StepLabel } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import ContractPage from 'src/module/contract/page/contarctPage';
@@ -17,7 +17,7 @@ const Sterpercrowd = () => {
 
   const steps = [
     'درخواست ها',
-    ' اطلاعات درخواست' ,
+    ' اطلاعات درخواست',
     'مدیران',
     'مستندات مدیران',
     'سهامداران',
@@ -59,7 +59,6 @@ const Sterpercrowd = () => {
         );
     }
   };
-
   return (
     <div>
       <Stepper sx={{ marginTop: '40px' }} activeStep={page} alternativeLabel>

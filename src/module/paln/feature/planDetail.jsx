@@ -2,9 +2,11 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import moment from 'moment-jalaali';
+import { statusOptions } from './planUpdateInfo';
 
 const PlanDetail = ({ planData }) => {
   const data = planData?.data;
+  
 
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -25,6 +27,15 @@ const PlanDetail = ({ planData }) => {
         return '';
     }
   };
+
+  const getStatusLabel = (status) => {
+    const statusOption = statusOptions.find((option) => option.value === status);
+    return statusOption ? statusOption.label : 'وضعیت نامشخص';
+  };
+
+  
+
+  
 
   return (
     <Box
@@ -60,7 +71,7 @@ const PlanDetail = ({ planData }) => {
       >
         {data ? (
           <div>
-            <Typography variant="h6">{data.plan_name || ''}</Typography>
+            <Typography variant="h5" mb={2}>{data.plan_name || ''}</Typography>
             <Typography>
               <strong>نام شرکت:</strong> {data.company_name || ''}
             </Typography>
@@ -68,7 +79,7 @@ const PlanDetail = ({ planData }) => {
               <strong>مبلغ تامین شده:</strong> {formatNumber(data.funded_amount) || ''}
             </Typography>
             <Typography>
-              <strong>مقدار سود:</strong> {formatNumber(data.funded_amount) || ''}
+              <strong>مقدار سود:</strong> {formatNumber(data.amount_of_shareholders)  || ''} %
             </Typography>
             <Typography>
               <strong>شناوری:</strong> {data.buoyancy || ''}
@@ -77,7 +88,7 @@ const PlanDetail = ({ planData }) => {
               <strong>دوره پرداخت:</strong> {formatPaymentPeriod(data.payment_period) || ''}
             </Typography>
             <Typography>
-              <strong>وضعیت اجرای طرح:</strong> {data.plan_status || ''}
+              <strong>وضعیت اجرای طرح:</strong> {getStatusLabel(data.plan_status) || ''}
             </Typography>
             <Typography>
               <strong>حوزه فعالیت:</strong> {data.activity_field || ''}
@@ -100,7 +111,7 @@ const PlanDetail = ({ planData }) => {
               <strong>لینک فرابورس:</strong> {data.farabours_link || ''}
             </Typography>
             <Typography>
-              <strong>درصد تامین متقاضی:</strong> {data.applicant_funding_percentage || ''}
+              <strong>درصد تامین متقاضی:</strong> {data.applicant_funding_percentage || ''} %
             </Typography>
             <Typography>
               <strong>قیمت اسمی هر گواهی:</strong>{' '}

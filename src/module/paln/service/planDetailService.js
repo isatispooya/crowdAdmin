@@ -11,8 +11,6 @@ export const fetchDetail = async (id) => {
       'Content-Type': 'application/json',
     },
   });
-  console.log('gggggggggg', response.data);
-
   return response.data;
 };
 
@@ -44,6 +42,8 @@ export const UpdatePlan = async (id, data) => {
   formData.append('applicant_funding_percentage', data.applicant_funding_percentage || '');
   formData.append('nominal_price_certificate', data.nominal_price_certificate || '');
   formData.append('description', data.description || '');
+  formData.append('amount_of_shareholders', data.amount_of_shareholders || '');
+
 
   const response = await api.patch(url, formData, {
     headers: {

@@ -4,13 +4,11 @@ import UseCartId from 'src/hooks/card_id';
 import { toast } from 'react-toastify';
 import ContractFeature from '../feature/contentfeature';
 import useGetContract from '../services/useGetContract';
-import UsePostContract from '../services/usePostContract';
 
 const ContractPage = () => {
   const [contractData, setContractData] = useState({});
   const { cartId } = UseCartId();
-  const { data: dataContract, isError } = useGetContract(cartId);
-  const { mutate, isLoading, isError: err } = UsePostContract(cartId);
+  const { data: dataContract } = useGetContract(cartId);
 
   console.log(' :', dataContract);
 

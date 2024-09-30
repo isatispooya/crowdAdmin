@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import GlobalTextField from 'src/components/fild/textfiled';
 import { toast, ToastContainer } from 'react-toastify';
 import Label from 'src/components/label';
-import moment from 'moment-jalaali';
 import { UpdatePlan } from '../service/planDetailService';
 import { durationOptions, statusOptions } from './planUpdateInfo';
 
@@ -19,7 +18,7 @@ const formatNumber = (num) => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
-const PlanUpdate = ({ planData, idRow }) => {
+const PlanUpdate = ({ planData, idRow, refetch }) => {
   const [data, setData] = useState(planData?.data || {});
   const [loading, setLoading] = useState(true);
 
@@ -34,27 +33,28 @@ const PlanUpdate = ({ planData, idRow }) => {
     mutationFn: () => UpdatePlan(idRow, data),
     onSuccess: () => {
       toast.success('تغییرات شما با موفقیت اعمال شد');
+      refetch();
     },
     onError: (error) => {
       toast.error(error.message);
     },
   });
 
-  useEffect(() => {
-    if (planData) {
-      const formattedData = {
-        ...planData.data,
-        remaining_date_to: planData.data.remaining_date_to
-          ? moment(planData.data.remaining_date_to, 'YYYY-MM-DDTHH:mm:ss').format('YYYY/MM/DD')
-          : '',
-        remaining_from_to: planData.data.remaining_from_to
-          ? moment(planData.data.remaining_from_to, 'YYYY-MM-DDTHH:mm:ss').format('YYYY/MM/DD')
-          : '',
-      };
-      setData(formattedData);
-      setLoading(false);
-    }
-  }, [planData]);
+  const handleDateRemaining_from_to = (date) => {
+    const updatedData = { ...data };
+    updatedData.remaining_from_to = new Date(date).toISOString();
+    setData(updatedData);
+  };
+
+  const handleDateRemaining_date_to = (date) => {
+    const updatedData = { ...data };
+    updatedData.remaining_date_to = new Date(date).toISOString();
+    setData(updatedData);
+  };
+
+  const handelClick = () => {
+    mutation.mutate();
+  };
 
   const handleChange = (key, value) => {
     setData((prev) => ({ ...prev, [key]: value }));
@@ -67,7 +67,6 @@ const PlanUpdate = ({ planData, idRow }) => {
       </Box>
     );
   }
-  console.log(data.remaining_from_to, 'shjfhfdhju');
 
   return (
     <>
@@ -117,14 +116,17 @@ const PlanUpdate = ({ planData, idRow }) => {
         <Grid item xs={12} lg={6}>
           <Box mb={2}>
             <TextField
-              value={data.profit_amount}
+              value={data.amount_of_shareholders}
               label="میزان سود"
               type="number"
               InputProps={{ endAdornment: <InputAdornment position="end">%</InputAdornment> }}
               variant="outlined"
               fullWidth
               onChange={(e) => {
-                handleChange('profit_amount', e.target.value);
+                const { value } = e.target;
+                if (value <= 100) {
+                  handleChange('amount_of_shareholders', value);
+                }
               }}
             />
           </Box>
@@ -145,7 +147,7 @@ const PlanUpdate = ({ planData, idRow }) => {
             <GlobalTextField
               value={data.buoyancy || ''}
               label="شناوری"
-              type="text"
+              type="number"
               onChange={(e) => handleChange('buoyancy', e.target.value)}
             />
           </Box>
@@ -187,21 +189,14 @@ const PlanUpdate = ({ planData, idRow }) => {
             <Label mb={1}>تاریخ شروع</Label>
 
             <DatePicker
-              format="YYYY/MM/DD"
               calendar={persian}
               locale={persian_fa}
               calendarPosition="bottom-right"
               style={{ minWidth: 640, height: '54px' }}
               inputStyle={{ height: '100%', width: '100%' }}
               placeholder="تاریخ شروع"
-              value={
-                data.remaining_date_to
-                  ? moment(data.remaining_date_to, 'YYYY/MM/DD').toDate()
-                  : null
-              }
-              onChange={(value) =>
-                handleChange('remaining_date_to', moment(value).format('YYYY/MM/DD'))
-              }
+              value={data.remaining_date_to ? new Date(data.remaining_date_to) : null}
+              onChange={handleDateRemaining_date_to}
             />
           </Box>
         </Grid>
@@ -209,21 +204,14 @@ const PlanUpdate = ({ planData, idRow }) => {
           <Box mt={-4} mb={3}>
             <Label mb={1}>تاریخ پایان</Label>
             <DatePicker
-              format="YYYY/MM/DD"
               calendar={persian}
               locale={persian_fa}
               calendarPosition="bottom-right"
               style={{ minWidth: 640, height: '54px' }}
               inputStyle={{ height: '100%', width: '100%' }}
               placeholder="تاریخ پایان"
-              value={
-                data.remaining_from_to
-                  ? moment(data.remaining_from_to, 'YYYY/MM/DD').toDate()
-                  : null
-              }
-              onChange={(value) =>
-                handleChange('remaining_from_to', moment(value).format('YYYY/MM/DD'))
-              }
+              value={data.remaining_from_to ? new Date(data.remaining_from_to) : null}
+              onChange={handleDateRemaining_from_to}
             />
           </Box>
         </Grid>
@@ -248,11 +236,14 @@ const PlanUpdate = ({ planData, idRow }) => {
               fullWidth
               onChange={(e) => {
                 const value = e.target.value.replace(/,/g, '');
-                handleChange('applicant_funding_percentage', value);
+                if (/^\d*$/.test(value) && (value === '' || Number(value) <= 100)) {
+                  handleChange('applicant_funding_percentage', value);
+                }
               }}
             />
           </Box>
         </Grid>
+
         <Grid item xs={12} lg={6}>
           <Box mb={2}>
             <GlobalTextField
@@ -263,11 +254,13 @@ const PlanUpdate = ({ planData, idRow }) => {
               label="قیمت اسمی هر گواهی"
               onChange={(e) => {
                 const value = e.target.value.replace(/,/g, '');
-                handleChange('nominal_price_certificate', value);
+                const numericValue = value.replace(/[^0-9]/g, '');
+                handleChange('nominal_price_certificate', numericValue);
               }}
             />
           </Box>
         </Grid>
+
         <Grid item xs={12} lg={12}>
           <Box mb={2}>
             <TextField
@@ -283,7 +276,7 @@ const PlanUpdate = ({ planData, idRow }) => {
         </Grid>
 
         <Grid item xs={12}>
-          <SubmitButton onClick={mutation.mutate} disabled={mutation.isLoading} />
+          <SubmitButton onClick={handelClick} disabled={mutation.isLoading} />
         </Grid>
       </Grid>
     </>
@@ -293,6 +286,7 @@ const PlanUpdate = ({ planData, idRow }) => {
 PlanUpdate.propTypes = {
   planData: PropTypes.object.isRequired,
   idRow: PropTypes.number.isRequired,
+  refetch: PropTypes.func,
 };
 
 export default PlanUpdate;
