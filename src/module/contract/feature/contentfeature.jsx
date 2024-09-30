@@ -5,15 +5,13 @@ import { SubmitButton } from 'src/components/button';
 import PropTypes from 'prop-types';
 import ContentInput from './contractInput';
 
-const ContractFeature = ({ handelClick, setContractData, contractData }) => {
-  return (
+const ContractFeature = ({ handelClick, setContractData, contractData }) => (
     <Grid container spacing={3}>
       <ContentInput contractData={contractData} setContractData={setContractData} />
 
       <SubmitButton contractData={contractData} onClick={handelClick} />
     </Grid>
   );
-};
 
 ContractFeature.propTypes = {
   handelClick: PropTypes.func,
