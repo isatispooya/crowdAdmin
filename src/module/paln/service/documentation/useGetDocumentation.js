@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { GetDetailPlan } from './api';
+import { GetDocument } from './api';
 
-const useGetPlanDetail = (id) => {
+const useGetDocumentation = (id) => {
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ['planDetail'],
-    queryFn: () => GetDetailPlan(id),
+    queryKey: ['documentation'],
+    queryFn: () => GetDocument(id),
   });
   return {
     data,
@@ -15,4 +15,4 @@ const useGetPlanDetail = (id) => {
   };
 };
 
-export default useGetPlanDetail;
+export default useGetDocumentation;

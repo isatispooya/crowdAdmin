@@ -3,40 +3,40 @@ import { Box, Typography, TextField, Link, IconButton, Button } from '@mui/mater
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { AddFormButton } from 'src/components/button';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
-import { toast, ToastContainer } from 'react-toastify';
-import { fetchDocument, sendDocument } from '../service/documentService';
+import { ToastContainer } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+import useGetDocumentation from '../../service/documentation/useGetDocumentation';
 
-const PlanDocumentation = ({ idRow }) => {
+const PlanDocumentation = () => {
+  const {id} = useParams();
+  const { data } = useGetDocumentation(id);
   const [files, setFiles] = useState([{ title: '', file: null }]);
 
-  const { data } = useQuery({
-    queryKey: ['document', idRow],
-    queryFn: () => fetchDocument(idRow),
-  });
+  console.log(id);
+  
+
 
   useEffect(() => {
     if (data && data.data) {
-      setFiles([{ title: data.data.title || '', file: data.data.file || null }]);
+      setFiles(data);
     }
   }, [data]);
 
-  const mutation = useMutation({
-    mutationKey: ['document', idRow],
-    mutationFn: () => sendDocument(idRow, files),
-    onSuccess: () => {
-      toast.success('تغییرات شما با موفقیت اعمال شد');
-    },
-    onError: (error) => {
-      toast.error(error.message);
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationKey: ['document', trace_code],
+  //   mutationFn: () => sendDocument(trace_code, files),
+  //   onSuccess: () => {
+  //     toast.success('تغییرات شما با موفقیت اعمال شد');
+  //   },
+  //   onError: (error) => {
+  //     toast.error(error.message);
+  //   },
+  // });
 
   const handleButtonClick = (index) => {
     const fileToSend = files[index];
-    mutation.mutate([fileToSend]);
+    // mutation.mutate([fileToSend]);
   };
 
   const handleFileChange = (index, event) => {
@@ -193,10 +193,6 @@ const PlanDocumentation = ({ idRow }) => {
       </Box>
     </Box>
   );
-};
-
-PlanDocumentation.propTypes = {
-  idRow: PropTypes.number,
 };
 
 export default PlanDocumentation;

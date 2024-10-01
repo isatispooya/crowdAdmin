@@ -4,13 +4,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundraisingPage';
-import PlanDetail from './planCardDetail';
-import PlanUpdate from './planUpdate';
 import PlanAddPic from './planAddPic';
-import PlanDocumentation from './planDocumentation';
 import PlanGuarante from './planGuarante';
 import PlanInvestors from './planInvestors';
 import PlanComments from './planComments';
+import PlanDocumentation from './documentation/planDocumentation';
+import PlanDetail from './detail/planDetail';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,34 +52,33 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="مشاهده " {...a11yProps(0)} />
-
-          <Tab label="افزودن عکس  " {...a11yProps(2)} />
-          <Tab label="افزودن مستندات" {...a11yProps(3)} />
-          <Tab label="افزودن تضامین" {...a11yProps(4)} />
-          <Tab label="نظرات" {...a11yProps(5)} />
-          <Tab label="سرمایه گذاران" {...a11yProps(6)} />
-          <Tab label="پایان جمع آوری وجه" {...a11yProps(7)} />
+          <Tab label="افزودن عکس  " {...a11yProps(1)} />
+          <Tab label="افزودن مستندات" {...a11yProps(2)} />
+          <Tab label="افزودن تضامین" {...a11yProps(3)} />
+          <Tab label="نظرات" {...a11yProps(4)} />
+          <Tab label="سرمایه گذاران" {...a11yProps(5)} />
+          <Tab label="پایان جمع آوری وجه" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <PlanDetail planData={planData} />س
+        <PlanDetail/>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
+      <CustomTabPanel value={value} index={1}>
         <PlanAddPic idRow={idRow} planData={planData} />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        <PlanDocumentation idRow={idRow} />
+      <CustomTabPanel value={value} index={2}>
+        <PlanDocumentation  />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
+      <CustomTabPanel value={value} index={3}>
         <PlanGuarante idRow={idRow} />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={5}>
+      <CustomTabPanel value={value} index={4}>
         <PlanComments idRow={idRow} />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={6}>
+      <CustomTabPanel value={value} index={5}>
         <PlanInvestors />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={7}>
+      <CustomTabPanel value={value} index={6}>
         <EndOffUndraisingPage />
       </CustomTabPanel>
     </Box>

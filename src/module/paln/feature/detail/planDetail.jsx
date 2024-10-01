@@ -1,12 +1,13 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import useGetPlanDetail from '../service/plandetail/useGetPlandetail';
+import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
 import { details } from './plan_detail_config';
 
 const PlanDetail = () => {
   const { id } = useParams();
   const { data } = useGetPlanDetail(id);
+  const planDetails = details();
 
   return (
     <Box
@@ -35,11 +36,11 @@ const PlanDetail = () => {
         </Typography>
       </div>
       <Box sx={{ padding: 2, textAlign: 'center' }}>
-        {data ? (
-          details(data).map((item, index) => (
-            <Typography variant="h6" key={index}>
-              {item.label}: {item.value}
-              {console.log(item.label , "aaaaaaaaaaaaaaaaaaaaaa")}
+        {planDetails.length > 0 ? (
+          planDetails.map((item, index) => (
+            <Typography variant="h6" key={index} sx={{ wordWrap: 'break-word' }}>
+              {item.label}:{' '}
+              {data && data[item.value] !== undefined ? data[item.value] : 'اطلاعات موجود نیست.'}
             </Typography>
           ))
         ) : (

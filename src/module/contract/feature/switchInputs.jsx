@@ -5,7 +5,6 @@ import {
   FormControlLabel,
   FormGroup,
   Switch,
-  FormHelperText,
   Box,
   Grid,
 } from '@mui/material';

@@ -3,12 +3,11 @@ import { Box, Typography, TextField, Link, IconButton, Button } from '@mui/mater
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { AddFormButton } from 'src/components/button';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import PropTypes from 'prop-types';
+import { useQuery } from '@tanstack/react-query';
 import { OnRun } from 'src/api/OnRun';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import { fetchGuarante, sendGuarante } from '../service/guaranteService';
+import { fetchGuarante } from '../service/guaranteService';
 
 const PlanGuarante = () => {
   const [files, setFiles] = useState([]);

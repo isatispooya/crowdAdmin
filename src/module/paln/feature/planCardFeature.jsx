@@ -8,16 +8,15 @@ const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);
   const navigate = useNavigate();
 
-  const { data: plans, isLoading, error, isError, refetch } = useGetPlans();
+  const { data: plans, isLoading, isError } = useGetPlans();
 
   useEffect(() => {
     if (!isError && plans && !isLoading) {
       setPlanData(plans);
     }
   }, [plans, isError, isLoading]);
-  console.log(plans , "plans")
   const handleCardClick = (traceCode) => {
-    navigate(`/plandetail/${traceCode}`);
+    navigate(`/plan/${traceCode}`);
   };
 
   return (
