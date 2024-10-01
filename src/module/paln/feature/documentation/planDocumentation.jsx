@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, TextField, Link, IconButton, Button } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { AddFormButton } from 'src/components/button';
 import { OnRun } from 'src/api/OnRun';
 import { ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import useGetDocumentation from '../../service/documentation/useGetDocumentation';
+import usePostDocumentation from '../../service/documentation/usePostDocumentaion';
 
 const PlanDocumentation = () => {
-  const {id} = useParams();
-  const { data } = useGetDocumentation(id);
+  const { trace_code } = useParams();
+  console.log(trace_code);
+
+  const { data } = useGetDocumentation(trace_code);
   const [files, setFiles] = useState([{ title: '', file: null }]);
-
-  console.log(id);
-  
-
+  const { mutate, isPending, isError, isSuccess } = usePostDocumentation(trace_code);
 
   useEffect(() => {
     if (data && data.data) {
@@ -23,20 +22,9 @@ const PlanDocumentation = () => {
     }
   }, [data]);
 
-  // const mutation = useMutation({
-  //   mutationKey: ['document', trace_code],
-  //   mutationFn: () => sendDocument(trace_code, files),
-  //   onSuccess: () => {
-  //     toast.success('تغییرات شما با موفقیت اعمال شد');
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message);
-  //   },
-  // });
-
-  const handleButtonClick = (index) => {
-    const fileToSend = files[index];
-    // mutation.mutate([fileToSend]);
+  const handleButtonClick = () => {
+    console.log('postData', files);
+    mutate(files);
   };
 
   const handleFileChange = (index, event) => {
@@ -62,10 +50,6 @@ const PlanDocumentation = () => {
 
   const handleRemoveSection = (index) => {
     setFiles(files.filter((_, i) => i !== index));
-  };
-
-  const handleAddFileInput = () => {
-    setFiles([...files, { title: '', file: null }]);
   };
 
   return (
@@ -185,12 +169,11 @@ const PlanDocumentation = () => {
               ارسال
             </Button>
           </Box>
+          {isPending && <Typography>در حال ارسال...</Typography>}
+          {isError && <Typography color="error">خطایی در ارسال داده‌ها رخ داد.</Typography>}
+          {isSuccess && <Typography color="success">داده‌ها با موفقیت ارسال شدند!</Typography>}
         </Box>
       ))}
-
-      <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 4 }}>
-        <AddFormButton onClick={handleAddFileInput} />
-      </Box>
     </Box>
   );
 };

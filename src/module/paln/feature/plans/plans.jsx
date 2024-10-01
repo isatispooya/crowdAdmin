@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import { fetchPlan } from "../../service/planService";
 import PlanTableFeature from "../planCardFeature";
 
-
-
-
 const Plans = () =>{
     const [planData, setPlanData] = useState([]);
 
@@ -22,6 +19,8 @@ const Plans = () =>{
         setPlanData([]);
       }
     }, [data]);
+
+    
     return (
       <div
         style={{

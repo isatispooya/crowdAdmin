@@ -36,7 +36,7 @@ export default function Router() {
         { path: 'process', element: <ProcessProjectPage /> },
         { path: 'ProfilePage', element: <ProfilePage /> },
         { path: 'plans', element: <PlansPage /> },
-        { path: '/plan/:id', element: <PlanDetailPage /> },
+        { path: '/plan/:trace_code', element: <PlanDetailPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'payment', element: <PaymentPage /> },
       ],

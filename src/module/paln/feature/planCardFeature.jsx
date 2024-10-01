@@ -15,8 +15,8 @@ const PlanTableFeature = () => {
       setPlanData(plans);
     }
   }, [plans, isError, isLoading]);
-  const handleCardClick = (traceCode) => {
-    navigate(`/plan/${traceCode}`);
+  const handleCardClick = (trace_code) => {
+    navigate(`/plan/${trace_code}`);
   };
 
   return (
