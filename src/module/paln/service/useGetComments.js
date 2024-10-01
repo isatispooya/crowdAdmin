@@ -1,19 +1,18 @@
-const { useQuery } = require("@tanstack/react-query")
-const { getComments } = require("./api")
+const { useQuery } = require('@tanstack/react-query');
+const { getComments } = require('./api');
 
+const useGetComments = (trac_code) => {
+  const { data, isError, isPending, isSuccess, refetch } = useQuery({
+    queryKey: ['comments'],
+    queryFn: () => getComments(trac_code),
+  });
+  return {
+    data,
+    isError,
+    isPending,
+    isSuccess,
+    refetch,
+  };
+};
 
-
-
-
-const useGetComments = (trac_code) =>{
-    const {data,isError,isPending,isSuccess,refetch} = useQuery({
-        queryKey:['comments'],
-        queryFn: ()=>getComments(trac_code)
-    })
-    return {
-        data,isError,isPending,isSuccess,refetch
-    }
-
-}
-
-export default useGetComments
+export default useGetComments;

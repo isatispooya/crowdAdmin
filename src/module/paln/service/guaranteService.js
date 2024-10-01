@@ -15,7 +15,7 @@ export const fetchGuarante = async (trace_code) => {
   return response.data;
 };
 
-export const sendGuarante = async (id, data) => {
+export const sendGuarante = async (trace_code, data) => {
   const form = new FormData();
   
   data.forEach((element, index) => {
@@ -27,7 +27,7 @@ export const sendGuarante = async (id, data) => {
     }
   });
 
-  const response = await axios.post(`${OnRun}/api/appendices/admin/${id}/`, form, {
+  const response = await axios.post(`${OnRun}/api/appendices/admin/${trace_code}/`, form, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
     },

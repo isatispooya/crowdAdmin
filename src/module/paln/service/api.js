@@ -5,8 +5,8 @@ import { getCookie } from 'src/api/cookie';
 const accessApi =  getCookie('accessApi');
 
 
-export const getComments = async(trac_code) =>{
-    const response = await api.get(`/api/comment/admin/${trac_code}/`, {
+export const getComments = async(trace_code) =>{
+    const response = await api.get(`/api/comment/${trace_code}/`, {
         headers: {
           Authorization: `Bearer ${accessApi}`,
           'Content-Type': 'application/json',
@@ -16,9 +16,9 @@ export const getComments = async(trac_code) =>{
 }
 
 
-export const postComment = async({trac_code,data}) =>{
+export const postComment = async({trace_code,data}) =>{
     const response = await api.patch(
-        `/api/comment/admin/${trac_code}/`,
+        `/api/comment/${trace_code}/`,
         data,
         {
             headers: {
