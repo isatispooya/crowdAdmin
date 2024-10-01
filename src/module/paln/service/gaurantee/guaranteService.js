@@ -36,3 +36,13 @@ export const sendGuarante = async (trace_code, data) => {
 
   return response.data;
 };
+
+export const DeleteGuarante = async (docId) => {
+  const response = await api.delete(`/api/appendices/${docId}/`, {
+    headers: {
+      Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+};
