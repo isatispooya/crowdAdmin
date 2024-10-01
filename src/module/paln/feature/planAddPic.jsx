@@ -2,44 +2,47 @@ import React, { useState } from 'react';
 import { Box, Typography, Input, Button, Link } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { SubmitButton } from 'src/components/button';
-import { useMutation } from '@tanstack/react-query';
+import { ToastContainer, toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
-import { toast, ToastContainer } from 'react-toastify';
-import { useParams } from 'react-router-dom';
-import { sendPic } from '../service/planpicService';
 import { useGetPic } from '../service/planPicture/useGetPic';
 import { usePostPic } from '../service/planPicture/usePostPic';
 
-const PlanAddPic = ({ planData, idRow }) => {
-  const [file, setFile] = useState(planData);
-  const { trace_code } = useParams();
+const PlanAddPic = ({ planData }) => {
+  const [file, setFile] = useState(null); 
+  const { trace_code } = useParams(); 
 
-  const { data } = useGetPic(trace_code);
-  const { mutate } = usePostPic(trace_code);
-  console.log(data, 'qwertyu');
+  const { data } = useGetPic(trace_code); 
+  const { mutate, isPending, isError } = usePostPic(trace_code); 
 
-  //   mutationKey: ['sendPic', idRow],
-  //   mutationFn: () => sendPic(idRow, file),
-  //   onSuccess: () => {
-  //     toast.success('تغییرات شما با موفقیت اعمال شد');
-  //   },
-  // });
-
-  const handleButtonClick = () => {
-    mutate();
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0]; 
+    setFile(selectedFile); 
   };
 
-  // const handleFileChange = (event) => {
-  //   const selectedFile = event.target.files;
-  //   if (selectedFile) {
-  //     setFile(selectedFile);
-  //   }
-  // };
+  const handleButtonClick = () => {
+    if (file) {
+      const formData = new FormData(); 
+      formData.append('picture', file); 
 
-  // const handleFileRemove = () => {
-  //   setFile(null);
-  // };
+      
+      mutate(formData, {
+        onSuccess: () => {
+          toast.success('Picture uploaded successfully!');
+        },
+        onError: (error) => {
+          toast.error(`Failed to upload picture: ${error.message}`);
+        },
+      });
+    } else {
+      toast.error('Please select a file before submitting.');
+    }
+  };
+
+  const handleFileRemove = () => {
+    setFile(null);
+  };
 
   return (
     <Box sx={{ padding: 3 }}>
@@ -55,9 +58,29 @@ const PlanAddPic = ({ planData, idRow }) => {
         }}
       >
         <Typography variant="h4" fontWeight="bold">
-        افزودن اطلاعات تکمیلی
+          افزودن اطلاعات تکمیلی
         </Typography>
       </Box>
+
+
+      {data && data.picture && (
+        <Box
+          sx={{
+            marginTop: '20px',
+            marginBottom: '20px',
+            display: 'flex',
+            justifyContent: 'center', // Centers the image horizontally
+            alignItems: 'center', // Centers the image vertically (if necessary)
+          }}
+        >
+          <img
+            src={`${OnRun}${data.picture}`} // Adjust the path if necessary
+            alt="Uploaded plan"
+            style={{ maxWidth: '50%', borderRadius: '8px' }}
+          />
+        </Box>
+      )}
+
       {file ? (
         <Box
           sx={{
@@ -71,8 +94,7 @@ const PlanAddPic = ({ planData, idRow }) => {
             marginBottom: '20px',
           }}
         >
-          {/* <Link
-            href={`${OnRun}/${planData.data.picture}`}
+          <Link
             target="_blank"
             rel="noopener noreferrer"
             sx={{
@@ -91,11 +113,12 @@ const PlanAddPic = ({ planData, idRow }) => {
           </Link>
           <Button onClick={handleFileRemove} variant="outlined">
             حذف فایل
-          </Button> */}
+          </Button>
         </Box>
       ) : (
         <Input
           type="file"
+          onChange={handleFileChange} 
           sx={{
             marginTop: '20px',
             marginBottom: '20px',
@@ -113,18 +136,23 @@ const PlanAddPic = ({ planData, idRow }) => {
               boxShadow: '0 0 4px rgba(63, 81, 181, 0.5)',
             },
           }}
-          // onChange={handleFileChange}
         />
       )}
 
-      <Box mt={2}><SubmitButton mt={2} onClick={handleButtonClick} /></Box>
+      <Box mt={2}>
+        <SubmitButton mt={2} onClick={handleButtonClick} disabled={isPending} />{' '}
+   
+      </Box>
+
+      {isError && (
+        <Typography color="error">An error occurred while uploading the picture.</Typography>
+      )}
     </Box>
   );
 };
 
 PlanAddPic.propTypes = {
   planData: PropTypes.object,
-  idRow: PropTypes.number,
 };
 
 export default PlanAddPic;
