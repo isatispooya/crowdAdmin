@@ -1,61 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, TextField, Link, IconButton, Button } from '@mui/material';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useRef, useState } from 'react';
+import { Box, Typography, TextField, Link, Button } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { OnRun } from 'src/api/OnRun';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import useGetDocumentation from '../../service/documentation/useGetDocumentation';
 import usePostDocumentation from '../../service/documentation/usePostDocumentaion';
+import useDeleteDocumentation from '../../service/documentation/useDeleteDocumentation';
+
 
 const PlanDocumentation = () => {
   const { trace_code } = useParams();
-  console.log(trace_code);
-
   const { data } = useGetDocumentation(trace_code);
-  const [files, setFiles] = useState([{ title: '', file: null }]);
+  const [files, setFiles] = useState([]);
+  const [postData, setPostData] = useState({});
+  const [deleteId, setDeleteId] = useState([]);
+
   const { mutate, isPending, isError, isSuccess } = usePostDocumentation(trace_code);
+  const { mutate: mutateDelete } = useDeleteDocumentation(trace_code);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
-    if (data && data.data) {
+    if (data) {
       setFiles(data);
+      setDeleteId(data.map((doc) => doc.id));
     }
   }, [data]);
 
   const handleButtonClick = () => {
-    console.log('postData', files);
-    mutate(files);
-  };
-
-  const handleFileChange = (index, event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      const newFiles = [...files];
-      newFiles[index].file = selectedFile;
-      setFiles(newFiles);
+    mutate(postData);
+    setPostData({ title: '', file: null });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
-  };
-
-  const handleTitleChange = (index, event) => {
-    const newFiles = [...files];
-    newFiles[index].title = event.target.value;
-    setFiles(newFiles);
-  };
-
-  const handleFileRemove = (index) => {
-    const newFiles = [...files];
-    newFiles[index].file = null;
-    setFiles(newFiles);
-  };
-
-  const handleRemoveSection = (index) => {
-    setFiles(files.filter((_, i) => i !== index));
+    toast.success('مستندات با موفقیت ارسال شد');
   };
 
   return (
     <Box sx={{ padding: 3 }}>
       <ToastContainer />
-
       <Box
         sx={{
           backgroundColor: '#e0e0e0',
@@ -70,110 +54,92 @@ const PlanDocumentation = () => {
         </Typography>
       </Box>
 
-      {files.map((file, index) => (
-        <Box
-          key={index}
-          sx={{
-            marginTop: '20px',
-            padding: '16px',
-            borderRadius: '8px',
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-            backgroundColor: '#fff',
-          }}
-        >
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
-            {files.length > 1 && (
-              <IconButton
-                color="error"
-                onClick={() => handleRemoveSection(index)}
-                sx={{ marginLeft: '10px' }}
-                disabled={files.length === 1}
-              >
-                <HighlightOffIcon />
-              </IconButton>
-            )}
-          </Box>
-
+      <Box
+        sx={{
+          marginTop: '20px',
+          padding: '16px',
+          borderRadius: '8px',
+          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+          backgroundColor: '#fff',
+        }}
+      >
+        <Box sx={{ marginBottom: '15px' }}>
           <TextField
+            value={postData.title || ''}
             placeholder="عنوان"
-            value={file.title}
-            onChange={(event) => handleTitleChange(index, event)}
+            onChange={(e) => setPostData((prev) => ({ ...prev, title: e.target.value }))}
             fullWidth
             sx={{ marginBottom: '10px' }}
           />
+          <TextField
+            type="file"
+            inputRef={fileInputRef}
+            onChange={(e) => setPostData((prev) => ({ ...prev, file: e.target.files[0] }))}
+            fullWidth
+            inputProps={{ accept: 'application/pdf,image/*' }}
+            sx={{ marginBottom: '10px' }}
+          />
+        </Box>
 
-          {typeof file.file === 'string' ? (
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '16px',
-                borderRadius: '8px',
-                boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
-                backgroundColor: '#f9f9f9',
-                width: '100%',
-                marginTop: '10px',
-              }}
-            >
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleButtonClick}
+            sx={{
+              color: '#fff',
+              '&:hover': { backgroundColor: '#303f9f' },
+              padding: '6px 12px',
+              borderRadius: '8px',
+            }}
+          >
+            ارسال
+          </Button>
+        </Box>
+      </Box>
+
+      {files &&
+        files.map((doc, index) => (
+          <Box key={index} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ flex: 1 }}>
+              <Typography>عنوان: {doc.title}</Typography>
               <Link
-                href={`${OnRun}/${file.file}`}
+                href={`${OnRun}/${doc.file}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  fontSize: '14px',
-                  fontWeight: 'medium',
-                  color: '#ef5350',
-                  display: 'flex',
-                  alignItems: 'center',
-                  '&:hover': {
-                    color: '#d32f2f',
-                  },
+                  fontSize: '16px',
+                  color: '#1976d2',
+                  fontWeight: '500',
+                  transition: 'color 0.3s',
+                  '&:hover': { textDecoration: 'underline', color: '#115293' },
                 }}
               >
-                مشاهده فایل بارگذاری شده
-                <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
+                فایل بارگزاری شده
               </Link>
-              <IconButton
-                color="error"
-                sx={{ marginLeft: '10px' }}
-                onClick={() => handleFileRemove(index)}
-              >
-                <HighlightOffIcon />
-              </IconButton>
+              <FileCopyOutlinedIcon
+                sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
+              />
             </Box>
-          ) : (
-            <TextField
-              type="file"
-              onChange={(event) => handleFileChange(index, event)}
-              fullWidth
-              inputProps={{ accept: 'application/pdf,image/*' }}
-              sx={{ marginBottom: '10px' }}
-            />
-          )}
-
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
             <Button
-              variant="contained"
+              variant="outlined"
               size="small"
-              onClick={() => handleButtonClick(index)}
+              color="error"
+              onClick={() => {
+                mutateDelete(doc.id);
+                setDeleteId((prev) => prev.filter((id) => id !== doc.id));
+                toast.error('مستندات حذف شد');
+
+              }}
               sx={{
-                color: '#fff',
-                '&:hover': {
-                  backgroundColor: '#303f9f',
-                },
-                padding: '6px 12px',
+                marginLeft: '10px',
                 borderRadius: '8px',
               }}
             >
-              ارسال
+              حذف
             </Button>
           </Box>
-          {isPending && <Typography>در حال ارسال...</Typography>}
-          {isError && <Typography color="error">خطایی در ارسال داده‌ها رخ داد.</Typography>}
-          {isSuccess && <Typography color="success">داده‌ها با موفقیت ارسال شدند!</Typography>}
-        </Box>
-      ))}
+        ))}
     </Box>
   );
 };

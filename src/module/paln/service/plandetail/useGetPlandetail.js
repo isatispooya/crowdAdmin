@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { GetDetailPlan } from './api';
 
-const useGetPlanDetail = (id) => {
+const useGetPlanDetail = (trace_code) => {
   const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ['planDetail'],
-    queryFn: () => GetDetailPlan(id),
+    queryFn: () => GetDetailPlan(trace_code),
   });
   return {
     data,

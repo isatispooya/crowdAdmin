@@ -13,24 +13,31 @@ export const GetDocument = async (trace_code) => {
   return response.data;
 };
 
-
 export const PostDocument = async (trace_code, postData) => {
   const formData = new FormData();
 
-  postData.forEach((element) => {
-    if (element.file) {
-      formData.append('file', element.file);
-    }
-    if (element.title) {
-      formData.append('title', element.title);
-    }
-  });
-
+  if (postData.file) {
+    formData.append('file', postData.file);
+  }
+  if (postData.title) {
+    formData.append('title', postData.title);
+  }
   const response = await api.post(`/api/documentation/${trace_code}/`, formData, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
 
+  return response.data;
+};
+
+export const DeleteDocument = async (docId) => {
+  const response = await api.delete(`/api/documentation/${docId}/`, {
+    headers: {
+      Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'application/json',
+    },
+  });
   return response.data;
 };

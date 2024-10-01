@@ -5,8 +5,8 @@ import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
 import { details } from './plan_detail_config';
 
 const PlanDetail = () => {
-  const { id } = useParams();
-  const { data } = useGetPlanDetail(id);
+  const { trace_code } = useParams();
+  const { data } = useGetPlanDetail(trace_code);
   const planDetails = details();
 
   return (
