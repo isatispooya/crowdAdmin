@@ -6,27 +6,26 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
-import { useGetPic } from '../service/planPicture/useGetPic';
-import { usePostPic } from '../service/planPicture/usePostPic';
+import { useGetPic } from '../../service/planPicture/useGetPic';
+import { usePostPic } from '../../service/planPicture/usePostPic';
 
-const PlanAddPic = ({ planData }) => {
-  const [file, setFile] = useState(null); 
-  const { trace_code } = useParams(); 
+const PlanAddPic = () => {
+  const [file, setFile] = useState(null);
+  const { trace_code } = useParams();
 
-  const { data } = useGetPic(trace_code); 
-  const { mutate, isPending, isError } = usePostPic(trace_code); 
+  const { data } = useGetPic(trace_code);
+  const { mutate, isPending } = usePostPic(trace_code);
 
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0]; 
-    setFile(selectedFile); 
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
   };
 
   const handleButtonClick = () => {
     if (file) {
-      const formData = new FormData(); 
-      formData.append('picture', file); 
+      const formData = new FormData();
+      formData.append('picture', file);
 
-      
       mutate(formData, {
         onSuccess: () => {
           toast.success('Picture uploaded successfully!');
@@ -62,19 +61,18 @@ const PlanAddPic = ({ planData }) => {
         </Typography>
       </Box>
 
-
       {data && data.picture && (
         <Box
           sx={{
             marginTop: '20px',
             marginBottom: '20px',
             display: 'flex',
-            justifyContent: 'center', // Centers the image horizontally
-            alignItems: 'center', // Centers the image vertically (if necessary)
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <img
-            src={`${OnRun}${data.picture}`} // Adjust the path if necessary
+            src={`${OnRun}${data.picture}`}
             alt="Uploaded plan"
             style={{ maxWidth: '50%', borderRadius: '8px' }}
           />
@@ -118,7 +116,7 @@ const PlanAddPic = ({ planData }) => {
       ) : (
         <Input
           type="file"
-          onChange={handleFileChange} 
+          onChange={handleFileChange}
           sx={{
             marginTop: '20px',
             marginBottom: '20px',
@@ -141,18 +139,9 @@ const PlanAddPic = ({ planData }) => {
 
       <Box mt={2}>
         <SubmitButton mt={2} onClick={handleButtonClick} disabled={isPending} />{' '}
-   
       </Box>
-
-      {isError && (
-        <Typography color="error">An error occurred while uploading the picture.</Typography>
-      )}
     </Box>
   );
-};
-
-PlanAddPic.propTypes = {
-  planData: PropTypes.object,
 };
 
 export default PlanAddPic;
