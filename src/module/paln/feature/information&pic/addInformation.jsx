@@ -26,7 +26,7 @@ const AddInfo = () => {
 
   const handleSubmit = () => {
     if (rateOfReturn) {
-      // Post the updated data to the server
+      // Post the updated data to the server  
       mutate({ rate_of_return: rateOfReturn });
     }
   };
