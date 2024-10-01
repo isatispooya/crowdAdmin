@@ -52,7 +52,7 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="مشاهده " {...a11yProps(0)} />
-          <Tab label="افزودن عکس  " {...a11yProps(1)} />
+          <Tab label="اطلاعات تکمیلی" {...a11yProps(1)} />
           <Tab label="افزودن مستندات" {...a11yProps(2)} />
           <Tab label="افزودن تضامین" {...a11yProps(3)} />
           <Tab label="نظرات" {...a11yProps(4)} />

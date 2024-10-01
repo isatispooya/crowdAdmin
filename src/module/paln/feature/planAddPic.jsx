@@ -55,7 +55,7 @@ const PlanAddPic = ({ planData, idRow }) => {
         }}
       >
         <Typography variant="h4" fontWeight="bold">
-          افزودن عکس
+        افزودن اطلاعات تکمیلی
         </Typography>
       </Box>
       {file ? (

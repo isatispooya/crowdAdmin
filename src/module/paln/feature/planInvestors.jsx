@@ -10,8 +10,8 @@ import { fetchPlanInvestors } from '../service/detailplan/PlanInvestorsService';
 const PlanInvestors = () => {
   const { trace_code } = useParams();
   const { data } = useQuery({
-    queryKey: ['planDocument', trace_code],
-    queryFn: () => fetchPlanInvestors(trace_code),  
+    queryKey: ['PlanInvestors', trace_code],
+    queryFn: () => fetchPlanInvestors(trace_code),
   });
 
   const formatNumber = (value) => {

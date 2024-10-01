@@ -80,21 +80,6 @@ const PlanCommentsModal = ({ openModal, handleCloseModal, selectedComment, refet
                     </Typography>
                   }
                 />
-                <FormControlLabel
-                  control={
-                    <Switch
-                      checked={known}
-                      onChange={(e) => setKnown(e.target.checked)}
-                      color="primary"
-                    />
-                  }
-                  label={
-                    <Typography variant="body1">
-                      <strong>نمایش نام:</strong>{' '}
-                      {known ? 'نام نمایش داده شود' : 'نام نمایش داده نشود'}
-                    </Typography>
-                  }
-                />
               </Box>
             </div>
           )}
