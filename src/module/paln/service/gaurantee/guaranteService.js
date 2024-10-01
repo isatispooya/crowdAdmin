@@ -5,32 +5,31 @@ import { OnRun } from 'src/api/OnRun';
 
 const accessApi = getCookie('accessApi');
 
-export const fetchGuarante = async (trace_code) => {
+export const GetGuarante = async (trace_code) => {
   const response = await api.get(`/api/appendices/${trace_code}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
-  console.log(response.data , "get tazmibn")
   return response.data;
 };
 
-export const sendGuarante = async (trace_code, data) => {
-  const form = new FormData();
 
-  data.forEach((element, index) => {
-    if (element.file) {
-      form.append('file', element.file);
-    }
-    if (element.title) {
-      form.append('title', element.title);
-    }
-  });
 
-  const response = await axios.post(`${OnRun}/api/appendices/${trace_code}/`, form, {
+export const PostGuarante = async (trace_code, data) => {
+  const formData = new FormData();
+
+  if (data.file) {
+    formData.append('file', data.file);
+  }
+  if (data.title) {
+    formData.append('title', data.title);
+  }
+  const response = await api.post(`/api/appendices/${trace_code}/`, formData, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
 

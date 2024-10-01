@@ -1,16 +1,21 @@
 import React from 'react';
 import { Box, Typography, TextField, Grid, Paper, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import moment from 'moment-jalaali';
 import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
-import { plan_filds_input, plan_filds_textarea } from '../../object/planFilds';
+import { plan_fields_input, plan_fields_textarea } from '../../object/planFilds';
 
 const PlanDetail = () => {
   const { trace_code } = useParams();
-  const { data, isLoading } = useGetPlanDetail(trace_code); // فرض بر این است که isLoading برمی‌گردد
-  const planDetails = plan_filds_input();
-  const planDetailstextarea = plan_filds_textarea();
+  const { data, isLoading } = useGetPlanDetail(trace_code);
+  const planDetails = plan_fields_input();
+  const planDetailstextarea = plan_fields_textarea();
 
-  if (isLoading) {
+  const formatDate = (date) => (date ? moment(date).format('jYYYY/jM/jD') : 'اطلاعات موجود نیست.');
+
+  const isDataAvailable = data && Object.keys(data).length > 0;
+
+  if (isLoading || !isDataAvailable) {
     return (
       <Box
         sx={{
@@ -53,19 +58,21 @@ const PlanDetail = () => {
       </Paper>
       <Box sx={{ padding: 4 }}>
         <Grid container spacing={3}>
-          {planDetails.map((item, index) => (
-            <Grid item xs={12} sm={4} key={index}>
+          {planDetails.map((item) => (
+            <Grid item xs={12} sm={4} key={item.value}>
               <TextField
                 fullWidth
                 label={item.label}
                 variant="outlined"
                 value={
-                  data && data[item.value] !== undefined ? data[item.value] : 'اطلاعات موجود نیست.'
+                  item.isDate
+                    ? formatDate(data?.[item.value])
+                    : data?.[item.value] ?? 'اطلاعات موجود نیست.'
                 }
                 InputProps={{
                   readOnly: true,
                   sx: {
-                    color: data && data[item.value] !== undefined ? 'inherit' : 'darkred',
+                    color: data?.[item.value] !== undefined ? 'inherit' : 'darkred',
                   },
                 }}
                 sx={{
@@ -81,19 +88,17 @@ const PlanDetail = () => {
         </Grid>
 
         <Grid container spacing={3} mt={1}>
-          {planDetailstextarea.map((item, index) => (
-            <Grid item xs={12} key={index}>
+          {planDetailstextarea.map((item) => (
+            <Grid item xs={12} key={item.value}>
               <TextField
                 fullWidth
                 label={item.label}
                 variant="outlined"
-                value={
-                  data && data[item.value] !== undefined ? data[item.value] : 'اطلاعات موجود نیست.'
-                }
+                value={data?.[item.value] ?? 'اطلاعات موجود نیست.'}
                 InputProps={{
                   readOnly: true,
                   sx: {
-                    color: data && data[item.value] !== undefined ? 'inherit' : 'darkred',
+                    color: data?.[item.value] !== undefined ? 'inherit' : 'darkred',
                   },
                 }}
                 multiline

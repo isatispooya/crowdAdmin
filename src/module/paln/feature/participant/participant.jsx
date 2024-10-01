@@ -4,11 +4,12 @@ import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
 import { useParams } from 'react-router-dom';
 import { Box, Typography, CircularProgress } from '@mui/material';
+import moment from 'moment-jalaali';
 import useGetParticipant from '../../service/participant/useGetParticipant';
 
 const PlanInvestors = () => {
   const { trace_code } = useParams();
-  const { data, isLoading } = useGetParticipant(trace_code); 
+  const { data, isLoading } = useGetParticipant(trace_code);
 
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -25,7 +26,13 @@ const PlanInvestors = () => {
       width: 100,
       formatter: (cell) => formatNumber(cell.getValue()),
     },
-    { title: 'تاریخ ایجاد', field: 'create_date', align: 'center', width: 200 },
+    {
+      title: 'تاریخ ایجاد',
+      field: 'create_date',
+      align: 'center',
+      width: 200,
+      formatter: (cell) => moment(cell.getValue()).format('jYYYY/jMM/jDD'),
+    },
     {
       title: 'وضعیت نام',
       field: 'name_status',
@@ -36,7 +43,7 @@ const PlanInvestors = () => {
       },
     },
     {
-      title: 'وضعیت ',
+      title: 'وضعیت',
       field: 'status',
       align: 'center',
       width: 150,
