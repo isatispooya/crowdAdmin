@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundraisingPage';
 import PlanAddPic from './planAddPic';
 import PlanGuarante from './planGuarante';
-import PlanInvestors from './planInvestors';
+import PlanInvestors from './participant/participant';
 import PlanComments from './planComments';
 import PlanDocumentation from './documentation/planDocumentation';
 import PlanDetail from './detail/planDetail';

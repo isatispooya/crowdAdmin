@@ -2,17 +2,13 @@ import React from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
-import { fetchPlanInvestors } from '../service/detailplan/PlanInvestorsService';
+import { Box, Typography, CircularProgress } from '@mui/material';
+import useGetParticipant from '../../service/participant/useGetParticipant';
 
 const PlanInvestors = () => {
   const { trace_code } = useParams();
-  const { data } = useQuery({
-    queryKey: ['PlanInvestors', trace_code],
-    queryFn: () => fetchPlanInvestors(trace_code),
-  });
+  const { data, isLoading } = useGetParticipant(trace_code); 
 
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -20,24 +16,58 @@ const PlanInvestors = () => {
   };
 
   const columns = [
-    {
-      title: 'نام و نام خانوادگی',
-      field: 'fullName',
-      width: 500,
-      formatter: (cell) => {
-        const { firstName, lastName } = cell.getData();
-        return firstName && lastName ? `${firstName.trim()} ${lastName.trim()}` : '';
-      },
-    },
-    { title: 'مقدار سهم', field: 'amount', align: 'left', width: 455 },
+    { title: 'نام و نام خانوادگی', field: 'name', width: 200 },
+    { title: 'مقدار سهم', field: 'amount', align: 'left', width: 150 },
     {
       title: 'مبلغ',
-      field: 'total_amount',
+      field: 'value',
       align: 'center',
-      width: 300,
+      width: 100,
+      formatter: (cell) => formatNumber(cell.getValue()),
+    },
+    { title: 'تاریخ ایجاد', field: 'create_date', align: 'center', width: 200 },
+    {
+      title: 'وضعیت نام',
+      field: 'name_status',
+      align: 'center',
+      width: 150,
+      formatter(cell, row) {
+        return row.name_status ? 'فعال' : 'غیر فعال';
+      },
+    },
+    {
+      title: 'وضعیت ',
+      field: 'status',
+      align: 'center',
+      width: 150,
+      formatter(cell, row) {
+        return row.status ? 'تایید' : 'غیر تایید';
+      },
+    },
+    { title: 'کاربر', field: 'user', align: 'center', width: 150 },
+    {
+      title: 'مقدار',
+      field: 'value',
+      align: 'center',
+      width: 150,
       formatter: (cell) => formatNumber(cell.getValue()),
     },
   ];
+
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <div>
