@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundraisingPage';
-import PlanAddPic from './planAddPic';
+import PlanAddPic from './information&pic/planAddPic';
 import PlanGuarante from './planGuarante';
 import PlanInvestors from './participant/participant';
 import PlanComments from './planComments';
@@ -61,13 +61,13 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <PlanDetail/>
+        <PlanDetail />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <PlanAddPic idRow={idRow} planData={planData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <PlanDocumentation  />
+        <PlanDocumentation />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
         <PlanGuarante idRow={idRow} />
