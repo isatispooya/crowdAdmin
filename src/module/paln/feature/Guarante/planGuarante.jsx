@@ -5,33 +5,42 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import { fetchGuarante, sendGuarante, DeleteGuarante } from '../service/gaurantee/guaranteService';
+import useGetGuarante from '../../service/gaurantee/useGetGuarante';
+import usePostGuarante from '../../service/gaurantee/usePostDocumentaion';
+import useDeleteGuarante from '../../service/gaurantee/useDeleteDocumentation';
 
 const PlanGuarante = () => {
   const { trace_code } = useParams();
-  const { data } = fetchGuarante(trace_code);
+  const { data } = useGetGuarante(trace_code);
   const [files, setFiles] = useState([]);
-  const [postData, setPostData] = useState({});
-  const [deleteId, setDeleteId] = useState([]);
-
-  const { mutate, isPending, isError, isSuccess } = sendGuarante(trace_code);
-  const { mutate: mutateDelete } = DeleteGuarante(trace_code);
+  const [postData, setPostData] = useState({ title: '', file: null });
   const fileInputRef = useRef(null);
+
+  const { mutate: postGuarante } = usePostGuarante(trace_code);
+  const { mutate: deleteGuarante } = useDeleteGuarante();
 
   useEffect(() => {
     if (data) {
       setFiles(data);
-      setDeleteId(data.map((doc) => doc.id));
     }
   }, [data]);
 
+
+
+
   const handleButtonClick = () => {
-    mutate(postData);
+    postGuarante(postData);
     setPostData({ title: '', file: null });
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-    toast.success('تضمین با موفقیت ارسال شد');
+    toast.success('مستندات با موفقیت ارسال شد');
+  };
+
+  const handleDelete = (id) => {
+    deleteGuarante(id);
+    setFiles((prevFiles) => prevFiles.filter((doc) => doc.id !== id));
+    toast.success('مستندات حذف شد');
   };
 
   return (
@@ -62,7 +71,7 @@ const PlanGuarante = () => {
       >
         <Box sx={{ marginBottom: '15px' }}>
           <TextField
-            value={postData.title || ''}
+            value={postData.title}
             placeholder="عنوان"
             onChange={(e) => setPostData((prev) => ({ ...prev, title: e.target.value }))}
             fullWidth
@@ -95,47 +104,42 @@ const PlanGuarante = () => {
         </Box>
       </Box>
 
-      {files &&
-        files.map((doc, index) => (
-          <Box key={index} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ flex: 1 }}>
-              <Typography>عنوان: {doc.title}</Typography>
-              <Link
-                href={`${OnRun}/${doc.file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  fontSize: '16px',
-                  color: '#1976d2',
-                  fontWeight: '500',
-                  transition: 'color 0.3s',
-                  '&:hover': { textDecoration: 'underline', color: '#115293' },
-                }}
-              >
-                فایل بارگزاری شده
-              </Link>
-              <FileCopyOutlinedIcon
-                sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
-              />
-            </Box>
-            <Button
-              variant="outlined"
-              size="small"
-              color="error"
-              onClick={() => {
-                mutateDelete(doc.id);
-                setDeleteId((prev) => prev.filter((id) => id !== doc.id));
-                toast.error('تضمین حذف شد');
-              }}
+      {files && files.map((doc) => (
+        <Box key={doc.id} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ flex: 1 }}>
+            <Typography>عنوان: {doc.title}</Typography>
+            <Link
+              href={`${OnRun}/${doc.file}`}
+              target="_blank"
+              rel="noopener noreferrer"
               sx={{
-                marginLeft: '10px',
-                borderRadius: '8px',
+                fontSize: '16px',
+                color: '#1976d2',
+                fontWeight: '500',
+                transition: 'color 0.3s',
+                '&:hover': { textDecoration: 'underline', color: '#115293' },
               }}
             >
-              حذف
-            </Button>
+              فایل بارگزاری شده
+            </Link>
+            <FileCopyOutlinedIcon
+              sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
+            />
           </Box>
-        ))}
+          <Button
+            variant="outlined"
+            size="small"
+            color="error"
+            onClick={() => handleDelete(doc.id)}
+            sx={{
+              marginLeft: '10px',
+              borderRadius: '8px',
+            }}
+          >
+            حذف
+          </Button>
+        </Box>
+      ))}
     </Box>
   );
 };

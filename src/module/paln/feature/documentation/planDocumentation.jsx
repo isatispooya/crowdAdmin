@@ -128,7 +128,7 @@ const PlanDocumentation = () => {
               onClick={() => {
                 mutateDelete(doc.id);
                 setDeleteId((prev) => prev.filter((id) => id !== doc.id));
-                toast.error('مستندات حذف شد');
+                toast.success('مستندات حذف شد');
 
               }}
               sx={{
