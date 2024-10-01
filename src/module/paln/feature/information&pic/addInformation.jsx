@@ -48,7 +48,7 @@ const AddInfo = () => {
       </Box>
 
       <TextField
-      type='number'
+        type="number"
         fullWidth
         label="نرخ بازدهی"
         variant="outlined"
