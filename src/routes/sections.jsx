@@ -7,7 +7,7 @@ import DashboardLayout from 'src/layouts/dashboard';
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
 export const RequestPage = lazy(() => import('src/pages/request'));
-export const PlanPage = lazy(() => import('src/components/plan'));
+export const PlansPage = lazy(() => import('src/module/paln/page/plansPage'));
 export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
 export const UserPage = lazy(() => import('src/components/user'));
 export const PaymentPage = lazy(() => import('src/components/payment'));
@@ -31,11 +31,11 @@ export default function Router() {
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: 'card', element: <Sterpercrowd />},
+        { path: 'card', element: <Sterpercrowd /> },
         { path: 'request', element: <UserPage /> },
         { path: 'process', element: <ProcessProjectPage /> },
         { path: 'ProfilePage', element: <ProfilePage /> },
-        { path: 'plan', element: <PlanPage /> },
+        { path: 'plans', element: <PlansPage /> },
         { path: '/plandetail/:id', element: <PlanDetailPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'payment', element: <PaymentPage /> },

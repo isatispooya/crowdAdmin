@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import GlobalTextField from 'src/components/fild/textfiled';
 import { toast, ToastContainer } from 'react-toastify';
 import Label from 'src/components/label';
-import { UpdatePlan } from '../service/planDetailService';
+// import { UpdatePlan } from '../service/planDetailService';
 import { durationOptions, statusOptions } from './planUpdateInfo';
 
 const formatNumber = (num) => {
@@ -30,7 +30,7 @@ const PlanUpdate = ({ planData, idRow, refetch }) => {
   }, [planData]);
 
   const mutation = useMutation({
-    mutationFn: () => UpdatePlan(idRow, data),
+    mutationFn: () => console.log(idRow, data),
     onSuccess: () => {
       toast.success('تغییرات شما با موفقیت اعمال شد');
       refetch();

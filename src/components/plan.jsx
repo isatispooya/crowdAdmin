@@ -1,11 +1,5 @@
-import PlanPage from "src/module/paln/page/palnPage";
+import PlanPage from 'src/module/paln/page/plansPage';
 
-const Plan =()=>
-    
-(
-   
-    <PlanPage/>
-)
+const Plan = () => <PlanPage />;
 
-
-export default Plan
+export default Plan;
