@@ -11,18 +11,16 @@ export const fetchCommit = async (trace_code) => {
       'Content-Type': 'application/json',
     },
   });
-  console.log(response.data , "123456")
+  console.log(response.data, '123456');
   return response.data;
 };
 
-export const sendCommit = async (trace_code, data) => {
-  const url = `/api/comment/${trace_code}/`;
+export const sendCommit = async (id, data) => {
+  const url = `/api/comment/admin/${id}/`;
   const response = await api.patch(
     url,
     {
-      known: data.known,
       status: data.status,
-      comment: data.comment,
     },
     {
       headers: {

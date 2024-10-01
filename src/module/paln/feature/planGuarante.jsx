@@ -3,58 +3,61 @@ import { Box, Typography, TextField, Link, IconButton, Button } from '@mui/mater
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { AddFormButton } from 'src/components/button';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { OnRun } from 'src/api/OnRun';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import { fetchGuarante } from '../service/guaranteService';
+import { fetchGuarante, sendGuarante } from '../service/guaranteService';
 
 const PlanGuarante = () => {
   const [files, setFiles] = useState([]);
-  const {trace_code} = useParams()
+  const { trace_code } = useParams();
 
   const { data } = useQuery({
     queryKey: ['useguarante', trace_code],
     queryFn: () => fetchGuarante(trace_code),
   });
-
   useEffect(() => {
     if (data) {
-      setFiles([{ title: data.data.title, file: data.data.file }]);
+      const newFiles = [{ title: data.data?.title || '', file: data.data?.file || null }];
+      setFiles(newFiles);
     } else {
-      setFiles([{ title: '', file: null }]);
+      setFiles([{ title: '', file: null }]); // Default initialization
     }
   }, [data]);
+  
 
-  // const mutation = useMutation({
-  //   mutationKey: ['guarante', idRow],
-  //   mutationFn: () => sendGuarante(idRow, files),
-  //   onSuccess: () => {
-  //     toast.success('تغییرات شما با موفقیت اعمال شد');
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error.message);
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationKey: ['guarante', trace_code],
+    mutationFn: () => sendGuarante(trace_code, files),
+    onSuccess: () => {
+      toast.success('تغییرات شما با موفقیت اعمال شد');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 
-  // const handleButtonClick = (index) => {
-  //   const fileToSend = files[index];
-  //   mutation.mutate([fileToSend]);
-  // };
-
-  const handleFileChange = (index, event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      const newFiles = [...files];
-      newFiles[index].file = selectedFile;
-      setFiles(newFiles);
-    }
+  const handleButtonClick = (index) => {
+    const fileToSend = files[index];
+    mutation.mutate([fileToSend]);
   };
 
   const handleTitleChange = (index, event) => {
     const newFiles = [...files];
-    newFiles[index].title = event.target.value;
-    setFiles(newFiles);
+    if (newFiles[index]) { 
+      newFiles[index].title = event.target.value || ''; 
+      setFiles(newFiles);
+    }
+  };
+  
+  const handleFileChange = (index, event) => {
+    const selectedFile = event.target.files[0];
+    const newFiles = [...files];
+    if (newFiles[index]) { 
+      newFiles[index].file = selectedFile || null; 
+      setFiles(newFiles);
+    }
   };
 
   const handleFileRemove = (index) => {
@@ -175,7 +178,7 @@ const PlanGuarante = () => {
             <Button
               variant="contained"
               size="small"
-              // onClick={() => handleButtonClick(index)}
+              onClick={() => handleButtonClick(index)}
               sx={{
                 color: '#fff',
                 '&:hover': {
@@ -197,7 +200,5 @@ const PlanGuarante = () => {
     </Box>
   );
 };
-
-
 
 export default PlanGuarante;

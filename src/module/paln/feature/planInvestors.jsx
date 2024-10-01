@@ -8,10 +8,10 @@ import { Box, Typography } from '@mui/material';
 import { fetchPlanInvestors } from '../service/detailplan/PlanInvestorsService';
 
 const PlanInvestors = () => {
-  const { id } = useParams();
+  const { trace_code } = useParams();
   const { data } = useQuery({
-    queryKey: ['planDocument', id],
-    queryFn: () => fetchPlanInvestors(id),
+    queryKey: ['planDocument', trace_code],
+    queryFn: () => fetchPlanInvestors(trace_code),  
   });
 
   const formatNumber = (value) => {
