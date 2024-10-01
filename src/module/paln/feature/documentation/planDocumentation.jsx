@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography, TextField, Link, Button } from '@mui/material';
+import { Box, Typography, TextField, Link, Button, CircularProgress } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
 import { ToastContainer, toast } from 'react-toastify';
@@ -9,22 +8,19 @@ import useGetDocumentation from '../../service/documentation/useGetDocumentation
 import usePostDocumentation from '../../service/documentation/usePostDocumentaion';
 import useDeleteDocumentation from '../../service/documentation/useDeleteDocumentation';
 
-
 const PlanDocumentation = () => {
   const { trace_code } = useParams();
-  const { data } = useGetDocumentation(trace_code);
+  const { data, isLoading } = useGetDocumentation(trace_code); // Add isLoading
   const [files, setFiles] = useState([]);
   const [postData, setPostData] = useState({});
-  const [deleteId, setDeleteId] = useState([]);
 
-  const { mutate, isPending, isError, isSuccess } = usePostDocumentation(trace_code);
+  const { mutate } = usePostDocumentation(trace_code);
   const { mutate: mutateDelete } = useDeleteDocumentation(trace_code);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (data) {
       setFiles(data);
-      setDeleteId(data.map((doc) => doc.id));
     }
   }, [data]);
 
@@ -36,6 +32,14 @@ const PlanDocumentation = () => {
     }
     toast.success('مستندات با موفقیت ارسال شد');
   };
+
+  if (isLoading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ padding: 3 }}>
@@ -98,48 +102,45 @@ const PlanDocumentation = () => {
         </Box>
       </Box>
 
-      {files &&
-        files.map((doc, index) => (
-          <Box key={index} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ flex: 1 }}>
-              <Typography>عنوان: {doc.title}</Typography>
-              <Link
-                href={`${OnRun}/${doc.file}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                sx={{
-                  fontSize: '16px',
-                  color: '#1976d2',
-                  fontWeight: '500',
-                  transition: 'color 0.3s',
-                  '&:hover': { textDecoration: 'underline', color: '#115293' },
-                }}
-              >
-                فایل بارگزاری شده
-              </Link>
-              <FileCopyOutlinedIcon
-                sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
-              />
-            </Box>
-            <Button
-              variant="outlined"
-              size="small"
-              color="error"
-              onClick={() => {
-                mutateDelete(doc.id);
-                setDeleteId((prev) => prev.filter((id) => id !== doc.id));
-                toast.success('مستندات حذف شد');
-
-              }}
+      {files.map((doc) => (
+        <Box key={doc.id} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ flex: 1 }}>
+            <Typography>عنوان: {doc.title}</Typography>
+            <Link
+              href={`${OnRun}/${doc.file}`}
+              target="_blank"
+              rel="noopener noreferrer"
               sx={{
-                marginLeft: '10px',
-                borderRadius: '8px',
+                fontSize: '16px',
+                color: '#1976d2',
+                fontWeight: '500',
+                transition: 'color 0.3s',
+                '&:hover': { textDecoration: 'underline', color: '#115293' },
               }}
             >
-              حذف
-            </Button>
+              فایل بارگزاری شده
+            </Link>
+            <FileCopyOutlinedIcon
+              sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
+            />
           </Box>
-        ))}
+          <Button
+            variant="outlined"
+            size="small"
+            color="error"
+            onClick={() => {
+              mutateDelete(doc.id);
+              toast.success('مستندات حذف شد');
+            }}
+            sx={{
+              marginLeft: '10px',
+              borderRadius: '8px',
+            }}
+          >
+            حذف
+          </Button>
+        </Box>
+      ))}
     </Box>
   );
 };

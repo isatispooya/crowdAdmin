@@ -22,3 +22,14 @@ export const deleteCard = async (cardId) => {
   });
   return response.data;
 };
+
+export const PostFinish = async ({ cartId, data }) => {
+  const response = await api.post(`/api/update/finish/admin/${cartId}/`, data, {
+    headers: {
+      Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  return response.data;
+};

@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import MessagePage from 'src/module/message/page/messagepage';
 import CardFeature from '../feature/cartfeature';
 import { fetchCards, deleteCard } from '../service/cartService';
+import usePatchFinish from '../service/PatchCardFinish';
 
 const CardPage = () => {
   const { incrementPage } = useNavigateStep();
@@ -13,7 +14,6 @@ const CardPage = () => {
   const [cards, setCards] = useState([]);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [sendMessageModalOpen, setSendMessageModalOpen] = useState(false);
-
   const queryClient = useQueryClient();
   const { data, status, error } = useQuery({
     queryKey: ['card', cartId],
@@ -26,7 +26,6 @@ const CardPage = () => {
       setDeleteModalOpen(false);
     },
   });
-
   useEffect(() => {
     if (status === 'success') {
       if (data) {
