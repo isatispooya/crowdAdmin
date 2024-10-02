@@ -2,20 +2,16 @@ import React, { useState } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
-import PropTypes from 'prop-types';
-import { useQuery } from '@tanstack/react-query';
-import { Box, Typography } from '@mui/material';
-import { fetchCommit } from '../service/commentService';
+import { Box, CircularProgress, Typography } from '@mui/material';
+import { useParams } from 'react-router-dom';
 import PlanCommentsModal from './planCommentModal';
+import useGetComment from '../../service/comment/useGetComment';
 
-const PlanComments = ({ idRow }) => {
+const PlanComments = () => {
+  const { trace_code } = useParams();
   const [selectedComment, setSelectedComment] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-
-  const { data, refetch } = useQuery({
-    queryKey: ['planCommit', idRow],
-    queryFn: () => fetchCommit(idRow),
-  });
+  const { data, isLoading } = useGetComment(trace_code);
 
   const handleRowClick = (e, row) => {
     setSelectedComment(row.getData());
@@ -26,6 +22,21 @@ const PlanComments = ({ idRow }) => {
     setOpenModal(false);
   };
 
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   const columns = [
     {
       title: 'نام و نام خانوادگی',
@@ -33,14 +44,14 @@ const PlanComments = ({ idRow }) => {
       width: 250,
       formatter: (cell) => {
         const { firstName, lastName } = cell.getData();
-        return firstName && lastName ? `${firstName} ${lastName}` : '';
+        return `${firstName || ''} ${lastName || ''}`.trim();
       },
     },
     {
       title: 'متن نظر',
       field: 'comment',
       width: 540,
-      formatter: (cell) => (cell.getValue() !== null ? cell.getValue() : ''),
+      formatter: (cell) => cell.getValue() || '',
     },
     {
       title: 'وضعیت',
@@ -75,9 +86,9 @@ const PlanComments = ({ idRow }) => {
           </Typography>
         </Box>
 
-        {data?.data && data.data.length > 0 ? (
+        {data && Array.isArray(data) && data.length > 0 ? (
           <ReactTabulator
-            data={data.data}
+            data={data}
             columns={columns}
             layout="fitData"
             events={{
@@ -104,14 +115,10 @@ const PlanComments = ({ idRow }) => {
         handleCloseModal={handleCloseModal}
         selectedComment={selectedComment}
         setSelectedComment={setSelectedComment}
-        refetch={refetch}
+        id={2}
       />
     </div>
   );
-};
-
-PlanComments.propTypes = {
-  idRow: PropTypes.number.isRequired,
 };
 
 export default PlanComments;

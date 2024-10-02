@@ -1,12 +1,11 @@
 import { Box } from '@mui/material';
 import UseCartId from 'src/hooks/card_id';
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { DeleteModal } from 'src/components/modal';
 import Styles from '../style.jsx/manageStyle';
 import ShareholderFeature from '../featuer/shareholderfeature';
-import { fetchShareholder } from '../service/shereholderservice';
 import ShareHolderButton from '../featuer/ShareHolderButton';
+import useGetShereholder from '../service/useGetShareholder';
 
 const singleFile = {
   name: '',
@@ -24,16 +23,13 @@ const ShareholderPage = () => {
   const [deleteIndex, setDeleteIndex] = useState(null);
   const [openModal, setOpenModal] = useState(false);
 
-  const { data, status } = useQuery({
-    queryKey: ['shareholder', cartId],
-    queryFn: () => fetchShareholder(cartId),
-  });
+  const { data, isPending, isError } = useGetShereholder(cartId);
 
   useEffect(() => {
-    if (status === 'success' && data && data.data) {
+    if (!isError && data && !isPending) {
       setFetchedData(data.data || [singleFile]);
     }
-  }, [data, status]);
+  }, [data, isError, isPending]);
 
   useEffect(() => {
     if (fetchedData.length) {
