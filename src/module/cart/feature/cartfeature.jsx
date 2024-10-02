@@ -9,6 +9,7 @@ const CardFeature = ({
   openDeleteModal,
   setSendMessageModalOpen,
   handleModalOpen,
+  handleFinish, 
 }) => {
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -53,6 +54,14 @@ const CardFeature = ({
           >
             حذف
           </Button>
+          <Button
+            onClick={() => handleFinish(card.id)} 
+            variant="contained"
+            color="secondary"
+            style={{ textTransform: 'none' }}
+          >
+            اتمام
+          </Button>
           <TbMessagePlus
             style={{ fontSize: '24px', cursor: 'pointer' }}
             onClick={(e) => {
@@ -73,6 +82,7 @@ CardFeature.propTypes = {
   openDeleteModal: PropTypes.func,
   handleModalOpen: PropTypes.func,
   setSendMessageModalOpen: PropTypes.func,
+  handleFinish: PropTypes.func, 
 };
 
 export default CardFeature;

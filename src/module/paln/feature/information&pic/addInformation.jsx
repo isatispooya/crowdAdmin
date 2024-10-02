@@ -16,7 +16,7 @@ const AddInfo = () => {
   // Set initial value from fetched data
   useEffect(() => {
     if (data && data.rate_of_return) {
-      setRateOfReturn(data.rate_of_return); // Set the TextField value to the fetched data
+      setRateOfReturn(data.rate_of_return);
     }
   }, [data]);
 
