@@ -3,7 +3,7 @@ import { Grid, Card, CardContent, Typography, Button, Box, CircularProgress } fr
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import moment from 'moment-jalaali';
-import { useGetPlans } from '../hooks/getPlans';
+import { useGetPlans } from '../../hooks/getPlans';
 
 const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);

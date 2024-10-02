@@ -14,12 +14,11 @@ export const getComment = async (trace_code) => {
 };
 
 export const postComment = async (id, data) => {
-  const url = `/api/comment/admin/${id}/`;
   const response = await api.patch(
-    url,
+    `/api/comment/admin/${id}/`,
     {
       status: data.status,
-      response: data.response,
+      answer: data.answer,
     },
     {
       headers: {

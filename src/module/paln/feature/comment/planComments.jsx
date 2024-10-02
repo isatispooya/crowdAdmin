@@ -50,21 +50,20 @@ const PlanComments = () => {
     {
       title: 'متن نظر',
       field: 'comment',
-      width: 540,
+      width: 440,
+      formatter: (cell) => cell.getValue() || '',
+    },
+    {
+      title: 'پاسخ',
+      field: 'answer',
+      width: 440,
       formatter: (cell) => cell.getValue() || '',
     },
     {
       title: 'وضعیت',
       field: 'status',
       hozAlign: 'center',
-      width: 220,
-      formatter: 'tickCross',
-    },
-    {
-      title: 'نمایش نام',
-      field: 'known',
-      hozAlign: 'center',
-      width: 220,
+      width: 120,
       formatter: 'tickCross',
     },
   ];
