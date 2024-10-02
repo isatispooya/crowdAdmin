@@ -17,7 +17,6 @@ const PlanAddPic = ({ planData }) => {
 
   const { data } = useGetPic(trace_code);
   const { mutate, isPending, isError } = usePostPic(trace_code);
- 
 
   if (isPending) {
     return <PicSkelton />;
@@ -74,12 +73,12 @@ const PlanAddPic = ({ planData }) => {
               marginTop: '20px',
               marginBottom: '20px',
               display: 'flex',
-              justifyContent: 'center', // Centers the image horizontally
-              alignItems: 'center', // Centers the image vertically (if necessary)
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <img
-              src={`${OnRun}${data.picture}`} // Adjust the path if necessary
+              src={`${OnRun}${data.picture}`}
               alt="Uploaded plan"
               style={{ maxWidth: '50%', borderRadius: '8px' }}
             />
