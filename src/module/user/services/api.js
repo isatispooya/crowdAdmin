@@ -1,7 +1,7 @@
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-export const fetchUser = async () => {
+export const getUser = async () => {
   const accessApi =  getCookie('accessApi');
 
   const response = await api.get(`/api/listuser/admin/`, {

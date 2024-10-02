@@ -11,6 +11,7 @@ const Plans = () =>{
       queryKey: ['plan'],
       queryFn: () => fetchPlan(),
     });
+    
   
     useEffect(() => {
       if (data?.data && Array.isArray(data.data)) {
@@ -19,6 +20,7 @@ const Plans = () =>{
         setPlanData([]);
       }
     }, [data]);
+    console.log(planData);
 
     
     return (

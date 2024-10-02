@@ -10,6 +10,10 @@ const PlanTableFeature = () => {
   const navigate = useNavigate();
 
   const { data: plans, isLoading, isError } = useGetPlans();
+  const formatNumber = (value) => {
+    if (value == null) return '';
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
 
   useEffect(() => {
     if (!isError && plans && !isLoading) {
@@ -63,14 +67,18 @@ const PlanTableFeature = () => {
                     {plan.persian_name || 'بدون نام'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    مبلغ تعیین شده: {plan.total_price ? `${plan.total_price} ریال` : 'نامشخص'}
+                    مبلغ تعیین شده:{' '}
+                    {plan.total_price ? `${formatNumber(plan.total_price)} ریال` : 'نامشخص'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    تعداد واحدها: {plan.company_unit_counts || 'نامشخص'}
+                    تعداد واحدها:{' '}
+                    {plan.company_unit_counts ? formatNumber(plan.company_unit_counts) : 'نامشخص'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    قیمت واحد: {plan.unit_price ? `${plan.unit_price} ریال` : 'نامشخص'}
+                    قیمت واحد:{' '}
+                    {plan.unit_price ? `${formatNumber(plan.unit_price)} ریال` : 'نامشخص'}
                   </Typography>
+
                   <Typography variant="body2" sx={{ mb: 1 }}>
                     صنعت: {plan.industry_group_description || 'نامشخص'}
                   </Typography>

@@ -1,3 +1,4 @@
+
 export const plan_fields_input = () => [
     { label: 'تاریخ ایجاد', value: 'creation_date', isDate: true },
     { label: 'نام فارسی', value: 'persian_name' },
@@ -40,5 +41,3 @@ export const plan_fields_textarea = () => [
     { label: 'شرح انگلیسی', value: 'english_subject' },
     { label: 'شرح فارسی', value: 'persian_subject' },
 ];
-
-
