@@ -77,7 +77,7 @@ const PlanDetail = () => {
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
+                    '& fieldset': { 
                       borderColor: 'gray',
                     },
                   },

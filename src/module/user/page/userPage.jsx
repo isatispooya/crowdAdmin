@@ -1,15 +1,9 @@
-import { Box } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import UserFeature from '../feature/userfeature';
-import { fetchUser } from '../services/userSevice';
+import useGetUser from '../services/useGetUser';
 
 const UserPage = () => {
-  const { data } = useQuery({
-    queryKey: ['planDetail'],
-    queryFn: fetchUser,
-  });
-
-
+  const { data, isPending, isError } = useGetUser();
 
   return (
     <div
@@ -38,7 +32,20 @@ const UserPage = () => {
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-700">کاربران</h1>
         </div>
-        <UserFeature data={data} />
+
+        {isPending && (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+            <CircularProgress />
+          </div>
+        )}
+
+        {isError && (
+          <div style={{ textAlign: 'center', color: 'red', padding: '20px' }}>
+            <Typography variant="h6">خطا در بارگذاری داده‌ها. لطفاً دوباره تلاش کنید.</Typography>
+          </div>
+        )}
+
+        {data && <UserFeature/>}
       </Box>
     </div>
   );
