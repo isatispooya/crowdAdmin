@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { fetchPlan } from "../../service/planService";
-import PlanTableFeature from "../planCardFeature";
+import PlanTableFeature from "../cart/planCardFeature";
 
 const Plans = () =>{
     const [planData, setPlanData] = useState([]);

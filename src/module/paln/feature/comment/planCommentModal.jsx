@@ -7,11 +7,15 @@ import usePostcomment from '../../service/comment/usePostComment';
 const PlanCommentsModal = ({ openModal, handleCloseModal, selectedComment }) => {
   const { trace_code } = useParams();
   const id = selectedComment ? selectedComment.id : null;
-  const [formData, setFormData] = useState({ status: false, response: '' });
+  const [formData, setFormData] = useState({ status: false, answer: '' });
 
   useEffect(() => {
     if (selectedComment) {
-      setFormData((prev) => ({ ...prev, status: selectedComment.status }));
+      setFormData((prev) => ({
+        ...prev,
+        status: selectedComment.status,
+        answer: selectedComment.answer,
+      }));
     }
   }, [selectedComment]);
 
@@ -21,7 +25,7 @@ const PlanCommentsModal = ({ openModal, handleCloseModal, selectedComment }) => 
     if (id) {
       mutate(formData);
       handleCloseModal();
-    }
+    }    
   };
 
   return (
@@ -71,13 +75,13 @@ const PlanCommentsModal = ({ openModal, handleCloseModal, selectedComment }) => 
                   },
                 }}
               />
-
               <TextField
                 fullWidth
                 label="پاسخ"
                 variant="outlined"
                 multiline
-                onChange={(e) => setFormData({ ...formData, response: e.target.value })}
+                value={formData.answer} // تغییر این خط
+                onChange={(e) => setFormData({ ...formData, answer: e.target.value })} 
                 sx={{
                   marginTop: 2,
                   '& .MuiOutlinedInput-root': {

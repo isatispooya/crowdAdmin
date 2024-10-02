@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundraisingPage';
 import PlanAddPic from './information&pic/planAddPic';
 import PlanGuarante from './Guarante/planGuarante';
 import PlanInvestors from './participant/participant';
 import PlanDocumentation from './documentation/planDocumentation';
 import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
+import EndOffUndraisingPage from './feature/endoffundraisingPage';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
