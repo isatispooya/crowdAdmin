@@ -5,12 +5,11 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundraisingPage';
 import PlanAddPic from './information&pic/planAddPic';
-import PlanGuarante from './Guarante/planGuarante'; 
+import PlanGuarante from './Guarante/planGuarante';
 import PlanInvestors from './participant/participant';
-import PlanComments from './planComments';
 import PlanDocumentation from './documentation/planDocumentation';
 import PlanDetail from './detail/planDetail';
-
+import PlanComments from './comment/planComments';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

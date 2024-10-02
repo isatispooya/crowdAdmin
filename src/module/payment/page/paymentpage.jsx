@@ -1,15 +1,9 @@
-import { Box } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import PaymentFeature from '../feature/paymentfeature';
-import { fetchPayment } from '../service/paymentService';
+import useGetPayment from '../service/useGetPeyment';
 
 const PaymentPage = () => {
-  console.log('h');
-  const { data } = useQuery({
-    queryKey: ['planDetail'],
-    queryFn: fetchPayment,
-  });
-
+  const { data, isPending, isError } = useGetPayment();
 
   return (
     <div
@@ -38,7 +32,22 @@ const PaymentPage = () => {
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-8">
           <h1 className="text-2xl font-bold text-gray-700">اطلاعات پرداخت</h1>
         </div>
-        <PaymentFeature data={data}/>
+
+        {isPending && (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '20px' }}>
+            <CircularProgress />
+          </div>
+        )}
+
+        {isError && (
+          <div style={{ textAlign: 'center', color: 'red', padding: '20px' }}>
+            <Typography variant="h6">
+              خطا در بارگذاری اطلاعات پرداخت. لطفاً دوباره تلاش کنید.
+            </Typography>
+          </div>
+        )}
+
+        {data && <PaymentFeature data={data} />}
       </Box>
     </div>
   );

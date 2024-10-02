@@ -1,20 +1,29 @@
 import { Box } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
 import PropTypes from 'prop-types';
 import { AddFormButton, SubmitButton } from 'src/components/button';
 import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
-import { sendShareholder } from '../service/shereholderservice';
+import { useEffect } from 'react';
+import usePostShereHolder from '../service/usePostShereholder';
 
 const ShareHolderButton = ({ handleAddSection, formSections }) => {
   const { cartId } = UseCartId();
   const { incrementPage } = useNavigateStep();
-  const mutation = useMutation({
-    mutationKey: ['shereholder'],
-    mutationFn: (sections) => sendShareholder(cartId, sections),
-  });
+  const {
+    mutate,
+    isError: isErrorPost,
+    isPending: isPendingPost,
+    isSuccess: isSuccessPost,
+  } = usePostShereHolder(cartId);
+
+  useEffect(() => {
+    if (!isErrorPost && !isPendingPost && isSuccessPost) {
+      incrementPage();
+    }
+  }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
+
   const handleSubmit = () => {
-    mutation.mutateAsync(formSections).then(() => incrementPage());
+    mutate({ formSections });
   };
 
   return (

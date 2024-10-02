@@ -8,10 +8,7 @@ import { fetchDetail } from '../service/planDetailService';
 const PlanDetailPage = () => {
   const [idRow, setIdRow] = useState();
   const { trace_code } = useParams();
-
-  console.log(trace_code);
   
-
   const { data , refetch } = useQuery({
     queryKey: ['planDetail', trace_code],
     queryFn: () => fetchDetail(trace_code),
