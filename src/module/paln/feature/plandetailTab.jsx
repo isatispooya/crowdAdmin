@@ -7,9 +7,10 @@ import EndOffUndraisingPage from 'src/module/endoffundraising/page/endoffundrais
 import PlanAddPic from './information&pic/planAddPic';
 import PlanGuarante from './Guarante/planGuarante';
 import PlanInvestors from './participant/participant';
-import PlanDocumentation from './documentation/planDocumentation';
+
 import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
+import ControlledAccordions from '../reports/module/reportsView';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,8 +54,8 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="مشاهده " {...a11yProps(0)} />
           <Tab label="اطلاعات تکمیلی" {...a11yProps(1)} />
-          <Tab label="افزودن مستندات" {...a11yProps(2)} />
-          <Tab label="افزودن تضامین" {...a11yProps(3)} />
+          <Tab label="گزارشات" {...a11yProps(2)} />
+       
           <Tab label="نظرات" {...a11yProps(4)} />
           <Tab label="سرمایه گذاران" {...a11yProps(5)} />
           <Tab label="پایان جمع آوری وجه" {...a11yProps(6)} />
@@ -67,11 +68,10 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
         <PlanAddPic idRow={idRow} planData={planData} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <PlanDocumentation />
+       
+        <ControlledAccordions/>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        <PlanGuarante idRow={idRow} />
-      </CustomTabPanel>
+
       <CustomTabPanel value={value} index={4}>
         <PlanComments idRow={idRow} />
       </CustomTabPanel>
