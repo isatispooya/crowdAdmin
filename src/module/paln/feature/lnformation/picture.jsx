@@ -4,7 +4,6 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { SubmitButton } from 'src/components/button';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
 import { useGetPic } from '../../service/planPicture/useGetPic';
 import { usePostPic } from '../../service/planPicture/usePostPic';

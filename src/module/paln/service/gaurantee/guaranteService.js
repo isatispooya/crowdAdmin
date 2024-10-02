@@ -1,7 +1,5 @@
-import axios from 'axios';
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
-import { OnRun } from 'src/api/OnRun';
 
 const accessApi = getCookie('accessApi');
 
@@ -14,8 +12,6 @@ export const GetGuarante = async (trace_code) => {
   });
   return response.data;
 };
-
-
 
 export const PostGuarante = async (trace_code, data) => {
   const formData = new FormData();

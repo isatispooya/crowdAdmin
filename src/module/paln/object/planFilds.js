@@ -1,5 +1,3 @@
-import moment from 'moment-jalaali';
-
 export const plan_fields_input = () => [
     { label: 'تاریخ ایجاد', value: 'creation_date', isDate: true },
     { label: 'نام فارسی', value: 'persian_name' },
