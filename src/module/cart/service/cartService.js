@@ -3,13 +3,14 @@ import { getCookie } from 'src/api/cookie';
 
 const accessApi = getCookie('accessApi');
 
-export const fetchCards = async () => {
+export const getCards = async () => {
   const response = await api.get(`/api/cart/admin/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
+  
   return response.data;
 };
 
@@ -23,8 +24,9 @@ export const deleteCard = async (cardId) => {
   return response.data;
 };
 
-export const PostFinish = async ({ cartId, data }) => {
-  const response = await api.post(`/api/update/finish/admin/${cartId}/`, data, {
+export const PostFinish = async ({ cartId, finish_cart }) => {
+  
+  const response = await api.patch(`/api/update/finish/admin/${cartId}/`, {finish_cart}, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
@@ -33,6 +35,7 @@ export const PostFinish = async ({ cartId, data }) => {
 
   return response.data;
 };
+
 
 
 

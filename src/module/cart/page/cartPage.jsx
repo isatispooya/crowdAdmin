@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import { DeleteModal } from 'src/components/modal';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {  useMutation, useQueryClient } from '@tanstack/react-query';
 import MessagePage from 'src/module/message/page/messagepage';
 import CardFeature from '../feature/cartfeature';
-import { fetchCards, deleteCard } from '../service/cartService';
-import usePatchFinish from '../service/PatchCardFinish';
+import { deleteCard } from '../service/cartService';
+import useGetCards from '../service/useGetCarts';
 
 const CardPage = () => {
   const { incrementPage } = useNavigateStep();
@@ -15,10 +15,10 @@ const CardPage = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [sendMessageModalOpen, setSendMessageModalOpen] = useState(false);
   const queryClient = useQueryClient();
-  const { data, status, error } = useQuery({
-    queryKey: ['card', cartId],
-    queryFn: () => fetchCards(cartId),
-  });
+  const { data, isError, isPending } = useGetCards(cartId);
+  
+  console.log('dffffffffffffffffffffff',cards);
+
   const mutation = useMutation({
     mutationFn: (id) => deleteCard(id),
     onSuccess: () => {
@@ -27,12 +27,11 @@ const CardPage = () => {
     },
   });
   useEffect(() => {
-    if (status === 'success') {
-      if (data) {
-        setCards(data.cart);
-      }
+    if (!isError && data && !isPending) {
+
+      setCards(data.cart);
     }
-  }, [data, status, error]);
+  }, [data, isError, isPending]);
 
   const handleCardClick = (id) => {
     setCartId(id);
@@ -60,7 +59,6 @@ const CardPage = () => {
     setSendMessageModalOpen(false);
   };
 
-
   return (
     <div className="p-4 sm:p-6 lg:p-8 bg-transparent min-h-screen flex justify-center items-start">
       <div className="bg-white shadow-2xl rounded-3xl p-6 sm:p-8 lg:p-10 max-w-7xl w-full">
@@ -78,6 +76,7 @@ const CardPage = () => {
                   setSendMessageModalOpen={setSendMessageModalOpen}
                   handleClick={handleClick}
                   handleModalOpen={handleModalOpen}
+                  setCards={setCards}
                   openDeleteModal={() => {
                     setCartId(card.id);
                     setDeleteModalOpen(true);
