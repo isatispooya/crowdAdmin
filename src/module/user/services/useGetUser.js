@@ -3,7 +3,7 @@ import { getUser } from './api';
 
 const useGetUser = () => {
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ['GetUser'],
+    queryKey: ['getUser'],
     queryFn: () => getUser(),
   });
   return {

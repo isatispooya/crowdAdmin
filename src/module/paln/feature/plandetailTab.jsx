@@ -9,7 +9,7 @@ import PlanInvestors from './participant/participant';
 import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
 import ControlledAccordions from '../reports/module/reportsView';
-import EndOffUndraisingPage from './feature/endoffundraisingPage';
+import EndOffUndraisingPage from './endoffundraising/endoffundraisingPage';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

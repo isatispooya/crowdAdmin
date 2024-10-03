@@ -11,5 +11,5 @@ export const getUser = async () => {
     },
   });
 
-  return response.data.users;
+  return response.data;
 };

@@ -11,5 +11,7 @@ export const fetchUser = async () => {
     },
   });
 
-  return response.data.users;
+  
+
+  return response.data;
 };

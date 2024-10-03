@@ -9,6 +9,7 @@ export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
 export const RequestPage = lazy(() => import('src/pages/request'));
 export const PlansPage = lazy(() => import('src/module/paln/page/plansPage'));
 export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
+export const Userdetail = lazy(() => import('src/module/user/feature/userDetail/userdetail'));
 export const UserPage = lazy(() => import('src/components/user'));
 export const PaymentPage = lazy(() => import('src/components/payment'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
@@ -37,6 +38,7 @@ export default function Router() {
         { path: 'ProfilePage', element: <ProfilePage /> },
         { path: 'plans', element: <PlansPage /> },
         { path: '/plan/:trace_code', element: <PlanDetailPage /> },
+        { path: '/userDetail/:userId', element: <Userdetail /> },
         { path: 'user', element: <UserPage /> },
         { path: 'payment', element: <PaymentPage /> },
       ],
