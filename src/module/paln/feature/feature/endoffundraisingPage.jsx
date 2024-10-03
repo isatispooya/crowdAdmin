@@ -2,31 +2,41 @@ import { Box, TextField, Typography, Paper } from '@mui/material';
 import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
-import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { SubmitButton } from 'src/components/button';
 import usePostEndOfFundraising from '../../service/endoffundraising/usePostpostEndOfFundraising';
 
 const EndOffUndraisingPage = () => {
-  const [data, setData] = useState([]);
+  const [form, setForm] = useState([]);
   const { trace_code } = useParams();
-
-  const { mutate, data: dataMut } = usePostEndOfFundraising(trace_code);
-
-  console.log('aaaaaa', data);
+  const { mutate, data: dataMut } = usePostEndOfFundraising(form, trace_code);
 
   useEffect(() => {
-    mutate({});
+    if (dataMut) {
+      setForm(dataMut);
+    }
+  }, [dataMut]);
+
+  useEffect(() => {
+    mutate([]);
   }, [mutate]);
+
+  const handleChange = (id, field, value) => {
+    setForm((prevData) =>
+      prevData.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
+  };
+
+  const handleSend = () => {
+    mutate();
+    console.log(form);
+  };
+  console.log(form);
 
   return (
     <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '0 16px',
-      }}
+      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 16px' }}
     >
       <Box
         sx={{
@@ -41,12 +51,12 @@ const EndOffUndraisingPage = () => {
         }}
       >
         <div className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center">
-          <h1 className="text-2xl font-bold text-gray-700">پایان جمع آوری وجه </h1>
+          <h1 className="text-2xl font-bold text-gray-700">پایان جمع آوری وجه</h1>
         </div>
         <Box sx={{ maxWidth: 800, margin: '20px auto', padding: 3 }}>
           <Paper elevation={3} sx={{ padding: 3, marginBottom: 2 }}>
-            {Array.isArray(dataMut) &&
-              dataMut.map((item) => (
+            {form &&
+              form.map((item) => (
                 <Box
                   key={item.id}
                   sx={{
@@ -54,46 +64,29 @@ const EndOffUndraisingPage = () => {
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     marginBottom: 2,
-                    flexDirection: 'row',
                   }}
                 >
                   <Typography sx={{ fontWeight: 'bold', marginRight: 2 }}>مبلغ چک:</Typography>
                   <TextField
                     label="مبلغ"
                     value={item.amount}
-                    sx={{ flexGrow: 1, minWidth: '150px', marginLeft: 3 }}
                     variant="outlined"
-                    onChange={(e) => {
-                      const newAmount = e.target.value;
-                      setData((prevData) =>
-                        prevData.map((i) => (i.id === item.id ? { ...i, amount: newAmount } : i))
-                      );
-                    }}
+                    onChange={(e) => handleChange(item.id, 'amount', e.target.value)}
+                    sx={{ flexGrow: 1, minWidth: '150px', marginLeft: 3 }}
                   />
-
                   <Typography sx={{ fontWeight: 'bold', marginRight: 2 }}>نوع چک:</Typography>
                   <TextField
                     label="نوع"
-                    value={item.type} 
-                    sx={{ flexGrow: 1, minWidth: '150px', marginLeft: 3 }}
+                    value={item.type}
                     variant="outlined"
-                    onChange={(e) => {
-                      const newType = e.target.value;
-                      setData((prevData) =>
-                        prevData.map((i) => (i.id === item.id ? { ...i, type: newType } : i))
-                      );
-                    }}
+                    onChange={(e) => handleChange(item.id, 'type', e.target.value)}
+                    sx={{ flexGrow: 1, minWidth: '150px', marginLeft: 3 }}
                   />
-
                   <Typography sx={{ fontWeight: 'bold', marginLeft: 3 }}>تاریخ چک:</Typography>
                   <Box sx={{ minWidth: '150px', marginLeft: 3 }}>
                     <DatePicker
                       value={item.date}
-                      onChange={(date) => {
-                        setData((prevData) =>
-                          prevData.map((i) => (i.id === item.id ? { ...i, date } : i))
-                        );
-                      }}
+                      onChange={(date) => handleChange(item.id, 'date', date)}
                       format="YYYY/MM/DD"
                       calendar={persian}
                       locale={persian_fa}
@@ -110,6 +103,7 @@ const EndOffUndraisingPage = () => {
               ))}
           </Paper>
         </Box>
+        <SubmitButton onClick={handleSend} />
       </Box>
     </div>
   );

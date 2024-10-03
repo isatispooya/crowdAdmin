@@ -4,7 +4,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import PlanAddPic from './information&pic/planAddPic';
-import PlanGuarante from './Guarante/planGuarante';
 import PlanInvestors from './participant/participant';
 
 import PlanDetail from './detail/planDetail';
@@ -53,32 +52,39 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="مشاهده " {...a11yProps(0)} />
+
           <Tab label="اطلاعات تکمیلی" {...a11yProps(1)} />
+
           <Tab label="گزارشات" {...a11yProps(2)} />
-       
-          <Tab label="نظرات" {...a11yProps(4)} />
-          <Tab label="سرمایه گذاران" {...a11yProps(5)} />
-          <Tab label="پایان جمع آوری وجه" {...a11yProps(6)} />
+
+          <Tab label="نظرات" {...a11yProps(3)} />
+
+          <Tab label="سرمایه گذاران" {...a11yProps(4)} />
+
+          <Tab label="پایان جمع آوری وجه" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
         <PlanDetail />
       </CustomTabPanel>
+
       <CustomTabPanel value={value} index={1}>
         <PlanAddPic idRow={idRow} planData={planData} />
       </CustomTabPanel>
+
       <CustomTabPanel value={value} index={2}>
-       
-        <ControlledAccordions/>
+        <ControlledAccordions />
+      </CustomTabPanel>
+
+      <CustomTabPanel value={value} index={3}>
+        <PlanComments idRow={idRow} />
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={4}>
-        <PlanComments idRow={idRow} />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={5}>
         <PlanInvestors />
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={6}>
+
+      <CustomTabPanel value={value} index={5}>
         <EndOffUndraisingPage />
       </CustomTabPanel>
     </Box>
