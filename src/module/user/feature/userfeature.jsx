@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import { useNavigate } from 'react-router-dom';
 import 'react-tabulator/lib/styles.css';
@@ -8,7 +8,6 @@ import useGetUser from '../services/useGetUser';
 const UserFeature = () => {
   const navigate = useNavigate();
   const { data } = useGetUser();
-
   const userPrivatePersons = data?.map((user) => user.private_person || []).flat();
 
   const columns = [
@@ -57,6 +56,14 @@ const UserFeature = () => {
     const userId = row.getData().id;
     navigate(`/userDetail/${userId}`);
   };
+
+  useEffect(() => {
+    const handleWheel = (event) => {};
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
     <div>

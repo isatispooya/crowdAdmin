@@ -11,7 +11,6 @@ const CardFeature = ({
   openDeleteModal,
   setSendMessageModalOpen,
   handleModalOpen,
-  setCards,
 }) => {
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -75,7 +74,7 @@ const CardFeature = ({
             مشاهده و ویرایش
           </Button>
 
-          <Button onClick={handleFinish}  style={{ textTransform: 'none' }}>
+          <Button onClick={handleFinish} style={{ textTransform: 'none' }}>
             {card.finish_cart ? 'شروع' : 'اتمام'}
           </Button>
 
@@ -99,7 +98,6 @@ CardFeature.propTypes = {
   openDeleteModal: PropTypes.func,
   handleModalOpen: PropTypes.func,
   setSendMessageModalOpen: PropTypes.func,
-  setCards: PropTypes.func,
 };
 
 export default CardFeature;

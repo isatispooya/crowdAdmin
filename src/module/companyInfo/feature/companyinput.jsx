@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
+ import { Box, FormControl, Grid, InputLabel, MenuItem, Select, Switch } from '@mui/material';
 import PropTypes from 'prop-types';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';

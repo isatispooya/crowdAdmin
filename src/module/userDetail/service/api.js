@@ -1,18 +1,15 @@
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
-export const getUser = async () => {
-  const accessApi =  getCookie('accessApi');
+const accessApi = getCookie('accessApi');
 
-  const response = await api.get(`/api/listuser/admin/`, {
+export const getUserDetail = async (userId) => {
+  const response = await api.get(`/api/information/user/admin/${userId}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
   });
 
-  return response.data;
+  return response.data.success;
 };
-
-
-

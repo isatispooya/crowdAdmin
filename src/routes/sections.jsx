@@ -9,7 +9,7 @@ export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
 export const RequestPage = lazy(() => import('src/pages/request'));
 export const PlansPage = lazy(() => import('src/module/paln/page/plansPage'));
 export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
-export const Userdetail = lazy(() => import('src/module/user/feature/userDetail/userdetail'));
+export const Userdetail = lazy(() => import('src/module/userDetail/feature/userdetail'));
 export const UserPage = lazy(() => import('src/components/user'));
 export const PaymentPage = lazy(() => import('src/components/payment'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
