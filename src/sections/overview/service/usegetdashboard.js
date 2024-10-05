@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUser } from './api';
+import { getDashboard } from './dashboard';
 
-const useGetUser = () => {
+const useGetDashboard = () => {
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ['getUser'],
-    queryFn: () => getUser(),
+    queryKey: ['getDashboard'],
+    queryFn: () => getDashboard(),
   });
   return {
     data,
@@ -15,6 +15,6 @@ const useGetUser = () => {
   };
 };
 
-export default useGetUser;
+export default useGetDashboard;
 
 

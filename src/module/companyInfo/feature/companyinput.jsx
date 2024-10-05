@@ -24,7 +24,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_company_name"
@@ -42,7 +42,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_company_kind"
@@ -77,7 +77,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           </FormControl>
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_nationalid"
@@ -96,7 +96,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_registration_number"
@@ -115,7 +115,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             onChange={(e) => setLocalData({ ...localData, registration_number: e.target.value })}
           />
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_registered_capital"
@@ -140,7 +140,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="lock_amount_of_registered_capital"
@@ -164,7 +164,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_newspaper"
@@ -181,16 +181,15 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             onChange={(e) => setLocalData({ ...localData, newspaper: e.target.value })}
           />
         </Grid>
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div className="mb-6">
             <div className="flex items-center">
-              <label className="block text-gray-800 text-xs text-nowrap font-semibold mb-0">
+              <label className="block text-gray-800 text-[10px] text-nowrap font-semibold mb-0">
                 تاریخ روزنامه رسمی آخرین مدیران:
               </label>
               <Switch
                 name="Lock_date_newspaper"
                 inputProps={{ 'aria-label': 'controlled' }}
-                className="ml-2"
                 checked={localData.Lock_date_newspaper}
                 onChange={(e) =>
                   setLocalData({ ...localData, Lock_date_newspaper: e.target.checked })
@@ -213,7 +212,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           </div>
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_personnel"
@@ -231,7 +230,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="lock_city"
@@ -249,7 +248,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_address"
@@ -267,7 +266,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div className="mb-6">
             <div className="flex items-center">
               <label className="block text-gray-800 text-xs font-semibold mb-2">
@@ -300,7 +299,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           </div>
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="lock_exchange_code"
@@ -318,7 +317,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="lock_postal_code"
@@ -336,7 +335,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_email"
@@ -354,7 +353,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           />
         </Grid>
 
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <div dir="ltr">
             <Switch
               name="Lock_activity_industry"

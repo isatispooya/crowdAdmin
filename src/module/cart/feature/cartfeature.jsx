@@ -11,7 +11,6 @@ const CardFeature = ({
   openDeleteModal,
   setSendMessageModalOpen,
   handleModalOpen,
-  setCards,
 }) => {
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -20,10 +19,6 @@ const CardFeature = ({
 
   const { mutate } = usePostFinish(card.id);
   const handleFinish = () => {
-    console.log({
-      finish_cart: !card.finish_cart,
-    });
-
     mutate({
       cartId: card.id,
       finish_cart: !card.finish_cart,
@@ -33,7 +28,7 @@ const CardFeature = ({
   return (
     <Box>
       <Box
-        className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 flex flex-col justify-between items-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 min-w-[240px] max-w-[320px] h-auto"
+        className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 flex flex-col justify-between items-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 w-full max-w-[320px] h-auto"
         onClick={() => handleCardClick(card.id)}
       >
         <div className="flex justify-between items-center w-full mb-4">
@@ -51,7 +46,7 @@ const CardFeature = ({
         </div>
 
         <div className="flex flex-col items-center space-y-4 sm:space-y-5">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{card.company_name}</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 text-center">{card.company_name}</h2>
           <div className="flex flex-col items-center space-y-2 sm:space-y-3">
             <p className="text-sm sm:text-base font-medium text-gray-700">
               شناسه: {card.nationalid}
@@ -75,10 +70,12 @@ const CardFeature = ({
             مشاهده و ویرایش
           </Button>
 
-          <Button onClick={handleFinish}  style={{ textTransform: 'none' }}>
+          <Button onClick={handleFinish} style={{ textTransform: 'none' }}>
             {card.finish_cart ? 'شروع' : 'اتمام'}
           </Button>
+        </div>
 
+        <div className="flex flex-col items-center mt-2 sm:mt-4">
           <TbMessagePlus
             style={{ fontSize: '24px', cursor: 'pointer', marginTop: '5px' }}
             onClick={(e) => {
@@ -99,7 +96,6 @@ CardFeature.propTypes = {
   openDeleteModal: PropTypes.func,
   handleModalOpen: PropTypes.func,
   setSendMessageModalOpen: PropTypes.func,
-  setCards: PropTypes.func,
 };
 
 export default CardFeature;

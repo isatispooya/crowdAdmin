@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import UseCartId from 'src/hooks/card_id';
 import useNavigateStep from 'src/hooks/use-navigate-step';
 import { DeleteModal } from 'src/components/modal';
-import {  useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import MessagePage from 'src/module/message/page/messagepage';
 import CardFeature from '../feature/cartfeature';
 import { deleteCard } from '../service/cartService';
@@ -16,9 +16,6 @@ const CardPage = () => {
   const [sendMessageModalOpen, setSendMessageModalOpen] = useState(false);
   const queryClient = useQueryClient();
   const { data, isError, isPending } = useGetCards(cartId);
-  
-  console.log('dffffffffffffffffffffff',cards);
-
   const mutation = useMutation({
     mutationFn: (id) => deleteCard(id),
     onSuccess: () => {
@@ -28,7 +25,6 @@ const CardPage = () => {
   });
   useEffect(() => {
     if (!isError && data && !isPending) {
-
       setCards(data.cart);
     }
   }, [data, isError, isPending]);
