@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PlanDocumentation from '../../feature/documentation/planDocumentation';
 import PlanGuarante from '../../feature/Guarante/planGuarante';
+import PlanProgress from '../components/planProgress';
+import PlanAudit from '../components/planAudit';
 
 export default function ControlledAccordions() {
   const [expanded, setExpanded] = React.useState(false);
@@ -22,13 +24,11 @@ export default function ControlledAccordions() {
           aria-controls="panel1bh-content"
           id="panel1bh-header"
         >
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>
-             مستندات 
-          </Typography>
+          <Typography sx={{ width: '33%', flexShrink: 0 }}>مستندات</Typography>
           <Typography sx={{ color: 'text.secondary' }}>پیوست و مشاهده مستندات </Typography>
         </AccordionSummary>
         <AccordionDetails>
-            <PlanDocumentation />
+          <PlanDocumentation />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
@@ -38,12 +38,10 @@ export default function ControlledAccordions() {
           id="panel2bh-header"
         >
           <Typography sx={{ width: '33%', flexShrink: 0 }}> تضامین</Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
-            پیوست و مشاهده تضامین
-          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>پیوست و مشاهده تضامین</Typography>
         </AccordionSummary>
         <AccordionDetails>
-        <PlanGuarante  />
+          <PlanGuarante />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
@@ -52,18 +50,11 @@ export default function ControlledAccordions() {
           aria-controls="panel3bh-content"
           id="panel3bh-header"
         >
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>
-            پیشرفت طرح 
-          </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
-           مشاهده شرایط و تاریخ های مراحل
-          </Typography>
+          <Typography sx={{ width: '33%', flexShrink: 0 }}>پیشرفت طرح</Typography>
+          <Typography sx={{ color: 'text.secondary' }}>مشاهده شرایط و تاریخ های مراحل</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
-          </Typography>
+          <PlanProgress />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
@@ -73,16 +64,11 @@ export default function ControlledAccordions() {
           id="panel4bh-header"
         >
           <Typography sx={{ width: '33%', flexShrink: 0 }}>حسابرسی</Typography>
-          <Typography sx={{ color: 'text.secondary' }}>
-            مشاهده حسابرسی و وضعیت  
-          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>مشاهده حسابرسی و وضعیت</Typography>
         </AccordionSummary>
-        
+
         <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit
-            amet egestas eros, vitae egestas augue. Duis vel est augue.
-          </Typography>
+          <PlanAudit />
         </AccordionDetails>
       </Accordion>
     </div>
