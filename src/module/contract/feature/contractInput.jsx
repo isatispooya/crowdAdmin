@@ -61,8 +61,8 @@ const ContentInput = ({ contractData, setContractData }) => {
   return (
     <Grid container spacing={2}>
       {fielsLabels.map(({ label, key, lockKey }) => (
-        <Grid item xs={12} sm={6} key={key}>
-          <div dir="ltr" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <Grid item xs={12} sm={6} md={4} key={key}>
+        <div dir="ltr" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {lockKey && (
               <Switch
                 checked={contractData[lockKey] || false}

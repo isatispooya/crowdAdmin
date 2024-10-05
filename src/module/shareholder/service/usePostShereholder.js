@@ -6,7 +6,7 @@ const usePostShereHolder = (cartId) => {
   const { refetch } = useGetShereholder(cartId);
   const { mutate, isPending, isSuccess, isError, error } = useMutation({
     mutationKey: ['postShereholder'],
-    mutationFn: ({ formData }) => postShareholder({ cartId, formData }),
+    mutationFn: ({ formSections }) => postShareholder({ cartId, formSections }),
     onSettled: () => {
       refetch();
     },

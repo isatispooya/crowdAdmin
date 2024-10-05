@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import UseCartId from 'src/hooks/card_id';
@@ -11,14 +10,13 @@ import usePostHistory from '../service/usePostHistory';
 
 const HistoryPage = () => {
   const { cartId } = UseCartId();
-
   const { data, isPending, isError } = useGetHistory(cartId);
-
   const { incrementPage } = useNavigateStep();
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    if (!isError && data && !isPending) {
+    console.log('API Response:', data); 
+    if (!isError && data && data.manager && !isPending) {
       setFormData(data.manager.map((item) => ({ ...item })));
     }
   }, [data, isError, isPending]);
@@ -33,7 +31,6 @@ const HistoryPage = () => {
     const newFormData = [...formData];
     newFormData[index].file = null;
     setFormData(newFormData);
-    console.log("222222")
   };
 
   const handleSwitchChange = (index) => (event) => {
@@ -63,11 +60,10 @@ const HistoryPage = () => {
     }
   }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
 
-
   const handleButtonClick = () => {
     mutate({ formData });
-    console.log('formData',formData)
   };
+
   return (
     <div style={Styles.container}>
       <Box sx={Styles.box}>
@@ -77,15 +73,15 @@ const HistoryPage = () => {
         {formData.length > 0 &&
           formData.map((item, index) => (
             <HistoryFeature
-            key={index}
-            index={index}
-            item={item}
-            handleTextFieldChange={handleTextFieldChange}
-            handleSwitchChange={handleSwitchChange}
-            handleRemoveFile={handleRemoveFile}
-            handleFileChange={handleFileChange}
-            setFormData={setFormData}
-          />
+              key={index}
+              index={index}
+              item={item}
+              handleTextFieldChange={handleTextFieldChange}
+              handleSwitchChange={handleSwitchChange}
+              handleRemoveFile={handleRemoveFile}
+              handleFileChange={handleFileChange}
+              setFormData={setFormData}
+            />
           ))}
         <SubmitButton onClick={handleButtonClick} />
       </Box>

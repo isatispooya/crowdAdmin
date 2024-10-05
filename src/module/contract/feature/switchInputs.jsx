@@ -1,14 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormControl,
-  FormControlLabel,
-  FormGroup,
-  Switch,
-  Box,
-  Grid,
-} from '@mui/material';
-
+import { FormControl, FormControlLabel, FormGroup, Switch, Box, Grid } from '@mui/material';
 
 const SwitchContract = ({ contractData, setContractData }) => {
   const switchLabels = [
@@ -20,16 +12,13 @@ const SwitchContract = ({ contractData, setContractData }) => {
     { label: 'واریز ۱۰ درصد سرمایه', key: 'minimum_deposit_10' },
   ];
 
-  
   const handleSwitchChange = (key) => (event) => {
-    setContractData({
-      ...contractData,
+    setContractData((prevData) => ({
+      ...prevData,
       [key]: event.target.checked,
-    });
-    console.log('Updated contractData:', { ...contractData, [key]: event.target.checked });
+    }));
   };
-  
-  
+
   return (
     <Box
       sx={{
@@ -37,39 +26,39 @@ const SwitchContract = ({ contractData, setContractData }) => {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '25vh',
-        margin: 10,
+        margin: 2,
       }}
     >
       <Box
         sx={{
-          padding: 4,
+          padding: 2,
           backgroundColor: '#fff',
           borderRadius: '16px',
           boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
-          position: 'relative',
+          width: '100%',
+          maxWidth: '600px',
         }}
       >
-        <FormControlLabel sx={{ position: 'absolute', top: 16, right: 16 }} control={<Switch />} />
-
-        <FormControl component="fieldset" variant="standard">
+        <FormControl component="fieldset">
           <FormGroup>
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
               {switchLabels.map(({ label, key }) => (
-                <Grid item xs={12} sm={6} key={key}>
+                <Grid item xs={12} key={key}>
                   <FormControlLabel
                     control={
                       <Switch
+                        size="small"
                         checked={contractData[key] || false}
                         onChange={handleSwitchChange(key)}
                       />
                     }
                     label={label}
+                    sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                   />
                 </Grid>
               ))}
             </Grid>
           </FormGroup>
-
         </FormControl>
       </Box>
     </Box>

@@ -16,10 +16,10 @@ export const getShareholder = async (id) => {
   return response.data;
 };
 
-export const postShareholder = async (id, data) => {
+export const postShareholder = async ({ cartId, formSections }) => {
   const response = await axios.post(
-    `${OnRun}/api/shareholder/admin/${id}/`,
-    (data = { shareholder: data }),
+    `${OnRun}/api/shareholder/admin/${cartId}/`,
+    { formSections },
     {
       headers: {
         Authorization: `Bearer ${accessApi}`,

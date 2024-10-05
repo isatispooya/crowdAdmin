@@ -90,7 +90,7 @@ export const getCompanyInfo = async (cartId) => {
       },
     };
   }
-  return response;
+  return response
 };
 
 export const postCompanyInfo = async (cartId, localData) => {    

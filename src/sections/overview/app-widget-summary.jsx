@@ -4,52 +4,46 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { fShortenNumber } from 'src/utils/format-number';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import AssignmentReturnedIcon from '@mui/icons-material/AssignmentReturned';
+import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import useGetDashboard from './service/usegetdashboard';
 
 export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
-  const { data, isPending, isError } = useGetDashboard();
-
-  if (isPending) return <div>درحال بارگزاری...</div>;
-  if (isError) return <div>مشکل در دریافت اطلاعات !</div>;
-
-  console.log(data);
-
+  const { data } = useGetDashboard();
   const widgetData = [
     {
-      title: 'تعداد درخواست های باز',
-      total: data?.['تعداد درخواست های باز'] || 2500,
-      icon: <HourglassEmptyIcon style={{ fontSize: '2rem' }} color="warning" />,
+      title: 'تعداد کل طرح‌ها',
+      total: data ? data['all plan'] : 0,
+      icon: <ListAltIcon style={{ fontSize: '2rem' }} color="action" />,
     },
     {
-      title: 'تعداد درخواست های کل',
-      total: data?.totalRequests || 5000,
-      icon: <ListAltIcon style={{ fontSize: '2rem' }} color="primary" />,
+      title: 'تعداد طرح‌های منقضی شده',
+      total: data ? data['expire plan'] : 0,
+      icon: <AssignmentLateIcon style={{ fontSize: '2rem' }} color="error" />,
     },
     {
-      title: 'تعداد درخواست های بسته',
-      total: data?.closedRequests || 20,
-      icon: <CheckCircleOutlineIcon style={{ fontSize: '2rem' }} color="success" />,
+      title: 'تعداد طرح‌های فعال',
+      total: data ? data['active plan'] : 0,
+      icon: <PlayCircleOutlineIcon style={{ fontSize: '2rem' }} color="success" />,
     },
     {
-      title: 'تعداد درخواست های فعال',
-      total: data?.activeRequests || 200,
-      icon: <PlayCircleOutlineIcon style={{ fontSize: '2rem' }} color="error" />,
+      title: 'تعداد کل درخواست‌ها',
+      total: data ? data['all cart'] : 0,
+      icon: <ShoppingCartIcon style={{ fontSize: '2rem' }} color="primary" />,
     },
     {
-      title: 'تعداد کاربران',
-      total: data?.totalUsers || 12500,
-      icon: <GroupAddIcon style={{ fontSize: '2rem' }} color="secondary" />,
+      title: 'تعداد درخواست‌های پایان یافته',
+      total: data ? data['expire cart'] : 0,
+      icon: <CheckCircleOutlineIcon style={{ fontSize: '2rem' }} color="warning" />,
     },
     {
-      title: 'تعداد درخواست های پایان یافته',
-      total: data?.completedRequests || 55,
-      icon: <AssignmentReturnedIcon style={{ fontSize: '2rem' }} color="disabled" />,
+      title: 'تعداد درخواست‌های فعال',
+      total: data ? data['active cart'] : 0,
+      icon: <MonetizationOnIcon style={{ fontSize: '2rem' }} color="info" />,
     },
   ];
 

@@ -29,7 +29,7 @@ const HistoryInput = ({
   return (
     <Box sx={{ mb: 3, p: 2 }}>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={4}>
           <GlobalTextField
             label="نام و نام خانوادگی"
             value={item.name}
@@ -37,7 +37,7 @@ const HistoryInput = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={4}>
           <GlobalTextField
             label="کد ملی"
             value={item.national_code}
@@ -47,7 +47,7 @@ const HistoryInput = ({
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={4}>
           <Box sx={{ mb: 2 }}>
             <Box
               sx={{
@@ -74,48 +74,48 @@ const HistoryInput = ({
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={12} md={4}>
           {typeof item.file === 'string' && item.file && (
-              <Box
-                sx={{
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: '#f7f7f7',
+                padding: '10px',
+                borderRadius: '8px',
+                boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <a
+                href={`${OnRun}/${item.file}`}
+                target="_blank"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 'medium',
+                  textDecoration: 'none',
+                  color: 'inherit',
                   display: 'flex',
-                  justifyContent: 'space-between',
                   alignItems: 'center',
-                  backgroundColor: '#f7f7f7',
-                  padding: '10px',
-                  borderRadius: '8px',
-                  boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
+                }} rel="noreferrer"
+              >
+                دریافت فایل سوء پیشینه
+                <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '8px' }} />
+              </a>
+              <Button
+                size="small"
+                onClick={handleRemoveFile(index)}
+                sx={{
+                  height: 'auto',
+                  ml: '10px',
+                  '&:hover': {
+                    backgroundColor: '#e0e0e0',
+                  },
                 }}
               >
-                <a
-                  href={`${OnRun}/${item.file}`}
-                  target="_blank"
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 'medium',
-                    textDecoration: 'none',
-                    color: 'inherit',
-                    display: 'flex',
-                    alignItems: 'center',
-                  }} rel="noreferrer"
-                >
-                  دریافت فایل سوء پیشینه
-                  <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '8px' }} />
-                </a>
-                <Button
-                  size="small"
-                  onClick={handleRemoveFile(index)}
-                  sx={{
-                    height: 'auto',
-                    ml: '10px',
-                    '&:hover': {
-                      backgroundColor: '#e0e0e0',
-                    },
-                  }}
-                >
-                  حذف
-                </Button>
-              </Box>
+                حذف
+              </Button>
+            </Box>
           )}
         </Grid>
       </Grid>

@@ -43,7 +43,7 @@ GlobalTextField.propTypes = {
   inputProps: PropTypes.object,
   required: PropTypes.bool,
   contractData: PropTypes.any.isRequired,
-  setContractData: PropTypes.func.isRequired,
+  setContractData: PropTypes.func,
 };
 
 export default GlobalTextField;
