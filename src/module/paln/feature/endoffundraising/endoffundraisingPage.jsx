@@ -9,6 +9,8 @@ import usePostEndOfFundraising from '../../service/endoffundraising/usePostpostE
 import { convertToEnglishDigits } from './utils/convertToEN';
 import useGetEndOfFundraising from '../../service/endoffundraising/useGetEndOfFundraising';
 
+
+
 const EndOffUndraisingPage = () => {
   const [form, setForm] = useState([]);
   const { trace_code } = useParams();
@@ -155,5 +157,8 @@ const EndOffUndraisingPage = () => {
     </div>
   );
 };
+
+
+
 
 export default EndOffUndraisingPage;
