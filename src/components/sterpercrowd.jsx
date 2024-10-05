@@ -1,5 +1,19 @@
-import React from 'react';
-import { Stepper, Step, StepLabel } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Stepper,
+  Step,
+  StepLabel,
+  useMediaQuery,
+  Box,
+  Grid,
+  MobileStepper,
+  Button,
+  Dialog,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
+} from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import ContractPage from 'src/module/contract/page/contarctPage';
 import useNavigateStep from 'src/hooks/use-navigate-step';
@@ -8,33 +22,31 @@ import ManagerPage from 'src/module/managers/page/managerpage';
 import ManagerdocumentsPage from 'src/module/Managerdocuments/page/Managerdocuments';
 import { ShareholderPage } from 'src/module/shareholder/page';
 import { ValidationPage } from 'src/module/validation/page';
-import { OtherCasesPage } from 'src/module/otherCases/page';
 import CompanyInfoPage from 'src/module/companyInfo/page/companyInfopage';
 import CardPage from 'src/module/cart/page/cartPage';
+import { OtherCasesPage } from 'src/module/otherCases/page';
 
 const Sterpercrowd = () => {
   const { page, changePage } = useNavigateStep();
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const [openStepsDialog, setOpenStepsDialog] = useState(false);
 
   const steps = [
     'درخواست ها',
-    ' اطلاعات درخواست',
+    'اطلاعات درخواست',
     'مدیران',
     'مستندات مدیران',
     'سهامداران',
     'اعتبار سنجی',
     'سایر موارد',
     'سوپیشینه',
-    'قرار داد عاملیت',
+    'قرارداد عاملیت',
   ];
 
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
-        return (
-          <div>
-            <CardPage />
-          </div>
-        );
+        return <CardPage />;
       case 1:
         return <CompanyInfoPage />;
       case 2:
@@ -53,32 +65,98 @@ const Sterpercrowd = () => {
         return <ContractPage />;
       default:
         return (
-          <div className="flex items-center justify-center self-center mt-8 text-lg">
+          <div className="flex items-center justify-center mt-8 text-lg">
             منتظر بررسی اطلاعات باشید
           </div>
         );
     }
   };
+
+  const handleStepClick = (index) => {
+    changePage(index);
+    setOpenStepsDialog(false);
+  };
+
   return (
-    <div>
-      <Stepper sx={{ marginTop: '40px' }} activeStep={page} alternativeLabel>
-        {steps.map((label, index) => (
-          <Step
-            key={index}
-            onClick={() => changePage(index)}
+    <Box sx={{ padding: isSmallScreen ? '0 8px' : '0 16px' }}>
+      {isSmallScreen ? (
+        <>
+          <MobileStepper
+            variant="dots"
+            steps={steps.length}
+            position="static"
+            activeStep={page}
+            nextButton={
+              <Button
+                size="small"
+                onClick={() => changePage(page + 1)}
+                disabled={page === steps.length - 1}
+              >
+                بعدی
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={() => changePage(page - 1)} disabled={page === 0}>
+                قبلی
+              </Button>
+            }
+          />
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={() => setOpenStepsDialog(true)}
             sx={{
-              cursor: 'pointer',
+              marginTop: '16px',
             }}
           >
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
+            مشاهده همه مراحل
+          </Button>
+          <Dialog open={openStepsDialog} onClose={() => setOpenStepsDialog(false)}>
+            <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+              انتخاب مرحله
+            </DialogTitle>
+            <List>
+              {steps.map((label, index) => (
+                <ListItem
+                  button
+                  key={label}
+                  onClick={() => handleStepClick(index)}
+                  selected={page === index} 
+                >
+                  <ListItemText
+                    primary={label}
+                    sx={{
+                      textAlign: 'center',
+                      fontWeight: page === index ? 'bold' : 'normal',
+                    }}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Dialog>
+        </>
+      ) : (
+        <Stepper
+          sx={{ marginTop: '20px' }}
+          activeStep={page}
+          alternativeLabel
+        >
+          {steps.map((label, index) => (
+            <Step key={index} onClick={() => changePage(index)}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      )}
 
-      <div style={{ position: 'relative', minHeight: '300px' }}>{renderStepContent(page)}</div>
+      <Grid container spacing={2} sx={{ marginTop: '20px' }}>
+        <Grid item xs={12}>
+          <div style={{ position: 'relative', minHeight: '300px' }}>{renderStepContent(page)}</div>
+        </Grid>
+      </Grid>
 
       <ToastContainer />
-    </div>
+    </Box>
   );
 };
 
