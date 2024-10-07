@@ -4,19 +4,21 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { SubmitButton } from 'src/components/button';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { OnRun } from 'src/api/OnRun';
 import PicSkelton from 'src/components/skelton';
 import { useGetPic } from '../../service/planPicture/useGetPic';
 import { usePostPic } from '../../service/planPicture/usePostPic';
 import AddInfo from './addInformation';
 
-const PlanAddPic = ({ planData }) => {
+const PlanAddPic = () => {
   const [file, setFile] = useState(null);
   const { trace_code } = useParams();
 
   const { data } = useGetPic(trace_code);
-  console.log("dataf",data)
+
+  console.log(data , "getPic")
+ 
 
   const { mutate, isPending, isError } = usePostPic(trace_code);
 
@@ -49,7 +51,7 @@ const PlanAddPic = ({ planData }) => {
   const handleFileRemove = () => {
     setFile(null);
   };
-console.log("data",data)
+
   return (
     <>
       <Box sx={{ padding: 3 }}>
@@ -160,8 +162,6 @@ console.log("data",data)
   );
 };
 
-PlanAddPic.propTypes = {
-  planData: PropTypes.object,
-};
+
 
 export default PlanAddPic;

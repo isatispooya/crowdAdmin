@@ -8,7 +8,7 @@ export const useGetAddInfo = (trace_code) => {
   };
 
   const { data, isLoading, isError, error, refetch } = useQuery({
-    queryKey: ['planPic', trace_code],
+    queryKey: ['addInformation', trace_code],
     queryFn: () => getInfo(trace_code),
     enabled: !!trace_code,
     retry: 1,

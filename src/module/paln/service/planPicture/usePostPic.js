@@ -14,7 +14,7 @@ export const usePostPic = (trace_code) => {
       },
     });
 
-    console.log("tasvir",data)
+    console.log("pic",data)
     return response.data;
   };
 

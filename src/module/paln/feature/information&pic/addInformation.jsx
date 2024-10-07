@@ -25,6 +25,8 @@ const AddInfo = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { data } = useGetAddInfo(trace_code);
+
+  console.log(data , "addInfo")
   const { mutate, isPending, isError } = usePostInfo(trace_code);
 
   useEffect(() => {
