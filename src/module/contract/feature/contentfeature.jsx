@@ -15,22 +15,29 @@ const ContractFeature = ({ setContractData, contractData }) => {
   const postContractData = () => {
     mutate(contractData);
   };
+
   return (
-    <Grid spacing={3}>
-      <ContentInput contractData={contractData} setContractData={setContractData} />
-      <SwitchContract contractData={contractData} setContractData={setContractData} />
-      <SubmitButton
-        contractData={contractData}
-        onClick={postContractData}
-        postContractData={postContractData}
-      />
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <ContentInput contractData={contractData} setContractData={setContractData} />
+      </Grid>
+      <Grid item xs={12}>
+        <SwitchContract contractData={contractData} setContractData={setContractData} />
+      </Grid>
+      <Grid item xs={12}>
+        <SubmitButton
+          contractData={contractData}
+          onClick={postContractData}
+          postContractData={postContractData}
+        />
+      </Grid>
     </Grid>
   );
 };
 
 ContractFeature.propTypes = {
-  contractData: PropTypes.object.isRequired,
-  setContractData: PropTypes.func.isRequired,
+  contractData: PropTypes.object,
+  setContractData: PropTypes.func,
 };
 
 export default ContractFeature;

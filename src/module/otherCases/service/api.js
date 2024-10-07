@@ -41,7 +41,6 @@ export const postOtherCases = async ({cartId, localData}) => {
   formData.append('lock_announcement_of_changes_capital', localData.lock_announcement_of_changes_capital );
   formData.append('lock_announcement_of_changes_managers', localData.lock_announcement_of_changes_managers );
 
-  console.log(formData.get('lock_latest_insurance_staf'));
   
 
   const response = await api.post(`/api/addinformation/admin/${cartId}/`, formData, {

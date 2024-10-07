@@ -5,9 +5,9 @@ import persian_fa from 'react-date-object/locales/persian_fa';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SubmitButton } from 'src/components/button';
-import usePostEndOfFundraising from '../../service/endoffundraising/usePostpostEndOfFundraising';
-import { convertToEnglishDigits } from './utils/convertToEN';
-import useGetEndOfFundraising from '../../service/endoffundraising/useGetEndOfFundraising';
+import usePostEndOfFundraising from '../../../service/endoffundraising/usePostpostEndOfFundraising';
+import { convertToEnglishDigits } from '../utils/convertToEN';
+import useGetEndOfFundraising from '../../../service/endoffundraising/useGetEndOfFundraising';
 
 
 
@@ -39,7 +39,6 @@ const EndOffUndraisingPage = () => {
   // Handle form submission
   const handleSend = () => {
     mutate(form);
-    console.log(form, 'posted form');
   };
 
   return (

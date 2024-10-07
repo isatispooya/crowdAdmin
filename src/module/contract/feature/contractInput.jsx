@@ -56,7 +56,6 @@ const ContentInput = ({ contractData, setContractData }) => {
       [lockKey]: event.target.checked,
     });
   };
-  console.log(contractData, 'textfiels');
 
   return (
     <Grid container spacing={2}>
@@ -84,8 +83,8 @@ const ContentInput = ({ contractData, setContractData }) => {
 };
 
 ContentInput.propTypes = {
-  contractData: PropTypes.object.isRequired,
-  setContractData: PropTypes.func.isRequired,
+  contractData: PropTypes.object,
+  setContractData: PropTypes.func,
 };
 
 export default ContentInput;

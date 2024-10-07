@@ -37,7 +37,7 @@ const ManagerButton = ({ formSections, handleAddSection }) => {
 };
 
 ManagerButton.propTypes = {
-  formSections: PropTypes.object,
+  formSections: PropTypes.array,
   handleAddSection: PropTypes.func,
 };
 

@@ -91,8 +91,8 @@ const MessagePage = ({ open, onClose }) => {
 };
 
 MessagePage.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
 };
 
 export default MessagePage;

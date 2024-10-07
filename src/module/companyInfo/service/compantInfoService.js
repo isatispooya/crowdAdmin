@@ -144,7 +144,6 @@ export const createCart = async (data, id) => {
   formData.append('Lock_date_newspaper', data.Lock_date_newspaper);
   formData.append('lock_postal_code', data.lock_postal_code);
   formData.append('Lock_logo', data.Lock_logo);
-  console.log(data.Lock_logo);
   
 
   if (data.date_newspaper) {

@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 
 const Row = ({index,list,item,setList}) =>{
-  console.log(index);
   
 
   const updateFile = (file, nationalCode) => {
@@ -46,10 +45,10 @@ const Row = ({index,list,item,setList}) =>{
 
 
     Row.propTypes = {
-        index: PropTypes.number.isRequired,
-        list: PropTypes.array.isRequired,
-        item: PropTypes.object.isRequired,
-        setList: PropTypes.func.isRequired,
+        index: PropTypes.number,
+        list: PropTypes.array,
+        item: PropTypes.object,
+        setList: PropTypes.func,
       };
 
 export default Row

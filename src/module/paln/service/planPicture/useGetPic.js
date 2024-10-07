@@ -5,7 +5,6 @@ export const useGetPic = (trace_code) => {
 
   const getPic = async () => {
     const response = await api.get(`/api/send/picture/${trace_code}/`);
-    console.log(response.data, 'picture');
     return response.data;
   };
 

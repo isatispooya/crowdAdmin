@@ -56,7 +56,7 @@ ShareholderFeature.propTypes = {
   handleChange: PropTypes.func,
   sectionIndex: PropTypes.number,
   section: PropTypes.object,
-  formSections: PropTypes.func,
+  formSections: PropTypes.array,
   handleOpenDialog: PropTypes.func,
 };
 

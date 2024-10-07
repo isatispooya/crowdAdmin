@@ -20,13 +20,11 @@ export const usePostPic = (trace_code) => {
   const mutation = useMutation({
     mutationFn: (data) => sendPlanPic(data),
     onSuccess: (data) => {
-      console.log('Picture successfully posted:', data);
     },
     onError: (error) => {
       console.error('Error posting picture:', error);
     },
     onMutate: () => {
-      console.log('Posting picture...');
     },
   });
 

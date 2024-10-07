@@ -20,13 +20,11 @@ export const usePostInfo = (trace_code) => {
   const mutation = useMutation({
     mutationFn: (data) => sendAddInfo(data),
     onSuccess: (data) => {
-      console.log('Successfully posted:', data);
     },
     onError: (error) => {
       console.error('Error posting:', error);
     },
     onMutate: () => {
-      console.log('Posting...');
     },
   });
 

@@ -60,8 +60,8 @@ const PaymentModal = ({ selectedRow, handleClose, open }) => (
 
 PaymentModal.propTypes = {
   selectedRow: PropTypes.object,
-  handleClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func,
+  open: PropTypes.bool,
 };
 
 export default PaymentModal;

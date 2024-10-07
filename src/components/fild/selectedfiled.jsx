@@ -34,16 +34,16 @@ const SelectField = ({
 );
 
 SelectField.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  value: PropTypes.any.isRequired,
-  onChange: PropTypes.func.isRequired,
+  id: PropTypes.string,
+  label: PropTypes.string,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
   options: PropTypes.arrayOf(
     PropTypes.shape({
-      value: PropTypes.any.isRequired,
-      label: PropTypes.string.isRequired,
+      value: PropTypes.any,
+      label: PropTypes.string,
     })
-  ).isRequired,
+  ),
   helperText: PropTypes.string,
   required: PropTypes.bool,
   error: PropTypes.bool,

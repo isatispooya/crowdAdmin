@@ -97,9 +97,9 @@ const ManagerInput = ({ section, sectionIndex, handleChange }) => (
 );
 
 ManagerInput.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-  section: PropTypes.object.isRequired,
-  sectionIndex: PropTypes.number.isRequired,
+  handleChange: PropTypes.func,
+  section: PropTypes.object,
+  sectionIndex: PropTypes.number,
 };
 
 export default ManagerInput;

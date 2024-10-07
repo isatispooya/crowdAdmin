@@ -1,33 +1,83 @@
-import React from 'react';
-import { ReactTabulator } from 'react-tabulator';
-import 'react-tabulator/lib/styles.css';
-import 'react-tabulator/css/tabulator.min.css';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable react/button-has-type */
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { utils, writeFile } from 'xlsx';
+import moment from 'moment-jalaali';
 import useGetProfit from './service/useProfitGet';
 
 const ProfitPage = () => {
   const { trace_code } = useParams();
   const { data, isLoading } = useGetProfit(trace_code);
-  console.log('داده‌ها', data);
 
-  const formatNumber = (value) => {
-    if (value == null) return '';
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const formatDate = (date) => (date ? moment(date).format('jYYYY/jM/jD') : '—');
+  const formatNumber = (value) => (value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '—');
+  const roundValue = (value) => (value !== null ? Math.round(value).toLocaleString() : '—');
+
+  const fields = [
+    { label: 'نام و نام خانوادگی', key: 'user_name' },
+    { label: 'مبلغ', key: 'value', formatter: formatNumber },
+    { label: 'کاربر', key: 'user' },
+    { label: 'تعداد گواهی', key: 'amount' },
+    { label: 'شماره حساب', key: 'account_number' },
+    { label: 'مبلغ سود اول', key: 'value1', formatter: roundValue },
+    { label: 'مبلغ سود دوم', key: 'value2', formatter: roundValue },
+    { label: 'مبلغ سود سوم', key: 'value3', formatter: roundValue },
+    { label: 'مبلغ سود چهارم', key: 'value4', formatter: roundValue },
+    { label: 'تاریخ سود اول', key: 'date1', formatter: formatDate },
+    { label: 'تاریخ سود دوم', key: 'date2', formatter: formatDate },
+    { label: 'تاریخ سود سوم', key: 'date3', formatter: formatDate },
+    { label: 'تاریخ سود چهارم', key: 'date4', formatter: formatDate }
+  ];
+
+  const handleDownloadExcel = () => {
+    if (data) {
+      const worksheet = utils.json_to_sheet(
+        data.map((row) =>
+          fields.reduce((acc, field) => {
+            acc[field.label] = field.formatter ? field.formatter(row[field.key]) : row[field.key] || '—';
+            return acc;
+          }, {})
+        )
+      );
+      const workbook = utils.book_new();
+      utils.book_append_sheet(workbook, worksheet, 'Report');
+      writeFile(workbook, 'data.xlsx');
+    }
   };
 
-  const columns = [
-    { title: 'نام و نام خانوادگی', field: 'name', width: 200 },
-    {
-      title: 'مبلغ',
-      field: 'value',
-      align: 'center',
-      width: 150,
-      formatter: (cell) => formatNumber(cell.getValue()),
-    },
-    { title: 'کاربر', field: 'user', align: 'center', width: 200 },
-    { title: 'تعداد گواهی', field: 'amount', align: 'center', width: 150 },
-  ];
+  const renderedTable = useMemo(() => {
+    if (!data || data.length === 0) return null;
+
+    return (
+      <TableContainer component={Paper} sx={{ maxWidth: '100%', overflowX: 'auto' }}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              {fields.map((field) => (
+                <TableCell key={field.key} align="center">
+                  {field.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((row, index) => (
+              <TableRow key={index}>
+                {fields.map((field) => (
+                  <TableCell key={field.key} align="center">
+                    {field.formatter ? field.formatter(row[field.key]) : row[field.key] || '—'}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }, [data]);
 
   if (isLoading) {
     return (
@@ -56,13 +106,20 @@ const ProfitPage = () => {
             textAlign: 'center',
           }}
         >
+          <button
+            className="bg-blue-800 text-white py-1 px-2 rounded-sm flex self-start"
+            id="download-excel"
+            onClick={handleDownloadExcel}
+          >
+            دانلود فایل اکسل
+          </button>
+
           <Typography variant="h4" fontWeight="bold">
             گزارش سود کاربران
           </Typography>
         </Box>
-        {data && data.length > 0 ? (
-          <ReactTabulator data={data} columns={columns} layout="fitData" />
-        ) : (
+
+        {renderedTable || (
           <Box
             sx={{
               borderRadius: '8px',

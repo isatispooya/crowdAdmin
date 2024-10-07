@@ -124,11 +124,11 @@ const HistoryInput = ({
 };
 
 HistoryInput.propTypes = {
-  handleTextFieldChange: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
-  item: PropTypes.object.isRequired,
-  handleRemoveFile: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
+  handleTextFieldChange: PropTypes.func,
+  index: PropTypes.number,
+  item: PropTypes.object,
+  handleRemoveFile: PropTypes.func,
+  setFormData: PropTypes.func,
 };
 
 export default HistoryInput;

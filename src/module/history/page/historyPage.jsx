@@ -15,7 +15,6 @@ const HistoryPage = () => {
   const [formData, setFormData] = useState([]);
 
   useEffect(() => {
-    console.log('API Response:', data); 
     if (!isError && data && data.manager && !isPending) {
       setFormData(data.manager.map((item) => ({ ...item })));
     }

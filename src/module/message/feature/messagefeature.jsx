@@ -33,10 +33,10 @@ const MessageFeature = ({ sendStatus, messageContent, setMessageContent, setSend
 );
 
 MessageFeature.propTypes = {
-  sendStatus: PropTypes.bool.isRequired, 
-  messageContent: PropTypes.string.isRequired,
-  setMessageContent: PropTypes.func.isRequired, 
-  setSendStatus: PropTypes.func.isRequired,
+  sendStatus: PropTypes.bool, 
+  messageContent: PropTypes.string,
+  setMessageContent: PropTypes.func, 
+  setSendStatus: PropTypes.func,
 };
 
 export default MessageFeature;

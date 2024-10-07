@@ -81,7 +81,7 @@ const ManagerdocumentsInput = ({ index, item, handleTextFieldChange, setFormData
       </>
     )}
 
-    <ManagerdocumentFile index={index} item={item} formData={formData} setFormData={setFormData} />
+    <ManagerdocumentFile index={index} item={item} formData={Array.isArray(formData) ? formData : []} setFormData={setFormData} />
   </>
 );
 
@@ -89,7 +89,7 @@ ManagerdocumentsInput.propTypes = {
   handleTextFieldChange: PropTypes.func,
   item: PropTypes.object,
   index: PropTypes.number,
-  formData: PropTypes.object,
+  formData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   setFormData: PropTypes.func,
 };
 

@@ -13,7 +13,6 @@ const GlobalTextField = ({
   required = false,
   // eslint-disable-next-line arrow-body-style
 }) => {
-  
   return (
     <TextField
       type={type}
@@ -36,13 +35,13 @@ const GlobalTextField = ({
 };
 
 GlobalTextField.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
+  label: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onChange: PropTypes.func,
   type: PropTypes.string,
   inputProps: PropTypes.object,
   required: PropTypes.bool,
-  contractData: PropTypes.any.isRequired,
+  contractData: PropTypes.any,
   setContractData: PropTypes.func,
 };
 

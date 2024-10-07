@@ -17,7 +17,6 @@ export default function ProjectView() {
         setData(response.data);
       })
       .catch((err) => {
-        console.log('error captcha', err);
       });
   };
   useEffect(ProjectProcess, []);

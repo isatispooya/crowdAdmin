@@ -29,9 +29,9 @@ const DeleteModal = ({ open, onClose, onConfirm }) => (
 );
 
 DeleteModal.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
+  open: PropTypes.bool,
+  onClose: PropTypes.func,
+  onConfirm: PropTypes.func,
 };
 
 export default DeleteModal;

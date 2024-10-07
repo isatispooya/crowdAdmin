@@ -5,7 +5,6 @@ import useGetUserDetail from '../service/useGetUserDetail';
 const Addresses = () => {
   const { userId } = useParams();
   const { data } = useGetUserDetail(userId);
-  console.log(data);
 
   const fields = [
     { label: 'شهر', value: (item) => item.city },

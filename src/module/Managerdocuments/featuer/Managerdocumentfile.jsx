@@ -79,12 +79,11 @@ const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
 };
 
 ManagerdocumentFile.propTypes = {
-  index: PropTypes.number.isRequired,
+  index: PropTypes.number,
   item: PropTypes.shape({
-    file: PropTypes.string,
-  }).isRequired,
-  formData: PropTypes.arrayOf(PropTypes.object).isRequired,
-  setFormData: PropTypes.func.isRequired,
+    file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), }),
+  formData: PropTypes.arrayOf(PropTypes.array),
+  setFormData: PropTypes.func,
 };
 
 export default ManagerdocumentFile;

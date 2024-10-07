@@ -47,7 +47,7 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
 AppNewsUpdate.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
-  list: PropTypes.array.isRequired,
+  list: PropTypes.array,
 };
 
 // ----------------------------------------------------------------------

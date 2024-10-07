@@ -417,9 +417,9 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
 };
 
 CompanyInfoInput.propTypes = {
-  localData: PropTypes.object.isRequired,
-  setLocalData: PropTypes.func.isRequired,
-  handleRangeChange: PropTypes.func.isRequired,
+  localData: PropTypes.object,
+  setLocalData: PropTypes.func,
+  handleRangeChange: PropTypes.func,
 };
 
 export default CompanyInfoInput;

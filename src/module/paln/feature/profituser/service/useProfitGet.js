@@ -6,7 +6,6 @@ const useGetProfit = (trace_code) => {
     queryKey: ['profit'],
     queryFn: () => GetProfit(trace_code),
   });
-  console.log("mf jkh",data)
   return {
     data,
     isPending,

@@ -175,5 +175,5 @@ function TaskItem({ task, checked, onChange }) {
 TaskItem.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
-  task: PropTypes.object.isRequired,
+  task: PropTypes.object,
 };

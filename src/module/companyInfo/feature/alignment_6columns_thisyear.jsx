@@ -120,9 +120,9 @@ const ColumnsThisyear = ({ setLocalData, localData, handleFileRemove }) => {
 };
 
 ColumnsThisyear.propTypes = {
-  localData: PropTypes.object.isRequired,
-  setLocalData: PropTypes.func.isRequired,
-  handleFileRemove: PropTypes.func.isRequired,
+  localData: PropTypes.object,
+  setLocalData: PropTypes.func,
+  handleFileRemove: PropTypes.func,
 };
 
 export default ColumnsThisyear;

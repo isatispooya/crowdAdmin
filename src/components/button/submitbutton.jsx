@@ -19,7 +19,7 @@ const SubmitButton = ({ onClick  }) => (
 );
 
 SubmitButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   
 };
 

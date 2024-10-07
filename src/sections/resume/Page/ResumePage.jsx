@@ -8,7 +8,7 @@ const ResumePage = ({id}) =>(
     )
 
 ResumePage.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.number,
   
   };
 export default ResumePage

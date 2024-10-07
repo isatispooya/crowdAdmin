@@ -1,16 +1,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import { useMediaQuery, Box, Tabs, Tab, Button, Dialog, DialogTitle, List, ListItem, ListItemText, MobileStepper } from '@mui/material';
 import PlanAddPic from './information&pic/planAddPic';
 import PlanInvestors from './participant/participant';
-
 import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
 import ControlledAccordions from '../reports/module/reportsView';
-import EndOffUndraisingPage from './endoffundraising/endoffundraisingPage';
 import ProfitPage from './profituser/profit';
+import ControlledAccordionsEnd from './endoffundraising/endoffunderaisingAccrdion';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -30,8 +27,8 @@ function CustomTabPanel(props) {
 
 CustomTabPanel.propTypes = {
   children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
+  index: PropTypes.number,
+  value: PropTypes.number,
 };
 
 function a11yProps(index) {
@@ -43,64 +40,121 @@ function a11yProps(index) {
 
 const PlanDetailTab = ({ planData, idRow, refetch }) => {
   const [value, setValue] = React.useState(0);
+  const isSmallScreen = useMediaQuery('(max-width:600px)');
+  const [openStepsDialog, setOpenStepsDialog] = React.useState(false);
+
+  const steps = [
+    'مشاهده',
+    'اطلاعات تکمیلی',
+    'گزارشات',
+    'گزارش سود کاربر',
+    'نظرات',
+    'سرمایه گذاران',
+    'پایان جمع آوری وجه',
+  ];
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const handleStepClick = (index) => {
+    setValue(index);
+    setOpenStepsDialog(false);
+  };
+
+  const renderStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return <PlanDetail />;
+      case 1:
+        return <PlanAddPic idRow={idRow} planData={planData} />;
+      case 2:
+        return <ControlledAccordions />;
+      case 3:
+        return <ProfitPage />;
+      case 4:
+        return <PlanComments idRow={idRow} />;
+      case 5:
+        return <PlanInvestors />;
+      case 6:
+        return <ControlledAccordionsEnd />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      {isSmallScreen ? (
+        <>
+          <MobileStepper
+            variant="dots"
+            steps={steps.length}
+            position="static"
+            activeStep={value}
+            nextButton={
+              <Button
+                size="small"
+                onClick={() => setValue(value + 1)}
+                disabled={value === steps.length - 1}
+              >
+                بعدی
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={() => setValue(value - 1)} disabled={value === 0}>
+                قبلی
+              </Button>
+            }
+          />
+          <Button
+            fullWidth
+            variant="outlined"
+            onClick={() => setOpenStepsDialog(true)}
+            sx={{
+              marginTop: '16px',
+            }}
+          >
+            مشاهده همه مراحل
+          </Button>
+          <Dialog open={openStepsDialog} onClose={() => setOpenStepsDialog(false)}>
+            <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>انتخاب مرحله</DialogTitle>
+            <List>
+              {steps.map((label, index) => (
+                <ListItem
+                  button
+                  key={label}
+                  onClick={() => handleStepClick(index)}
+                  selected={value === index}
+                >
+                  <ListItemText
+                    primary={label}
+                    sx={{
+                      textAlign: 'center',
+                      fontWeight: value === index ? 'bold' : 'normal',
+                    }}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </Dialog>
+        </>
+      ) : (
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="مشاهده " {...a11yProps(0)} />
-
-          <Tab label="اطلاعات تکمیلی" {...a11yProps(1)} />
-
-          <Tab label="گزارشات" {...a11yProps(2)} />
-
-          <Tab label="گزارش سود کاربر" {...a11yProps(3)} />
-
-          <Tab label="نظرات" {...a11yProps(4)} />
-
-          <Tab label="سرمایه گذاران" {...a11yProps(5)} />
-
-          <Tab label="پایان جمع آوری وجه" {...a11yProps(6)} />
+          {steps.map((label, index) => (
+            <Tab key={index} label={label} {...a11yProps(index)} />
+          ))}
         </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        <PlanDetail />
-      </CustomTabPanel>
+      )}
 
-      <CustomTabPanel value={value} index={1}>
-        <PlanAddPic idRow={idRow} planData={planData} />
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={2}>
-        <ControlledAccordions />
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={3}>
-        <ProfitPage/>
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={4}>
-        <PlanComments idRow={idRow} />
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={5}>
-        <PlanInvestors />
-      </CustomTabPanel>
-
-      <CustomTabPanel value={value} index={6}>
-        <EndOffUndraisingPage />
-      </CustomTabPanel>
+      <Box sx={{ marginTop: 2 }}>{renderStepContent(value)}</Box>
     </Box>
   );
 };
 
 PlanDetailTab.propTypes = {
   planData: PropTypes.object,
-  idRow: PropTypes.number,
+  idRow: PropTypes.string,
   refetch: PropTypes.func,
 };
 

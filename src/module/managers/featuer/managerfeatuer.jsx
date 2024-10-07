@@ -50,7 +50,7 @@ ManagerFeatuer.propTypes = {
   handleChange: PropTypes.func,
   section: PropTypes.object,
   sectionIndex: PropTypes.number,
-  formSections: PropTypes.object,
+  formSections: PropTypes.array,
   handleRemoveSection: PropTypes.func,
 };
 export default ManagerFeatuer;

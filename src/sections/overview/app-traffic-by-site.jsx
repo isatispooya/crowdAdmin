@@ -46,5 +46,5 @@ export default function AppTrafficBySite({ title, subheader, list, ...other }) {
 AppTrafficBySite.propTypes = {
   title: PropTypes.string,
   subheader: PropTypes.string,
-  list: PropTypes.array.isRequired,
+  list: PropTypes.array,
 };

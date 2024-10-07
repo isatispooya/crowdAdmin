@@ -70,7 +70,7 @@ const Attachement = ({ id }) => {
 };
 
 Attachement.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
 };
 
 export default Attachement;

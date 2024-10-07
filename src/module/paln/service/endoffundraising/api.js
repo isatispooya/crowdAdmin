@@ -22,7 +22,6 @@ export const getEndOfFundraising = async (trace_code) => {
     },
   });
 
-  console.log(response.data, 'get');  
   return response.data;
 };
 

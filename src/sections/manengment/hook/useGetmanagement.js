@@ -6,7 +6,6 @@ const useGetManagement = (id) => {
     queryKey: ['getManagement', id],
     queryFn: () => getManagement(id),
   });
-  console.log(data);
 
   return {
     data,

@@ -47,7 +47,7 @@ const ShareHolderButton = ({ handleAddSection, formSections }) => {
 
 ShareHolderButton.propTypes = {
   handleAddSection: PropTypes.func,
-  formSections: PropTypes.object,
+  formSections: PropTypes.array,
 };
 
 export default ShareHolderButton;

@@ -59,12 +59,16 @@ const ManagerdocumentsFeatuer = ({
 );
 
 ManagerdocumentsFeatuer.propTypes = {
-  handleSwitchChange: PropTypes.func,
-  handleTextFieldChange: PropTypes.func,
-  item: PropTypes.object,
-  index: PropTypes.number,
-  formData: PropTypes.object,
-  setFormData: PropTypes.func,
+  handleSwitchChange: PropTypes.func.isRequired,
+  handleTextFieldChange: PropTypes.func.isRequired,
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired, 
+    lock: PropTypes.bool, 
+    national_code: PropTypes.string, 
+  }).isRequired,
+  index: PropTypes.number.isRequired,
+  formData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setFormData: PropTypes.func.isRequired,
 };
 
 export default ManagerdocumentsFeatuer;

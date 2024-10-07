@@ -90,9 +90,9 @@ const CardFeature = ({
 };
 
 CardFeature.propTypes = {
-  card: PropTypes.object.isRequired,
-  handleCardClick: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
+  card: PropTypes.object,
+  handleCardClick: PropTypes.func,
+  handleClick: PropTypes.func,
   openDeleteModal: PropTypes.func,
   handleModalOpen: PropTypes.func,
   setSendMessageModalOpen: PropTypes.func,

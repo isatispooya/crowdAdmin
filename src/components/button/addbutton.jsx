@@ -19,7 +19,7 @@ const AddFormButton = ({ onClick }) => (
   );
 
 AddFormButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 };
 
 export default AddFormButton;

@@ -10,11 +10,8 @@ const ContractPage = () => {
   const { cartId } = UseCartId();
   const { data: dataContract, isError } = useGetContract(cartId);
 
-  // Log the fetched dataContract for debugging
-  console.log('Fetched contract data:', dataContract);
 
   const handelClick = () => {
-    console.log('Button clicked');
   };
 
   useEffect(() => {

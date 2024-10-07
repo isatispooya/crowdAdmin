@@ -40,7 +40,6 @@ const ManagerdocumentsPage = () => {
   const {mutate,isError:isErrorPost,isPending:isPendingPost,isSuccess:isSuccessPost} = usePostResume(cartId)
 
   const handleButtonClick = () => {
-    console.log('hh',formData);
     mutate({formData});
   };
 
@@ -82,14 +81,16 @@ const ManagerdocumentsPage = () => {
         {formData.length > 0 &&
           formData.map((item, index) => (
             <ManagerdocumentsFeatuer
-              index={index}
-              item={item}
-              handleSwitchChange={handleSwitchChange}
-              handleTextFieldChange={handleTextFieldChange}
-              formData={formData}
-              setFormData={setFormData}
-            />
+            key={item.id || index} 
+            index={index}
+            item={item} 
+            handleSwitchChange={handleSwitchChange}
+            handleTextFieldChange={handleTextFieldChange}
+            formData={Array.isArray(formData) ? formData : []}
+            setFormData={setFormData}
+          />
           ))}
+          
         <SubmitButton onClick={handleButtonClick} />
       </Box>
     </div>

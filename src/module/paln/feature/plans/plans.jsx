@@ -20,7 +20,6 @@ const Plans = () =>{
         setPlanData([]);
       }
     }, [data]);
-    console.log(planData);
 
     
     return (

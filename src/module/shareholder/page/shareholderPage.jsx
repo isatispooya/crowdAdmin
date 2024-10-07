@@ -75,6 +75,7 @@ const ShareholderPage = () => {
         {formSections.length > 0 &&
           formSections.map((section, sectionIndex) => (
             <ShareholderFeature
+              key={sectionIndex}
               sectionIndex={sectionIndex}
               section={section}
               handleChange={handleChange}
@@ -84,6 +85,7 @@ const ShareholderPage = () => {
               handleRemoveSection={handleRemoveSection}
             />
           ))}
+
         <ShareHolderButton handleAddSection={handleAddSection} formSections={formSections} />
       </Box>
       <DeleteModal open={openModal} onClose={handleCloseModal} onConfirm={handleRemoveSection} />

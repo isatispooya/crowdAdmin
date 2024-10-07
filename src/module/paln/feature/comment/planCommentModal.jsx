@@ -138,9 +138,9 @@ const PlanCommentsModal = ({ openModal, handleCloseModal, selectedComment }) => 
 };
 
 PlanCommentsModal.propTypes = {
-  openModal: PropTypes.bool.isRequired,
+  openModal: PropTypes.bool,
   selectedComment: PropTypes.object,
-  handleCloseModal: PropTypes.func.isRequired,
+  handleCloseModal: PropTypes.func,
 };
 
 export default PlanCommentsModal;

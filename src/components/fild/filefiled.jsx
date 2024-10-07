@@ -86,11 +86,11 @@ const SwitchWithFileInput = ({
 };
 
 SwitchWithFileInput.propTypes = {
-  switchLabel: PropTypes.string.isRequired,
-  fileKey: PropTypes.string.isRequired,
-  localData: PropTypes.object.isRequired,
-  setLocalData: PropTypes.func.isRequired,
-  handleFileRemove: PropTypes.func.isRequired,
+  switchLabel: PropTypes.string,
+  fileKey: PropTypes.string,
+  localData: PropTypes.object,
+  setLocalData: PropTypes.func,
+  handleFileRemove: PropTypes.func,
 };
 
 export default SwitchWithFileInput;

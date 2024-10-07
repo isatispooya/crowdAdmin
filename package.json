@@ -57,7 +57,8 @@
     "simplebar-react": "^3.2.4",
     "stylis": "^4.3.2",
     "stylis-plugin-rtl": "^2.1.1",
-    "tabulator-tables": "^6.2.5"
+    "tabulator-tables": "^6.2.5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vitejs/plugin-react-swc": "^3.4.0",
