@@ -10,6 +10,7 @@ import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
 import ControlledAccordions from '../reports/module/reportsView';
 import EndOffUndraisingPage from './endoffundraising/endoffundraisingPage';
+import ProfitPage from './profituser/profit';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,11 +58,13 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
 
           <Tab label="گزارشات" {...a11yProps(2)} />
 
-          <Tab label="نظرات" {...a11yProps(3)} />
+          <Tab label="گزارش سود کاربر" {...a11yProps(3)} />
 
-          <Tab label="سرمایه گذاران" {...a11yProps(4)} />
+          <Tab label="نظرات" {...a11yProps(4)} />
 
-          <Tab label="پایان جمع آوری وجه" {...a11yProps(5)} />
+          <Tab label="سرمایه گذاران" {...a11yProps(5)} />
+
+          <Tab label="پایان جمع آوری وجه" {...a11yProps(6)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -77,14 +80,18 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={3}>
-        <PlanComments idRow={idRow} />
+        <ProfitPage/>
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={4}>
-        <PlanInvestors />
+        <PlanComments idRow={idRow} />
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={5}>
+        <PlanInvestors />
+      </CustomTabPanel>
+
+      <CustomTabPanel value={value} index={6}>
         <EndOffUndraisingPage />
       </CustomTabPanel>
     </Box>
