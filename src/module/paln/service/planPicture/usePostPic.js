@@ -14,6 +14,7 @@ export const usePostPic = (trace_code) => {
       },
     });
 
+    console.log("tasvir",data)
     return response.data;
   };
 
@@ -27,7 +28,6 @@ export const usePostPic = (trace_code) => {
     onMutate: () => {
     },
   });
-
   return {
     mutate: mutation.mutate,
     isPending: mutation.isLoading,

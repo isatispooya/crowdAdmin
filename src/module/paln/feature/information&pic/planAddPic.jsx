@@ -16,6 +16,8 @@ const PlanAddPic = ({ planData }) => {
   const { trace_code } = useParams();
 
   const { data } = useGetPic(trace_code);
+  console.log("dataf",data)
+
   const { mutate, isPending, isError } = usePostPic(trace_code);
 
   if (isPending) {
@@ -47,7 +49,7 @@ const PlanAddPic = ({ planData }) => {
   const handleFileRemove = () => {
     setFile(null);
   };
-
+console.log("data",data)
   return (
     <>
       <Box sx={{ padding: 3 }}>

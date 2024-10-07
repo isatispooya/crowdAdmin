@@ -1,19 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, CircularProgress } from '@mui/material';
+import { Box, Typography, CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions, Button, Switch, FormControlLabel } from '@mui/material';
 import moment from 'moment-jalaali';
 import useGetParticipant from '../../service/participant/useGetParticipant';
+import usePostParticipant from '../../service/participant/usePostParticipant';
 
 const PlanInvestors = () => {
   const { trace_code } = useParams();
-  const { data, isLoading } = useGetParticipant(trace_code);
+  const { data, isLoading, refetch } = useGetParticipant(trace_code);
+  
+  
+  const { mutate } = usePostParticipant(trace_code);
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [statusSwitch, setStatusSwitch] = useState(false);
 
   const formatNumber = (value) => {
     if (value == null) return '';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
+  const handleStatusClick = (row) => {
+    setSelectedRow(row);
+    setStatusSwitch(row.status);
+    setOpenDialog(true);
+  };
+
+  const handleConfirm = () => {
+    if (selectedRow) {
+      mutate({
+        status: statusSwitch, 
+      });
+      refetch();
+    }
+    setOpenDialog(false);
   };
 
   const columns = [
@@ -38,14 +62,15 @@ const PlanInvestors = () => {
       field: 'name_status',
       hozAlign: 'center',
       width: 150,
-      formatter: (cell, row) => row.name_status ? 'فعال' : 'غیر فعال',
+      formatter: ( row) => (row.getData().name_status ? 'فعال' : 'غیر فعال'),
     },
     {
       title: 'وضعیت',
       field: 'status',
       hozAlign: 'center',
       width: 150,
-      formatter: (cell, row) => row.status ? 'تایید' : 'غیر تایید',
+      formatter: (row) => (row.getData().status ? 'تایید' : 'غیر تایید'),
+      cellClick: (e, cell) => handleStatusClick(cell.getData()),
     },
     { title: 'کاربر', field: 'user', hozAlign: 'center', width: 150 },
     {
@@ -56,7 +81,6 @@ const PlanInvestors = () => {
       formatter: (cell) => formatNumber(cell.getValue()),
     },
   ];
-  
 
   if (isLoading) {
     return (
@@ -105,6 +129,29 @@ const PlanInvestors = () => {
             </Typography>
           </Box>
         )}
+
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+          <DialogTitle>تغییر وضعیت</DialogTitle>
+          <DialogContent>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={statusSwitch}
+                  onChange={(e) => setStatusSwitch(e.target.checked)}
+                />
+              }
+              label={statusSwitch ? 'تایید' : 'غیر تایید'}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleConfirm} color="primary">
+              تایید
+            </Button>
+            <Button onClick={() => setOpenDialog(false)} color="secondary">
+              لغو
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </div>
   );
