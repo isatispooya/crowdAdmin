@@ -14,8 +14,10 @@ const PlanComments = () => {
   const { data, isLoading } = useGetComment(trace_code);
 
   const handleRowClick = (e, row) => {
-    setSelectedComment(row.getData());
-    setOpenModal(true);
+    if (row && row.getData) {
+      setSelectedComment(row.getData());
+      setOpenModal(true);
+    }
   };
 
   const handleCloseModal = () => {
