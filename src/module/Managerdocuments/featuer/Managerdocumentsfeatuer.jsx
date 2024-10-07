@@ -67,7 +67,7 @@ ManagerdocumentsFeatuer.propTypes = {
     national_code: PropTypes.string, 
   }).isRequired,
   index: PropTypes.number.isRequired,
-  formData: PropTypes.arrayOf(PropTypes.object).isRequired,
+  formData: PropTypes.array.isRequired,
   setFormData: PropTypes.func.isRequired,
 };
 

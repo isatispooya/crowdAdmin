@@ -36,7 +36,7 @@ const Logo = ({ setLocalData, localData, handleFileRemove }) => (
           name="Lock_logo"
           inputProps={{ 'aria-label': 'controlled' }}
           sx={{ ml: 1 }}
-          checked={localData.Lock_logo}
+          checked={localData.Lock_logo ?? false}
           onChange={(e) => setLocalData({ ...localData, Lock_logo: e.target.checked })}
         />
       </FormLabel>
