@@ -30,11 +30,7 @@ const navConfig = [
     path: '/user',
     icon: icon('ic_sheet'),
   },
-  {
-    title: 'اطلاعات پرداخت',
-    path: '/payment',
-    icon: icon('ic_sheet'),
-  },
+
 ];
 
 export default navConfig;
