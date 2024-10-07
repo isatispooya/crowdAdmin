@@ -41,7 +41,7 @@ const PlanInvestors = () => {
   };
 
   const columns = [
-    { title: 'نام و نام خانوادگی', field: 'name', width: 200 },
+    { title: 'نام و نام خانوادگی', field: 'fulname', width: 200 },
     { title: 'مقدار سهم', field: 'amount', hozAlign: 'left', width: 150 },
     {
       title: 'مبلغ',
