@@ -1,4 +1,13 @@
-import { Box, Button, Modal, Typography, Switch, FormControlLabel, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Modal,
+  Typography,
+  Switch,
+  FormControlLabel,
+  TextField,
+  CircularProgress,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -19,14 +28,29 @@ const PlanCommentsModal = ({ openModal, handleCloseModal, selectedComment }) => 
     }
   }, [selectedComment]);
 
-  const { mutate } = usePostcomment(id, formData, trace_code);
+  const { mutate, isPending } = usePostcomment(id, formData, trace_code);
 
   const handleCellEdited = () => {
     if (id) {
       mutate(formData);
       handleCloseModal();
-    }    
+    }
   };
+
+  if (isPending) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Modal open={openModal} onClose={handleCloseModal} aria-labelledby="modal-title">
@@ -81,7 +105,7 @@ const PlanCommentsModal = ({ openModal, handleCloseModal, selectedComment }) => 
                 variant="outlined"
                 multiline
                 value={formData.answer} // تغییر این خط
-                onChange={(e) => setFormData({ ...formData, answer: e.target.value })} 
+                onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
                 sx={{
                   marginTop: 2,
                   '& .MuiOutlinedInput-root': {

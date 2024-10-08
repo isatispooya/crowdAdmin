@@ -32,6 +32,7 @@ const ValidationInput = ({ item, setFormData, index, handleTextFieldChange }) =>
         variant="outlined"
         fullWidth
         onChange={handleTextFieldChange(index, 'name')}
+        disabled
       />
       <TextField
         value={item.national_code || ''}
@@ -39,6 +40,7 @@ const ValidationInput = ({ item, setFormData, index, handleTextFieldChange }) =>
         variant="outlined"
         fullWidth
         onChange={handleTextFieldChange(index, 'national_code')}
+        disabled
       />
       <DatePicker
         style={{

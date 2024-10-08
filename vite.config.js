@@ -28,6 +28,12 @@ export default defineConfig({
   },
   server: {
     port: 3030,
+    setup: (app) => {
+      app.use((req, res, next) => {
+        res.setHeader('Cache-Control', 'no-store');
+        next();
+      });
+    },
   },
   preview: {
     port: 3030,

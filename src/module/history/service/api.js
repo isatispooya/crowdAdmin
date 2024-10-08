@@ -21,6 +21,8 @@ export const postHistory = async ({ cartId, formData }) => {
     if (element.file && typeof element.file !== 'string') {
       form.append(element.national_code, element.file);
     }
+    console.log(element.lock);
+    
     form.append(`lock_${element.national_code}`, element.lock);
 
     if (element.date) {
@@ -34,5 +36,7 @@ export const postHistory = async ({ cartId, formData }) => {
       'Content-Type': 'multipart/form-data',
     },
   });
+  console.log(formData);
+
   return response.data;
 };

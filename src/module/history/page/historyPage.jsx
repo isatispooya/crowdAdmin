@@ -33,18 +33,31 @@ const HistoryPage = () => {
   };
 
   const handleSwitchChange = (index) => (event) => {
+    const isChecked = event.target.checked;
+    
     setFormData((prevFormData) => {
       const newFormData = [...prevFormData];
-      newFormData[index].lock = event.target.checked;
+      newFormData[index] = {
+        ...newFormData[index], 
+        lock: isChecked,       
+      };
+      console.log('fdfdfdfdfdfdg',newFormData);
+      
       return newFormData;
     });
   };
+  
 
   const handleTextFieldChange = (index, field) => (event) => {
     const newFormData = [...formData];
-    newFormData[index][field] = event.target.value;
+    if (field === 'file') {
+      newFormData[index][field] = event; 
+    } else {
+      newFormData[index][field] = event.target.value;
+    }
     setFormData(newFormData);
   };
+  
 
   const {
     mutate,
@@ -60,7 +73,7 @@ const HistoryPage = () => {
   }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
 
   const handleButtonClick = () => {
-    mutate({ formData });
+    mutate({formData});
   };
 
   return (
@@ -70,18 +83,21 @@ const HistoryPage = () => {
           <h1 className="text-2xl font-bold text-gray-700">سوءپیشینه</h1>
         </div>
         {formData.length > 0 &&
-          formData.map((item, index) => (
-            <HistoryFeature
-              key={index}
-              index={index}
-              item={item}
-              handleTextFieldChange={handleTextFieldChange}
-              handleSwitchChange={handleSwitchChange}
-              handleRemoveFile={handleRemoveFile}
-              handleFileChange={handleFileChange}
-              setFormData={setFormData}
-            />
-          ))}
+          formData.map((item, index) => {
+            if (!item) return null;
+            return (
+              <HistoryFeature
+                key={index}
+                index={index}
+                item={item}
+                handleTextFieldChange={handleTextFieldChange}
+                handleSwitchChange={handleSwitchChange}
+                handleRemoveFile={handleRemoveFile}
+                handleFileChange={handleFileChange}
+                setFormData={setFormData}
+              />
+            );
+          })}
         <SubmitButton onClick={handleButtonClick} />
       </Box>
     </div>

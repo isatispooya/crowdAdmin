@@ -1,14 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
-import { postShareholder } from './api';
 import useGetShereholder from './useGetShareholder';
+import { sendShareholder } from './shereholderservice';
 
 const usePostShereHolder = (cartId) => {
   const { refetch } = useGetShereholder(cartId);
   const { mutate, isPending, isSuccess, isError, error } = useMutation({
     mutationKey: ['postShereholder'],
-    mutationFn: ({ formSections }) => postShareholder({ cartId, formSections }),
+    mutationFn: ({ formSections }) => sendShareholder( cartId, formSections ),
     onSettled: () => {
-      refetch();
+      setTimeout(() => {
+        refetch();
+      }, 500); 
     },
   });
   return {

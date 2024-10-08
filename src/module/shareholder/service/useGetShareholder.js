@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import { getShareholder } from './api';
+import { fetchShareholder } from './shereholderservice';
 
 const useGetShereholder = (cartId) => {
   const { data, isPending, isError, error, refetch } = useQuery({
     queryKey: ['GetShreholder', cartId],
-    queryFn: () => getShareholder(cartId),
+    queryFn: () => fetchShareholder(cartId),
   });
   return {
     data,

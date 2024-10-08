@@ -19,6 +19,7 @@ const ManagerdocumentsInput = ({ index, item, handleTextFieldChange, setFormData
         label="نام و نام خانوادگی"
         value={item.name}
         onChange={handleTextFieldChange(index, 'name')}
+        disabled
       />
     </Box>
 
@@ -39,6 +40,7 @@ const ManagerdocumentsInput = ({ index, item, handleTextFieldChange, setFormData
           required
           value={item.national_code}
           onChange={handleTextFieldChange(index, 'national_code')}
+          disabled
         />
       </Box>
     )}
@@ -60,6 +62,7 @@ const ManagerdocumentsInput = ({ index, item, handleTextFieldChange, setFormData
             required
             value={item.national_id}
             onChange={handleTextFieldChange(index, 'national_id')}
+            disabled
           />
         </Box>
         <Box
@@ -76,12 +79,18 @@ const ManagerdocumentsInput = ({ index, item, handleTextFieldChange, setFormData
             required
             value={item.representative}
             onChange={handleTextFieldChange(index, 'representative')}
+            disabled
           />
         </Box>
       </>
     )}
 
-    <ManagerdocumentFile index={index} item={item} formData={Array.isArray(formData) ? formData : []} setFormData={setFormData} />
+    <ManagerdocumentFile
+      index={index}
+      item={item}
+      formData={Array.isArray(formData) ? formData : []}
+      setFormData={setFormData}
+    />
   </>
 );
 

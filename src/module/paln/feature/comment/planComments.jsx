@@ -11,7 +11,7 @@ const PlanComments = () => {
   const { trace_code } = useParams();
   const [selectedComment, setSelectedComment] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const { data, isLoading } = useGetComment(trace_code);
+  const { data, isPending } = useGetComment(trace_code);
 
   const handleRowClick = (e, row) => {
     if (row && row.getData) {
@@ -24,7 +24,7 @@ const PlanComments = () => {
     setOpenModal(false);
   };
 
-  if (isLoading) {
+  if (isPending) {
     return (
       <Box
         sx={{

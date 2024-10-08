@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, Input } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import PropTypes from 'prop-types';
 import GlobalTextField from 'src/components/fild/textfiled';
@@ -8,13 +8,8 @@ import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import { OnRun } from 'src/api/OnRun';
 
-const HistoryInput = ({
-  handleTextFieldChange,
-  item,
-  index,
-  handleRemoveFile,
-  setFormData,
-}) => {
+const HistoryInput = ({ handleTextFieldChange, item, index, handleRemoveFile, setFormData }) => {
+  
   const handleDateChange = (date) => {
     const jsDate = date && typeof date.toDate === 'function' ? date.toDate() : null;
     const updatedItem = { ...item, date: jsDate ? jsDate.toISOString() : null };
@@ -26,6 +21,19 @@ const HistoryInput = ({
     });
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const updatedItem = { ...item, file: URL.createObjectURL(file), fileUploaded: true };
+      setFormData((prevData) => {
+        const newData = [...prevData];
+        newData[index] = updatedItem;
+        return newData;
+      });
+      handleTextFieldChange(index, 'file')(file);
+    }
+  };
+
   return (
     <Box sx={{ mb: 3, p: 2 }}>
       <Grid container spacing={2}>
@@ -35,6 +43,7 @@ const HistoryInput = ({
             value={item.name}
             onChange={handleTextFieldChange(index, 'name')}
             fullWidth
+            disabled
           />
         </Grid>
         <Grid item xs={12} md={4}>
@@ -45,6 +54,7 @@ const HistoryInput = ({
             inputProps={{ maxLength: 10 }}
             required
             fullWidth
+            disabled
           />
         </Grid>
         <Grid item xs={12} md={4}>
@@ -61,11 +71,7 @@ const HistoryInput = ({
               }}
             >
               <DatePicker
-                style={{
-                  width: '100%',
-                  border: 'none',
-                  outline: 'none',
-                }}
+                style={{ width: '100%', border: 'none', outline: 'none' }}
                 value={item.date ? new Date(item.date) : null}
                 onChange={handleDateChange}
                 calendar={persian}
@@ -75,7 +81,9 @@ const HistoryInput = ({
           </Box>
         </Grid>
         <Grid item xs={12} md={4}>
-          {typeof item.file === 'string' && item.file && (
+          {!item.fileUploaded ? (
+            <Input type="file" onChange={handleFileChange} />
+          ) : (
             <Box
               sx={{
                 display: 'flex',
@@ -87,24 +95,36 @@ const HistoryInput = ({
                 boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
               }}
             >
-              <a
-                href={`${OnRun}/${item.file}`}
-                target="_blank"
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 'medium',
-                  textDecoration: 'none',
-                  color: 'inherit',
-                  display: 'flex',
-                  alignItems: 'center',
-                }} rel="noreferrer"
-              >
-                دریافت فایل سوء پیشینه
-                <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '8px' }} />
-              </a>
+              {item.file ? (
+                <a
+                  href={`${OnRun}/${item.file}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 'medium',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  دریافت فایل سوء پیشینه
+                  <FileCopyOutlinedIcon style={{ fontSize: '16px', marginLeft: '8px' }} />
+                </a>
+              ) : (
+                <span>فایلی بارگذاری نشده است.</span>
+              )}
               <Button
                 size="small"
-                onClick={handleRemoveFile(index)}
+                onClick={() => {
+                  handleRemoveFile(index)();
+                  setFormData((prevData) => {
+                    const newData = [...prevData];
+                    newData[index] = { ...item, fileUploaded: false, file: null };
+                    return newData;
+                  });
+                }}
                 sx={{
                   height: 'auto',
                   ml: '10px',

@@ -21,6 +21,9 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
     updatedData.year_of_establishment = new Date(date).toISOString();
     setLocalData(updatedData);
   };
+
+  console.log(localData);
+  
   return (
     <>
       <Grid container spacing={2}>
@@ -153,7 +156,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
           </div>
           <GlobalTextField
             label="تعداد سهام ثبتی"
-            value={formatNumber(localData.amount_of_registered_shares) || ''}
+            value={formatNumber(localData.amount_of_registered_shares ?? 0)}
             onChange={(e) => {
               const inputValue = e.target.value;
               const validInput = inputValue.replace(/[^0-9]/g, '');

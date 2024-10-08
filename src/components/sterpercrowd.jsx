@@ -43,6 +43,13 @@ const Sterpercrowd = () => {
     'قرارداد عاملیت',
   ];
 
+  // تابعی برای مدیریت ایمن تغییر استپ
+  const changePageSafely = (newPage) => {
+    if (newPage >= 0 && newPage < steps.length) {
+      changePage(newPage);
+    }
+  };
+
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
@@ -73,7 +80,7 @@ const Sterpercrowd = () => {
   };
 
   const handleStepClick = (index) => {
-    changePage(index);
+    changePageSafely(index);
     setOpenStepsDialog(false);
   };
 
@@ -89,14 +96,14 @@ const Sterpercrowd = () => {
             nextButton={
               <Button
                 size="small"
-                onClick={() => changePage(page + 1)}
+                onClick={() => changePageSafely(page + 1)}
                 disabled={page === steps.length - 1}
               >
                 بعدی
               </Button>
             }
             backButton={
-              <Button size="small" onClick={() => changePage(page - 1)} disabled={page === 0}>
+              <Button size="small" onClick={() => changePageSafely(page - 1)} disabled={page === 0}>
                 قبلی
               </Button>
             }
@@ -121,7 +128,7 @@ const Sterpercrowd = () => {
                   button
                   key={label}
                   onClick={() => handleStepClick(index)}
-                  selected={page === index} 
+                  selected={page === index}
                 >
                   <ListItemText
                     primary={label}
@@ -142,7 +149,7 @@ const Sterpercrowd = () => {
           alternativeLabel
         >
           {steps.map((label, index) => (
-            <Step key={index} onClick={() => changePage(index)}>
+            <Step key={index} onClick={() => changePageSafely(index)}>
               <StepLabel>{label}</StepLabel>
             </Step>
           ))}

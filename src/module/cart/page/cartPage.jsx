@@ -23,9 +23,10 @@ const CardPage = () => {
       setDeleteModalOpen(false);
     },
   });
+
   useEffect(() => {
     if (!isError && data && !isPending) {
-      setCards(data.cart);
+      setCards(data?.cart || []);
     }
   }, [data, isError, isPending]);
 
@@ -91,4 +92,5 @@ const CardPage = () => {
     </div>
   );
 };
+
 export default CardPage;

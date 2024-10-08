@@ -9,6 +9,7 @@ import usePostShereHolder from '../service/usePostShereholder';
 const ShareHolderButton = ({ handleAddSection, formSections }) => {
   const { cartId } = UseCartId();
   const { incrementPage } = useNavigateStep();
+
   const {
     mutate,
     isError: isErrorPost,
@@ -22,7 +23,7 @@ const ShareHolderButton = ({ handleAddSection, formSections }) => {
     }
   }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
 
-  const handleSubmit = () => {
+  const handleSubmit = () => {            
     mutate({ formSections });
   };
 

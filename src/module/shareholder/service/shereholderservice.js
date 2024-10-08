@@ -5,8 +5,8 @@ import { OnRun } from 'src/api/OnRun';
 
 const accessApi = getCookie('accessApi');
 
-export const fetchShareholder = async (id) => {
-  const response = await api.get(`/api/shareholder/admin/${id}/`, {
+export const fetchShareholder = async (cartId) => {  
+  const response = await api.get(`/api/shareholder/admin/${cartId}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
@@ -16,10 +16,10 @@ export const fetchShareholder = async (id) => {
   return response.data;
 };
 
-export const sendShareholder = async (id, data) => {
+export const sendShareholder = async (cartId, formSections) => {  
   const response = await axios.post(
-    `${OnRun}/api/shareholder/admin/${id}/`,
-    (data = { shareholder: data }),
+    `${OnRun}/api/shareholder/admin/${cartId}/`,
+    (formSections = { shareholder: formSections }),
     {
       headers: {
         Authorization: `Bearer ${accessApi}`,
