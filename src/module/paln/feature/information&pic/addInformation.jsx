@@ -1,18 +1,7 @@
-import {
-  Box,
-  Menu,
-  MenuItem,
-  TextField,
-  Typography,
-  Button,
-  Switch,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
-} from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import { Box, Menu, MenuItem, TextField, Typography, Button, Switch, FormControl, FormLabel, FormGroup, FormControlLabel } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 import { SubmitButton } from 'src/components/button';
 import { useGetAddInfo } from '../../service/planPicture/addInfo/useGetAddInfo';
 import { usePostInfo } from '../../service/planPicture/addInfo/usePostAddInfo';
@@ -25,8 +14,6 @@ const AddInfo = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { data } = useGetAddInfo(trace_code);
-
-
   const { mutate, isPending, isError } = usePostInfo(trace_code);
 
   useEffect(() => {
@@ -60,16 +47,29 @@ const AddInfo = () => {
 
   const handleSubmit = () => {
     if (rateOfReturn && statusSecond !== null) {
-      mutate({
-        rate_of_return: rateOfReturn,
-        status_show: statusShow,
-        status_second: statusSecond, // This is sent as a string
-      });
+      mutate(
+        {
+          rate_of_return: rateOfReturn,
+          status_show: statusShow,
+          status_second: statusSecond, 
+        },
+        {
+          onSuccess: () => {
+            toast.success('اطلاعات با موفقیت ثبت شد!');
+          },
+          onError: () => {
+            toast.error('خطا در ثبت اطلاعات!'); 
+          },
+        }
+      );
     }
   };
 
   return (
     <>
+      {/* ToastContainer for displaying notifications */}
+      <ToastContainer />
+
       {/* Header Box */}
       <Box
         sx={{

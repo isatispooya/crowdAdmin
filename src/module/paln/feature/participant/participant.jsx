@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactTabulator } from 'react-tabulator';
 import 'react-tabulator/lib/styles.css';
 import 'react-tabulator/css/tabulator.min.css';
@@ -12,12 +12,18 @@ const PlanInvestors = () => {
   const { trace_code } = useParams();
   const { data, isLoading, refetch } = useGetParticipant(trace_code);
   
-  
   const { mutate } = usePostParticipant(trace_code);
 
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [statusSwitch, setStatusSwitch] = useState(false);
+  const [localData, setLocalData] = useState([]); 
+
+  useEffect(() => {
+    if (data) {
+      setLocalData(data);
+    }
+  }, [data]);
 
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -32,10 +38,28 @@ const PlanInvestors = () => {
 
   const handleConfirm = () => {
     if (selectedRow) {
+      const updatedRow = {
+        ...selectedRow,
+        status: statusSwitch,
+      };
+
+      const updatedData = localData.map(row => 
+        row.id === updatedRow.id ? updatedRow : row
+      );
+      
+      setLocalData(updatedData);
+
       mutate({
-        status: statusSwitch, 
+        status: statusSwitch,
+        id: updatedRow.id,
+      }, {
+        onSuccess: () => {
+          refetch();
+        },
+        onError: (error) => {
+          console.error('خطا در به‌روزرسانی وضعیت:', error);
+        }
       });
-      refetch();
     }
     setOpenDialog(false);
   };
@@ -62,7 +86,7 @@ const PlanInvestors = () => {
       field: 'name_status',
       hozAlign: 'center',
       width: 150,
-      formatter: ( row) => (row.getData().name_status ? 'فعال' : 'غیر فعال'),
+      formatter: (row) => (row.getData().name_status ? 'فعال' : 'غیر فعال'),
     },
     {
       title: 'وضعیت',
@@ -113,8 +137,8 @@ const PlanInvestors = () => {
             سرمایه گذاران
           </Typography>
         </Box>
-        {data && data.length > 0 ? (
-          <ReactTabulator data={data} columns={columns} layout="fitData" />
+        {localData && localData.length > 0 ? (
+          <ReactTabulator data={localData} columns={columns} layout="fitData" />
         ) : (
           <Box
             sx={{

@@ -4,14 +4,16 @@ import { getCookie } from 'src/api/cookie';
 const accessApi = getCookie('accessApi');
 
 export const GetParticipant = async (trace_code) => {
-    const response = await api.get(`/api/payment/document/${trace_code}/`, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
+  const response = await api.get(`/api/payment/document/${trace_code}/`, {
+    headers: {
+      Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  console.log("poddst",response.data)
+  
     return response.data;
+
   };
 
   export const postInvistor = async (trace_code, data) => {
@@ -25,6 +27,7 @@ export const GetParticipant = async (trace_code) => {
         },
       }
     );
+    console.log("post",data)
     return response.data;
   };
   

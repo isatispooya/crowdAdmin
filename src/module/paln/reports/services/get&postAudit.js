@@ -22,7 +22,7 @@ export const PostAudit = async (trace_code, postData) => {
   if (postData.title) {
     formData.append('title', postData.title);
   }
-  const response = await api.post(`/api/audit/report/admin${trace_code}/`, formData, {
+  const response = await api.post(`/api/audit/report/admin/${trace_code}/`, formData, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'multipart/form-data',
@@ -33,7 +33,7 @@ export const PostAudit = async (trace_code, postData) => {
 };
 
 export const DeleteAudit = async (docId) => {
-  const response = await api.delete(`/api/audit/report/admin${docId}/`, {
+  const response = await api.delete(`/api/audit/report/admin/${docId}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
