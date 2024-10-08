@@ -171,66 +171,28 @@ export const createCart = async (data, id) => {
   formData.append('lock_city', data.lock_city);
   formData.append('Lock_postal_code', data.Lock_postal_code);
 
-  if (data.alignment_6columns_thisyear && typeof data.alignment_6columns_thisyear !== 'string') {
     formData.append('alignment_6columns_thisyear', data.alignment_6columns_thisyear);
-  }
-  if (data.financial_report_lastyear && typeof data.financial_report_lastyear !== 'string') {
     formData.append('financial_report_lastyear', data.financial_report_lastyear);
-  }
-  if (data.audit_report_lastyear && typeof data.audit_report_lastyear !== 'string') {
     formData.append('audit_report_lastyear', data.audit_report_lastyear);
-  }
-  if (data.statement_lastyear && typeof data.statement_lastyear !== 'string') {
     formData.append('statement_lastyear', data.statement_lastyear);
-  }
-  if (data.financial_report_yearold && typeof data.financial_report_yearold !== 'string') {
     formData.append('financial_report_yearold', data.financial_report_yearold);
-  }
-  if (data.audit_report_yearold && typeof data.audit_report_yearold !== 'string') {
     formData.append('audit_report_yearold', data.audit_report_yearold);
-  }
-  if (data.statement_yearold && typeof data.statement_yearold !== 'string') {
     formData.append('statement_yearold', data.statement_yearold);
-  }
-  if (
-    data.announcement_of_changes_managers &&
-    typeof data.announcement_of_changes_managers !== 'string'
-  ) {
+
     formData.append('announcement_of_changes_managers', data.announcement_of_changes_managers);
-  }
 
-  if (
-    data.announcement_of_changes_capital &&
-    typeof data.announcement_of_changes_capital !== 'string'
-  ) {
+
     formData.append('announcement_of_changes_capital', data.announcement_of_changes_capital);
-  }
 
-  if (
-    data.Lock_amount_of_registered_capital &&
-    typeof data.amount_of_registered_capital !== 'string'
-  ) {
+
     formData.append('amount_of_registered_capital', data.amount_of_registered_capital);
-  }
 
-  if (data.bank_account_turnover && typeof data.bank_account_turnover !== 'string') {
     formData.append('bank_account_turnover', data.bank_account_turnover);
-  }
-  if (data.statutes && typeof data.statutes !== 'string') {
     formData.append('statutes', data.statutes);
-  }
-  if (data.assets_and_liabilities && typeof data.assets_and_liabilities !== 'string') {
     formData.append('assets_and_liabilities', data.assets_and_liabilities);
-  }
-  if (data.latest_insurance_staf && typeof data.latest_insurance_staf !== 'string') {
     formData.append('latest_insurance_staf', data.latest_insurance_staf);
-  }
-  if (data.claims_status && typeof data.claims_status !== 'string') {
     formData.append('claims_status', data.claims_status);
-  }
-  if (data.logo && typeof data.logo !== 'string') {
     formData.append('logo', data.logo);
-  }
 
   const accessApi = getCookie('accessApi');
   const response = await api.patch(`/api/cart/admin/${id}/`, formData, {

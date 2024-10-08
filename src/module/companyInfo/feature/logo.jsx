@@ -52,24 +52,25 @@ const Logo = ({ setLocalData, localData, handleFileRemove }) => (
             boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
             mt: 1,
           }}
-        >
-          <Link
-            href={`${OnRun}/${localData.logo}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              fontSize: '14px',
-              fontWeight: 'medium',
-              color: '#ef5350',
-              display: 'flex',
-              alignItems: 'center',
-              textDecoration: 'none',
-              '&:hover': { color: '#d32f2f' },
-            }}
-          >
-            مشاهده فایل بارگذاری شده
-            <FileCopyOutlinedIcon sx={{ fontSize: '16px', ml: 0.5 }} />
-          </Link>
+        >       
+          <a
+              href={`${OnRun}/${localData.logo}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontSize: '14px',
+                fontWeight: 'medium',
+                display: 'flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                '&:hover': {
+                  color: '#d32f2f',
+                },
+              }}
+            >
+              مشاهده فایل بارگذاری شده
+              <FileCopyOutlinedIcon sx={{ fontSize: '16px', marginLeft: '4px' }} />
+            </a>
           <Button onClick={() => handleFileRemove('logo')}>حذف فایل</Button>
         </Box>
       ) : (

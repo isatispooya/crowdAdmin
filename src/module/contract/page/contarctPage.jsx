@@ -9,17 +9,16 @@ const ContractPage = () => {
   const [contractData, setContractData] = useState({});
   const { cartId } = UseCartId();
   const { data: dataContract, isError } = useGetContract(cartId);
-
-
+  console.log("data",dataContract)
+  
   const handelClick = () => {
   };
 
   useEffect(() => {
     if (dataContract && !isError) {
       const contractInfo = Array.isArray(dataContract) ? dataContract[0] : dataContract;
-      setContractData(contractInfo); // Set contract data in the state
+      setContractData(contractInfo);
     } else if (isError) {
-      // Properly handle error message
       toast.error(`Error fetching contract data: ${isError.message || 'Unknown error'}`);
     }
   }, [dataContract, isError]);
@@ -54,7 +53,7 @@ const ContractPage = () => {
 
         <ContractFeature
           handelClick={handelClick}
-          contractData={contractData || {}} // Ensure contractData is not undefined
+          contractData={contractData || {}}
           setContractData={setContractData}
         />
       </Box>

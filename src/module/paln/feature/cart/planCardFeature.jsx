@@ -4,17 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import moment from 'moment-jalaali';
 import { useGetPlans } from '../../hooks/getPlans';
+// import { useGetPic } from '../../service/planPicture/useGetPic';
+
 
 const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);
   const navigate = useNavigate();
-
+  
   const { data: plans, isLoading, isError } = useGetPlans();
+console.log("plans",plans)
+
   const formatNumber = (value) => {
     if (value == null) return '';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
-
+  
   useEffect(() => {
     if (!isError && plans && !isLoading) {
       setPlanData(plans);
@@ -23,6 +27,8 @@ const PlanTableFeature = () => {
   const handleCardClick = (trace_code) => {
     navigate(`/plan/${trace_code}`);
   };
+  
+  
   return (
     <Box sx={{ width: '100%', p: 2 }}>
       <ToastContainer />

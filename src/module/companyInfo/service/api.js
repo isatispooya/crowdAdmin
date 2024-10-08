@@ -94,6 +94,7 @@ export const getCompanyInfo = async (cartId) => {
 };
 
 export const postCompanyInfo = async (cartId, localData) => {    
+  
   const formData = new FormData();
   formData.append('company_name', localData.company_name || '');
   formData.append('exchange_code', localData.exchange_code || '');
@@ -150,76 +151,21 @@ export const postCompanyInfo = async (cartId, localData) => {
   formData.append('Lock_logo', localData.Lock_logo);
   formData.append('Lock_city', localData.Lock_city);
   formData.append('Lock_postal_code', localData.Lock_postal_code);
-
-  if (
-    localData.alignment_6columns_thisyear &&
-    typeof localData.alignment_6columns_thisyear !== 'string'
-  ) {
-    formData.append('alignment_6columns_thisyear', localData.alignment_6columns_thisyear);
-  }
-  if (
-    localData.financial_report_lastyear &&
-    typeof localData.financial_report_lastyear !== 'string'
-  ) {
-    formData.append('financial_report_lastyear', localData.financial_report_lastyear);
-  }
-  if (localData.audit_report_lastyear && typeof localData.audit_report_lastyear !== 'string') {
-    formData.append('audit_report_lastyear', localData.audit_report_lastyear);
-  }
-  if (localData.statement_lastyear && typeof localData.statement_lastyear !== 'string') {
-    formData.append('statement_lastyear', localData.statement_lastyear);
-  }
-  if (
-    localData.financial_report_yearold &&
-    typeof localData.financial_report_yearold !== 'string'
-  ) {
-    formData.append('financial_report_yearold', localData.financial_report_yearold);
-  }
-  if (localData.audit_report_yearold && typeof localData.audit_report_yearold !== 'string') {
-    formData.append('audit_report_yearold', localData.audit_report_yearold);
-  }
-  if (localData.statement_yearold && typeof localData.statement_yearold !== 'string') {
-    formData.append('statement_yearold', localData.statement_yearold);
-  }
-  if (
-    localData.announcement_of_changes_managers &&
-    typeof localData.announcement_of_changes_managers !== 'string'
-  ) {
-    formData.append('announcement_of_changes_managers', localData.announcement_of_changes_managers);
-  }
-
-  if (
-    localData.announcement_of_changes_capital &&
-    typeof localData.announcement_of_changes_capital !== 'string'
-  ) {
-    formData.append('announcement_of_changes_capital', localData.announcement_of_changes_capital);
-  }
-
-  if (
-    localData.Lock_amount_of_registered_capital &&
-    typeof localData.amount_of_registered_capital !== 'string'
-  ) {
-    formData.append('amount_of_registered_capital', localData.amount_of_registered_capital);
-  }
-
-  if (localData.bank_account_turnover && typeof localData.bank_account_turnover !== 'string') {
-    formData.append('bank_account_turnover', localData.bank_account_turnover);
-  }
-  if (localData.statutes && typeof localData.statutes !== 'string') {
-    formData.append('statutes', localData.statutes);
-  }
-  if (localData.assets_and_liabilities && typeof localData.assets_and_liabilities !== 'string') {
-    formData.append('assets_and_liabilities', localData.assets_and_liabilities);
-  }
-  if (localData.latest_insurance_staf && typeof localData.latest_insurance_staf !== 'string') {
-    formData.append('latest_insurance_staf', localData.latest_insurance_staf);
-  }
-  if (localData.claims_status && typeof localData.claims_status !== 'string') {
-    formData.append('claims_status', localData.claims_status);
-  }
-  if (localData.logo && typeof localData.logo !== 'string') {
-    formData.append('logo', localData.logo);
-  }
+  formData.append('alignment_6columns_thisyear', localData.alignment_6columns_thisyear);
+  formData.append('financial_report_lastyear', localData.financial_report_lastyear);
+  formData.append('audit_report_lastyear', localData.audit_report_lastyear);
+  formData.append('statement_lastyear', localData.statement_lastyear);
+  formData.append('financial_report_yearold', localData.financial_report_yearold);
+  formData.append('statement_yearold', localData.statement_yearold);
+  formData.append('announcement_of_changes_managers', localData.announcement_of_changes_managers);
+  formData.append('announcement_of_changes_capital', localData.announcement_of_changes_capital);
+  formData.append('amount_of_registered_capital', localData.amount_of_registered_capital);
+  formData.append('bank_account_turnover', localData.bank_account_turnover);
+  formData.append('statutes', localData.statutes);
+  formData.append('assets_and_liabilities', localData.assets_and_liabilities);
+  formData.append('latest_insurance_staf', localData.latest_insurance_staf);
+  formData.append('claims_status', localData.claims_status);
+  formData.append('logo', localData.logo);
 
   const accessApi = getCookie('access');
   const response = await api.patch(`/api/cart/admin/${cartId}/`, formData, {

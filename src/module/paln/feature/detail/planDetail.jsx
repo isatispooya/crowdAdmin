@@ -2,14 +2,18 @@ import React from 'react';
 import { Box, Typography, TextField, Grid, Paper, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import moment from 'moment-jalaali';
+import { OnRun } from 'src/api/OnRun';
 import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
 import { plan_fields_input, plan_fields_textarea } from '../../object/planFilds';
+import { useGetPic } from '../../service/planPicture/useGetPic';
 
 const PlanDetail = () => {
   const { trace_code } = useParams();
   const { data, isLoading } = useGetPlanDetail(trace_code);
   const planDetails = plan_fields_input();
   const planDetailstextarea = plan_fields_textarea();
+
+  const { data:picdata } = useGetPic(trace_code);
 
   const formatDate = (date) => (date ? moment(date).format('jYYYY/jM/jD') : 'اطلاعات موجود نیست.');
 
@@ -57,6 +61,20 @@ const PlanDetail = () => {
         </div>
       </Paper>
       <Box sx={{ padding: 4 }}>
+      <div className="bg-gray-100 w-full mb-8 p-4 rounded-lg shadow-md">
+        {picdata && picdata.picture ? (
+          <img
+            src={`${OnRun}/${picdata.picture}`}
+            alt="تصویر پروژه"
+            className="w-full h-36 rounded-lg mb-4"
+          />
+        ) : (
+          <img
+          src="/public/img/nopic.jpg"
+          alt="تصویر موجود نیست"
+          className="w-full h-48  rounded-lg mb-4 "
+        />        )}
+      </div>
         <Grid container spacing={3}>
           {planDetails.map((item) => (
             <Grid item xs={12} sm={4} key={item.value}>
