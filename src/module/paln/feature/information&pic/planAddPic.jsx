@@ -17,7 +17,6 @@ const PlanAddPic = () => {
 
   const { data } = useGetPic(trace_code);
 
-  console.log(data , "getPic")
  
 
   const { mutate, isPending, isError } = usePostPic(trace_code);

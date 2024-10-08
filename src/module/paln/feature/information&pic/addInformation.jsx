@@ -26,7 +26,7 @@ const AddInfo = () => {
 
   const { data } = useGetAddInfo(trace_code);
 
-  console.log(data , "addInfo")
+
   const { mutate, isPending, isError } = usePostInfo(trace_code);
 
   useEffect(() => {
