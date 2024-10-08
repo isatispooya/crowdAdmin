@@ -28,19 +28,16 @@ const AddInfo = () => {
   
   const handleSelectChange = (event) => {
     setSatusSecond(event.target.value);
-    console.log("New satusSecond:", event.target.value); 
   };
   
   useEffect(() => {
     if (data) {
       setRateOfReturn(data.rate_of_return || '');
       setStatusShow(data.status_show || false);
-      setSatusSecond(data.satus_second || null);
-      console.log("Initial data:", data); 
+      setSatusSecond(data.status_second || null);
     }
   }, [data]);
   
-
   const handleInputChange = (event) => {
     setRateOfReturn(event.target.value);
   };
@@ -56,7 +53,7 @@ const AddInfo = () => {
         {
           rate_of_return: rateOfReturn,
           status_show: statusShow,
-          satus_second:satusSecond,
+          status_second:satusSecond,
         },
         {
           onSuccess: () => {
@@ -68,7 +65,6 @@ const AddInfo = () => {
         }
       );
     }
-    console.log(satusSecond);
     
   };
 
