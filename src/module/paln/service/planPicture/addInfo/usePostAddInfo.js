@@ -13,8 +13,10 @@ export const usePostInfo = (trace_code) => {
         'Content-Type': 'application/json',
       },
     });
+console.log(data);
 
     return response.data;
+    
   };
 
   const mutation = useMutation({
