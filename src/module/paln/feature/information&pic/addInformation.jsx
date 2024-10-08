@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Menu, MenuItem, TextField, Typography, Button, Switch, FormControl, FormLabel, FormGroup, FormControlLabel } from '@mui/material';
+import {
+  Box,
+  TextField,
+  Typography,
+  Switch,
+  FormControl,
+  FormLabel,
+  FormGroup,
+  FormControlLabel,
+  Select,
+  MenuItem,
+} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { SubmitButton } from 'src/components/button';
@@ -10,19 +21,25 @@ const AddInfo = () => {
   const { trace_code } = useParams();
   const [rateOfReturn, setRateOfReturn] = useState('');
   const [statusShow, setStatusShow] = useState(false);
-  const [statusSecond, setStatusSecond] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [satusSecond, setSatusSecond] = useState('');
 
   const { data } = useGetAddInfo(trace_code);
   const { mutate, isPending, isError } = usePostInfo(trace_code);
-
+  
+  const handleSelectChange = (event) => {
+    setSatusSecond(event.target.value);
+    console.log("New satusSecond:", event.target.value); 
+  };
+  
   useEffect(() => {
     if (data) {
       setRateOfReturn(data.rate_of_return || '');
       setStatusShow(data.status_show || false);
-      setStatusSecond(data.status_second || null);
+      setSatusSecond(data.satus_second || null);
+      console.log("Initial data:", data); 
     }
   }, [data]);
+  
 
   const handleInputChange = (event) => {
     setRateOfReturn(event.target.value);
@@ -32,45 +49,32 @@ const AddInfo = () => {
     setStatusShow(event.target.checked);
   };
 
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleMenuItemClick = (value) => {
-    setStatusSecond(value);
-    handleMenuClose();
-  };
 
   const handleSubmit = () => {
-    if (rateOfReturn && statusSecond !== null) {
+    if (rateOfReturn && satusSecond) {
       mutate(
         {
           rate_of_return: rateOfReturn,
           status_show: statusShow,
-          status_second: statusSecond, 
+          satus_second:satusSecond,
         },
         {
           onSuccess: () => {
             toast.success('اطلاعات با موفقیت ثبت شد!');
           },
           onError: () => {
-            toast.error('خطا در ثبت اطلاعات!'); 
+            toast.error('خطا در ثبت اطلاعات!');
           },
         }
       );
     }
+    console.log(satusSecond);
+    
   };
 
   return (
     <>
-      {/* ToastContainer for displaying notifications */}
       <ToastContainer />
-
-      {/* Header Box */}
       <Box
         sx={{
           backgroundColor: '#f5f5f5',
@@ -86,7 +90,6 @@ const AddInfo = () => {
         </Typography>
       </Box>
 
-      {/* Input for Rate of Return */}
       <Box sx={{ padding: '24px' }}>
         <TextField
           type="number"
@@ -105,7 +108,6 @@ const AddInfo = () => {
           }}
         />
 
-        {/* Publication Status Switch */}
         <FormControl component="fieldset" variant="standard" sx={{ marginBottom: '24px' }}>
           <FormLabel component="legend" sx={{ marginBottom: '8px' }}>
             انتشار طرح
@@ -124,40 +126,25 @@ const AddInfo = () => {
           </FormGroup>
         </FormControl>
 
-        {/* Button for Plan Status */}
-        <Button
-          onClick={handleMenuClick}
-          sx={{
-            marginBottom: '16px',
-            backgroundColor: '#1976d2',
-            color: '#fff',
-            '&:hover': {
-              backgroundColor: '#1565c0',
-            },
-            width: '100%',
-          }}
-          variant="contained"
-        >
-          وضعیت طرح
-        </Button>
+        <FormControl fullWidth variant="outlined" sx={{ marginBottom: '16px' }}>
+          <Select value={satusSecond} onChange={handleSelectChange} displayEmpty>
+            <MenuItem value="">
+              <em>وضعیت طرح را انتخاب کنید</em>
+            </MenuItem>
+            <MenuItem value="1">شروع شده</MenuItem>
+            <MenuItem value="2">جمع آوری</MenuItem>
+            <MenuItem value="3">تمدید شده</MenuItem>
+            <MenuItem value="4">تکمیل</MenuItem>
+            <MenuItem value="5">سررسید ناموفق</MenuItem>
+          </Select>
+        </FormControl>
 
-        {/* Dropdown Menu for Plan Status */}
-        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-          <MenuItem onClick={() => handleMenuItemClick('1')}>شروع شده</MenuItem>
-          <MenuItem onClick={() => handleMenuItemClick('2')}>جمع آوری</MenuItem>
-          <MenuItem onClick={() => handleMenuItemClick('3')}>تمدید شده</MenuItem>
-          <MenuItem onClick={() => handleMenuItemClick('4')}>تکمیل</MenuItem>
-          <MenuItem onClick={() => handleMenuItemClick('5')}>سررسید ناموفق</MenuItem>
-        </Menu>
-
-        {/* Submit Button */}
         <Box mt={2}>
           <SubmitButton onClick={handleSubmit} disabled={isPending} fullWidth>
             ثبت اطلاعات
           </SubmitButton>
         </Box>
 
-        {/* Error Message */}
         {isError && (
           <Typography color="error" sx={{ marginTop: '16px', textAlign: 'center' }}>
             خطا در ارسال اطلاعات
