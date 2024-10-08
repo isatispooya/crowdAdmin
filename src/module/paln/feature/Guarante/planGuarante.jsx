@@ -3,20 +3,21 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, TextField, Link, Button } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
-import { ToastContainer, toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
+import {  toast } from 'react-toastify';
 import useGetGuarante from '../../service/gaurantee/useGetGuarante';
 import usePostGuarante from '../../service/gaurantee/usePostDocumentaion';
 import useDeleteGuarante from '../../service/gaurantee/useDeleteDocumentation';
 
 const PlanGuarante = () => {
-  const { trace_code } = useParams();
-  const { data } = useGetGuarante(trace_code);
+
+
+  const { data, isPending, isSuccess } = useGetGuarante();
+  
   const [files, setFiles] = useState([]);
   const [postData, setPostData] = useState({ title: '', file: null });
   const fileInputRef = useRef(null);
 
-  const { mutate: postGuarante } = usePostGuarante(trace_code);
+  const { mutate: postGuarante } = usePostGuarante();
   const { mutate: deleteGuarante } = useDeleteGuarante();
 
   useEffect(() => {
@@ -34,18 +35,17 @@ const PlanGuarante = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-    toast.success('مستندات با موفقیت ارسال شد');
+    toast.success('تضامین با موفقیت ارسال شد');
   };
 
   const handleDelete = (id) => {
     deleteGuarante(id);
     setFiles((prevFiles) => prevFiles.filter((doc) => doc.id !== id));
-    toast.success('مستندات حذف شد');
+    toast.success('تضامین حذف شد');
   };
 
   return (
     <Box sx={{ padding: 3 }}>
-      <ToastContainer />
       <Box
         sx={{
           backgroundColor: '#e0e0e0',
@@ -104,7 +104,7 @@ const PlanGuarante = () => {
         </Box>
       </Box>
 
-      {files && files.map((doc) => (
+      {files && !isPending && isSuccess && files.map((doc) => (
         <Box key={doc.id} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
           <Box sx={{ flex: 1 }}>
             <Typography>عنوان: {doc.title}</Typography>

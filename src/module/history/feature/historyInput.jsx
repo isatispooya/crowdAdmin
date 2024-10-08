@@ -20,7 +20,6 @@ const HistoryInput = ({ handleTextFieldChange, item, index, handleRemoveFile, se
       return newData;
     });
   };
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -81,7 +80,7 @@ const HistoryInput = ({ handleTextFieldChange, item, index, handleRemoveFile, se
           </Box>
         </Grid>
         <Grid item xs={12} md={4}>
-          {!item.fileUploaded ? (
+          {!item.file ? (
             <Input type="file" onChange={handleFileChange} />
           ) : (
             <Box

@@ -13,7 +13,6 @@ const HistoryPage = () => {
   const { data, isPending, isError } = useGetHistory(cartId);
   const { incrementPage } = useNavigateStep();
   const [formData, setFormData] = useState([]);
-
   useEffect(() => {
     if (!isError && data && data.manager && !isPending) {
       setFormData(data.manager.map((item) => ({ ...item })));
@@ -41,7 +40,6 @@ const HistoryPage = () => {
         ...newFormData[index], 
         lock: isChecked,       
       };
-      console.log('fdfdfdfdfdfdg',newFormData);
       
       return newFormData;
     });

@@ -43,7 +43,6 @@ const Attachement = ({ id }) => {
         toast.success('اطلاعات با موفقیت ارسال شد.');
       }
     } catch (error) {
-      console.error('خطا در ارسال اطلاعات:', error);
       toast.error('خطا در ارسال اطلاعات.');
     }
   };

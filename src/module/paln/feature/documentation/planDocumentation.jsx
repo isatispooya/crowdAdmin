@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, TextField, Link, Button, CircularProgress } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import useGetDocumentation from '../../service/documentation/useGetDocumentation';
 import usePostDocumentation from '../../service/documentation/usePostDocumentaion';
@@ -10,7 +10,7 @@ import useDeleteDocumentation from '../../service/documentation/useDeleteDocumen
 
 const PlanDocumentation = () => {
   const { trace_code } = useParams();
-  const { data, isLoading } = useGetDocumentation(trace_code); // Add isLoading
+  const { data, isLoading } = useGetDocumentation(trace_code); 
   const [files, setFiles] = useState([]);
   const [postData, setPostData] = useState({});
 
@@ -43,7 +43,6 @@ const PlanDocumentation = () => {
 
   return (
     <Box sx={{ padding: 3 }}>
-      <ToastContainer />
       <Box
         sx={{
           backgroundColor: '#e0e0e0',

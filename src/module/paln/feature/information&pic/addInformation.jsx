@@ -67,10 +67,8 @@ const AddInfo = () => {
 
   return (
     <>
-      {/* ToastContainer for displaying notifications */}
-      <ToastContainer />
+          <ToastContainer />
 
-      {/* Header Box */}
       <Box
         sx={{
           backgroundColor: '#f5f5f5',
@@ -82,11 +80,13 @@ const AddInfo = () => {
         }}
       >
         <Typography variant="h5" fontWeight="bold">
-          افزودن اطلاعات تکمیلی
+          افزودن 
+          
+          
+          + تکمیلی
         </Typography>
       </Box>
 
-      {/* Input for Rate of Return */}
       <Box sx={{ padding: '24px' }}>
         <TextField
           type="number"
@@ -105,7 +105,6 @@ const AddInfo = () => {
           }}
         />
 
-        {/* Publication Status Switch */}
         <FormControl component="fieldset" variant="standard" sx={{ marginBottom: '24px' }}>
           <FormLabel component="legend" sx={{ marginBottom: '8px' }}>
             انتشار طرح

@@ -14,7 +14,6 @@ export const usePostPic = (trace_code) => {
       },
     });
 
-    console.log("pic",data)
     return response.data;
   };
 

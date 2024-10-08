@@ -10,7 +10,6 @@ export const GetParticipant = async (trace_code) => {
       'Content-Type': 'application/json',
     },
   });
-  console.log("poddst",response.data)
   
     return response.data;
 
@@ -27,7 +26,6 @@ export const GetParticipant = async (trace_code) => {
         },
       }
     );
-    console.log("post",data)
     return response.data;
   };
   

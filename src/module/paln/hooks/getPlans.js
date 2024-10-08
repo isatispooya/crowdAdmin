@@ -12,7 +12,7 @@ export const useGetPlans = () => {
         'Content-Type': 'application/json',
       },
     });
-    return response.data;
+    return response.data.data;
   };
 
   const { data, isLoading, error, isError, refetch } = useQuery({

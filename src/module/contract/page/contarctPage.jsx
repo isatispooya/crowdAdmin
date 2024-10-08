@@ -9,7 +9,6 @@ const ContractPage = () => {
   const [contractData, setContractData] = useState({});
   const { cartId } = UseCartId();
   const { data: dataContract, isError } = useGetContract(cartId);
-  console.log("data",dataContract)
   
   const handelClick = () => {
   };

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, TextField, Link, Button, CircularProgress } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 
 import useGetAudit from '../services/useGetAudit';
@@ -45,7 +45,6 @@ const PlanAudit = () => {
 
   return (
     <Box sx={{ padding: 3 }}>
-      <ToastContainer />
       <Box
         sx={{
           backgroundColor: '#e0e0e0',

@@ -4,6 +4,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ToastContainer } from 'react-toastify';
 import PlanDocumentation from '../../feature/documentation/planDocumentation';
 import PlanGuarante from '../../feature/Guarante/planGuarante';
 import PlanProgress from '../components/planProgress';
@@ -18,6 +19,8 @@ export default function ControlledAccordions() {
 
   return (
     <div>
+      <ToastContainer />
+
       <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

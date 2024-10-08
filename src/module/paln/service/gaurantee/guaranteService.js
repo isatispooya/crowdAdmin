@@ -4,6 +4,9 @@ import { getCookie } from 'src/api/cookie';
 const accessApi = getCookie('accessApi');
 
 export const GetGuarante = async (trace_code) => {
+
+  
+
   const response = await api.get(`/api/appendices/${trace_code}/`, {
     headers: {
       Authorization: `Bearer ${accessApi}`,
@@ -13,7 +16,8 @@ export const GetGuarante = async (trace_code) => {
   return response.data;
 };
 
-export const PostGuarante = async (trace_code, data) => {
+export const PostGuarante = async (trace_code,data) => {
+
   const formData = new FormData();
 
   if (data.file) {

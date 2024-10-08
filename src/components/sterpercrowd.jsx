@@ -43,7 +43,6 @@ const Sterpercrowd = () => {
     'قرارداد عاملیت',
   ];
 
-  // تابعی برای مدیریت ایمن تغییر استپ
   const changePageSafely = (newPage) => {
     if (newPage >= 0 && newPage < steps.length) {
       changePage(newPage);

@@ -36,7 +36,6 @@ const EndOffUndraisingPage = () => {
     );
   };
 
-  // Handle form submission
   const handleSend = () => {
     mutate(form);
   };
