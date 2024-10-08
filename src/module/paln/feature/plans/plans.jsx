@@ -6,13 +6,12 @@ import PlanTableFeature from "../cart/planCardFeature";
 
 const Plans = () =>{
     const [planData, setPlanData] = useState([]);
-
     const { data,refetch } = useQuery({
       queryKey: ['plan'],
       queryFn: () => fetchPlan(),
     });
     
-  
+    
     useEffect(() => {
       if (data?.data && Array.isArray(data.data)) {
         setPlanData(data.data);
