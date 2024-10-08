@@ -6,7 +6,7 @@ import { postCompanyInfo } from "./api";
 const usePostComapnyInfo = (cartId) =>{
     const {refetch} = useGetCompanyInfo(cartId)
     const {mutate, isPending,isSuccess,isError,error} = useMutation({
-        mutationKey: ['CompanyInfo'],
+        mutationKey: ['CompanyInfo',cartId],
         mutationFn: ({localData}) => postCompanyInfo({cartId, localData}),
         onSettled:()=>{
             refetch()

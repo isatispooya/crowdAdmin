@@ -3,7 +3,7 @@ import { getcontract } from './api';
 
 const useGetContract = (cartId) => {
   const { data, refetch, isPending, error, isError } = useQuery({
-    queryKey: ['contract'],
+    queryKey: ['contract',cartId],
     queryFn: () => getcontract(cartId),
   });
   return {

@@ -10,6 +10,7 @@ export const getValidation = async (id) => {
       'Content-Type': 'application/json',
     },
   });
+  console.log("data",response.data)
   return response.data;
 };
 
