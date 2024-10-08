@@ -26,6 +26,8 @@ const PlanTableFeature = () => {
     navigate(`/plan/${trace_code}`);
   };
 
+  
+
   return (
     <Box sx={{ width: '100%', p: 2 }}>
       <ToastContainer />

@@ -9,5 +9,6 @@ export const GetCardPlan = async () => {
       'Content-Type': 'application/json',
     },
   });
+  
   return response.data;
 };

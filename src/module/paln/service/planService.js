@@ -9,7 +9,7 @@ export const fetchPlan = async () => {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
-  });
+  });  
   return response.data;
 };
 
