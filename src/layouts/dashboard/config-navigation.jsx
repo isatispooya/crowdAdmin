@@ -9,7 +9,7 @@ const icon = (name) => (
 
 const navConfig = [
   {
-    title: 'داشبورد',
+    title: 'میزکار',
     path: '/',
     icon: icon('ic_sheet'),
   },

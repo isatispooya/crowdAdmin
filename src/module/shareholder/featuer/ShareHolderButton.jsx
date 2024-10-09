@@ -38,7 +38,7 @@ const ShareHolderButton = ({ handleAddSection, formSections }) => {
         width: '100%',
       }}
     >
-      <div className="flex justify-center gap-3">
+      <div className="flex justify-center">
         <AddFormButton onClick={handleAddSection} />
       </div>
       <SubmitButton onClick={handleSubmit} />

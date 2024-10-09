@@ -22,23 +22,19 @@ const OtherCasesFeatuer = () => {
     });
   };
 
-
   useEffect(() => {
     if (data) {
       setLocalData(data);
     }
   }, [data]);
 
-
   const { incrementPage } = useNavigateStep();
-  const {mutate} = usePostOther(cartId)
+  const { mutate } = usePostOther(cartId);
   const handleButtonClick = () => {
-    mutate({cartId,localData});
+    mutate({ cartId, localData });
     incrementPage();
   };
 
-  
-  
   return (
     <form className="w-full">
       <Box
@@ -126,8 +122,7 @@ const OtherCasesFeatuer = () => {
           handleFileRemove={handleFileRemove}
           OnRun={OnRun}
         />
-      
-      
+
         <SwitchWithFileInput
           switchLabel=" کاتالوگ محصولات "
           fileKey="product_catalog"
