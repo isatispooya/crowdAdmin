@@ -65,7 +65,7 @@ const OtherCasesFeatuer = () => {
           OnRun={OnRun}
         />
         <SwitchWithFileInput
-          switchLabel="لیست دایی ها و بدهی ها"
+          switchLabel="لیست اظهار دارایی ها و بدهی ها"
           fileKey="assets_and_liabilities"
           localData={localData}
           setLocalData={setLocalData}
@@ -83,7 +83,7 @@ const OtherCasesFeatuer = () => {
         />
 
         <SwitchWithFileInput
-          switchLabel="فایل گردش حسابهای بانکی اصلی شرکت"
+          switchLabel=" گردش حسابهای مالی اصلی شرکت"
           fileKey="bank_account_turnover"
           localData={localData}
           setLocalData={setLocalData}
@@ -124,14 +124,8 @@ const OtherCasesFeatuer = () => {
           handleFileRemove={handleFileRemove}
           OnRun={OnRun}
         />
-           <SwitchWithFileInput
-          switchLabel="گردش حسابهای مالی"
-          fileKey="bank_account_turnover"
-          localData={localData}
-          setLocalData={setLocalData}
-          handleFileRemove={handleFileRemove}
-          OnRun={OnRun}
-        />
+      
+      
         <SwitchWithFileInput
           switchLabel=" کاتالوگ محصولات "
           fileKey="product_catalog"
