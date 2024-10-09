@@ -33,29 +33,27 @@ const HistoryPage = () => {
 
   const handleSwitchChange = (index) => (event) => {
     const isChecked = event.target.checked;
-    
+
     setFormData((prevFormData) => {
       const newFormData = [...prevFormData];
       newFormData[index] = {
-        ...newFormData[index], 
-        lock: isChecked,       
+        ...newFormData[index],
+        lock: isChecked,
       };
-      
+
       return newFormData;
     });
   };
-  
 
   const handleTextFieldChange = (index, field) => (event) => {
     const newFormData = [...formData];
     if (field === 'file') {
-      newFormData[index][field] = event; 
+      newFormData[index][field] = event;
     } else {
       newFormData[index][field] = event.target.value;
     }
     setFormData(newFormData);
   };
-  
 
   const {
     mutate,
@@ -71,7 +69,7 @@ const HistoryPage = () => {
   }, [incrementPage, isErrorPost, isPendingPost, isSuccessPost]);
 
   const handleButtonClick = () => {
-    mutate({formData});
+    mutate({ formData });
   };
 
   return (

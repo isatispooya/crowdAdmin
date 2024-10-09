@@ -5,7 +5,6 @@ import { getCookie } from 'src/api/cookie';
 export const usePostInfo = (trace_code) => {
   const accessApi = getCookie('accessApi');
 
-  
   const sendAddInfo = async (data) => {
     const response = await api.post(`/api/information/plan/admin/${trace_code}/`, data, {
       headers: {
@@ -13,21 +12,17 @@ export const usePostInfo = (trace_code) => {
         'Content-Type': 'application/json',
       },
     });
-console.log(data);
 
     return response.data;
-    
   };
 
   const mutation = useMutation({
     mutationFn: (data) => sendAddInfo(data),
-    onSuccess: (data) => {
-    },
+    onSuccess: (data) => {},
     onError: (error) => {
       console.error('Error posting:', error);
     },
-    onMutate: () => {
-    },
+    onMutate: () => {},
   });
 
   return {

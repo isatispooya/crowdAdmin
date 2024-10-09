@@ -4,10 +4,9 @@ import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import PropTypes from 'prop-types';
 
 const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
-
   const handleFileChange = (file, index) => {
     const newFormData = [...formData];
-    newFormData[index] = { ...newFormData[index], file }; 
+    newFormData[index] = { ...newFormData[index], file };
     setFormData(newFormData);
   };
 
@@ -81,8 +80,9 @@ const ManagerdocumentFile = ({ index: key, item, formData, setFormData }) => {
 ManagerdocumentFile.propTypes = {
   index: PropTypes.number,
   item: PropTypes.shape({
-    file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]), }),
-  formData: PropTypes.arrayOf(PropTypes.array),
+    file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  }),
+  formData: PropTypes.array,
   setFormData: PropTypes.func,
 };
 
