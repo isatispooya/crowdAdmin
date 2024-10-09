@@ -28,7 +28,7 @@ const ManagerInput = ({ section, sectionIndex, handleChange }) => (
       value={section.name}
       onChange={(e) => handleChange(sectionIndex, 'name', e.target.value)}
     />
-    
+
     <SelectField
       id={`company-type-${sectionIndex}`}
       label="نوع "
@@ -66,15 +66,15 @@ const ManagerInput = ({ section, sectionIndex, handleChange }) => (
       </FormControl>
     </div>
     <GlobalTextField
-        label="کد ملی"
-        value={section.national_code}
-        onChange={(e) =>
-          handleChange(sectionIndex, 'national_code', e.target.value.replace(/[^0-9]/g, ''))
-        }
-        inputProps={{ maxLength: 10, pattern: '[0-9]*' }}
-      />
-    
-    {section.is_legal &&(
+      label="کد ملی"
+      value={section.national_code}
+      onChange={(e) =>
+        handleChange(sectionIndex, 'national_code', e.target.value.replace(/[^0-9]/g, ''))
+      }
+      inputProps={{ maxLength: 10, pattern: '[0-9]*' }}
+    />
+
+    {section.is_legal && (
       <GlobalTextField
         label="شناسه ملی شرکت"
         value={section.national_id}
@@ -83,9 +83,8 @@ const ManagerInput = ({ section, sectionIndex, handleChange }) => (
         }
         inputProps={{ maxLength: 10, pattern: '[0-9]*' }}
       />
-
     )}
-    
+
     {section.is_legal && (
       <GlobalTextField
         label="نماینده"
