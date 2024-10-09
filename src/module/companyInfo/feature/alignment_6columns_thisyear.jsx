@@ -58,7 +58,7 @@ const ColumnsThisyear = ({ setLocalData, localData, handleFileRemove }) => {
             name="Lock_alignment_6columns_thisyear"
             inputProps={{ 'aria-label': 'controlled' }}
             sx={{ marginLeft: '8px' }}
-            checked={localData.Lock_alignment_6columns_thisyear ?? false}
+            checked={localData.Lock_alignment_6columns_thisyear}
             onChange={handleSwitchChange}
           />
         </FormLabel>

@@ -10,9 +10,7 @@ const SwitchWithFileInput = ({
   localData,
   setLocalData,
   handleFileRemove,
-}) => {
-
-  
+}) => {  
   return (
     <Box sx={{ marginBottom: '16px' }}>
       <div dir="ltr">
