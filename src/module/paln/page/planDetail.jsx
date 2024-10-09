@@ -19,6 +19,7 @@ const PlanDetailPage = () => {
   }, [trace_code]);
 
 
+console.log(data);
 
   return (
     <div

@@ -45,7 +45,7 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             name="Lock_financial_report_yearold"
             inputProps={{ 'aria-label': 'controlled' }}
             sx={{ marginLeft: '8px' }}
-            checked={localData.Lock_financial_report_yearold ?? false}
+            checked={localData.Lock_financial_report_yearold}
             onChange={(e) =>
               setLocalData({
                 ...localData,
@@ -131,7 +131,7 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             name="Lock_audit_report_yearold"
             inputProps={{ 'aria-label': 'controlled' }}
             sx={{ marginLeft: '8px' }}
-            checked={localData.Lock_audit_report_yearold ?? false}
+            checked={localData.Lock_audit_report_yearold}
             onChange={(e) =>
               setLocalData({
                 ...localData,
@@ -225,7 +225,7 @@ const ReportYaerOld = ({ setLocalData, localData, handleFileRemove }) => (
             name="Lock_statement_yearold"
             inputProps={{ 'aria-label': 'controlled' }}
             sx={{ marginLeft: '8px' }}
-            checked={localData.Lock_statement_yearold ?? false}
+            checked={localData.Lock_statement_yearold}
             onChange={(e) =>
               setLocalData({
                 ...localData,

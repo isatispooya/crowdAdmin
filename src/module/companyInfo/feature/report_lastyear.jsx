@@ -46,7 +46,7 @@ const ReportLastYear = ({ setLocalData, localData, handleFileRemove }) => (
             name="Lock_financial_report_lastyear"
             inputProps={{ 'aria-label': 'controlled' }}
             sx={{ marginLeft: '8px' }}
-            checked={localData.Lock_financial_report_lastyear ?? false}
+            checked={localData.Lock_financial_report_lastyear}
             onChange={(e) =>
               setLocalData({
                 ...localData,

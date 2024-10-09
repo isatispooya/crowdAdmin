@@ -18,12 +18,7 @@ const EndOffUndraisingPage = () => {
   const { data } = useGetEndOfFundraising(trace_code);
   useEffect(() => {
     if (data) {
-      const newData = data.map(i=>{
-        console.log(i);
-        
-        return {...i,date:new DateObject(i.date), date_capitalization:new DateObject(i.date_capitalization)}
-
-        })
+      const newData = data.map(i=>({...i,date:new DateObject(i.date), date_capitalization:new DateObject(i.date_capitalization)}))
       
       setForm(newData);
     }

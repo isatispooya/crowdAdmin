@@ -18,10 +18,8 @@ export const postResume = async ({cartId, formData}) => {
   for (let index = 0; index < formData.length; index += 1) {
     const element = formData[index];
     
-    if (element.file && typeof element.file !== 'string') {
       form.append(element.national_code, element.file); 
-    }
-    form.append(`lock_${element.national_code}`, element.lock);
+    form.append(`${element.national_code}_lock`, element.lock);
   }
   const response = await api.post(`api/resume/admin/${cartId}/`, form, {
     headers: {
