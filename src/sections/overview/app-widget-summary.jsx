@@ -59,10 +59,12 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
           <Card
             sx={{
               p: 3,
+              height: 200, // ارتفاع ثابت برای هر باکس
               borderRadius: 2,
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               boxShadow: 3,
               transition: '0.3s',
               background: 'rgba(255, 255, 255, 0.8)',
@@ -82,12 +84,13 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                mb: 2, 
               }}
             >
               {widget.icon}
             </Box>
 
-            <Box sx={{ textAlign: 'right' }}>
+            <Box sx={{ textAlign: 'center' }}>
               <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
                 {fShortenNumber(widget.total)}
               </Typography>

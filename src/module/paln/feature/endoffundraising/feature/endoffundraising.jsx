@@ -18,7 +18,6 @@ const EndOffUndraisingPage = () => {
   const { data } = useGetEndOfFundraising(trace_code);
   useEffect(() => {
     if (data) {
-      console.log(data);
       const newData = data.map(i=>{
         console.log(i);
         
