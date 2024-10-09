@@ -36,6 +36,8 @@ const OtherCasesFeatuer = () => {
     mutate({cartId,localData});
     incrementPage();
   };
+
+  
   
   return (
     <form className="w-full">

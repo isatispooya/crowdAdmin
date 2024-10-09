@@ -29,7 +29,7 @@ const GlobalTextField = ({
         pattern: type === 'number' ? '[0-9]*' : undefined,
       }}
       required={required}
-      disabled={disabled} // استفاده از پراپ disabled
+      disabled={disabled} 
     />
   );
 
@@ -42,7 +42,7 @@ GlobalTextField.propTypes = {
   required: PropTypes.bool,
   contractData: PropTypes.any,
   setContractData: PropTypes.func,
-  disabled: PropTypes.bool, // اضافه کردن به PropTypes
+  disabled: PropTypes.bool, 
 };
 
 export default GlobalTextField;
