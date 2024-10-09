@@ -3,17 +3,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Box, Typography, TextField, Link, Button } from '@mui/material';
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined';
 import { OnRun } from 'src/api/OnRun';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import useGetGuarante from '../../service/gaurantee/useGetGuarante';
 import usePostGuarante from '../../service/gaurantee/usePostDocumentaion';
 import useDeleteGuarante from '../../service/gaurantee/useDeleteDocumentation';
 
 const PlanGuarante = () => {
-
-
   const { data, isPending, isSuccess } = useGetGuarante();
-  
+
   const [files, setFiles] = useState([]);
+  const [error, setError] = useState('');
+
   const [postData, setPostData] = useState({ title: '', file: null });
   const fileInputRef = useRef(null);
 
@@ -26,10 +26,12 @@ const PlanGuarante = () => {
     }
   }, [data]);
 
-
-
-
   const handleButtonClick = () => {
+    if (!postData.title) {
+      setError('لطفاً عنوان را وارد کنید.');
+      return;
+    }
+    setError('');
     postGuarante(postData);
     setPostData({ title: '', file: null });
     if (fileInputRef.current) {
@@ -75,6 +77,8 @@ const PlanGuarante = () => {
             placeholder="عنوان"
             onChange={(e) => setPostData((prev) => ({ ...prev, title: e.target.value }))}
             fullWidth
+            error={!!error} 
+            helperText={error}
             sx={{ marginBottom: '10px' }}
           />
           <TextField
@@ -89,6 +93,7 @@ const PlanGuarante = () => {
 
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
           <Button
+            disabled={!postData.title || !postData.file}
             variant="contained"
             size="small"
             onClick={handleButtonClick}
@@ -104,42 +109,45 @@ const PlanGuarante = () => {
         </Box>
       </Box>
 
-      {files && !isPending && isSuccess && files.map((doc) => (
-        <Box key={doc.id} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ flex: 1 }}>
-            <Typography>عنوان: {doc.title}</Typography>
-            <Link
-              href={`${OnRun}/${doc.file}`}
-              target="_blank"
-              rel="noopener noreferrer"
+      {files &&
+        !isPending &&
+        isSuccess &&
+        files.map((doc) => (
+          <Box key={doc.id} sx={{ marginTop: '15px', display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ flex: 1 }}>
+              <Typography>عنوان: {doc.title}</Typography>
+              <Link
+                href={`${OnRun}/${doc.file}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  fontSize: '16px',
+                  color: '#1976d2',
+                  fontWeight: '500',
+                  transition: 'color 0.3s',
+                  '&:hover': { textDecoration: 'underline', color: '#115293' },
+                }}
+              >
+                فایل بارگزاری شده
+              </Link>
+              <FileCopyOutlinedIcon
+                sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
+              />
+            </Box>
+            <Button
+              variant="outlined"
+              size="small"
+              color="error"
+              onClick={() => handleDelete(doc.id)}
               sx={{
-                fontSize: '16px',
-                color: '#1976d2',
-                fontWeight: '500',
-                transition: 'color 0.3s',
-                '&:hover': { textDecoration: 'underline', color: '#115293' },
+                marginLeft: '10px',
+                borderRadius: '8px',
               }}
             >
-              فایل بارگزاری شده
-            </Link>
-            <FileCopyOutlinedIcon
-              sx={{ fontSize: '16px', marginLeft: '8px', color: '#1976d2' }}
-            />
+              حذف
+            </Button>
           </Box>
-          <Button
-            variant="outlined"
-            size="small"
-            color="error"
-            onClick={() => handleDelete(doc.id)}
-            sx={{
-              marginLeft: '10px',
-              borderRadius: '8px',
-            }}
-          >
-            حذف
-          </Button>
-        </Box>
-      ))}
+        ))}
     </Box>
   );
 };

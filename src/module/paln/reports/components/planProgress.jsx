@@ -15,6 +15,7 @@ const PlanProgress = () => {
   const { data, isLoading } = useGetProgress(trace_code); 
   const [files, setFiles] = useState([]);
   const [postData, setPostData] = useState({});
+  const [error, setError] = useState('');
 
   const { mutate } = usePostProgress(trace_code);
   const { mutate: mutateDelete } = useDeleteProgress(trace_code);
@@ -27,6 +28,11 @@ const PlanProgress = () => {
   }, [data]);
 
   const handleButtonClick = () => {
+    if (!postData.title) {
+      setError('لطفاً عنوان را وارد کنید.');
+      return;
+    }
+    setError('');
     mutate(postData);
     setPostData({ title: '', file: null });
     if (fileInputRef.current) {
@@ -74,6 +80,8 @@ const PlanProgress = () => {
             placeholder="عنوان"
             onChange={(e) => setPostData((prev) => ({ ...prev, title: e.target.value }))}
             fullWidth
+            error={!!error} 
+            helperText={error}
             sx={{ marginBottom: '10px' }}
           />
           <TextField
@@ -91,6 +99,8 @@ const PlanProgress = () => {
             variant="contained"
             size="small"
             onClick={handleButtonClick}
+            disabled={!postData.title || !postData.file}
+
             sx={{
               color: '#fff',
               '&:hover': { backgroundColor: '#303f9f' },
