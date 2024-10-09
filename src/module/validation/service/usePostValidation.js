@@ -1,22 +1,31 @@
-import { useMutation }  from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query";
+import { toast } from 'react-toastify';
 import useGetValidation from "./useGetValidation";
 import { postValidation } from "./api";
 
-
-
-
-const usePostValidation = (cartId) =>{
-    const {refetch} = useGetValidation(cartId)
-    const {mutate, isPending,isSuccess,isError,error} = useMutation({
+const usePostValidation = (cartId) => {
+    const { refetch } = useGetValidation(cartId);
+    
+    const { mutate, isPending, isSuccess, isError, error: mutationError } = useMutation({
         mutationKey: ['validationPost'],
-        mutationFn: ({formData}) => postValidation({cartId, formData}),
-        onSettled:()=>{
-            refetch()
-        }
-      });
-      return{
-        mutate, isPending,isSuccess,isError,error
-      }
-}
+        mutationFn: ({ formData }) => postValidation({ cartId, formData }),
+        onSettled: () => {
+            refetch();
+        },
+        onError: (error) => {
+            if (error.response?.status === 400) {
+                toast.error("لطفا تمام فایل ها را بارگذاری کنید  ");
+            }
+        },
+    });
 
-export default usePostValidation
+    return {
+        mutate,
+        isPending,
+        isSuccess,
+        isError,
+        error: mutationError,
+    };
+};
+
+export default usePostValidation;

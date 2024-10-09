@@ -64,6 +64,7 @@ const ValidationPage = () => {
   const handleButtonClick = () => {
     mutate({ formData });
   };
+
   return (
     <div style={Styles.container}>
       <Box sx={Styles.box}>

@@ -36,7 +36,7 @@ const OtherCasesFeatuer = () => {
     mutate({cartId,localData});
     incrementPage();
   };
-
+  
   return (
     <form className="w-full">
       <Box
@@ -109,7 +109,7 @@ const OtherCasesFeatuer = () => {
           OnRun={OnRun}
         />
         <SwitchWithFileInput
-          switchLabel="  معرف حسابرس"
+          switchLabel="معرف حسابرس"
           fileKey="auditor_representative"
           localData={localData}
           setLocalData={setLocalData}
