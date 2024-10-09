@@ -5,7 +5,6 @@ import { SubmitButton } from 'src/components/button';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { OnRun } from 'src/api/OnRun';
-import PicSkelton from 'src/components/skelton';
 import { useGetPic } from '../../service/planPicture/useGetPic';
 import { usePostPic } from '../../service/planPicture/usePostPic';
 import AddInfo from './addInformation';
@@ -16,9 +15,6 @@ const PlanAddPic = () => {
   const { data } = useGetPic(trace_code);
   const { mutate, isPending, isError } = usePostPic(trace_code);
 
-  if (isPending) {
-    return <PicSkelton />;
-  }
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -49,7 +45,6 @@ const PlanAddPic = () => {
   return (
     <>
       <Box sx={{ padding: 3 }}>
-
         <Box
           sx={{
             backgroundColor: '#e0e0e0',
@@ -154,7 +149,5 @@ const PlanAddPic = () => {
     </>
   );
 };
-
-
 
 export default PlanAddPic;

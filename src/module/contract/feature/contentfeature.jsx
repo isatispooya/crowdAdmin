@@ -4,6 +4,7 @@ import { Grid } from '@mui/material';
 import { SubmitButton } from 'src/components/button';
 import PropTypes from 'prop-types';
 import UseCartId from 'src/hooks/card_id';
+import { toast } from 'react-toastify'; 
 import ContentInput from './contractInput';
 import SwitchContract from './switchInputs';
 import UsePostContract from '../services/usePostContract';
@@ -13,7 +14,14 @@ const ContractFeature = ({ setContractData, contractData }) => {
   const { mutate } = UsePostContract(cartId);
 
   const postContractData = () => {
-    mutate(contractData);
+    mutate(contractData, {
+      onSuccess: () => {
+        toast.success('اطلاعات قرارداد با موفقیت ارسال شد');
+      },
+      onError: () => {
+        toast.error('خطا در ارسال اطلاعات قرارداد');
+      },
+    });
   };
 
   return (

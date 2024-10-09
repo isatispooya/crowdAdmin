@@ -1,15 +1,14 @@
 import { Box, TextField, Typography, Paper, Grid } from '@mui/material';
-import DatePicker from 'react-multi-date-picker';
+import DatePicker, { DateObject } from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SubmitButton } from 'src/components/button';
+import { toast } from 'react-toastify';
 import usePostEndOfFundraising from '../../../service/endoffundraising/usePostpostEndOfFundraising';
 import { convertToEnglishDigits } from '../utils/convertToEN';
 import useGetEndOfFundraising from '../../../service/endoffundraising/useGetEndOfFundraising';
-
-
 
 const EndOffUndraisingPage = () => {
   const [form, setForm] = useState([]);
@@ -17,10 +16,17 @@ const EndOffUndraisingPage = () => {
 
   const { mutate, data: dataMut } = usePostEndOfFundraising(form, trace_code);
   const { data } = useGetEndOfFundraising(trace_code);
-
   useEffect(() => {
     if (data) {
-      setForm(data);
+      console.log(data);
+      const newData = data.map(i=>{
+        console.log(i);
+        
+        return {...i,date:new DateObject(i.date), date_capitalization:new DateObject(i.date_capitalization)}
+
+        })
+      
+      setForm(newData);
     }
   }, [data]);
 
@@ -37,7 +43,14 @@ const EndOffUndraisingPage = () => {
   };
 
   const handleSend = () => {
-    mutate(form);
+    mutate(form, {
+      onSuccess: () => {
+        toast.success('اطلاعات با موفقیت ارسال شد');
+      },
+      onError: () => {
+        toast.error('خطا در ارسال اطلاعات'); 
+      },
+    });
   };
 
   return (
@@ -155,8 +168,5 @@ const EndOffUndraisingPage = () => {
     </div>
   );
 };
-
-
-
 
 export default EndOffUndraisingPage;

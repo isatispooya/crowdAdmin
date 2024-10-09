@@ -91,6 +91,8 @@ const PlanAudit = () => {
             variant="contained"
             size="small"
             onClick={handleButtonClick}
+            disabled={!postData.title || !postData.file}
+
             sx={{
               color: '#fff',
               '&:hover': { backgroundColor: '#303f9f' },

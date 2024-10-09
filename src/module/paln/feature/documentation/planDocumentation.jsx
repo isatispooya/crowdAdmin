@@ -12,8 +12,8 @@ const PlanDocumentation = () => {
   const { trace_code } = useParams();
   const { data, isLoading } = useGetDocumentation(trace_code); 
   const [files, setFiles] = useState([]);
-  const [postData, setPostData] = useState({});
-
+  const [postData, setPostData] = useState({ title: '', file: null });
+  const [error, setError] = useState('');
   const { mutate } = usePostDocumentation(trace_code);
   const { mutate: mutateDelete } = useDeleteDocumentation(trace_code);
   const fileInputRef = useRef(null);
@@ -25,6 +25,11 @@ const PlanDocumentation = () => {
   }, [data]);
 
   const handleButtonClick = () => {
+    if (!postData.title) {
+      setError('لطفاً عنوان را وارد کنید.');
+      return;
+    }
+    setError('');
     mutate(postData);
     setPostData({ title: '', file: null });
     if (fileInputRef.current) {
@@ -73,9 +78,12 @@ const PlanDocumentation = () => {
             onChange={(e) => setPostData((prev) => ({ ...prev, title: e.target.value }))}
             fullWidth
             sx={{ marginBottom: '10px' }}
+            error={!!error} 
+            helperText={error}
           />
           <TextField
             type="file"
+            required="true"
             inputRef={fileInputRef}
             onChange={(e) => setPostData((prev) => ({ ...prev, file: e.target.files[0] }))}
             fullWidth
@@ -95,6 +103,7 @@ const PlanDocumentation = () => {
               padding: '6px 12px',
               borderRadius: '8px',
             }}
+            disabled={!postData.title || !postData.file}
           >
             ارسال
           </Button>

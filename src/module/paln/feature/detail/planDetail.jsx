@@ -13,7 +13,7 @@ const PlanDetail = () => {
   const planDetails = plan_fields_input();
   const planDetailstextarea = plan_fields_textarea();
 
-  const { data:picdata } = useGetPic(trace_code);
+  const { data: picdata } = useGetPic(trace_code);
 
   const formatDate = (date) => (date ? moment(date).format('jYYYY/jM/jD') : 'اطلاعات موجود نیست.');
 
@@ -61,20 +61,13 @@ const PlanDetail = () => {
         </div>
       </Paper>
       <Box sx={{ padding: 4 }}>
-      <div className="bg-gray-100 w-full mb-8 p-4 rounded-lg shadow-md">
-        {picdata && picdata.picture ? (
+        <div className=" w-full mb-8 p-4 ">
           <img
-            src={`${OnRun}/${picdata.picture}`}
-            alt="تصویر پروژه"
-            className="w-full h-36 rounded-lg mb-4"
+            src={picdata?.picture ? `${OnRun}/${picdata.picture}` : '/public/img/nopic.jpg'}
+            alt={picdata?.picture ? 'تصویر پروژه' : 'تصویر موجود نیست'}
+            className="h-64 rounded-lg mb-4 block mx-auto"
           />
-        ) : (
-          <img
-          src="/public/img/nopic.jpg"
-          alt="تصویر موجود نیست"
-          className="w-full h-48  rounded-lg mb-4 "
-        />        )}
-      </div>
+        </div>
         <Grid container spacing={3}>
           {planDetails.map((item) => (
             <Grid item xs={12} sm={4} key={item.value}>
@@ -95,7 +88,7 @@ const PlanDetail = () => {
                 }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
-                    '& fieldset': { 
+                    '& fieldset': {
                       borderColor: 'gray',
                     },
                   },
