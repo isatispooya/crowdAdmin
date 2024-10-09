@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Switch } from '@mui/material';
 import GlobalTextField from 'src/components/fild/textfiled';
 import PropTypes from 'prop-types';
@@ -50,9 +50,10 @@ const ContentInput = ({ contractData, setContractData }) => {
   };
 
   const handleTextFieldChange = (key) => (event) => {
+    const rawValue = event.target.value.replace(/,/g, '');
     setContractData({
       ...contractData,
-      [key]: event.target.value,
+      [key]: rawValue,
     });
   };
 
@@ -84,7 +85,6 @@ const ContentInput = ({ contractData, setContractData }) => {
             )}
 
             <GlobalTextField
-              type="text"
               label={label}
               value={formatNumber(contractData[key]) || ''}
               onChange={handleTextFieldChange(key)}
