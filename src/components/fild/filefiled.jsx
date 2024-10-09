@@ -1,7 +1,8 @@
+/* eslint-disable react/no-unknown-property */
 /* eslint-disable arrow-body-style */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Switch, FormControl, FormLabel, Input, Button, Link } from '@mui/material';
+import { Box, Switch, FormControl, FormLabel, Input, Button } from '@mui/material';
 import { OnRun } from 'src/api/OnRun';
 
 const SwitchWithFileInput = ({
@@ -48,8 +49,8 @@ const SwitchWithFileInput = ({
               boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, 0.1)',
             }}
           >
-            <Link
-              href={`${OnRun}/${localData[fileKey]}`}
+            <a
+              href={`${OnRun}${localData[fileKey]}`}
               target="_blank"
               rel="noopener noreferrer"
               sx={{
@@ -58,7 +59,7 @@ const SwitchWithFileInput = ({
               }}
             >
               {`فایل ${switchLabel}`}
-            </Link>
+            </a>
             <Button onClick={() => handleFileRemove(fileKey)}>حذف</Button>
           </Box>
         ) : (
