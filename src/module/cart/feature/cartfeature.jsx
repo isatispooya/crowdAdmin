@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { TbMessagePlus } from 'react-icons/tb';
-
+import { motion } from 'framer-motion';
 import usePostFinish from '../service/usePostFinish';
 
 const CardFeature = ({
@@ -26,58 +26,75 @@ const CardFeature = ({
   };
 
   return (
-    <Box>
+    <motion.div
+      whileHover={{ scale: 1.01 }}
+      transition={{ type: 'spring', stiffness: 300 }}
+      className="flex justify-center items-center"
+    >
       <Box
-        className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 flex flex-col justify-between items-center cursor-pointer transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gray-100 w-full max-w-[320px] h-auto"
+        className="bg-white shadow-lg rounded-3xl p-4 flex flex-col justify-between items-center cursor-pointer transition-all duration-300 hover:shadow-2xl w-full max-w-[350px]"
         onClick={() => handleCardClick(card.id)}
       >
-        <div className="flex justify-between items-center w-full mb-4">
+        <div className="flex justify-end w-full mb-4">
           <Button
-            onClick={() => openDeleteModal()}
+            onClick={(e) => {
+              e.stopPropagation();
+              openDeleteModal();
+            }}
             style={{
-              backgroundColor: '#fff',
               borderRadius: '50%',
-              minWidth: '40px',
-              height: '40px',
+              minWidth: '45px',
+              height: '45px',
             }}
           >
-            <span style={{ fontSize: '15px', marginTop: '5px' }}>❌</span>
+            <span style={{ fontSize: '18px', color: '#ff5c5c' }}>❌</span>
           </Button>
         </div>
 
-        <div className="flex flex-col items-center space-y-4 sm:space-y-5">
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-800 text-center">{card.company_name}</h2>
-          <div className="flex flex-col items-center space-y-2 sm:space-y-3">
-            <p className="text-sm sm:text-base font-medium text-gray-700">
-              شناسه: {card.nationalid}
-            </p>
-            <p className="text-sm sm:text-base font-medium text-gray-700">
-              سرمایه: {formatNumber(card.registered_capital)}
-            </p>
-            <p className="text-sm sm:text-base font-medium text-gray-700">
-              شماره ثبت: {card.registration_number}
-            </p>
-          </div>
+        <div className="flex flex-col items-center text-center mb-6 space-y-2">
+          <Typography variant="h5" className="font-bold text-gray-800">
+            {card.company_name || 'بدون نام'}
+          </Typography>
+          <Typography variant="body2" className="text-gray-600">
+            شناسه: {card.nationalid}
+          </Typography>
+          <Typography variant="body2" className="text-gray-600">
+            سرمایه: {formatNumber(card.registered_capital)} ریال
+          </Typography>
+          <Typography variant="body2" className="text-gray-600">
+            شماره ثبت: {card.registration_number}
+          </Typography>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4 mt-4">
+        <div className="flex justify-center gap-4 mb-4">
           <Button
-            onClick={() => handleClick(card.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick(card.id);
+            }}
             variant="contained"
             color="primary"
-            style={{ textTransform: 'none' }}
+            className="px-4 py-2 text-sm sm:text-base"
+            sx={{ textTransform: 'none', fontWeight: 'bold' }}
           >
             مشاهده و ویرایش
           </Button>
 
-          <Button onClick={handleFinish} style={{ textTransform: 'none' }}>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleFinish();
+            }}
+            variant="outlined"
+            className="px-4 py-2 text-sm sm:text-base"
+          >
             {card.finish_cart ? 'شروع' : 'اتمام'}
           </Button>
         </div>
 
-        <div className="flex flex-col items-center mt-2 sm:mt-4">
+        <div className="flex justify-center mt-2">
           <TbMessagePlus
-            style={{ fontSize: '24px', cursor: 'pointer', marginTop: '5px' }}
+            style={{ fontSize: '28px', cursor: 'pointer', color: '#007bff' }}
             onClick={(e) => {
               e.stopPropagation();
               handleModalOpen(setSendMessageModalOpen, card.id);
@@ -85,17 +102,17 @@ const CardFeature = ({
           />
         </div>
       </Box>
-    </Box>
+    </motion.div>
   );
 };
 
 CardFeature.propTypes = {
-  card: PropTypes.object,
-  handleCardClick: PropTypes.func,
-  handleClick: PropTypes.func,
-  openDeleteModal: PropTypes.func,
-  handleModalOpen: PropTypes.func,
-  setSendMessageModalOpen: PropTypes.func,
+  card: PropTypes.object.isRequired,
+  handleCardClick: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  openDeleteModal: PropTypes.func.isRequired,
+  handleModalOpen: PropTypes.func.isRequired,
+  setSendMessageModalOpen: PropTypes.func.isRequired,
 };
 
 export default CardFeature;

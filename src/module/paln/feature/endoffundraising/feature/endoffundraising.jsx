@@ -36,6 +36,8 @@ const EndOffUndraisingPage = () => {
     );
   };
 
+  console.log(form);
+  
   const handleSend = () => {
     mutate(form, {
       onSuccess: () => {

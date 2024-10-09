@@ -3,19 +3,21 @@ import { Grid, Card, CardContent, Typography, Button, Box, CircularProgress } fr
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import moment from 'moment-jalaali';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { motion } from 'framer-motion';
 import { useGetPlans } from '../../hooks/getPlans';
 
 const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);
   const navigate = useNavigate();
-  
-  const { data: plans, isLoading, isError } = useGetPlans();
+
+  const { data: plans, isLoading, isError, refetch } = useGetPlans();
 
   const formatNumber = (value) => {
     if (value == null) return '';
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   };
-  
+
   useEffect(() => {
     if (!isError && plans && !isLoading) {
       setPlanData(plans);
@@ -26,11 +28,26 @@ const PlanTableFeature = () => {
     navigate(`/plan/${trace_code}`);
   };
 
-  
+  const handleLoadClick = () => {
+    refetch();
+  };
 
   return (
     <Box sx={{ width: '100%', p: 2 }}>
       <ToastContainer />
+
+      <Button
+        variant="outlined"
+        sx={{ mb: 4 }}
+        onClick={handleLoadClick}
+        startIcon={
+          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+            <RefreshIcon />
+          </motion.div>
+        }
+      >
+        بارگذاری
+      </Button>
 
       {isLoading && (
         <Box display="flex" justifyContent="center" alignItems="center" height="100%">
@@ -77,13 +94,16 @@ const PlanTableFeature = () => {
                     {plan.persian_name || 'بدون نام'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    مبلغ تعیین شده: {plan.total_price ? `${formatNumber(plan.total_price)} ریال` : 'نامشخص'}
+                    مبلغ تعیین شده:{' '}
+                    {plan.total_price ? `${formatNumber(plan.total_price)} ریال` : 'نامشخص'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    تعداد واحدها: {plan.company_unit_counts ? formatNumber(plan.company_unit_counts) : 'نامشخص'}
+                    تعداد واحدها:{' '}
+                    {plan.company_unit_counts ? formatNumber(plan.company_unit_counts) : 'نامشخص'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    قیمت واحد: {plan.unit_price ? `${formatNumber(plan.unit_price)} ریال` : 'نامشخص'}
+                    قیمت واحد:{' '}
+                    {plan.unit_price ? `${formatNumber(plan.unit_price)} ریال` : 'نامشخص'}
                   </Typography>
 
                   <Typography variant="body2" sx={{ mb: 1 }}>
@@ -91,7 +111,10 @@ const PlanTableFeature = () => {
                   </Typography>
 
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    تاریخ: {plan.creation_date ? moment(plan.creation_date).format('jYYYY/jMM/jDD') : 'نامشخص'}
+                    تاریخ:{' '}
+                    {plan.creation_date
+                      ? moment(plan.creation_date).format('jYYYY/jMM/jDD')
+                      : 'نامشخص'}
                   </Typography>
                 </CardContent>
 
