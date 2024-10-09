@@ -6,7 +6,7 @@ const useDeleteAudit = (trace_code) => {
   const { refetch } = useGetAudit(trace_code);
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationKey: ['deleteProgress', trace_code],
+    mutationKey: ['deleteDelAudit', trace_code],
     mutationFn: (docId) => DeleteAudit(docId),
     onSettled: () => {
       refetch();

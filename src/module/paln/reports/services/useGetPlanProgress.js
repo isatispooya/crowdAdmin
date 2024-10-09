@@ -3,7 +3,7 @@ import { GetProgress } from './get&postProgress';
 
 const useGetProgress = (trace_code) => {
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ['documentation'],
+    queryKey: ['getPlanProgress'],
     queryFn: () => GetProgress(trace_code),
   });
   return {

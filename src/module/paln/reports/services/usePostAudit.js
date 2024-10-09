@@ -5,7 +5,7 @@ import useGetAudit from './useGetAudit';
 const usePostAudit = (trace_code) => {
   const { refetch } = useGetAudit(trace_code);
   const { date, mutate, isPending, isError, isSuccess } = useMutation({
-    mutationKey: ['postdocument', trace_code],
+    mutationKey: ['PostAudit', trace_code],
     mutationFn: (postData) => PostAudit(trace_code, postData),
     onSettled: () => {
       refetch();

@@ -6,7 +6,7 @@ const useDeleteProgress = (trace_code) => {
   const { refetch } = useGetProgress(trace_code);
 
   const { mutate, isPending, isError, isSuccess } = useMutation({
-    mutationKey: ['deleteProgress', trace_code],
+    mutationKey: ['delProgress', trace_code],
     mutationFn: (docId) => DeleteProgress(docId),
     onSettled: () => {
       refetch();

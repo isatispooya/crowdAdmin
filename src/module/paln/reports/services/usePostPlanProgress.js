@@ -5,7 +5,7 @@ import { PostProgress } from './get&postProgress';
 const usePostProgress = (trace_code) => {
   const { refetch } = useGetProgress(trace_code);
   const { date, mutate, isPending, isError, isSuccess } = useMutation({
-    mutationKey: ['postdocument', trace_code],
+    mutationKey: ['PostPlanProgress', trace_code],
     mutationFn: (postData) => PostProgress(trace_code, postData),
     onSettled: () => {
       refetch();

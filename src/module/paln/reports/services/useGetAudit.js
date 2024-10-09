@@ -3,7 +3,7 @@ import { GetAudit } from './get&postAudit';
 
 const useGetAudit = (trace_code) => {
   const { data, isPending, isError, error, refetch } = useQuery({
-    queryKey: ['documentation'],
+    queryKey: ['GetAudit'],
     queryFn: () => GetAudit(trace_code),
   });
   return {
