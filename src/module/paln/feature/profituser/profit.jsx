@@ -1,11 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable react/button-has-type */
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Typography, CircularProgress, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import {
+  Box,
+  Typography,
+  CircularProgress,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from '@mui/material';
 import { utils, writeFile } from 'xlsx';
 import moment from 'moment-jalaali';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import { motion } from 'framer-motion';
 import useGetProfit from './service/useProfitGet';
 
 const ProfitPage = () => {
@@ -13,7 +25,8 @@ const ProfitPage = () => {
   const { data, isLoading } = useGetProfit(trace_code);
 
   const formatDate = (date) => (date ? moment(date).format('jYYYY/jM/jD') : '—');
-  const formatNumber = (value) => (value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '—');
+  const formatNumber = (value) =>
+    value ? value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '—';
   const roundValue = (value) => (value !== null ? Math.round(value).toLocaleString() : '—');
 
   const fields = [
@@ -29,7 +42,7 @@ const ProfitPage = () => {
     { label: 'تاریخ سود اول', key: 'date1', formatter: formatDate },
     { label: 'تاریخ سود دوم', key: 'date2', formatter: formatDate },
     { label: 'تاریخ سود سوم', key: 'date3', formatter: formatDate },
-    { label: 'تاریخ سود چهارم', key: 'date4', formatter: formatDate }
+    { label: 'تاریخ سود چهارم', key: 'date4', formatter: formatDate },
   ];
 
   const handleDownloadExcel = () => {
@@ -37,7 +50,9 @@ const ProfitPage = () => {
       const worksheet = utils.json_to_sheet(
         data.map((row) =>
           fields.reduce((acc, field) => {
-            acc[field.label] = field.formatter ? field.formatter(row[field.key]) : row[field.key] || '—';
+            acc[field.label] = field.formatter
+              ? field.formatter(row[field.key])
+              : row[field.key] || '—';
             return acc;
           }, {})
         )
@@ -106,13 +121,21 @@ const ProfitPage = () => {
             textAlign: 'center',
           }}
         >
-          <button
-            className="bg-blue-800 text-white py-1 px-2 rounded-sm flex self-start"
-            id="download-excel"
+          <Button
+            component={motion.button}
+            whileTap={{ scale: 0.9 }}
+            sx={{
+              py: 1,
+              px: 2,
+              display: 'flex',
+              alignSelf: 'end',
+            }}
+            variant="outlined"
+            startIcon={<FileDownloadIcon />}
             onClick={handleDownloadExcel}
           >
             دانلود فایل اکسل
-          </button>
+          </Button>
 
           <Typography variant="h4" fontWeight="bold">
             گزارش سود کاربران

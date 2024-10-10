@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
-import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Outlet, Navigate, useRoutes, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
@@ -11,16 +12,25 @@ export const PlansPage = lazy(() => import('src/module/paln/page/plansPage'));
 export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
 export const Userdetail = lazy(() => import('src/module/userDetail/feature/userdetail'));
 export const UserPage = lazy(() => import('src/components/user'));
-export const PaymentPage = lazy(() => import('src/components/payment'));
 export const ProfilePage = lazy(() => import('src/pages/profile'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const ProcessProjectPage = lazy(() => import('src/pages/processProject'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
-// ----------------------------------------------------------------------
+const motionWrapper = (Component = React.FC) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 20 }}
+    transition={{ duration: 0.5 }}
+  >
+    <Component />
+  </motion.div>
+);
 
 export default function Router() {
+  const location = useLocation();
   const routes = useRoutes([
     {
       element: (
@@ -31,27 +41,26 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <IndexPage />, index: true },
-        { path: 'card', element: <Sterpercrowd /> },
-        { path: 'request', element: <UserPage /> },
-        { path: 'process', element: <ProcessProjectPage /> },
-        { path: 'ProfilePage', element: <ProfilePage /> },
-        { path: 'plans', element: <PlansPage /> },
-        { path: '/plan/:trace_code', element: <PlanDetailPage /> },
-        { path: '/userDetail/:userId', element: <Userdetail /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'payment', element: <PaymentPage /> },
+        { element: motionWrapper(IndexPage), index: true },
+        { path: 'card', element: motionWrapper(Sterpercrowd) },
+        { path: 'request', element: motionWrapper(UserPage) },
+        { path: 'process', element: motionWrapper(ProcessProjectPage) },
+        { path: 'ProfilePage', element: motionWrapper(ProfilePage) },
+        { path: 'plans', element: motionWrapper(PlansPage) },
+        { path: '/plan/:trace_code', element: motionWrapper(PlanDetailPage) },
+        { path: '/userDetail/:userId', element: motionWrapper(Userdetail) },
+        { path: 'user', element: motionWrapper(UserPage) },
       ],
     },
     {
       path: 'login',
-      element: <LoginPage />,
+      element: motionWrapper(LoginPage),
     },
-    { path: 'request', element: <RequestPage /> },
+    { path: 'request', element: motionWrapper(RequestPage) },
 
     {
       path: '404',
-      element: <Page404 />,
+      element: motionWrapper(Page404),
     },
     {
       path: '*',
@@ -59,5 +68,9 @@ export default function Router() {
     },
   ]);
 
-  return routes;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div key={location.pathname}>{routes}</motion.div>
+    </AnimatePresence>
+  );
 }

@@ -10,40 +10,48 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import AssignmentLateIcon from '@mui/icons-material/AssignmentLate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import { motion } from 'framer-motion';
 import useGetDashboard from './service/usegetdashboard';
 
 export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
   const { data } = useGetDashboard();
+
   const widgetData = [
     {
       title: 'تعداد کل طرح‌ها',
       total: data ? data['all plan'] : 0,
-      icon: <ListAltIcon style={{ fontSize: '2rem' }} color="action" />,
+      icon: ListAltIcon,
+      color: '#3f51b5',
     },
     {
       title: 'تعداد طرح‌های منقضی شده',
       total: data ? data['expire plan'] : 0,
-      icon: <AssignmentLateIcon style={{ fontSize: '2rem' }} color="error" />,
+      icon: AssignmentLateIcon,
+      color: '#f44336',
     },
     {
       title: 'تعداد طرح‌های فعال',
       total: data ? data['active plan'] : 0,
-      icon: <PlayCircleOutlineIcon style={{ fontSize: '2rem' }} color="success" />,
+      icon: PlayCircleOutlineIcon,
+      color: '#4caf50',
     },
     {
       title: 'تعداد کل درخواست‌ها',
       total: data ? data['all cart'] : 0,
-      icon: <ShoppingCartIcon style={{ fontSize: '2rem' }} color="primary" />,
+      icon: ShoppingCartIcon,
+      color: '#2196f3',
     },
     {
       title: 'تعداد درخواست‌های پایان یافته',
       total: data ? data['expire cart'] : 0,
-      icon: <CheckCircleOutlineIcon style={{ fontSize: '2rem' }} color="warning" />,
+      icon: CheckCircleOutlineIcon,
+      color: '#ff9800',
     },
     {
       title: 'تعداد درخواست‌های فعال',
       total: data ? data['active cart'] : 0,
-      icon: <MonetizationOnIcon style={{ fontSize: '2rem' }} color="info" />,
+      icon: MonetizationOnIcon,
+      color: '#00bcd4',
     },
   ];
 
@@ -52,55 +60,65 @@ export default function AppWidgetSummary({ color = 'primary', sx, ...other }) {
       container
       spacing={2}
       justifyContent="center"
-      sx={{ mt: 8, mb: 8, mx: 'auto', maxWidth: '100%', width: '100%' }}
+      sx={{ mt: 4, mb: 4, mx: 'auto', maxWidth: '100%', width: '100%' }}
     >
-      {widgetData.map((widget, index) => (
-        <Grid item xs={12} sm={6} md={4} lg={2} key={index}>
-          <Card
-            sx={{
-              p: 3,
-              height: 200, // ارتفاع ثابت برای هر باکس
-              borderRadius: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: 3,
-              transition: '0.3s',
-              background: 'rgba(255, 255, 255, 0.8)',
-              '&:hover': {
-                transform: 'scale(1.05)',
-                boxShadow: 6,
-                background: 'rgba(255, 255, 255, 1)',
-              },
-              ...sx,
-            }}
-            {...other}
-          >
-            <Box
+      {widgetData.map((widget, index) => {
+        const IconComponent = widget.icon;
+        return (
+          <Grid item xs={12} sm={6} md={4} lg={2} key={index}>
+            <Card
               sx={{
-                width: 80,
-                height: 80,
+                p: 2,
+                height: 150, // کاهش ارتفاع کارت
+                borderRadius: '12px', // گوشه‌های نرم‌تر اما کمتر
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                mb: 2, 
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', // سایه نرم‌تر و کمتر
+                transition: '0.3s',
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,1))',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.15)', // سایه بهتر هنگام هاور
+                },
+                ...sx,
               }}
+              {...other}
             >
-              {widget.icon}
-            </Box>
+              <motion.div
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Box
+                  sx={{
+                    width: 60, // کاهش اندازه آیکون
+                    height: 60,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mb: 1,
+                    color: widget.color,
+                  }}
+                >
+                  <IconComponent style={{ fontSize: '2rem' }} />
+                </Box>
+              </motion.div>
 
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-                {fShortenNumber(widget.total)}
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {widget.title}
-              </Typography>
-            </Box>
-          </Card>
-        </Grid>
-      ))}
+              <Box sx={{ textAlign: 'center', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <Typography variant="h5" sx={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                  {widget.total === 0 ? 0 : fShortenNumber(widget.total)}
+                </Typography>
+
+                <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: '500' }}>
+                  {widget.title}
+                </Typography>
+              </Box>
+            </Card>
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }

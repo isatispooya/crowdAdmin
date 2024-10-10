@@ -6,12 +6,25 @@ import moment from 'moment-jalaali';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { motion } from 'framer-motion';
 import { useGetPlans } from '../../hooks/getPlans';
+import useUpdatePlan from '../../service/planCard/useUpdatePlan';
 
 const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);
   const navigate = useNavigate();
 
-  const { data: plans, isLoading, isError, refetch } = useGetPlans();
+  const [isRotating, setIsRotating] = useState(false);
+
+  const { data: plans, isLoading, isError } = useGetPlans();
+  const { mutate } = useUpdatePlan();
+
+  const handleLoadClick = () => {
+    setIsRotating(true);
+    mutate(planData);
+    console.log(planData);
+    setTimeout(() => {
+      setIsRotating(false);
+    }, 2000);
+  };
 
   const formatNumber = (value) => {
     if (value == null) return '';
@@ -28,10 +41,6 @@ const PlanTableFeature = () => {
     navigate(`/plan/${trace_code}`);
   };
 
-  const handleLoadClick = () => {
-    refetch();
-  };
-
   return (
     <Box sx={{ width: '100%', p: 2 }}>
       <ToastContainer />
@@ -41,7 +50,10 @@ const PlanTableFeature = () => {
         sx={{ mb: 4 }}
         onClick={handleLoadClick}
         startIcon={
-          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
+          <motion.div
+            animate={{ rotate: isRotating ? 360 : 0 }}
+            transition={{ repeat: isRotating ? Infinity : 0, duration: 0.8 }}
+          >
             <RefreshIcon />
           </motion.div>
         }
@@ -78,7 +90,7 @@ const PlanTableFeature = () => {
                   },
                   borderRadius: '15px',
                 }}
-                onClick={() => handleCardClick(plan.trace_code)}
+                onClick={() => handleCardClick(plan.plan.trace_code)}
               >
                 <CardContent
                   sx={{
@@ -91,36 +103,43 @@ const PlanTableFeature = () => {
                   }}
                 >
                   <Typography variant="h6" component="div" sx={{ fontWeight: 'bold', mb: 1 }}>
-                    {plan.persian_name || 'بدون نام'}
+                    {plan.plan.persoan_approved_symbol || 'بدون نام'}
+                  </Typography>
+                  <Typography variant="p" component="div" sx={{  mb: 1,color:'#808b96',fontSize:'17px' }}>
+                    {plan.plan.persian_name || 'بدون نام'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
                     مبلغ تعیین شده:{' '}
-                    {plan.total_price ? `${formatNumber(plan.total_price)} ریال` : 'نامشخص'}
+                    {plan.plan.total_price
+                      ? `${formatNumber(plan.plan.total_price)} ریال`
+                      : 'نامشخص'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
                     تعداد واحدها:{' '}
-                    {plan.company_unit_counts ? formatNumber(plan.company_unit_counts) : 'نامشخص'}
+                    {plan.plan.company_unit_counts
+                      ? formatNumber(plan.plan.company_unit_counts)
+                      : 'نامشخص'}
                   </Typography>
                   <Typography variant="body2" sx={{ mb: 1 }}>
                     قیمت واحد:{' '}
-                    {plan.unit_price ? `${formatNumber(plan.unit_price)} ریال` : 'نامشخص'}
+                    {plan.plan.unit_price ? `${formatNumber(plan.plan.unit_price)} ریال` : 'نامشخص'}
                   </Typography>
 
                   <Typography variant="body2" sx={{ mb: 1 }}>
-                    صنعت: {plan.industry_group_description || 'نامشخص'}
+                    صنعت: {plan.plan.industry_group_description || 'نامشخص'}
                   </Typography>
 
                   <Typography variant="body2" sx={{ mb: 1 }}>
                     تاریخ:{' '}
                     {plan.creation_date
-                      ? moment(plan.creation_date).format('jYYYY/jMM/jDD')
+                      ? moment(plan.plan.creation_date).format('jYYYY/jMM/jDD')
                       : 'نامشخص'}
                   </Typography>
                 </CardContent>
 
                 <Button
                   fullWidth
-                  onClick={() => handleCardClick(plan.trace_code)}
+                  onClick={() => handleCardClick(plan.plan.trace_code)}
                   variant="contained"
                   color="primary"
                   sx={{ textTransform: 'none', mt: 2 }}

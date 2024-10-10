@@ -8,6 +8,6 @@ export const GetDetailPlan = async (trace_code) => {
       Authorization: `Bearer ${accessApi}`,
       'Content-Type': 'application/json',
     },
-  });
-  return response.data;
+  });  
+  return response.data.plan;
 };
