@@ -1,25 +1,20 @@
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import PlanDetailTab from '../feature/plandetailTab';
-import { fetchDetail } from '../service/planDetailService';
+import useGetPlanDetail from '../service/plandetail/useGetPlandetail';
 
 const PlanDetailPage = () => {
   const [idRow, setIdRow] = useState();
   const { trace_code } = useParams();
   
-  const { data , refetch } = useQuery({
-    queryKey: ['planDetail', trace_code],
-    queryFn: () => fetchDetail(trace_code),
-  });
+  const { data , refetch } = useGetPlanDetail(trace_code)
 
   useEffect(() => {
     setIdRow(trace_code);
   }, [trace_code]);
 
 
-console.log(data);
 
   return (
     <div

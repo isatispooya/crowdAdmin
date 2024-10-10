@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 
-const MotionButton = motion(Button);
+const MotionButton = motion.create(Button);
 
 const SubmitButton = ({ onClick }) => {
   const [isHovered, setIsHovered] = useState(false);

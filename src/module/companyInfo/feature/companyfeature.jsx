@@ -20,7 +20,7 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    mutation.mutateAsync(localData, cartId);
+    await mutation.mutateAsync(localData, cartId);
     incrementPage();
   };
 
@@ -60,7 +60,7 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
               />
 
               <Box display="flex" justifyContent="center" width="100%" mt={4}>
-                <div className="mt-10 ">
+                <div className="mt-10">
                   <div className="bg-gray-200 text-white rounded-t-3xl p-6 text-center mb-8">
                     <h1 className="text-2xl font-bold text-gray-700">پیوست اسناد</h1>
                   </div>
@@ -77,7 +77,6 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
                   >
                     <div className="flex items-center justify-center mb-8">
                       <PriorityHighIcon className="text-2xl text-red-600 mr-2" />
-
                       <p className="text-xl text-red-600 font-semibold">
                         حجم فایل می تواند 20 مگابایت باشد
                       </p>
@@ -102,13 +101,11 @@ const CompanyFeatuet = ({ localData, handleFileRemove, handleRangeChange, setLoc
                         localData={localData}
                         handleFileRemove={handleFileRemove}
                       />
-
                       <ColumnsThisyear
                         setLocalData={setLocalData}
                         localData={localData}
                         handleFileRemove={handleFileRemove}
                       />
-
                       <Logo
                         setLocalData={setLocalData}
                         localData={localData}

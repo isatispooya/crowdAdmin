@@ -20,7 +20,6 @@ const PlanTableFeature = () => {
   const handleLoadClick = () => {
     setIsRotating(true);
     mutate(planData);
-    console.log(planData);
     setTimeout(() => {
       setIsRotating(false);
     }, 2000);
@@ -73,7 +72,7 @@ const PlanTableFeature = () => {
         {!isLoading &&
           planData.length > 0 &&
           planData.map((plan) => (
-            <Grid item xs={12} sm={4} md={3} key={plan.trace_code}>
+            <Grid item xs={12} sm={4} md={3} key={plan.plan.trace_code}>
               <Card
                 sx={{
                   display: 'flex',

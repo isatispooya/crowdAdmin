@@ -27,8 +27,8 @@ function CustomTabPanel(props) {
 
 CustomTabPanel.propTypes = {
   children: PropTypes.node,
-  index: PropTypes.number,
-  value: PropTypes.number,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
 };
 
 function a11yProps(index) {
@@ -153,8 +153,8 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
 };
 
 PlanDetailTab.propTypes = {
-  planData: PropTypes.object,
-  idRow: PropTypes.string,
+  planData: PropTypes.object.isRequired,
+  idRow: PropTypes.string.isRequired,
   refetch: PropTypes.func,
 };
 

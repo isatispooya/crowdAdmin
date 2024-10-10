@@ -30,7 +30,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
             name="Lock_company_name"
             inputProps={{ 'aria-label': 'controlled' }}
             className="mr-4"
-            checked={localData.Lock_company_name } 
+            checked={localData.Lock_company_name ?? false } 
             onChange={(e) => setLocalData({ ...localData, Lock_company_name: e.target.checked })}
           />
 
@@ -48,7 +48,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_company_kind"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_company_kind }
+              checked={localData.Lock_company_kind ?? false }
               onChange={(e) => setLocalData({ ...localData, Lock_company_kind: e.target.checked })}
             />
           </div>
@@ -83,7 +83,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_nationalid"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_nationalid}
+              checked={localData.Lock_nationalid ?? false}
               onChange={(e) => setLocalData({ ...localData, Lock_nationalid: e.target.checked })}
             />
           </div>
@@ -102,7 +102,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_registration_number"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_registration_number}
+              checked={localData.Lock_registration_number ?? false}
               onChange={(e) =>
                 setLocalData({ ...localData, Lock_registration_number: e.target.checked })
               }
@@ -121,7 +121,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_registered_capital"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_registered_capital}
+              checked={localData.Lock_registered_capital ?? false}
               onChange={(e) =>
                 setLocalData({ ...localData, Lock_registered_capital: e.target.checked })
               }
@@ -146,7 +146,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="lock_amount_of_registered_capital"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.lock_amount_of_registered_shares}
+              checked={localData.lock_amount_of_registered_shares ?? false}
               onChange={(e) =>
                 setLocalData({ ...localData, lock_amount_of_registered_shares: e.target.checked })
               }
@@ -170,7 +170,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_newspaper"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_newspaper}
+              checked={localData.Lock_newspaper ?? false}
               onChange={(e) => setLocalData({ ...localData, Lock_newspaper: e.target.checked })}
             />
           </div>
@@ -190,7 +190,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               <Switch
                 name="Lock_date_newspaper"
                 inputProps={{ 'aria-label': 'controlled' }}
-                checked={localData.Lock_date_newspaper}
+                checked={localData.Lock_date_newspaper ?? false}
                 onChange={(e) =>
                   setLocalData({ ...localData, Lock_date_newspaper: e.target.checked })
                 }
@@ -218,7 +218,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_personnel"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_personnel}
+              checked={localData.Lock_personnel ?? false}
               onChange={(e) => setLocalData({ ...localData, Lock_personnel: e.target.checked })}
             />
           </div>
@@ -236,7 +236,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="lock_city"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.lock_city}
+              checked={localData.lock_city ?? false}
               onChange={(e) => setLocalData({ ...localData, lock_city: e.target.checked })}
             />
           </div>
@@ -254,7 +254,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_address"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_address}
+              checked={localData.Lock_address ?? false}
               onChange={(e) => setLocalData({ ...localData, Lock_address: e.target.checked })}
             />
           </div>
@@ -276,7 +276,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
                 name="lock_year_of_establishment"
                 inputProps={{ 'aria-label': 'controlled' }}
                 className="ml-4"
-                checked={localData.lock_year_of_establishment}
+                checked={localData.lock_year_of_establishment ?? false}
                 onChange={(e) =>
                   setLocalData({ ...localData, lock_year_of_establishment: e.target.checked })
                 }
@@ -305,7 +305,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="lock_exchange_code"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.lock_exchange_code}
+              checked={localData.lock_exchange_code ?? false}
               onChange={(e) => setLocalData({ ...localData, lock_exchange_code: e.target.checked })}
             />
           </div>
@@ -323,7 +323,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="lock_postal_code"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.lock_postal_code}
+              checked={localData.lock_postal_code ?? false}
               onChange={(e) => setLocalData({ ...localData, lock_postal_code: e.target.checked })}
             />
           </div>
@@ -341,7 +341,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_email"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_email}
+              checked={localData.Lock_email ?? false}
               onChange={(e) => setLocalData({ ...localData, Lock_email: e.target.checked })}
             />
           </div>
@@ -359,7 +359,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_activity_industry"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_activity_industry}
+              checked={localData.Lock_activity_industry ?? false}
               onChange={(e) =>
                 setLocalData({ ...localData, Lock_activity_industry: e.target.checked })
               }
@@ -391,7 +391,7 @@ const CompanyInfoInput = ({ localData, setLocalData, handleRangeChange }) => {
               name="Lock_amount_of_request"
               inputProps={{ 'aria-label': 'controlled' }}
               className="ml-4"
-              checked={localData.Lock_amount_of_request}
+              checked={localData.Lock_amount_of_request ?? false}
               onChange={(e) =>
                 setLocalData({ ...localData, Lock_amount_of_request: e.target.checked })
               }
