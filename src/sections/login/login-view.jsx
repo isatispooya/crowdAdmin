@@ -115,6 +115,7 @@ export default function LoginView() {
       <ToastContainer autoClose={3000} />
       <Stack spacing={3} sx={{ mb: 3 }}>
         <TextField
+          autoComplete="off"
           value={nationalCode}
           onChange={(e) => setNationalCode(e.target.value)}
           label="شماره ملی"
@@ -123,6 +124,7 @@ export default function LoginView() {
         {step === 1 ? (
           <>
             <TextField
+              autoComplete="off"
               onChange={(e) => setCaptchaInput(e.target.value)}
               label="کپچا"
               value={captchaInput}
