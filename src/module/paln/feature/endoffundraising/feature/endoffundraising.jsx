@@ -1,11 +1,11 @@
+/* eslint-disable no-nested-ternary */
 import { Box, TextField, Typography, Paper, Grid } from '@mui/material';
-import DatePicker, { DateObject } from 'react-multi-date-picker';
+import DatePicker from 'react-multi-date-picker';
 import persian from 'react-date-object/calendars/persian';
 import persian_fa from 'react-date-object/locales/persian_fa';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SubmitButton } from 'src/components/button';
-import { toast } from 'react-toastify';
 import usePostEndOfFundraising from '../../../service/endoffundraising/usePostpostEndOfFundraising';
 import { convertToEnglishDigits } from '../utils/convertToEN';
 import useGetEndOfFundraising from '../../../service/endoffundraising/useGetEndOfFundraising';
@@ -14,21 +14,14 @@ const EndOffUndraisingPage = () => {
   const [form, setForm] = useState([]);
   const { trace_code } = useParams();
 
-  const { mutate, data: dataMut } = usePostEndOfFundraising(form, trace_code);
+  const { mutate } = usePostEndOfFundraising(trace_code, form);
+
   const { data } = useGetEndOfFundraising(trace_code);
   useEffect(() => {
     if (data) {
-      const newData = data.map(i=>({...i,date:new DateObject(i.date), date_capitalization:new DateObject(i.date_capitalization)}))
-      
-      setForm(newData);
+      setForm(data);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (dataMut) {
-      setForm(dataMut);
-    }
-  }, [dataMut]);
 
   const handleChange = (id, field, value) => {
     setForm((prevData) =>
@@ -36,16 +29,8 @@ const EndOffUndraisingPage = () => {
     );
   };
 
-  
   const handleSend = () => {
-    mutate(form, {
-      onSuccess: () => {
-        toast.success('اطلاعات با موفقیت ارسال شد');
-      },
-      onError: () => {
-        toast.error('خطا در ارسال اطلاعات'); 
-      },
-    });
+    mutate();
   };
 
   return (
@@ -89,7 +74,7 @@ const EndOffUndraisingPage = () => {
                       label="مبلغ"
                       value={item.amount}
                       variant="outlined"
-                      onChange={(e) => handleChange(item.id, 'amount', parseFloat(e.target.value))} // Parse to number
+                      onChange={(e) => handleChange(item.id, 'amount', parseFloat(e.target.value))}
                     />
                   </Grid>
 
@@ -101,9 +86,8 @@ const EndOffUndraisingPage = () => {
                       fullWidth
                       disabled
                       label="نوع"
-                      value={item.type}
+                      value={item.type === '2' ? 'سود' : item.type === '1' ? 'اصل' : ''}
                       variant="outlined"
-                      onChange={(e) => handleChange(item.id, 'type', e.target.value)}
                     />
                   </Grid>
 

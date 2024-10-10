@@ -5,8 +5,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import EndOffUndraisingPage from './feature/endoffundraising';
-import ParticipentAccrdion from './feature/participentAccrdion';
+import EndOffUndraisingPage from './endoffundraising';
+import ParticipentAccrdion from './participentAccrdion';
 
 export default function ControlledAccordionsEnd() {
   const [expanded, setExpanded] = React.useState(false);

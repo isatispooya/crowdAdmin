@@ -7,7 +7,7 @@ import PlanDetail from './detail/planDetail';
 import PlanComments from './comment/planComments';
 import ControlledAccordions from '../reports/module/reportsView';
 import ProfitPage from './profituser/profit';
-import ControlledAccordionsEnd from './endoffundraising/endoffunderaisingAccrdion';
+import ControlledAccordionsEnd from './endoffundraising/feature/endoffunderaisingAccrdion';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
