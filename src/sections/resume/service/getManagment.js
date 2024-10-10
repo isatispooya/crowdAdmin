@@ -1,4 +1,3 @@
-import { OnRun } from 'src/api/OnRun';
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
 
