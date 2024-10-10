@@ -37,6 +37,7 @@ export default function LoginView() {
         setCaptchaImage(response.data.captcha.image);
       })
       .catch((err) => {
+        console.error(err);
       });
   };
 
@@ -177,11 +178,11 @@ export default function LoginView() {
           color: alpha(theme.palette.background.default, 0.9),
           imgUrl: '/assets/background/overlay_4.jpg',
         }),
-        height: 1,
+        height: '100vh',
       }}
     >
       <ToastContainer />
-      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+      <Stack alignItems="center" justifyContent="center" sx={{ minHeight: '100vh' }}>
         <Card
           sx={{
             p: 5,
