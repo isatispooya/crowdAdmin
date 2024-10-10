@@ -34,6 +34,7 @@ const Attachement = ({ id }) => {
       const response = await axios.post(`${OnRun}/api/resume/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'X-Requested-With': 'XMLHttpRequest',
           Authorization: `Bearer ${accessApi}`,
         },
         maxBodyLength: Infinity

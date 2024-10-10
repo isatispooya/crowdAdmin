@@ -17,6 +17,7 @@ const Profile = () => {
       .get(`${OnRun}/api/information/`, {
         headers: {
           Authorization: `Bearer ${accessApi}`,
+          'X-Requested-With': 'XMLHttpRequest',
         },
       })
       .then((response) => {

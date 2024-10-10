@@ -1,7 +1,5 @@
-import axios from 'axios';
 import api from 'src/api/apiClient';
 import { getCookie } from 'src/api/cookie';
-import { OnRun } from 'src/api/OnRun';
 
 const accessApi = getCookie('accessApi');
 
@@ -17,8 +15,8 @@ export const fetchShareholder = async (cartId) => {
 };
 
 export const sendShareholder = async (cartId, formSections) => {  
-  const response = await axios.post(
-    `${OnRun}/api/shareholder/admin/${cartId}/`,
+  const response = await api.post(
+    `/api/shareholder/admin/${cartId}/`,
     (formSections = { shareholder: formSections }),
     {
       headers: {
