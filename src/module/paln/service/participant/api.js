@@ -10,23 +10,15 @@ export const GetParticipant = async (trace_code) => {
       'Content-Type': 'application/json',
     },
   });
-  
-    return response.data;
+  return response.data;
+};
 
-  };
-
-  export const postInvistor = async (trace_code, data) => {
-    const response = await api.patch(
-      `/api/payment/document/${trace_code}/`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${accessApi}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
-    return response.data;
-  };
-  
-  
+export const postInvistor = async (trace_code, data) => {
+  const response = await api.patch(`/api/payment/document/${trace_code}/`, data, {
+    headers: {
+      Authorization: `Bearer ${accessApi}`,
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.data;
+};

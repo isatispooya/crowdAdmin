@@ -34,6 +34,9 @@ const PlanDetail = () => {
     );
   }
 
+  const nameField = planDetails.find((item) => item.label === 'عنوان');
+  const otherFields = planDetails.filter((item) => item.label !== 'عنوان');
+
   return (
     <Box
       sx={{
@@ -60,16 +63,48 @@ const PlanDetail = () => {
           </Typography>
         </div>
       </Paper>
+
       <Box sx={{ padding: 4 }}>
-        <div className=" w-full mb-8 p-4 ">
+        {nameField && (
+          <Grid container spacing={3} mb={3}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label={nameField.label}
+                variant="outlined"
+                value={
+                  nameField.isDate
+                    ? formatDate(data?.[nameField.value])
+                    : data?.[nameField.value] ?? 'اطلاعات موجود نیست.'
+                }
+                InputProps={{
+                  readOnly: true,
+                  sx: {
+                    color: data?.[nameField.value] !== undefined ? 'inherit' : 'darkred',
+                  },
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: 'gray',
+                    },
+                  },
+                }}
+              />
+            </Grid>
+          </Grid>
+        )}
+
+        <div className="w-full mb-8 p-4">
           <img
             src={picdata?.picture ? `${OnRun}/${picdata.picture}` : '/public/img/nopic.jpg'}
             alt={picdata?.picture ? 'تصویر پروژه' : 'تصویر موجود نیست'}
             className="h-64 rounded-lg mb-4 block mx-auto"
           />
         </div>
+
         <Grid container spacing={3}>
-          {planDetails.map((item) => (
+          {otherFields.map((item) => (
             <Grid item xs={12} sm={4} key={item.value}>
               <TextField
                 fullWidth

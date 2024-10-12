@@ -1,7 +1,7 @@
 
 export const plan_fields_input = () => [
     { label: 'تاریخ ایجاد', value: 'creation_date', isDate: true },
-    { label: 'نام فارسی', value: 'persian_name' },
+    { label: 'عنوان', value: 'persian_name' },
     { label: 'نام فارسی پیشنهادی', value: 'persian_suggested_symbol' },
     { label: 'نماد تایید شده', value: 'persian_approved_symbol' },
     { label: 'نام انگلیسی', value: 'english_name' },
