@@ -1312,6 +1312,11 @@ date-fns@^3.3.1:
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-3.6.0.tgz"
   integrity sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==
 
+dayjs@^1.11.13:
+  version "1.11.13"
+  resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.13.tgz"
+  integrity sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==
+
 debug@^3.2.7:
   version "3.2.7"
   resolved "https://registry.npmjs.org/debug/-/debug-3.2.7.tgz"
@@ -2549,6 +2554,11 @@ jalaali-js@^1.1.0:
   version "1.2.7"
   resolved "https://registry.npmjs.org/jalaali-js/-/jalaali-js-1.2.7.tgz"
   integrity sha512-gE+YHWSbygYAoJa+Xg8LWxGILqFOxZSBQQw39ghel01fVFUxV7bjL0x1JFsHcLQ3uPjvn81HQMa+kxwyPWnxGQ==
+
+jalaliday@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npmjs.org/jalaliday/-/jalaliday-2.3.0.tgz"
+  integrity sha512-B/m3TqsRrTFED/HBDqON6rPKe0MpoLxNICZ5uZeZ/scHJUHKQNr1n+wdZSj8MxrY1Bmo05gllZeNEw4beXd2oQ==
 
 jiti@^1.21.0:
   version "1.21.6"

@@ -28,7 +28,7 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
   flexDirection: 'row-reverse',
   padding: theme.spacing(1.5),
   display: 'flex',
-  justifyContent: 'center', // Centering the content
+  justifyContent: 'center', 
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
