@@ -1,15 +1,22 @@
 import { Box, TextField, Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
+import jalaliday from 'jalaliday';
 import useGetUserDetail from '../service/useGetUserDetail';
+
+dayjs.extend(jalaliday);
 
 const PrivatePerson = () => {
   const { userId } = useParams();
   const { data } = useGetUserDetail(userId);
+
+  const toJalali = (date) => (date ? dayjs(date).calendar('jalali').format('YYYY/MM/DD') : 'ندارد');
+
   const fields = [
     { label: 'شناسه منحصر به فرد', value: (item) => item.uniqueIdentifier },
     { label: 'نام', value: (item) => item.firstName || 'ندارد' },
     { label: 'نام خانوادگی', value: (item) => item.lastName || 'ندارد' },
-    { label: 'تاریخ تولد', value: (item) => item.birthDate || 'ندارد' },
+    { label: 'تاریخ تولد', value: (item) => toJalali(item.birthDate) },
     { label: 'نام پدر', value: (item) => item.fatherName || 'ندارد' },
     { label: 'جنسیت', value: (item) => item.gender || 'ندارد' },
     { label: 'محل تولد', value: (item) => item.placeOfBirth || 'ندارد' },
