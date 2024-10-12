@@ -21,7 +21,7 @@ const ProgressLineChart = ({ progress, label }) => {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <span className="ml-5 px-2 text-sm font-medium text-gray-700">{progress}</span>
+        <span className="ml-5 px-2 text-sm font-medium text-gray-700">{progress}%</span>
       </div>
     </div>
   );

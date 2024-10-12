@@ -64,6 +64,7 @@ const PlanTableFeature = () => {
   const handleCardClick = (trace_code) => {
     navigate(`/plan/${trace_code}`);
   };
+  console.log(plans)
 
   return (
     <Box sx={{ width: '100%', p: 2 }}>
@@ -204,7 +205,7 @@ const PlanTableFeature = () => {
                   </Typography>
                   <ProgressLineChart
                     label="تامین شده"
-                    progress={formatNumber(plan.information_complete.amount_collected_now)}
+                    progress={formatNumber(Math.round((plan.information_complete.amount_collected_now / plan.plan.total_price ) * 100))}
                   />
                 </CardContent>
 
