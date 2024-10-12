@@ -4,12 +4,17 @@ import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
 import { Box } from '@mui/material';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+
 import Addresses from './addresses';
 import FinancialInfo from './financialInfo';
 import JobInfo from './jobInfo';
 import PrivatePerson from './privatePerson';
 import TradingCodes from './tradingcodes';
+import Refresh from './refreshDetails';
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -28,7 +33,7 @@ const AccordionSummary = styled(MuiAccordionSummary)(({ theme }) => ({
   flexDirection: 'row-reverse',
   padding: theme.spacing(1.5),
   display: 'flex',
-  justifyContent: 'center', // Centering the content
+  justifyContent: 'center',
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
@@ -46,11 +51,14 @@ const sections = [
 
 const UserDetail = () => {
   const [expandedPanel, setExpandedPanel] = React.useState(false);
+  const [showRefresh, setShowRefresh] = useState(false);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpandedPanel(newExpanded ? panel : false);
   };
-
+  const openModal = () => {
+    setShowRefresh(true);
+  };
   return (
     <Box
       sx={{
@@ -66,7 +74,18 @@ const UserDetail = () => {
         <Typography variant="h4" className="text-gray-700 font-bold">
           اطلاعات کاربر
         </Typography>
+        <motion.button
+          type="button"
+          onClick={openModal}
+          whileHover={{ rotate: 180, scale: 1.5 }}
+          transition={{ type: 'spring', stiffness: 150, damping: 25 }}
+          className="absolute top-5 left-20 ml-3 transition-colors p-3 text-white font-medium hover:scale-110 duration-700"
+        >
+          <AutoModeIcon className="text-black text-3xl" />
+        </motion.button>
+        {showRefresh && <Refresh setShowRefresh={setShowRefresh} />}
       </Box>
+
       {sections.map(({ id, label, component }) => (
         <Accordion key={id} expanded={expandedPanel === id} onChange={handleChange(id)}>
           <AccordionSummary aria-controls={`panel-${id}-content`} id={id}>

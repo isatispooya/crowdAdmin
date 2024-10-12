@@ -40,7 +40,7 @@ const PlanTableFeature = () => {
       case '4':
         return 'سررسید ناموفق';
       case '5':
-        return  'تکمیل';
+        return 'تکمیل';
       default:
         return 'نامشخص';
     }
@@ -97,7 +97,7 @@ const PlanTableFeature = () => {
                     justifyContent: 'space-between',
                     height: '100%',
                     padding: '20px',
-                    position: 'relative', 
+                    position: 'relative',
                     boxShadow:
                       plan.information_complete.status_second === '5'
                         ? 'none'
@@ -128,10 +128,10 @@ const PlanTableFeature = () => {
                       top: '10px',
                       left: '10px',
                       color: '#fff',
-                      backgroundColor: 'rgba(0, 0, 0, 0.3)', 
+                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
                       padding: '5px',
                       borderRadius: '5px',
-                      zIndex: 1, 
+                      zIndex: 1,
                     }}
                   >
                     {getStatusTitle(plan.information_complete.status_second)}
