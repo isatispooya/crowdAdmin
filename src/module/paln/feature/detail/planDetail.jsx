@@ -74,13 +74,13 @@ const PlanDetail = () => {
                 variant="outlined"
                 value={
                   nameField.isDate
-                    ? formatDate(data?.[nameField.value])
-                    : data?.[nameField.value] ?? 'اطلاعات موجود نیست.'
+                    ? formatDate(data?.plan?.[nameField.value])
+                    : data?.plan?.[nameField.value] ?? 'اطلاعات موجود نیست.'
                 }
                 InputProps={{
                   readOnly: true,
                   sx: {
-                    color: data?.[nameField.value] !== undefined ? 'inherit' : 'darkred',
+                    color: data?.plan?.[nameField.value] !== undefined ? 'inherit' : 'darkred',
                   },
                 }}
                 sx={{
@@ -112,13 +112,13 @@ const PlanDetail = () => {
                 variant="outlined"
                 value={
                   item.isDate
-                    ? formatDate(data?.[item.value])
-                    : data?.[item.value] ?? 'اطلاعات موجود نیست.'
+                    ? formatDate(data?.plan?.[item.value])
+                    : data?.plan?.[item.value] ?? 'اطلاعات موجود نیست.'
                 }
                 InputProps={{
                   readOnly: true,
                   sx: {
-                    color: data?.[item.value] !== undefined ? 'inherit' : 'darkred',
+                    color: data?.plan?.[item.value] !== undefined ? 'inherit' : 'darkred',
                   },
                 }}
                 sx={{
@@ -140,11 +140,11 @@ const PlanDetail = () => {
                 fullWidth
                 label={item.label}
                 variant="outlined"
-                value={data?.[item.value] ?? 'اطلاعات موجود نیست.'}
+                value={data?.plan?.[item.value] ?? 'اطلاعات موجود نیست.'}
                 InputProps={{
                   readOnly: true,
                   sx: {
-                    color: data?.[item.value] !== undefined ? 'inherit' : 'darkred',
+                    color: data?.plan?.[item.value] !== undefined ? 'inherit' : 'darkred',
                   },
                 }}
                 multiline

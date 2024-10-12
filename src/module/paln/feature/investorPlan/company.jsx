@@ -8,13 +8,10 @@ const Company = () => {
   const { trace_code } = useParams();
   const { data, isLoading ,error} = useGetPlanDetail(trace_code);
 
+console.log(data.company);
 
-  console.log('داده‌های دریافت شده:', data);
 
-  if (isLoading) return <p>در حال بارگذاری...</p>;
-  if (error) return <p>خطایی رخ داده است!</p>;
 
-  const companies = Array.isArray(data) ? data.map((item) => item.company).flat() : [];
 
   const fields = [
     { label: 'نام شرکت', value: (item) => item.name },
@@ -60,8 +57,8 @@ const Company = () => {
 
   return (
     <Box sx={{ p: 3 }}>
-      {companies.length > 0 ? (
-        companies.map((company, index) => (
+      {data.company.length > 0 ? (
+        data.company.map((company, index) => (
           <Box
             key={index}
             mb={3}

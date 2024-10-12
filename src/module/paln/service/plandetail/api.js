@@ -9,5 +9,5 @@ export const GetDetailPlan = async (trace_code) => {
       'Content-Type': 'application/json',
     },
   });  
-  return response.data.plan;
+  return response.data;
 };

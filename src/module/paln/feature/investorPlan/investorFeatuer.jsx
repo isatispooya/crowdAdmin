@@ -35,8 +35,8 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const sections = [
   { id: 'company', label: 'اطلاعات ثبتی شرکت متقاضی', component: <Company /> },
-  { id: 'shareholder', label: 'اطلاعات سهام داران بالای 10 درصد', component: <Company /> },
-  { id: 'board_members', label: 'اطلاعات مدیر عامل و اعضای هیئت مدیره', component: <Company /> },
+  { id: 'shareholder', label: 'اطلاعات سهام داران بالای 10 درصد' },
+  { id: 'board_members', label: 'اطلاعات مدیر عامل و اعضای هیئت مدیره' },
 ];
 
 
