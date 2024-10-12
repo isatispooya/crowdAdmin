@@ -7,6 +7,8 @@ import Typography from '@mui/material/Typography';
 import { Box } from '@mui/material';
 import { useState } from 'react';
 import Company from './company';
+import ShereHolder from './shereholder';
+import BoardMember from './board_member';
 
 const Accordion = styled(MuiAccordion)(({ theme }) => ({
   border: `1px solid ${theme.palette.divider}`,
@@ -35,11 +37,13 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 const sections = [
   { id: 'company', label: 'اطلاعات ثبتی شرکت متقاضی', component: <Company /> },
-  { id: 'shareholder', label: 'اطلاعات سهام داران بالای 10 درصد' },
-  { id: 'board_members', label: 'اطلاعات مدیر عامل و اعضای هیئت مدیره' },
+  { id: 'shareholder', label: 'اطلاعات سهام داران بالای 10 درصد', component: <ShereHolder /> },
+  {
+    id: 'board_members',
+    label: 'اطلاعات مدیر عامل و اعضای هیئت مدیره',
+    component: <BoardMember />,
+  },
 ];
-
-
 
 const InvestorFeature = () => {
   const [expandedPanel, setExpandedPanel] = useState(false);
@@ -61,7 +65,7 @@ const InvestorFeature = () => {
     >
       <Box className="bg-gray-200 w-full text-white rounded-t-3xl p-6 text-center mb-2">
         <Typography variant="h4" className="text-gray-700 font-bold">
-          اطلاعات کاربر
+          اطلاعات سرمایه پذیر
         </Typography>
       </Box>
       {sections.map(({ id, label, component }) => (

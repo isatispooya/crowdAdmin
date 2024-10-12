@@ -41,6 +41,8 @@ const PlanAddPic = () => {
   const handleFileRemove = () => {
     setFile(null);
   };
+  console.log(`${OnRun}${data.picture}`);
+  
 
   return (
     <>

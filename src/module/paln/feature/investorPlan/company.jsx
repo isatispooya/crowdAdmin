@@ -1,17 +1,11 @@
-import { Box, TextField, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import moment from 'moment-jalaali';
-import useGetCard from '../../service/planCard/useGetCard';
 import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
 
 const Company = () => {
   const { trace_code } = useParams();
-  const { data, isLoading ,error} = useGetPlanDetail(trace_code);
-
-console.log(data.company);
-
-
-
+  const { data } = useGetPlanDetail(trace_code);
 
   const fields = [
     { label: 'نام شرکت', value: (item) => item.name },
@@ -32,27 +26,23 @@ console.log(data.company);
     { label: 'ایمیل', value: (item) => item.email_address },
   ];
 
-  const renderTextField = (label, value) => (
-    <TextField
-      label={label}
-      value={value || 'اطلاعات موجود نیست'}
-      fullWidth
-      variant="outlined"
-      InputProps={{ readOnly: true }}
+  const renderBoxField = (label, value) => (
+    <Box
       sx={{
         mb: 2,
+        p: 2,
         backgroundColor: '#f5f5f5',
         borderRadius: 1,
-        '& .MuiOutlinedInput-root': {
-          '& fieldset': {
-            borderColor: '#ccc',
-          },
-          '&:hover fieldset': {
-            borderColor: '#888',
-          },
-        },
+        border: '1px solid #e0e0e0',
       }}
-    />
+    >
+      <Typography variant="subtitle2" sx={{ color: '#888', mb: 0.5 }}>
+        {label}
+      </Typography>
+      <Typography variant="body1">
+        {value || 'اطلاعات موجود نیست'}
+      </Typography>
+    </Box>
   );
 
   return (
@@ -72,14 +62,14 @@ console.log(data.company);
             <Grid container spacing={2}>
               {fields.map(({ label, value }, idx) => (
                 <Grid item xs={12} sm={6} md={4} key={idx}>
-                  {renderTextField(label, value(company))}
+                  {renderBoxField(label, value(company))}
                 </Grid>
               ))}
             </Grid>
           </Box>
         ))
       ) : (
-        <p>شرکتی یافت نشد!</p>
+        <Typography>شرکتی یافت نشد!</Typography>
       )}
     </Box>
   );

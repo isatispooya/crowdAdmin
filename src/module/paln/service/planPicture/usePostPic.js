@@ -12,8 +12,7 @@ export const usePostPic = (trace_code) => {
         Authorization: `Bearer ${accessApi}`,
         'Content-Type': 'multipart/form-data',
       },
-    });
-
+    });    
     return response.data;
   };
 

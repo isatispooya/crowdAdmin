@@ -1,8 +1,5 @@
-import Plans from "../feature/plans";
+import Plans from '../feature/plans';
 
-
-const PlansPage = () => (
-    <Plans />
-  )
+const PlansPage = () => <Plans />;
 
 export default PlansPage;
