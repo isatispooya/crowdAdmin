@@ -1,6 +1,18 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { useMediaQuery, Box, Tabs, Tab, Button, Dialog, DialogTitle, List, ListItem, ListItemText, MobileStepper } from '@mui/material';
+import {
+  useMediaQuery,
+  Box,
+  Tabs,
+  Tab,
+  Button,
+  Dialog,
+  DialogTitle,
+  List,
+  ListItem,
+  ListItemText,
+  MobileStepper,
+} from '@mui/material';
 import PlanAddPic from './information&pic/planAddPic';
 import PlanInvestors from './participant/participant';
 import PlanDetail from './detail/planDetail';
@@ -8,6 +20,7 @@ import PlanComments from './comment/planComments';
 import ControlledAccordions from '../reports/module/reportsView';
 import ProfitPage from './profituser/profit';
 import ControlledAccordionsEnd from './endoffundraising/feature/endoffunderaisingAccrdion';
+import InvestorFeature from './investorPlan/investorFeatuer';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -45,6 +58,7 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
 
   const steps = [
     'مشاهده',
+    'سرمایه پذیر',
     'اطلاعات تکمیلی',
     'گزارشات',
     'گزارش سود کاربر',
@@ -67,16 +81,18 @@ const PlanDetailTab = ({ planData, idRow, refetch }) => {
       case 0:
         return <PlanDetail />;
       case 1:
-        return <PlanAddPic idRow={idRow} planData={planData} />;
+        return <InvestorFeature />;
       case 2:
-        return <ControlledAccordions />;
+        return <PlanAddPic />;
       case 3:
-        return <ProfitPage />;
+        return <ControlledAccordions />;
       case 4:
-        return <PlanComments idRow={idRow} />;
+        return <ProfitPage />;
       case 5:
-        return <PlanInvestors />;
+        return <PlanComments />;
       case 6:
+        return <PlanInvestors />;
+      case 7:
         return <ControlledAccordionsEnd />;
       default:
         return null;

@@ -25,11 +25,11 @@ const AddInfo = () => {
 
   const { data } = useGetAddInfo(trace_code);
   const { mutate, isPending, isError } = usePostInfo(trace_code);
-  
+
   const handleSelectChange = (event) => {
     setSatusSecond(event.target.value);
   };
-  
+
   useEffect(() => {
     if (data) {
       setRateOfReturn(data.rate_of_return || '');
@@ -37,7 +37,7 @@ const AddInfo = () => {
       setSatusSecond(data.status_second || null);
     }
   }, [data]);
-  
+
   const handleInputChange = (event) => {
     setRateOfReturn(event.target.value);
   };
@@ -46,14 +46,13 @@ const AddInfo = () => {
     setStatusShow(event.target.checked);
   };
 
-
   const handleSubmit = () => {
     if (rateOfReturn && satusSecond) {
       mutate(
         {
           rate_of_return: rateOfReturn,
           status_show: statusShow,
-          status_second:satusSecond,
+          status_second: satusSecond,
         },
         {
           onSuccess: () => {
@@ -65,7 +64,6 @@ const AddInfo = () => {
         }
       );
     }
-    
   };
 
   return (
@@ -82,10 +80,7 @@ const AddInfo = () => {
         }}
       >
         <Typography variant="h5" fontWeight="bold">
-          افزودن 
-          
-          
-          + تکمیلی
+          افزودن + تکمیلی
         </Typography>
       </Box>
 
@@ -133,8 +128,8 @@ const AddInfo = () => {
             <MenuItem value="1">شروع شده</MenuItem>
             <MenuItem value="2">جمع آوری</MenuItem>
             <MenuItem value="3">تمدید شده</MenuItem>
-            <MenuItem value="4">تکمیل</MenuItem>
-            <MenuItem value="5">سررسید ناموفق</MenuItem>
+            <MenuItem value="5">تکمیل شده</MenuItem>
+            <MenuItem value="4">سررسید ناموفق</MenuItem>
           </Select>
         </FormControl>
 
