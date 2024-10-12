@@ -7,6 +7,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { motion } from 'framer-motion';
 import { useGetPlans } from '../../hooks/getPlans';
 import useUpdatePlan from '../../service/planCard/useUpdatePlan';
+import ProgressLineChart from './progressLBar';
 
 const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);
@@ -30,11 +31,11 @@ const PlanTableFeature = () => {
   };
 
   const statusColors = {
-    1: '#2786ff', 
-    2: '#0dab3a', 
-    3: '#ff9800', 
-    4: '#ff6780', 
-    5: '#9e9e9e', 
+    1: '#2786ff',
+    2: '#0dab3a',
+    3: '#ff9800',
+    4: '#ff6780',
+    5: '#9e9e9e',
   };
 
   const getStatusTitle = (status) => {
@@ -53,9 +54,6 @@ const PlanTableFeature = () => {
         return 'نامشخص';
     }
   };
-
-  console.log(planData);
-  
 
   useEffect(() => {
     if (!isError && plans && !isLoading) {
@@ -204,6 +202,10 @@ const PlanTableFeature = () => {
                         : 'نامشخص'}
                     </strong>
                   </Typography>
+                  <ProgressLineChart
+                    label="تامین شده"
+                    progress={formatNumber(plan.information_complete.amount_collected_now)}
+                  />
                 </CardContent>
 
                 <Button
