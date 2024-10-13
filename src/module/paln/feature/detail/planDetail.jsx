@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import moment from 'moment-jalaali';
 import { OnRun } from 'src/api/OnRun';
 import useGetPlanDetail from '../../service/plandetail/useGetPlandetail';
-import { plan_fields_input, plan_fields_textarea } from '../../object/planFilds';
+import { plan_fields_input, plan_fields_textarea } from '../../object/planDetailFilds';
 import { useGetPic } from '../../service/planPicture/useGetPic';
 
 const PlanDetail = () => {

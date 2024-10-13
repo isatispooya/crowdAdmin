@@ -1,30 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
-import api from 'src/api/apiClient';
-import { getCookie } from 'src/api/cookie';
+import { sendPlanPic } from './api';
 
 export const usePostPic = (trace_code) => {
-  const accessApi = getCookie('accessApi');
-
-  // Define the function that sends the picture data
-  const sendPlanPic = async (data) => {
-    const response = await api.post(`/api/send/picture/${trace_code}/`, data, {
-      headers: {
-        Authorization: `Bearer ${accessApi}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });    
-    return response.data;
-  };
-
   const mutation = useMutation({
-    mutationFn: (data) => sendPlanPic(data),
-    onSuccess: (data) => {
-    },
+    mutationFn: (data) => sendPlanPic(trace_code,data),
+    onSuccess: (data) => {},
     onError: (error) => {
       console.error('Error posting picture:', error);
     },
-    onMutate: () => {
-    },
+    onMutate: () => {},
   });
   return {
     mutate: mutation.mutate,

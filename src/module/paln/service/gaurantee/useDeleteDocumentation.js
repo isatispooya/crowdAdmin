@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import useGetGuarante from './useGetGuarante';
-import { DeleteGuarante } from './guaranteService';
+import { DeleteGuarante } from './api';
 
 const useDeleteGuarante = (trace_code) => {
   const { refetch } = useGetGuarante(trace_code);

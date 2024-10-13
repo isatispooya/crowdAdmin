@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import useGetGuarante from './useGetGuarante';
-import { PostGuarante } from './guaranteService';
+import { PostGuarante } from './api';
 
 const usePostGuarante = () => {
   const { trace_code } = useParams();

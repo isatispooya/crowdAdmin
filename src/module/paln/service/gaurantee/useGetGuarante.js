@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { GetGuarante } from './guaranteService';
+import { GetGuarante } from './api';
 
 
 const useGetGuarante = () => {

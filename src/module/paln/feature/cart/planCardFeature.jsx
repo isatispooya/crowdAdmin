@@ -6,16 +6,16 @@ import { ToastContainer } from 'react-toastify';
 import moment from 'moment-jalaali';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { motion } from 'framer-motion';
-import { useGetPlans } from '../../hooks/getPlans';
 import useUpdatePlan from '../../service/planCard/useUpdatePlan';
 import ProgressLineChart from './progressLBar';
+import useGetCard from '../../service/planCard/useGetCard';
 
 const PlanTableFeature = () => {
   const [planData, setPlanData] = useState([]);
   const navigate = useNavigate();
   const [isRotating, setIsRotating] = useState(false);
 
-  const { data: plans, isLoading, isError } = useGetPlans();
+  const { data: plans, isLoading, isError } = useGetCard();
   const { mutate } = useUpdatePlan();
 
   const handleLoadClick = () => {

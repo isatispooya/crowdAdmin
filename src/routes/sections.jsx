@@ -2,7 +2,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Outlet, Navigate, useRoutes, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
 import DashboardLayout from 'src/layouts/dashboard';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
