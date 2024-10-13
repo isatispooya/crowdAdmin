@@ -8,7 +8,7 @@ import DashboardLayout from 'src/layouts/dashboard';
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const Sterpercrowd = lazy(() => import('src/components/sterpercrowd'));
 export const RequestPage = lazy(() => import('src/pages/request'));
-export const PlansPage = lazy(() => import('src/module/paln/page/plansPage'));
+export const PlansPage = lazy(() => import('src/module/paln/page/planDetail'));
 export const PlanDetailPage = lazy(() => import('src/module/paln/page/planDetail'));
 export const Userdetail = lazy(() => import('src/module/userDetail/feature/userdetail'));
 export const UserPage = lazy(() => import('src/components/user'));

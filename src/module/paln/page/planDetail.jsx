@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import PlanDetailTab from '../feature/plandetailTab';
+import PlanDetailTab from '../feature/plandetailFeatuer';
 import useGetPlanDetail from '../service/plandetail/useGetPlandetail';
 
 const PlanDetailPage = () => {
