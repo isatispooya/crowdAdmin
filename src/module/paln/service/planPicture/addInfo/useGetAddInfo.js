@@ -1,12 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import api from 'src/api/apiClient';
+import { getInfo } from './api';
 
 export const useGetAddInfo = (trace_code) => {
-  const getInfo = async () => {
-    const response = await api.get(`/api/information/plan/admin/${trace_code}/`);
-    return response.data;
-  };
-
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['addInformation', trace_code],
     queryFn: () => getInfo(trace_code),
